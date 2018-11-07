@@ -1,0 +1,5 @@
+﻿.background {
+    background-color: #8f9aa8;
+    background: url(images/back.jpg) 50% 50% no-repeat;
+    background-size: cover;
+}

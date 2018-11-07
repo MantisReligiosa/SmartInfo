@@ -14,13 +14,16 @@ namespace Web
     {
         public void Configuration(IAppBuilder app)
         {
-            var webApiConfiguration = new HttpConfiguration();
-            webApiConfiguration.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional, controller = "values" });
+            //var webApiConfiguration = new HttpConfiguration();
+            //webApiConfiguration.Routes.MapHttpRoute(
+            //    name: "DefaultApi",
+            //    routeTemplate: "{controller}/{id}"
+            //    //,
+            //    //defaults: new { id = RouteParameter.Optional, controller = "values" }
+            //    );
 
-            app.UseNinjectMiddleware(CreateKernel).UseNinjectWebApi(webApiConfiguration);
+            app.UseNinjectMiddleware(CreateKernel);
+            //app.UseNinjectWebApi(webApiConfiguration);
             app.UseNancy();
         }
 

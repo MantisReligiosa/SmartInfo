@@ -30,6 +30,7 @@ namespace Helper.Configuration
 
         private void GetProperties()
         {
+            /*
             PathToApi = GetAppString("PathToAPI");
             SenderMailAddress = GetAppString("FromEmailAddress");
             SenderMailPassword = GetAppString("FromEmailPassword");
@@ -71,6 +72,7 @@ namespace Helper.Configuration
             DevicePollerDefaultAddress = GetAppString("WCF-DevicePoller-Path");
 
             AllowedAlarmDevicesForIntegration = GetAppString("AllowedAlarmDevicesForIntegration");
+            */
         }
 
         /// <summary>

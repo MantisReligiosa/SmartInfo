@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Web.Models;
 
 namespace Web.Modules
 {
@@ -11,7 +12,7 @@ namespace Web.Modules
         public HomeModule()
         {
             Get["/"] = _ => {
-                var model = new { title = "We've Got Issues..." };
+                var model = new UserViewModel();
                 return View["Index", model];
             };
         }

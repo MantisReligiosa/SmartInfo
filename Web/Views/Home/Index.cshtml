@@ -1,17 +1,9 @@
-﻿@{
-    Layout = null;
-}
+﻿@using System.Web.Razor.Generator
+@using Web.Models
+@using Nancy.ViewEngines.Razor
+@Model Web.Models.UserViewModel
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
+@if (!Model.IsAuthenticated)
+{
     
-    </div>
-</body>
-</html>
+}
