@@ -124,13 +124,13 @@
   <ItemGroup>
     <Content Include="css\Styles.css" />
     <Content Include="Images\back.png" />
-    <Content Include="readme.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Bundles\CssBundles.cs" />
-    <Compile Include="Bundles\MyBundleConfig.cs" />
+    <Compile Include="Bundles\BundleConfig.cs" />
+    <Compile Include="Bundles\JsBundles.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Modules\Index.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,6 +138,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="package.json" />
     <None Include="packages.config" />
     <Content Include="Views\Index.cshtml" />
     <None Include="Web.Debug.config">

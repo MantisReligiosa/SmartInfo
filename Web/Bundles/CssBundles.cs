@@ -15,12 +15,12 @@ namespace Web.Bundles
 
         public override string ReleaseKey()
         {
-            return "my-css";
+            return "css-key";
         }
 
         public override string ReleaseUrl()
         {
-            return "/x-css-url";
+            return "/styles";
         }
     }
 }

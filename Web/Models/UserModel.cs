@@ -2,6 +2,6 @@
 {
     public class UserModel
     {
-        public string Name { get; set; } = "123";
+        public bool IsAutorized { get; set; } = false;
     }
 }

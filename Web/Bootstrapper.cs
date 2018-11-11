@@ -15,9 +15,10 @@ namespace Web
         {
             var config = container.Resolve<IConfigSettings>();
 
-            container.AttachNancyBundle<MyBundleConfig>(cfg =>
+            container.AttachNancyBundle<BundleConfig>(cfg =>
             {
                 cfg.AddContentGroup(new CssBundles());
+                cfg.AddContentGroup(new JsBundles());
             });
         }
 

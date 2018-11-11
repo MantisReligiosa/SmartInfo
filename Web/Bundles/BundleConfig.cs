@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Web.Bundles
+﻿namespace Web.Bundles
 {
     using Nancy.Bundle.Settings;
 
     namespace Web.Bundles
     {
-        public class MyBundleConfig : DefaultConfigSettings
+        public class BundleConfig : DefaultConfigSettings
         {
             public override string CommonAssetsRoute
             {
