@@ -1,4 +1,5 @@
 ﻿using Nancy;
+using Web.Models;
 
 namespace Web.Modules
 {
@@ -6,7 +7,7 @@ namespace Web.Modules
     {
         public Index()
         {
-            Get["/"] = parameters => "Hello World";
+            Get["/"] = parameters => View["Index.cshtml", new UserModel()];
         }
     }
 }
