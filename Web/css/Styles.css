@@ -1,4 +1,9 @@
-﻿body {
-    background:url(../Images/back.png);
-    background-size:cover;
+﻿html {
+    height: 100%;
+}
+
+body {
+    background: url(../Images/back.png);
+    background-size: cover;
+    height: 100%;
 }

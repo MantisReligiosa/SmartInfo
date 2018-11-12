@@ -3,14 +3,16 @@ using Nancy.Bundle;
 
 namespace Web.Bundles
 {
-    public class JsBundles : JSFiles
+    public class VendorJsBundles : JSFiles
     {
         public override List<IContentItem> Contents()
         {
             return new List<IContentItem>()
             {
                 new ContentFile("~/node_modules/jquery/dist/jquery.min.js"),
-                //new ContentFolder("~/content/app",eRecursive.ThisFolderAndChildrenFolders, eMinify.MinifyIt)
+                new ContentFile("~/node_modules/knockout/build/output/knockout-latest.js"),
+                new ContentFile("~/node_modules/bootstrap/dist/js/bootstrap.min.js"),
+                new ContentFile("~/node_modules/toastr/build/toastr.min.js")
             };
         }
 

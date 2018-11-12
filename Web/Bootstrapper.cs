@@ -4,6 +4,8 @@ using Nancy.Bundle;
 using Nancy.Bundle.Settings;
 using Nancy.Conventions;
 using Nancy.TinyIoc;
+using ServiceInterfaces;
+using Services;
 using Web.Bundles;
 using Web.Bundles.Web.Bundles;
 
@@ -18,8 +20,11 @@ namespace Web
             container.AttachNancyBundle<BundleConfig>(cfg =>
             {
                 cfg.AddContentGroup(new CssBundles());
-                cfg.AddContentGroup(new JsBundles());
+                cfg.AddContentGroup(new VendorJsBundles());
+                cfg.AddContentGroup(new AppJsBundles());
             });
+
+            container.Register<IAccountController, AccountController>();
         }
 
         protected override void ConfigureConventions(NancyConventions nancyConventions)

@@ -1,8 +1,6 @@
-﻿@{
-    Layout = null;
-}
 ﻿@using Nancy.Bundle
 @using Web.Bundles
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,12 +11,7 @@
     @Html.Raw(Bundles.GetJsKey("vendor-js-key"))
 </head>
 <body>
-    @if (Model.IsAutorized)
-    {
-    }
-    else
-    {
-        <h1>Unautorized</h1>
-    }
+    @RenderBody()
 </body>
+@Html.Raw(Bundles.GetJsKey("app-js-key"))
 </html>

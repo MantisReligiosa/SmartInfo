@@ -9,6 +9,8 @@ namespace Web.Bundles
         {
             return new List<Nancy.Bundle.IContentItem>()
             {
+                new ContentFile("~/node_modules/bootstrap/dist/css/bootstrap.css"),
+                new ContentFile("~/node_modules/toastr/build/toastr.min.css"),
                 new ContentFile("~/css/styles.css", eMinify.MinifyIt)
             };
         }

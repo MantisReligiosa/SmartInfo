@@ -1,0 +1,84 @@
+﻿@{
+    Layout = "Views/Shared/_Layout.cshtml";
+            }
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Авторизация</h5>
+                    @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>*@
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Имя пользователя" aria-label="Username" aria-describedby="basic-addon1" data-bind="value: login">
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Пароль" aria-label="Password" aria-describedby="basic-addon1" data-bind="value: password">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bind="click: reset">Очистить</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: submit">Вход</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    $(document).ready(function () {
+        $(".modal")
+            .modal({ backdrop: 'static', keyboard: false })  
+            .modal("show");
+    });
+    function loginViewModel() {
+        var self = this;
+        self.login = ko.observable("").extend({ required: true });
+        self.password = ko.observable("").extend({ required: true });
+        self.reset = function () {
+            self.login("");
+            self.password("");
+        };
+        self.submit = function () {
+            $.ajax({
+                method: "POST",
+                url:"/api/login",
+                data:
+                {
+                    login: self.login(),
+                    password: self.password()
+                },
+                dataType: "json",
+                headers: {
+                    'Accept': 'application/json'
+                },
+                statusCode: {
+
+                    401: function () {
+                        debugger;
+                    },
+                    403: function () {
+                        debugger;
+                    },
+                    404: function () {
+                        debugger;
+                    }
+                },
+                success: function (data) {
+                    if (data === true) {
+                        window.location.href = '/master';
+                    }
+                    else {
+                        toastr.error("В доступе отказано");
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    toastr.error(thrownError);
+                }
+            });
+        }
+    }
+    ko.applyBindings(new loginViewModel());
+</script>
