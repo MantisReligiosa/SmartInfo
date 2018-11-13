@@ -122,6 +122,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\app.viewmodel.js" />
+    <Content Include="app\login.viewmodel.js" />
     <Content Include="app\_run.js" />
     <Content Include="css\Styles.css" />
     <Content Include="Images\back.png" />
