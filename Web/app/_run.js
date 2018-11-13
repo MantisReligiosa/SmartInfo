@@ -17,3 +17,12 @@
         "hideMethod": "fadeOut"
     }    
 });
+
+//function AppViewModel() {
+//    var self = this;
+//    self.login = ko.observable(new new loginViewModel())
+//}
+
+//var app = new AppViewModel();
+
+//ko.applyBindings(app);

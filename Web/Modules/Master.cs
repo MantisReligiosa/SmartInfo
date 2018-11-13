@@ -6,7 +6,7 @@ namespace Web.Modules
     {
         public Master()
         {
-            Get["/master"] = parameters => View["Master.cshtml"];
+            Get["/master"] = parameters => View["Views/Home/Master.cshtml"];
         }
     }
 }

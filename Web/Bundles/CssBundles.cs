@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Nancy.Bundle;
+﻿using Nancy.Bundle;
+using System.Collections.Generic;
 
 namespace Web.Bundles
 {

@@ -25,6 +25,10 @@ namespace Web
             });
 
             container.Register<IAccountController, AccountController>();
+
+            pipelines.OnError += (ctx, ex) => {
+                return null;
+            };
         }
 
         protected override void ConfigureConventions(NancyConventions nancyConventions)

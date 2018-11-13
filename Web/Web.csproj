@@ -122,10 +122,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\login.viewmodel.js" />
     <Content Include="app\_run.js" />
     <Content Include="css\Styles.css" />
     <Content Include="Images\back.png" />
+    <Content Include="favicon.ico" />
+    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -143,10 +144,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />
-    <Content Include="app\app.viewmodel.js" />
     <None Include="packages.config" />
-    <Content Include="Views\Login.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\Master.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
