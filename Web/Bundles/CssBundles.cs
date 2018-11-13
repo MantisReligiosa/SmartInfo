@@ -11,6 +11,10 @@ namespace Web.Bundles
             {
                 new ContentFile("~/node_modules/bootstrap/dist/css/bootstrap.css"),
                 new ContentFile("~/node_modules/toastr/build/toastr.min.css"),
+                new ContentFile("~/Sources/jquery-easyui-1.6.7/themes/default/easyui.css"),
+                new ContentFile("~/Sources/jquery-easyui-1.6.7/themes/icon.css"),
+                new ContentFile("~/Sources/jquery-easyui-ribbon/ribbon.css"),
+                new ContentFile("~/Sources/jquery-easyui-ribbon/ribbon-icon.css"),
                 new ContentFile("~/css/styles.css", eMinify.MinifyIt)
             };
         }

@@ -1,3 +1,30 @@
-﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+﻿<div class="easyui-ribbon">
+    <div title="Система">
 
-</nav>
+    </div>
+    <div title="Видеостена">
+
+    </div>
+    <div title="Блоки">
+        <div class="ribbon-group">
+            <div class="ribbon-toolbar">
+                <a href="#" class="easyui-menubutton" data-options="name:'paste',iconCls:'icon-paste-large',iconAlign:'top',size:'large'">Текст</a>
+            </div>
+            <div class="ribbon-toolbar">
+                <a href="#" class="easyui-linkbutton" data-options="name:'cut',iconCls:'icon-cut',plain:true">Cut</a><br>
+                <a href="#" class="easyui-linkbutton" data-options="name:'copy',iconCls:'icon-copy',plain:true">Copy</a><br>
+                <a href="#" class="easyui-linkbutton" data-options="name:'format',iconCls:'icon-format',plain:true">Format</a>
+            </div>
+            <div class="ribbon-group-title">Текст</div>
+        </div>
+        <div class="ribbon-group-sep"></div>
+    </div>
+</div>
+
+<div id="cc" class="easyui-layout" style="width:100%;height:100%;">
+    <div data-options="region:'north',title:'North Title',split:true" style="height:100px;"></div>
+    <div data-options="region:'south',title:'South Title',split:true" style="height:100px;"></div>
+    <div data-options="region:'east',title:'East',split:true" style="width:100px;"></div>
+    <div data-options="region:'west',title:'West',split:true" style="width:100px;"></div>
+    <div data-options="region:'center',title:'center title'" style="padding:5px;background:#eee;"></div>
+</div>
