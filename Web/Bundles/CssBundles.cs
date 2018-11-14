@@ -15,7 +15,8 @@ namespace Web.Bundles
                 new ContentFile("~/Sources/jquery-easyui-1.6.7/themes/icon.css"),
                 new ContentFile("~/Sources/jquery-easyui-ribbon/ribbon.css"),
                 new ContentFile("~/Sources/jquery-easyui-ribbon/ribbon-icon.css"),
-                new ContentFile("~/css/styles.css", eMinify.MinifyIt)
+                new ContentFile("~/css/styles.css", eMinify.MinifyIt),
+                new ContentFile("~/css/images.css", eMinify.MinifyIt)
             };
         }
 

@@ -1,0 +1,24 @@
+﻿.back {
+    background: url(../Images/back.png);
+    background-size: cover;
+}
+
+.text-block-large {
+    background: url('../Images/text_large.png') no-repeat center center;
+}
+
+.text-block {
+    background: url('../Images/text.png') no-repeat center center;
+}
+
+.table-block {
+    background: url('../Images/table.png') no-repeat center center;
+}
+
+.image-block {
+    background: url('../Images/image.png') no-repeat center center;
+}
+
+.datetime-block {
+    background: url('../Images/calendar.png') no-repeat center center;
+}

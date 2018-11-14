@@ -1,30 +1,56 @@
-﻿<div class="easyui-ribbon">
+﻿<!-- ko with: master-->
+<div class="easyui-ribbon mainmenu">
     <div title="Система">
 
     </div>
     <div title="Видеостена">
-
-    </div>
-    <div title="Блоки">
         <div class="ribbon-group">
+            <div class="ribbon-group-title">Блоки</div>
             <div class="ribbon-toolbar">
-                <a href="#" class="easyui-menubutton" data-options="name:'paste',iconCls:'icon-paste-large',iconAlign:'top',size:'large'">Текст</a>
+                <a href="#" class="easyui-linkbutton" data-options="name:'textBlock',iconCls:'text-block-large',iconAlign:'top',size:'large'" data-bind="click: addTextBlock">Текст</a><br>
             </div>
             <div class="ribbon-toolbar">
-                <a href="#" class="easyui-linkbutton" data-options="name:'cut',iconCls:'icon-cut',plain:true">Cut</a><br>
-                <a href="#" class="easyui-linkbutton" data-options="name:'copy',iconCls:'icon-copy',plain:true">Copy</a><br>
-                <a href="#" class="easyui-linkbutton" data-options="name:'format',iconCls:'icon-format',plain:true">Format</a>
+                <a href="#" class="easyui-linkbutton" data-options="name:'tableBlock',iconCls:'table-block',plain:true">Таблица</a><br>
+                <a href="#" class="easyui-linkbutton" data-options="name:'imageBlock',iconCls:'image-block',plain:true">Изображение</a><br>
+                <a href="#" class="easyui-linkbutton" data-options="name:'imageBlock',iconCls:'datetime-block',plain:true">Дата/время</a><br>
             </div>
-            <div class="ribbon-group-title">Текст</div>
         </div>
         <div class="ribbon-group-sep"></div>
+        <div class="ribbon-group">
+            <div class="ribbon-toolbar">
+                <a href="#" class="easyui-linkbutton" data-options="name:'paste',iconCls:'icon-paste-large',iconAlign:'top',size:'large'">Вставить</a>
+            </div>
+            <div class="ribbon-toolbar">
+                <a href="#" class="easyui-linkbutton" data-options="name:'cut',iconCls:'icon-cut',plain:true">Вырезать</a><br>
+                <a href="#" class="easyui-linkbutton" data-options="name:'copy',iconCls:'icon-copy',plain:true">Копировать</a><br>
+                <a href="#" class="easyui-linkbutton" data-options="name:'format',iconCls:'icon-format',plain:true">Свойства</a>
+            </div>
+            <div class="ribbon-group-title">Правка</div>
+        </div>
+        <div class="ribbon-group-sep"></div>
+        <div class="ribbon-group">
+            <div class="ribbon-toolbar">
+                <span>
+                    <label>Слева:</label>
+                    <input id="left" class="easyui-numberspinner" style="width:60px;" data-options="min:0,editable:true">
+                </span>
+                <span>
+                    <label>Сверху:</label>
+                    <input id="top" class="easyui-numberspinner" style="width:60px;" data-options="min:0,editable:true">
+                </span>
+            </div>
+            @*<div class="ribbon-toolbar">
+                <a href="#" class="easyui-linkbutton" data-options="name:'cut',iconCls:'icon-cut',plain:true">Вырезать</a><br>
+                <a href="#" class="easyui-linkbutton" data-options="name:'copy',iconCls:'icon-copy',plain:true">Копировать</a><br>
+                <a href="#" class="easyui-linkbutton" data-options="name:'format',iconCls:'icon-format',plain:true">Свойства</a>
+            </div>*@
+            <div class="ribbon-group-title">Положение</div>
+        </div>
     </div>
 </div>
 
-<div id="cc" class="easyui-layout" style="width:100%;height:100%;">
-    <div data-options="region:'north',title:'North Title',split:true" style="height:100px;"></div>
-    <div data-options="region:'south',title:'South Title',split:true" style="height:100px;"></div>
-    <div data-options="region:'east',title:'East',split:true" style="width:100px;"></div>
-    <div data-options="region:'west',title:'West',split:true" style="width:100px;"></div>
-    <div data-options="region:'center',title:'center title'" style="padding:5px;background:#eee;"></div>
+<div id="cc" class="easyui-layout workplace">
+    <div data-options="region:'west',title:'Свойства',split:true" style="width:100px;"></div>
+    <div data-options="region:'center',title:''" style="padding:5px;background:#eee;"></div>
 </div>
+<!-- /ko-->

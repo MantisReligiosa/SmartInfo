@@ -124,10 +124,17 @@
   <ItemGroup>
     <Content Include="app\app.viewmodel.js" />
     <Content Include="app\login.viewmodel.js" />
+    <Content Include="app\master.viewmodel.js" />
     <Content Include="app\_run.js" />
+    <Content Include="css\Images.css" />
     <Content Include="css\Styles.css" />
     <Content Include="Images\back.png" />
     <Content Include="favicon.ico" />
+    <Content Include="Images\calendar.png" />
+    <Content Include="Images\image.png" />
+    <Content Include="Images\table.png" />
+    <Content Include="Images\text.png" />
+    <Content Include="Images\text_large.png" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
