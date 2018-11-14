@@ -123,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.viewmodel.js" />
+    <Content Include="app\errForm.viewmodel.js" />
     <Content Include="app\login.viewmodel.js" />
     <Content Include="app\master.viewmodel.js" />
     <Content Include="app\_run.js" />
@@ -144,6 +145,7 @@
     <Compile Include="Bundles\BundleConfig.cs" />
     <Compile Include="Bundles\AppJsBundles.cs" />
     <Compile Include="Bundles\VendorJsBundles.cs" />
+    <Compile Include="CustomStatusCode.cs" />
     <Compile Include="Models\Credits.cs" />
     <Compile Include="Modules\Login.cs" />
     <Compile Include="Modules\Master.cs" />
@@ -157,6 +159,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Master.cshtml" />
+    <Content Include="Views\Codes\404.cshtml" />
+    <Content Include="Views\Shared\_ErrorLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

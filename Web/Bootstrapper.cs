@@ -26,6 +26,8 @@ namespace Web
 
             container.Register<IAccountController, AccountController>();
 
+            CustomStatusCode.AddCode(404);
+
             pipelines.OnError += (ctx, ex) => {
                 return null;
             };

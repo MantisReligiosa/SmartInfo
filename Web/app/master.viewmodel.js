@@ -7,6 +7,6 @@
 }
 
 app.attach({
-    viewName: 'master',
+    sourceName: 'master',
     factory: masterViewModel
 });

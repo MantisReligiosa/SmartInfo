@@ -34,6 +34,6 @@
 }
 
 app.attach({
-    viewName: 'login',
+    sourceName: 'login',
     factory: loginViewModel
 });

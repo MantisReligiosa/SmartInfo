@@ -2,7 +2,7 @@
     var self = this;
 
     self.attach = function (options) {
-        self[options.viewName] = ko.computed(function () {
+        self[options.sourceName] = ko.computed(function () {
             return new options.factory(self);
         });
     }

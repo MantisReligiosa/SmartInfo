@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "Views/Shared/_ErrorLayout.cshtml";
+}
+<!-- ko with: errForm-->
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Упс</h5>
+            </div>
+            <div class="modal-body">
+                Давайте сделаем вид, что ничего не было и начнем заново
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bind="click: restart">Сначала</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /ko -->
