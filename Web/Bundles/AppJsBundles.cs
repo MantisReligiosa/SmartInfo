@@ -9,7 +9,7 @@ namespace Web.Bundles
         {
             return new List<IContentItem>()
             {
-                new ContentFolder("~/app",eRecursive.ThisFolderAndChildrenFolders, eMinify.DoNotMinifyIt)
+                new ContentFolder("~/Script/app",eRecursive.ThisFolderAndChildrenFolders, eMinify.DoNotMinifyIt)
             };
         }
 
