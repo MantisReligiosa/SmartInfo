@@ -6,7 +6,10 @@ namespace Services
     {
         public bool IsGranted(string login, string password)
         {
-            return true;
+            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
+                return false;
+            // ToDo: обратиться к базе за учеткой
+            return login.Equals("1") && password.Equals("1");
         }
     }
 }

@@ -14,12 +14,7 @@ namespace Web.Modules
             Post["/api/login"] = parameters =>
             {
                 var data = this.Bind<Credits>();
-                if (accountController.IsGranted(data.Login, data.Password))
-                {
-                    // ToDo: обратиться к базе за учеткой
-                    return Response.AsJson(data.Login.Equals("1")&&data.Password.Equals("1"));
-                }
-                return Response.AsJson(false);
+                return Response.AsJson(accountController.IsGranted(data.Login, data.Password));
             };
         }
     }

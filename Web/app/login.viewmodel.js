@@ -17,7 +17,7 @@
             },
             successHandler: function (data) {
                 if (data === true) {
-                    window.location.href = '/master';
+                    Finch.route('#/master');
                 }
                 else {
                     toastr.error("В доступе отказано");
