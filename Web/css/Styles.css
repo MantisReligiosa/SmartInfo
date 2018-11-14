@@ -10,7 +10,7 @@ body {
     height: 160px;
 }
 
-.workplace {
+.mainframe {
     top: 2px;
     bottom: 0px;
     width: 100%;
@@ -18,4 +18,18 @@ body {
 }
 
 .sidepanel {
+    width: 100px;
+}
+
+.ribbon-toolbar-coordinates-label {
+    width: 55px;
+}
+
+.ribbon-toolbar-coordinates-input {
+    width: 60px;
+}
+
+.workplace {
+    padding: 5px;
+    background: #eee;
 }
