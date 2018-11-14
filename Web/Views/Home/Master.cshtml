@@ -23,28 +23,41 @@
             <div class="ribbon-toolbar">
                 <a href="#" class="easyui-linkbutton" data-options="name:'cut',iconCls:'icon-cut',plain:true">Вырезать</a><br>
                 <a href="#" class="easyui-linkbutton" data-options="name:'copy',iconCls:'icon-copy',plain:true">Копировать</a><br>
-                <a href="#" class="easyui-linkbutton" data-options="name:'format',iconCls:'icon-format',plain:true">Свойства</a>
+                @*<a href="#" class="easyui-linkbutton" data-options="name:'format',iconCls:'icon-format',plain:true">Свойства</a>*@
             </div>
             <div class="ribbon-group-title">Правка</div>
         </div>
         <div class="ribbon-group-sep"></div>
         <div class="ribbon-group">
             <div class="ribbon-toolbar">
+                <input id="fonts" class="easyui-combobox" name="dept" style="width:120px;"
+                       data-options="valueField:'id',textField:'text',url:'master/fonts'">
+                
+                <input id="fonts" class="easyui-combobox ribbon-toolbar-numerical-input" name="dept"
+                       data-options="valueField:'id',textField:'text',url:'master/fontsizes'">
+            </div>
+            <div class="ribbon-group-title">Формат</div>
+        </div>
+        <div class="ribbon-group-sep"></div>
+        <div class="ribbon-group">
+            <div class="ribbon-toolbar">
                 <div>
                     <label class="ribbon-toolbar-coordinates-label">Слева:</label>
-                    <input id="left" class="easyui-numberspinner ribbon-toolbar-coordinates-input" data-options="min:0,editable:true">
+                    <input id="left" class="easyui-numberspinner ribbon-toolbar-numerical-input" data-options="min:0,editable:true">
                     <label class="ribbon-toolbar-coordinates-label">Сверху:</label>
-                    <input id="top" class="easyui-numberspinner ribbon-toolbar-coordinates-input" data-options="min:0,editable:true">
+                    <input id="top" class="easyui-numberspinner ribbon-toolbar-numerical-input" data-options="min:0,editable:true">
                 </div>
                 <div>
                     <label class="ribbon-toolbar-coordinates-label">Высота:</label>
-                    <input id="top" class="easyui-numberspinner ribbon-toolbar-coordinates-input" data-options="min:0,editable:true">
+                    <input id="top" class="easyui-numberspinner ribbon-toolbar-numerical-input" data-options="min:0,editable:true">
                     <label class="ribbon-toolbar-coordinates-label">Ширина:</label>
-                    <input id="top" class="easyui-numberspinner ribbon-toolbar-coordinates-input" data-options="min:0,editable:true">
+                    <input id="top" class="easyui-numberspinner ribbon-toolbar-numerical-input" data-options="min:0,editable:true">
                 </div>
             </div>
             <div class="ribbon-group-title">Положение</div>
         </div>
+        <div class="ribbon-group-sep"></div>
+
     </div>
 </div>
 
