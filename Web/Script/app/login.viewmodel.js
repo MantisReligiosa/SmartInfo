@@ -7,29 +7,28 @@
         self.password("");
     };
     self.submit = function () {
-        app.request({
-            method: "POST",
-            url: "/api/login",
-            data:
+        app.request(
+             "POST",
+            "/api/login",
             {
                 login: self.login(),
                 password: self.password()
             },
-            successHandler: function (data) {
+            function (data) {
                 if (data === true) {
-                    Finch.route('#/master');
+                    window.location.href = '/master';
                 }
                 else {
                     toastr.error("В доступе отказано");
                 }
             }
-        });
+        );
     };
 
     $(document).ready(function () {
-        //$(".modal")
-        //    .modal({ backdrop: 'static', keyboard: false })
-        //    .modal("show");
+        $(".modal")
+            .modal({ backdrop: 'static', keyboard: false })
+            .modal("show");
     });
 }
 

@@ -14,9 +14,8 @@ module.exports = function (grunt) {
                 src: [
                     'node_modules/jquery/dist/jquery.min.js',
                     'node_modules/knockout/build/output/knockout-latest.js',
-                    //'node_modules/bootstrap/dist/js/bootstrap.min.js',
+                    'node_modules/bootstrap/dist/js/bootstrap.min.js',
                     'node_modules/toastr/build/toastr.min.js',
-                    'node_modules/finchjs/finch.min.js',
                     'Sources/jquery-easyui-1.6.7/jquery.easyui.min.js',
                     'Sources/jquery-easyui-ribbon/jquery.ribbon.js',
                 ],
@@ -24,7 +23,7 @@ module.exports = function (grunt) {
             },
             vendorCss: {
                 src: [
-                    //'node_modules/bootstrap/dist/css/bootstrap.css',
+                    'node_modules/bootstrap/dist/css/bootstrap.css',
                     'node_modules/toastr/build/toastr.min.css',
                     'Sources/jquery-easyui-1.6.7/themes/default/easyui.css',
                     'Sources/jquery-easyui-1.6.7/themes/icon.css',
