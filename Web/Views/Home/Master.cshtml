@@ -2,19 +2,103 @@
 <div class="container">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+            <a class="nav-link active" id="video-tab" data-toggle="tab" href="#video" role="tab" aria-controls="video" aria-selected="true">Видеостена</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+            <a class="nav-link" id="system-tab" data-toggle="tab" href="#system" role="tab" aria-controls="system" aria-selected="false">Система</a>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">1..</div>
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">.1.</div>
-        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">..1</div>
+        <div class="tab-pane fade show active" id="video" role="tabpanel" aria-labelledby="video-tab">
+            <div class="panel panel-default ribbon-group">
+                <div class="panel-body ribbon-toolbar">
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <div class="ribbon-vertical-button-content">
+                            <div class="text-block-large ribbon-large-icon"></div>
+                            <div>Текст</div>
+                        </div>
+                    </button>
+                    <div class="ribbon-clip">
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="table-block ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Таблица</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="image-block ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Изображение</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="datetime-block ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Дата/время</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-footer ribbon-group-title">
+                    <label>
+                        Блоки
+                    </label>
+                </div>
+            </div>
+            <div class="panel panel-default ribbon-group">
+                <div class="panel-body ribbon-toolbar">
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <div class="ribbon-vertical-button-content">
+                            <div class="paste-large ribbon-large-icon"></div>
+                            <div>Вставить</div>
+                        </div>
+                    </button>
+                    <div class="ribbon-clip">
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="cut ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Вырезать</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="copy ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Копировать</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="properties ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Свойства</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-footer ribbon-group-title">
+                    <label>
+                        Правка
+                    </label>
+                </div>
+            </div>
+
+            <div class="panel panel-default ribbon-group">
+                <div class="panel-body ribbon-toolbar">
+                    <div class="input-group mb-3">
+                        <select class="custom-select btn-sm ribbon-element" id="inputGroupSelect01">
+                            <option selected value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="panel-footer ribbon-group-title">
+                    <label>
+                        Формат
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab">.1.</div>
     </div>
 </div>
 <!--
@@ -23,30 +107,6 @@
 
     </div>
     <div title="Видеостена">
-        <div class="ribbon-group">
-            <div class="ribbon-group-title">Блоки</div>
-            <div class="ribbon-toolbar">
-                <a href="#" class="easyui-linkbutton" data-options="name:'textBlock',iconCls:'text-block-large',iconAlign:'top',size:'large'" data-bind="click: addTextBlock">Текст</a><br>
-            </div>
-            <div class="ribbon-toolbar">
-                <a href="#" class="easyui-linkbutton" data-options="name:'tableBlock',iconCls:'table-block',plain:true">Таблица</a><br>
-                <a href="#" class="easyui-linkbutton" data-options="name:'imageBlock',iconCls:'image-block',plain:true">Изображение</a><br>
-                <a href="#" class="easyui-linkbutton" data-options="name:'imageBlock',iconCls:'datetime-block',plain:true">Дата/время</a><br>
-            </div>
-        </div>
-        <div class="ribbon-group-sep"></div>
-        <div class="ribbon-group">
-            <div class="ribbon-toolbar">
-                <a href="#" class="easyui-linkbutton" data-options="name:'paste',iconCls:'icon-paste-large',iconAlign:'top',size:'large'">Вставить</a>
-            </div>
-            <div class="ribbon-toolbar">
-                <a href="#" class="easyui-linkbutton" data-options="name:'cut',iconCls:'icon-cut',plain:true">Вырезать</a><br>
-                <a href="#" class="easyui-linkbutton" data-options="name:'copy',iconCls:'icon-copy',plain:true">Копировать</a><br>
-                @*<a href="#" class="easyui-linkbutton" data-options="name:'format',iconCls:'icon-format',plain:true">Свойства</a>*@
-            </div>
-            <div class="ribbon-group-title">Правка</div>
-        </div>
-        <div class="ribbon-group-sep"></div>
         <div class="ribbon-group">
             <div class="ribbon-toolbar">
                 <input id="fonts" class="easyui-combobox" name="dept" style="width:120px;"

@@ -125,6 +125,10 @@
     <Content Include="css\vendor.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\brush.png" />
+    <Content Include="Images\copy.png" />
+    <Content Include="Images\cut.png" />
+    <Content Include="Images\paste_large.png" />
     <Content Include="Script\app\app.viewmodel.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

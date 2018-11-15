@@ -1,4 +1,4 @@
-﻿.back {
+﻿.background {
     background: url(../Images/back.png);
     background-size: cover;
 }
@@ -21,4 +21,20 @@
 
 .datetime-block {
     background: url('../Images/calendar.png') no-repeat center center;
+}
+
+.paste-large {
+    background: url('../Images/paste_large.png') no-repeat center center;
+}
+
+.cut {
+    background: url('../Images/cut.png') no-repeat center center;
+}
+
+.copy {
+    background: url('../Images/copy.png') no-repeat center center;
+}
+
+.properties {
+    background: url('../Images/brush.png') no-repeat center center;
 }

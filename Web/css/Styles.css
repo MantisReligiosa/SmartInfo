@@ -6,30 +6,63 @@ body {
     height: 100%;
 }
 
-.mainmenu {
-    height: 160px;
+div.container {
+    margin: 5px;
+    max-width: 100%;
 }
 
-.mainframe {
-    top: 2px;
-    bottom: 0px;
-    width: 100%;
-    height: 100%;
+div.tab-content {
+    border-bottom: 1px solid #dee2e6;
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
 }
 
-.sidepanel {
-    width: 100px;
+.ribbon-group-title {
+    border-top: 1px solid #dee2e6;
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+    text-align: center;
 }
 
-.ribbon-toolbar-coordinates-label {
-    width: 55px;
+.ribbon-toolbar {
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+    display: flex;
 }
 
-.ribbon-toolbar-numerical-input {
-    width: 60px;
+.ribbon-group {
+    display: inline-grid;
 }
 
-.workplace {
-    padding: 5px;
-    background: #eee;
+.ribbon-element {
+    padding: 1px;
+    margin: 1px;
+}
+
+.ribbon-large-icon {
+    height: 32px;
+    width: 32px;
+}
+
+.ribbon-small-icon {
+    height: 18px;
+    width: 18px;
+    margin-top: 1px;
+}
+
+.ribbon-clip {
+    display: grid;
+}
+
+.ribbon-vertical-button-content {
+    display: grid;
+    text-align: -webkit-center;
+}
+
+.ribbon-horizontal-button-content {
+    display: flex;
+}
+
+.ribbon-horizontal-button-text {
+    padding-top: -2px;
 }
