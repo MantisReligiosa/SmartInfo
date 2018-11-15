@@ -37,5 +37,3 @@
 }
 
 var app = new AppViewModel();
-
-//ko.applyBindings(app);
