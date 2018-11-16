@@ -38,13 +38,16 @@ div.tab-content {
     margin-bottom: 3px;
 }
 
-.ribbon-element, .ribbon-dropdown, .tableBtn {
+.ribbon-element, .tableBtn {
     padding: 1px;
     margin: 1px;
+    /*height: 25px;*/
+    min-height: 25px;
 }
 
 .ribbon-dropdown {
     display: flex;
+    padding: 1px;
 }
 
 .dropdown-toggle::after {

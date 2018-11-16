@@ -35,10 +35,46 @@
     background: url('../Images/copy.png') no-repeat center center;
 }
 
-.properties {
+.delete {
+    background: url('../Images/delete.png') no-repeat center center;
+}
+
+.brush {
     background: url('../Images/brush.png') no-repeat center center;
 }
 
 .bold {
     background: url('../Images/bold.png') no-repeat center center;
+}
+
+.italic {
+    background: url('../Images/italic.png') no-repeat center center;
+}
+
+.underline {
+    background: url('../Images/underline.png') no-repeat center center;
+}
+
+.strikethrough {
+    background: url('../Images/strikethrough.png') no-repeat center center;
+}
+
+.fill {
+    background: url('../Images/fill.png') no-repeat center center;
+}
+
+.left {
+    background: url('../Images/left.png') no-repeat center center;
+}
+
+.right {
+    background: url('../Images/right.png') no-repeat center center;
+}
+
+.center {
+    background: url('../Images/center.png') no-repeat center center;
+}
+
+.brush-large {
+    background: url('../Images/brush-large.png') no-repeat center center;
 }
