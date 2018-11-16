@@ -19,24 +19,36 @@ div.tab-content {
 
 .ribbon-group-title {
     border-top: 1px solid #dee2e6;
-    border-left: 1px solid #dee2e6;
-    border-right: 1px solid #dee2e6;
+    /*border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;*/
+    margin-right: 3px;
     text-align: center;
 }
 
 .ribbon-toolbar {
-    border-left: 1px solid #dee2e6;
-    border-right: 1px solid #dee2e6;
+    /*border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;*/
     display: flex;
 }
 
 .ribbon-group {
     display: inline-grid;
+    border-right: 1px solid #dee2e6;
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 
-.ribbon-element {
+.ribbon-element, .ribbon-dropdown, .tableBtn {
     padding: 1px;
     margin: 1px;
+}
+
+.ribbon-dropdown {
+    display: flex;
+}
+
+.dropdown-toggle::after {
+    margin-bottom: 1px !important;
 }
 
 .ribbon-large-icon {
@@ -54,6 +66,10 @@ div.tab-content {
     display: grid;
 }
 
+.ribbon-row {
+    display: flex;
+}
+
 .ribbon-vertical-button-content {
     display: grid;
     text-align: -webkit-center;
@@ -65,4 +81,32 @@ div.tab-content {
 
 .ribbon-horizontal-button-text {
     padding-top: -2px;
+}
+
+.ribbon-font-picker {
+    width: 90px !important;
+}
+
+.ribbon-font-picker {
+    width: 90px !important;
+}
+
+.ribbon-numerical-input {
+    width: 50px !important;
+}
+
+.btn-image:before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: text-top;
+    background-color: transparent;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.tableBtn:before {
+    background-image: url('../Images/table.png');
 }

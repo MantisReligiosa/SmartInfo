@@ -38,3 +38,7 @@
 .properties {
     background: url('../Images/brush.png') no-repeat center center;
 }
+
+.bold {
+    background: url('../Images/bold.png') no-repeat center center;
+}

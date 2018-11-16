@@ -14,6 +14,7 @@ module.exports = function (grunt) {
                 src: [
                     'node_modules/jquery/dist/jquery.min.js',
                     'node_modules/knockout/build/output/knockout-latest.js',
+                    'node_modules/popper.js/dist/umd/popper.js',
                     'node_modules/bootstrap/dist/js/bootstrap.js',
                     'node_modules/toastr/build/toastr.min.js'
                 ],

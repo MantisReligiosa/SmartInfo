@@ -19,12 +19,16 @@
                         </div>
                     </button>
                     <div class="ribbon-clip">
-                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                            <div class="ribbon-horizontal-button-content">
-                                <div class="table-block ribbon-small-icon"></div>
-                                <div class="ribbon-horizontal-button-text">Таблица</div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-light dropdown-toggle btn-image tableBtn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Таблица
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
                             </div>
-                        </button>
+                        </div>
                         <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                             <div class="ribbon-horizontal-button-content">
                                 <div class="image-block ribbon-small-icon"></div>
@@ -80,15 +84,23 @@
                     </label>
                 </div>
             </div>
-
             <div class="panel panel-default ribbon-group">
                 <div class="panel-body ribbon-toolbar">
                     <div class="input-group mb-3">
-                        <select class="custom-select btn-sm ribbon-element" id="inputGroupSelect01">
-                            <option selected value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
+                        <div class="ribbon-clip">
+                            <div class="ribbon-row">
+                                <div class="text-block ribbon-small-icon input-group-prepend" style="margin-top:5px"></div>
+                                <select class="custom-select btn-sm ribbon-element ribbon-font-picker" id="inputGroupSelect01" data-bind="options:fonts, optionsText:'name', value:'id'"></select>
+                                <select class="custom-select btn-sm ribbon-element ribbon-numerical-input" id="inputGroupSelect02" data-bind="options:fontSizes"></select>
+                            </div>
+                            <div class="ribbon-row">
+                                <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                                    <div class="ribbon-horizontal-button-content">
+                                        <div class="bold ribbon-small-icon"></div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="panel-footer ribbon-group-title">
@@ -101,48 +113,5 @@
         <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab">.1.</div>
     </div>
 </div>
-<!--
-    <div class="easyui-ribbon mainmenu">
-    <div title="Система">
 
-    </div>
-    <div title="Видеостена">
-        <div class="ribbon-group">
-            <div class="ribbon-toolbar">
-                <input id="fonts" class="easyui-combobox" name="dept" style="width:120px;"
-                       data-options="valueField:'id',textField:'text',url:'master/fonts'">
-
-                <input id="fonts" class="easyui-combobox ribbon-toolbar-numerical-input" name="dept"
-                       data-options="valueField:'id',textField:'text',url:'master/fontsizes'">
-            </div>
-            <div class="ribbon-group-title">Формат</div>
-        </div>
-        <div class="ribbon-group-sep"></div>
-        <div class="ribbon-group">
-            <div class="ribbon-toolbar">
-                <div>
-                    <label class="ribbon-toolbar-coordinates-label">Слева:</label>
-                    <input id="left" class="easyui-numberspinner ribbon-toolbar-numerical-input" data-options="min:0,editable:true">
-                    <label class="ribbon-toolbar-coordinates-label">Сверху:</label>
-                    <input id="top" class="easyui-numberspinner ribbon-toolbar-numerical-input" data-options="min:0,editable:true">
-                </div>
-                <div>
-                    <label class="ribbon-toolbar-coordinates-label">Высота:</label>
-                    <input id="top" class="easyui-numberspinner ribbon-toolbar-numerical-input" data-options="min:0,editable:true">
-                    <label class="ribbon-toolbar-coordinates-label">Ширина:</label>
-                    <input id="top" class="easyui-numberspinner ribbon-toolbar-numerical-input" data-options="min:0,editable:true">
-                </div>
-            </div>
-            <div class="ribbon-group-title">Положение</div>
-        </div>
-        <div class="ribbon-group-sep"></div>
-
-    </div>
-</div>
-
-<div id="cc" class="easyui-layout mainframe">
-    <div class="sidepanel" data-options="region:'west',title:'Свойства',split:true"></div>
-    <div class="workplace" data-options="region:'center',title:''"></div>
-</div>
-    -->
 <!-- /ko-->

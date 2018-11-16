@@ -125,10 +125,14 @@
     <Content Include="css\vendor.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\bold.png" />
     <Content Include="Images\brush.png" />
     <Content Include="Images\copy.png" />
     <Content Include="Images\cut.png" />
+    <Content Include="Images\italic.png" />
     <Content Include="Images\paste_large.png" />
+    <Content Include="Images\strikethrough.png" />
+    <Content Include="Images\underline.png" />
     <Content Include="Script\app\app.viewmodel.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -173,6 +177,8 @@
     <Compile Include="Bundles\VendorJsBundles.cs" />
     <Compile Include="CustomStatusCode.cs" />
     <Compile Include="Models\Credits.cs" />
+    <Compile Include="Models\Font.cs" />
+    <Compile Include="Models\FontInfo.cs" />
     <Compile Include="Modules\Login.cs" />
     <Compile Include="Modules\Master.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

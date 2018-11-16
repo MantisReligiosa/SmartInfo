@@ -1,4 +1,5 @@
 ﻿using Nancy;
+using Web.Models;
 
 namespace Web.Modules
 {
@@ -10,12 +11,11 @@ namespace Web.Modules
 
             Post["/master/fonts"] = parameters =>
             {
-                return Response.AsJson(new[] { new{ id = 1, text = "Font1" }, new { id = 2, text = "Font2" } });
-            };
-
-            Post["/master/fontSizes"] = parameters =>
-            {
-                return Response.AsJson(new[] { new { id = 1, text = "8" }, new { id = 2, text = "10" } });
+                return Response.AsJson(new FontInfo
+                {
+                    Fonts = new Font[] { new Font { Id = 1, Name = "Font1" }, new Font { Id = 2, Name = "Font2" } },
+                    FonSizes = new[] { 8, 10 }
+                });
             };
         }
     }
