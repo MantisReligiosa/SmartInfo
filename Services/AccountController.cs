@@ -1,15 +1,30 @@
-﻿using ServiceInterfaces;
+﻿using DomainObjects;
+using ServiceInterfaces;
+using System;
 
 namespace Services
 {
     public class AccountController : IAccountController
     {
-        public bool IsGranted(string login, string password)
+        private readonly User _user = new User
         {
-            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
-                return false;
-            // ToDo: обратиться к базе за учеткой
-            return login.Equals("1") && password.Equals("1");
+            Identifier = new Guid(1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1),
+            Login = "1"
+        };
+
+        public User GetUserByIdentifier(Guid identifier)
+        {
+            if (identifier.Equals(_user.Identifier))
+                return _user;
+            return null;
         }
+
+        public User GetUserByName(string login)
+        {
+            if (login.Equals(_user.Login))
+                return _user;
+            return null;
+        }
+
     }
 }

@@ -1,5 +1,4 @@
 ﻿@using Nancy.Bundle
-@using Web.Bundles
 
 <!DOCTYPE html>
 <html>
@@ -9,9 +8,9 @@
     <title>Display-control</title>
     @Html.Raw(Bundles.GetCssKey("css-key"))
     @Html.Raw(Bundles.GetJsKey("vendor-js-key"))
+    @Html.Raw(Bundles.GetJsKey("app-js-key"))
 </head>
 <body>
     @RenderBody()
 </body>
-@Html.Raw(Bundles.GetJsKey("app-js-key"))
 </html>

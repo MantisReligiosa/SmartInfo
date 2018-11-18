@@ -68,8 +68,14 @@
     <Reference Include="Nancy, Version=1.4.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.1.4.5\lib\net40\Nancy.dll</HintPath>
     </Reference>
+    <Reference Include="Nancy.Authentication.Forms, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Authentication.Forms.1.4.1\lib\net40\Nancy.Authentication.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="Nancy.Bundle, Version=0.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.Bundle.0.0.5\lib\net452\Nancy.Bundle.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.Linker, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Linker.0.3.1\lib\net40-Client\Nancy.Linker.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Owin, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.Owin.1.4.1\lib\net40\Nancy.Owin.dll</HintPath>
@@ -190,16 +196,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Bundles\ErrJsBundles.cs" />
     <Compile Include="Bundles\CssBundles.cs" />
     <Compile Include="Bundles\BundleConfig.cs" />
     <Compile Include="Bundles\AppJsBundles.cs" />
+    <Compile Include="Bundles\LoginJsBundles.cs" />
+    <Compile Include="Bundles\MasterJsBundle.cs" />
     <Compile Include="Bundles\VendorJsBundles.cs" />
     <Compile Include="CustomStatusCode.cs" />
+    <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Models\Credits.cs" />
+    <Compile Include="Models\DatabaseUser.cs" />
     <Compile Include="Models\Font.cs" />
     <Compile Include="Models\FontInfo.cs" />
-    <Compile Include="Modules\Login.cs" />
-    <Compile Include="Modules\Master.cs" />
+    <Compile Include="Modules\Public.cs" />
+    <Compile Include="Modules\Secured.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RazorConfig.cs" />
     <Compile Include="Startup.cs" />
@@ -233,6 +244,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DomainObjects\DomainObjects.csproj">
+      <Project>{06F3DAFC-55BB-48C1-9742-C7AED7BD1FF2}</Project>
+      <Name>DomainObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServiceInterfaces\ServiceInterfaces.csproj">
       <Project>{4E17B724-5AD8-4F5F-8F8A-C3538534694B}</Project>
       <Name>ServiceInterfaces</Name>

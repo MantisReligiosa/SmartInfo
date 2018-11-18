@@ -11,7 +11,7 @@
     $(document).ready(function () {
         app.request(
             "POST",
-            "/master/fonts",
+            "/api/fonts",
             {},
             function (data) {
                 data.fonts.forEach(function (entry) {

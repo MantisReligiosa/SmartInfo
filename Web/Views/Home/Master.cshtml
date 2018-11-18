@@ -1,4 +1,5 @@
-﻿<!-- ko with: master-->
+﻿@using Nancy.Bundle
+<!-- ko with: master-->
 <div class="container">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
@@ -249,3 +250,5 @@
     </div>
 </div>
 <!-- /ko-->
+
+@Html.Raw(Bundles.GetJsKey("master-js-key"))

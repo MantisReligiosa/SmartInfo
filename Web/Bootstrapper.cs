@@ -1,4 +1,5 @@
 ﻿using Nancy;
+using Nancy.Authentication.Forms;
 using Nancy.Bootstrapper;
 using Nancy.Bundle;
 using Nancy.Bundle.Settings;
@@ -22,6 +23,9 @@ namespace Web
                 cfg.AddContentGroup(new CssBundles());
                 cfg.AddContentGroup(new VendorJsBundles());
                 cfg.AddContentGroup(new AppJsBundles());
+                cfg.AddContentGroup(new ErrJsBundles());
+                cfg.AddContentGroup(new LoginJsBundles());
+                cfg.AddContentGroup(new MasterJsBundle());
             });
 
             container.Register<IAccountController, AccountController>();
@@ -31,6 +35,19 @@ namespace Web
             pipelines.OnError += (ctx, ex) => {
                 return null;
             };
+        }
+
+        protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)
+        {
+            base.RequestStartup(container, pipelines, context);
+
+            var formsAuthConfiguration = new FormsAuthenticationConfiguration
+            {
+                RedirectUrl = "~/login",
+                UserMapper = container.Resolve<IUserMapper>(),
+            };
+
+            FormsAuthentication.Enable(pipelines, formsAuthConfiguration);
         }
 
         protected override void ConfigureConventions(NancyConventions nancyConventions)

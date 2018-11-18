@@ -45,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DomainObjects\DomainObjects.csproj">
+      <Project>{06f3dafc-55bb-48c1-9742-c7aed7bd1ff2}</Project>
+      <Name>DomainObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServiceInterfaces\ServiceInterfaces.csproj">
       <Project>{4E17B724-5AD8-4F5F-8F8A-C3538534694B}</Project>
       <Name>ServiceInterfaces</Name>

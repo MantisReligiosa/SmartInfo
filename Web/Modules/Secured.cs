@@ -1,15 +1,17 @@
 ﻿using Nancy;
+using Nancy.Security;
 using Web.Models;
 
 namespace Web.Modules
 {
-    public class Master : NancyModule
+    public class Secured : NancyModule
     {
-        public Master()
+        public Secured()
         {
+            this.RequiresAuthentication();
             Get["/master"] = parameters => View["Views/Home/Master.cshtml"];
-
-            Post["/master/fonts"] = parameters =>
+            Get["/"] = parameters => View["Views/Home/Master.cshtml"];
+            Post["/api/fonts"] = parameters =>
             {
                 return Response.AsJson(new FontInfo
                 {
