@@ -10,7 +10,10 @@ namespace Web.Modules
     {
         public Login(IAccountController accountController)
         {
-            Get["/"] = parameters => View["Home/Login.cshtml"];
+            Get["/"] = parameters =>
+            {
+                return View["Home/Login.cshtml"];
+            };
             Post["/api/login"] = parameters =>
             {
                 var data = this.Bind<Credits>();

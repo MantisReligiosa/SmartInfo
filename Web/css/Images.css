@@ -1,38 +1,38 @@
 ﻿.background {
-    background: url(../Images/back.png);
+    background: url(../Images/background.png);
     background-size: cover;
 }
 
-.text-block-large {
-    background: url('../Images/text_large.png') no-repeat center center;
+.block-text-large {
+    background: url('../Images/block_text_large.png') no-repeat center center;
 }
 
-.text-block {
-    background: url('../Images/text.png') no-repeat center center;
+.block-text {
+    background: url('../Images/block_text.png') no-repeat center center;
 }
 
-.table-block {
-    background: url('../Images/table.png') no-repeat center center;
+.block-table {
+    background: url('../Images/block_table.png') no-repeat center center;
 }
 
-.image-block {
-    background: url('../Images/image.png') no-repeat center center;
+.block-image {
+    background: url('../Images/block_image.png') no-repeat center center;
 }
 
-.datetime-block {
-    background: url('../Images/calendar.png') no-repeat center center;
+.block-datetime {
+    background: url('../Images/block_calendar.png') no-repeat center center;
 }
 
-.paste-large {
-    background: url('../Images/paste_large.png') no-repeat center center;
+.clipboard-paste-large {
+    background: url('../Images/clipboard_paste_large.png') no-repeat center center;
 }
 
-.cut {
-    background: url('../Images/cut.png') no-repeat center center;
+.clipboard-cut {
+    background: url('../Images/clipboard_cut.png') no-repeat center center;
 }
 
-.copy {
-    background: url('../Images/copy.png') no-repeat center center;
+.clipboard-copy {
+    background: url('../Images/clipboard_copy.png') no-repeat center center;
 }
 
 .delete {
@@ -43,38 +43,90 @@
     background: url('../Images/brush.png') no-repeat center center;
 }
 
-.bold {
-    background: url('../Images/bold.png') no-repeat center center;
+.font-bold {
+    background: url('../Images/font_bold.png') no-repeat center center;
 }
 
-.italic {
-    background: url('../Images/italic.png') no-repeat center center;
+.font-italic {
+    background: url('../Images/font_italic.png') no-repeat center center;
 }
 
-.underline {
-    background: url('../Images/underline.png') no-repeat center center;
+.font-underline {
+    background: url('../Images/font_underline.png') no-repeat center center;
 }
 
-.strikethrough {
-    background: url('../Images/strikethrough.png') no-repeat center center;
+.font-strikethrough {
+    background: url('../Images/font_strikethrough.png') no-repeat center center;
 }
 
-.fill {
-    background: url('../Images/fill.png') no-repeat center center;
+.align-fill {
+    background: url('../Images/align_fill.png') no-repeat center center;
 }
 
-.left {
-    background: url('../Images/left.png') no-repeat center center;
+.align-left {
+    background: url('../Images/align_left.png') no-repeat center center;
 }
 
-.right {
-    background: url('../Images/right.png') no-repeat center center;
+.align-right {
+    background: url('../Images/align_right.png') no-repeat center center;
 }
 
-.center {
-    background: url('../Images/center.png') no-repeat center center;
+.align-center {
+    background: url('../Images/align_center.png') no-repeat center center;
 }
 
 .brush-large {
     background: url('../Images/brush-large.png') no-repeat center center;
+}
+
+.user-hudge {
+    background: url('../Images/user_hudge.png') no-repeat center center;
+}
+
+.sad {
+    background: url('../Images/sad_hudge.png') no-repeat center center;
+}
+
+.coordinates-large {
+    background: url('../Images/coordinates_large.png') no-repeat center center;
+}
+
+.arrow-left {
+    background: url('../Images/arrow_left.png') no-repeat center center;
+}
+
+.arrow-right {
+    background: url('../Images/arrow_right.png') no-repeat center center;
+}
+
+.arrow-up {
+    background: url('../Images/arrow_up.png') no-repeat center center;
+}
+
+.arrow-down {
+    background: url('../Images/arrow_down.png') no-repeat center center;
+}
+
+.arrow-up1 {
+    background: url('../Images/arrow_up_1.png') no-repeat center center;
+}
+
+.arrow-down1 {
+    background: url('../Images/arrow_down_1.png') no-repeat center center;
+}
+
+.displays-on-large {
+    background: url('../Images/displays_on_large.png') no-repeat center center;
+}
+
+.displays-off {
+    background: url('../Images/displays_off.png') no-repeat center center;
+}
+
+.displays-refesh {
+    background: url('../Images/displays_refresh.png') no-repeat center center;
+}
+
+.displays-test {
+    background: url('../Images/display_test.png') no-repeat center center;
 }

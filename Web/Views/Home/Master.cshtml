@@ -14,30 +14,27 @@
                 <div class="panel-body ribbon-toolbar">
                     <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                         <div class="ribbon-vertical-button-content">
-                            <div class="text-block-large ribbon-large-icon"></div>
+                            <div class="block-text-large ribbon-large-icon"></div>
                             <div>Текст</div>
                         </div>
                     </button>
                     <div class="ribbon-clip">
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-light dropdown-toggle btn-image tableBtn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Таблица
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </div>
+
                         <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                             <div class="ribbon-horizontal-button-content">
-                                <div class="image-block ribbon-small-icon"></div>
+                                <div class="block-table ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Таблица</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="block-image ribbon-small-icon"></div>
                                 <div class="ribbon-horizontal-button-text">Изображение</div>
                             </div>
                         </button>
                         <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                             <div class="ribbon-horizontal-button-content">
-                                <div class="datetime-block ribbon-small-icon"></div>
+                                <div class="block-datetime ribbon-small-icon"></div>
                                 <div class="ribbon-horizontal-button-text">Дата/время</div>
                             </div>
                         </button>
@@ -53,20 +50,20 @@
                 <div class="panel-body ribbon-toolbar">
                     <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                         <div class="ribbon-vertical-button-content">
-                            <div class="paste-large ribbon-large-icon"></div>
+                            <div class="clipboard-paste-large ribbon-large-icon"></div>
                             <div>Вставить</div>
                         </div>
                     </button>
                     <div class="ribbon-clip">
                         <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                             <div class="ribbon-horizontal-button-content">
-                                <div class="cut ribbon-small-icon"></div>
+                                <div class="clipboard-cut ribbon-small-icon"></div>
                                 <div class="ribbon-horizontal-button-text">Вырезать</div>
                             </div>
                         </button>
                         <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                             <div class="ribbon-horizontal-button-content">
-                                <div class="copy ribbon-small-icon"></div>
+                                <div class="clipboard-copy ribbon-small-icon"></div>
                                 <div class="ribbon-horizontal-button-text">Копировать</div>
                             </div>
                         </button>
@@ -95,51 +92,51 @@
                     </button>
                     <div class="ribbon-clip">
                         <div class="ribbon-row">
-                            <div class="text-block ribbon-small-icon input-group-prepend" style="margin-top:5px"></div>
+                            <div class="block-text ribbon-small-icon input-group-prepend" style="margin-top:5px"></div>
                             <select class="custom-select btn-sm ribbon-element ribbon-font-picker" id="inputGroupSelect01" data-bind="options:fonts, optionsText:'name', value:'id'"></select>
                             <select class="custom-select btn-sm ribbon-element ribbon-numerical-input" id="inputGroupSelect02" data-bind="options:fontSizes"></select>
                         </div>
                         <div class="ribbon-row">
                             <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                                 <div class="ribbon-horizontal-button-content">
-                                    <div class="bold ribbon-small-icon"></div>
+                                    <div class="font-bold ribbon-small-icon"></div>
                                 </div>
                             </button>
                             <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                                 <div class="ribbon-horizontal-button-content">
-                                    <div class="italic ribbon-small-icon"></div>
+                                    <div class="font-italic ribbon-small-icon"></div>
                                 </div>
                             </button>
                             <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                                 <div class="ribbon-horizontal-button-content">
-                                    <div class="underline ribbon-small-icon"></div>
+                                    <div class="font-underline ribbon-small-icon"></div>
                                 </div>
                             </button>
                             <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                                 <div class="ribbon-horizontal-button-content">
-                                    <div class="strikethrough ribbon-small-icon"></div>
+                                    <div class="font-strikethrough ribbon-small-icon"></div>
                                 </div>
                             </button>
                         </div>
                         <div class="ribbon-row">
                             <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                                 <div class="ribbon-horizontal-button-content">
-                                    <div class="left ribbon-small-icon"></div>
+                                    <div class="align-left ribbon-small-icon"></div>
                                 </div>
                             </button>
                             <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                                 <div class="ribbon-horizontal-button-content">
-                                    <div class="center ribbon-small-icon"></div>
+                                    <div class="align-center ribbon-small-icon"></div>
                                 </div>
                             </button>
                             <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                                 <div class="ribbon-horizontal-button-content">
-                                    <div class="right ribbon-small-icon"></div>
+                                    <div class="align-right ribbon-small-icon"></div>
                                 </div>
                             </button>
                             <button class="btn btn-sm btn-light navbar-btn ribbon-element">
                                 <div class="ribbon-horizontal-button-content">
-                                    <div class="fill ribbon-small-icon"></div>
+                                    <div class="align-fill ribbon-small-icon"></div>
                                 </div>
                             </button>
                         </div>
@@ -149,39 +146,106 @@
                     <label>
                         Формат
                     </label>
+
                 </div>
             </div>
 
-
-
-            @*<div class="panel panel-default ribbon-group">
-            <div class="panel-body ribbon-toolbar">
-                <div class="input-group mb-3">
+            <div class="panel panel-default ribbon-group">
+                <div class="panel-body ribbon-toolbar">
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <div class="ribbon-vertical-button-content">
+                            <div class="coordinates-large ribbon-large-icon"></div>
+                            <div>Позиция</div>
+                        </div>
+                    </button>
                     <div class="ribbon-clip">
-                        <div class="ribbon-row">
-                            <div class="text-block ribbon-small-icon input-group-prepend" style="margin-top:5px"></div>
-                            <select class="custom-select btn-sm ribbon-element ribbon-font-picker" id="inputGroupSelect01" data-bind="options:fonts, optionsText:'name', value:'id'"></select>
-                            <select class="custom-select btn-sm ribbon-element ribbon-numerical-input" id="inputGroupSelect02" data-bind="options:fontSizes"></select>
-                        </div>
-                        <div class="ribbon-row">
-                            <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                                <div class="ribbon-horizontal-button-content">
-                                    <div class="bold ribbon-small-icon"></div>
-                                </div>
-                            </button>
-                        </div>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="arrow-left ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Влево</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="arrow-up ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Вверх</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="arrow-down ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Вниз</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="ribbon-clip">
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="arrow-right ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Вправо</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="arrow-up1 ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Выше</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="arrow-down1 ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Ниже</div>
+                            </div>
+                        </button>
                     </div>
                 </div>
+                <div class="panel-footer ribbon-group-title">
+                    <label>
+                        Расположение и слой
+                    </label>
+
+                </div>
             </div>
-            <div class="panel-footer ribbon-group-title">
-                <label>
-                    Формат
-                </label>
-            </div>
-        </div>*@
         </div>
-        <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab">.1.</div>
+        <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab">
+            <div class="panel panel-default ribbon-group">
+                <div class="panel-body ribbon-toolbar">
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <div class="ribbon-vertical-button-content">
+                            <div class="displays-on-large ribbon-large-icon"></div>
+                            <div>Пуск</div>
+                        </div>
+                    </button>
+                    <div class="ribbon-clip">
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="displays-off ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Стоп</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="displays-refesh ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Обновить</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="displays-test ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Тест</div>
+                            </div>
+                        </button>
+
+                    </div>
+                </div>
+                <div class="panel-footer ribbon-group-title">
+                    <label>
+                        Видеопанель
+                    </label>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
-
 <!-- /ko-->
