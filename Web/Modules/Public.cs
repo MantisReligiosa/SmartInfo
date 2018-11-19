@@ -22,8 +22,6 @@ namespace Web.Modules
                 var user = accountController.GetUserByName(data.Login);
                 if (user == null || !user.IsPasswordCorrect(data.Password))
                 {
-#warning выкинуть тостер!!!!
-#warning удалить login.viewmodel?
                     return View["Home/Login.cshtml", false];
                 }
 

@@ -24,7 +24,6 @@ namespace Web
                 cfg.AddContentGroup(new VendorJsBundles());
                 cfg.AddContentGroup(new AppJsBundles());
                 cfg.AddContentGroup(new ErrJsBundles());
-                cfg.AddContentGroup(new LoginJsBundles());
                 cfg.AddContentGroup(new MasterJsBundle());
             });
 

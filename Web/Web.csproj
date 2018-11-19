@@ -164,9 +164,6 @@
     <Content Include="Script\app\errForm.viewmodel.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Script\app\login.viewmodel.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Script\app\master.viewmodel.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -200,7 +197,6 @@
     <Compile Include="Bundles\CssBundles.cs" />
     <Compile Include="Bundles\BundleConfig.cs" />
     <Compile Include="Bundles\AppJsBundles.cs" />
-    <Compile Include="Bundles\LoginJsBundles.cs" />
     <Compile Include="Bundles\MasterJsBundle.cs" />
     <Compile Include="Bundles\VendorJsBundles.cs" />
     <Compile Include="CustomStatusCode.cs" />
