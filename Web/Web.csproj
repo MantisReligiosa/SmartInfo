@@ -161,9 +161,6 @@
     <Content Include="Script\app\app.viewmodel.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Script\app\errForm.viewmodel.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Script\app\master.viewmodel.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -193,7 +190,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Bundles\ErrJsBundles.cs" />
     <Compile Include="Bundles\CssBundles.cs" />
     <Compile Include="Bundles\BundleConfig.cs" />
     <Compile Include="Bundles\AppJsBundles.cs" />

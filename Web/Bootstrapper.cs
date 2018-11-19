@@ -23,7 +23,6 @@ namespace Web
                 cfg.AddContentGroup(new CssBundles());
                 cfg.AddContentGroup(new VendorJsBundles());
                 cfg.AddContentGroup(new AppJsBundles());
-                cfg.AddContentGroup(new ErrJsBundles());
                 cfg.AddContentGroup(new MasterJsBundle());
             });
 

@@ -1,7 +1,6 @@
 ﻿@{
     Layout = "Views/Shared/_ErrorLayout.cshtml";
 }
-<!-- ko with: errForm-->
 <div class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -17,10 +16,18 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bind="click: restart">Сначала</button>
-            </div>
+            <form action="/">
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Сначала</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-<!-- /ko -->
+<script>
+    $(document).ready(function () {
+        $(".modal")
+            .modal({ backdrop: 'static', keyboard: false })
+            .modal("show");
+    });
+</script>
