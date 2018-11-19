@@ -83,6 +83,10 @@
     background: url('../Images/user_hudge.png') no-repeat center center;
 }
 
+.user-large {
+    background: url('../Images/user_large.png') no-repeat center center;
+}
+
 .sad {
     background: url('../Images/sad_hudge.png') no-repeat center center;
 }
@@ -128,5 +132,37 @@
 }
 
 .displays-test {
-    background: url('../Images/display_test.png') no-repeat center center;
+    background: url('../Images/displays_test.png') no-repeat center center;
+}
+
+.displays-cleanup {
+    background: url('../Images/displays_cleanup.png') no-repeat center center;
+}
+
+.config-download {
+    background: url('../Images/config_download_large.png') no-repeat center center;
+}
+
+.config-upload {
+    background: url('../Images/config_upload.png') no-repeat center center;
+}
+
+.config-data-source {
+    background: url('../Images/config_data_source.png') no-repeat center center;
+}
+
+.access-account {
+    background: url('../Images/access_account.png') no-repeat center center
+}
+
+.access-reset {
+    background: url('../Images/access_reset.png') no-repeat center center;
+}
+
+.access-list {
+    background: url('../Images/access_lists.png') no-repeat center center;
+}
+
+.access-exit {
+    background: url('../Images/access-exit.png') no-repeat center center;
 }
