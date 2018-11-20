@@ -20,12 +20,12 @@ namespace Web.Modules
             {
                 var data = this.Bind<Credits>();
                 var user = accountController.GetUserByName(data.Login);
-                if (user == null || !user.IsPasswordCorrect(data.Password))
+                if (user == null || !accountController.IsPasswordCorrect(user, data.Password))
                 {
                     return View["Home/Login.cshtml", false];
                 }
 
-                var result = this.LoginAndRedirect(user.Identifier, null, "/");
+                var result = this.LoginAndRedirect(user.Id, null, "/");
                 return result;
             };
         }

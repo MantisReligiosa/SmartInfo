@@ -1,29 +1,37 @@
 ﻿using DomainObjects;
+using DomainObjects.Specifications;
 using ServiceInterfaces;
 using System;
+using System.Linq;
 
 namespace Services
 {
     public class AccountController : IAccountController
     {
-        private readonly User _user = new User
+        private readonly ICryptoProvider _cryptoProvider;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public AccountController(ICryptoProvider cryptoProvider, IUnitOfWorkFactory unitOfWorkFactory)
         {
-            Identifier = new Guid(1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1),
-            Login = "1"
-        };
+            _cryptoProvider = cryptoProvider;
+            _unitOfWork = unitOfWorkFactory.Create();
+        }
 
         public User GetUserByIdentifier(Guid identifier)
         {
-            if (identifier.Equals(_user.Identifier))
-                return _user;
-            return null;
+            var user = _unitOfWork.Users.Get(identifier);
+            return user;
         }
 
         public User GetUserByName(string login)
         {
-            if (login.Equals(_user.Login))
-                return _user;
-            return null;
+            var user = _unitOfWork.Users.Find(UserSpecification.ByName(login)).FirstOrDefault();
+            return user;
+        }
+
+        public bool IsPasswordCorrect(User user, string password)
+        {
+            return _cryptoProvider.Hash(password).Equals(user.PasswordHash);
         }
 
     }

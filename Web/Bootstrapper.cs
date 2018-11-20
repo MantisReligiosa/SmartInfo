@@ -5,6 +5,7 @@ using Nancy.Bundle;
 using Nancy.Bundle.Settings;
 using Nancy.Conventions;
 using Nancy.TinyIoc;
+using Repository;
 using ServiceInterfaces;
 using Services;
 using Web.Bundles;
@@ -26,6 +27,8 @@ namespace Web
                 cfg.AddContentGroup(new MasterJsBundle());
             });
 
+            container.Register<IUnitOfWorkFactory, UnitOfWorkFactory>();
+            container.Register<ICryptoProvider, CryptoProvider>();
             container.Register<IAccountController, AccountController>();
 
             CustomStatusCode.AddCode(404);

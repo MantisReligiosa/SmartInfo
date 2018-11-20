@@ -7,5 +7,6 @@ namespace ServiceInterfaces
     {
         User GetUserByIdentifier(Guid identifier);
         User GetUserByName(string login);
+        bool IsPasswordCorrect(User user, string password);
     }
 }
