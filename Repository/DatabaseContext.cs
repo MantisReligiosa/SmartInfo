@@ -1,5 +1,5 @@
 ﻿using DomainObjects;
-using Repository.Profiles;
+using Repository.Configurations;
 using System.Data.Entity;
 
 namespace Repository
@@ -17,10 +17,12 @@ namespace Repository
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Parameter> Parameters { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new UserConfiguration());
+            modelBuilder.Configurations.Add(new ParameterConfiguration());
         }
     }
 }

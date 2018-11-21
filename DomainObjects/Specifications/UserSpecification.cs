@@ -1,5 +1,4 @@
-﻿using DomainObjects;
-using System;
+﻿using System;
 using System.Linq.Expressions;
 
 namespace DomainObjects.Specifications

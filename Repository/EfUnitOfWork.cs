@@ -1,5 +1,6 @@
 ﻿using DomainObjects;
 using ServiceInterfaces;
+using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -12,8 +13,20 @@ namespace Repository
             _databaseContext = databaseContext;
 
             Users = new Repository<User>(_databaseContext);
+            Parameters = new Repository<Parameter>(_databaseContext);
         }
 
         public IRepository<User> Users { get; private set; }
+        public IRepository<Parameter> Parameters { get; private set; }
+
+        public int Complete()
+        {
+            return _databaseContext.SaveChanges();
+        }
+
+        public async Task<int> CompleteAsync()
+        {
+            return await _databaseContext.SaveChangesAsync();
+        }
     }
 }

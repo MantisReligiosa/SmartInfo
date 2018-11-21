@@ -54,12 +54,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\ParameterConfiguration.cs" />
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="EfUnitOfWork.cs" />
     <Compile Include="Configurations\UserConfiguration.cs" />
     <Compile Include="Migrations\201811201652522_InitialCreate.cs" />
     <Compile Include="Migrations\201811201652522_InitialCreate.Designer.cs">
       <DependentUpon>201811201652522_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811211645465_AddParameters.cs" />
+    <Compile Include="Migrations\201811211645465_AddParameters.Designer.cs">
+      <DependentUpon>201811211645465_AddParameters.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,6 +88,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201811201652522_InitialCreate.resx">
       <DependentUpon>201811201652522_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811211645465_AddParameters.resx">
+      <DependentUpon>201811211645465_AddParameters.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

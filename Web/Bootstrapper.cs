@@ -30,6 +30,8 @@ namespace Web
             container.Register<IUnitOfWorkFactory, UnitOfWorkFactory>();
             container.Register<ICryptoProvider, CryptoProvider>();
             container.Register<IAccountController, AccountController>();
+            container.Register<IScreenController, ScreenController>();
+            container.Register<IScreenInfoProvider, ScreenInfoProvider>();
 
             CustomStatusCode.AddCode(404);
 

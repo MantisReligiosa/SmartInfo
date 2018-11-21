@@ -1,7 +1,7 @@
 ﻿using DomainObjects;
 using System.Data.Entity.ModelConfiguration;
 
-namespace Repository.Profiles
+namespace Repository.Configurations
 {
     public class UserConfiguration : EntityTypeConfiguration<User>
     {
