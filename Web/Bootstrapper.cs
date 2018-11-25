@@ -1,8 +1,10 @@
-﻿using Nancy;
+﻿using DataExchange;
+using DataExchange.Requests;
+using DataExchange.Responces;
+using Nancy;
 using Nancy.Authentication.Forms;
 using Nancy.Bootstrapper;
 using Nancy.Bundle;
-using Nancy.Bundle.Settings;
 using Nancy.Conventions;
 using Nancy.TinyIoc;
 using Repository;
@@ -17,7 +19,7 @@ namespace Web
     {
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
-            var config = container.Resolve<IConfigSettings>();
+            //var config = container.Resolve<IConfigSettings>();
 
             container.AttachNancyBundle<BundleConfig>(cfg =>
             {
@@ -39,6 +41,21 @@ namespace Web
             {
                 return null;
             };
+
+            var config = container.Resolve<IConfiguration>();
+            if (config.BrokerType.Equals("Fake", System.StringComparison.InvariantCultureIgnoreCase))
+            {
+                var broker = Broker.GetBroker();
+                broker.RegisterHandler<GetScreenSizeRequest>((request) =>
+                {
+                    var responce = new GetScreenSizeResponce
+                    {
+                        Height = 1050 * 2,
+                        Width = 1680 * 2
+                    };
+                    return responce;
+                });
+            }
         }
 
         protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)

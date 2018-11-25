@@ -340,6 +340,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataExchange\DataExchange.csproj">
+      <Project>{E2B3C0E1-7118-4EA8-B830-26C53BBF07E3}</Project>
+      <Name>DataExchange</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DomainObjects\DomainObjects.csproj">
       <Project>{06F3DAFC-55BB-48C1-9742-C7AED7BD1FF2}</Project>
       <Name>DomainObjects</Name>

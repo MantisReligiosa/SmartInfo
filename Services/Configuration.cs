@@ -8,6 +8,8 @@ namespace Services
     {
         public string ConnectionString => ConfigurationManager.ConnectionStrings["Display_control.Properties.Settings.DefaultConnection"].ConnectionString;
 
+        public string BrokerType => GetAppString("BrokerType");
+
         private static string GetAppString(string paramName)
         {
             if (String.IsNullOrEmpty(paramName))
