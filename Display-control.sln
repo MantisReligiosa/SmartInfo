@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceInterfaces", "Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{B308A561-A4D6-47DB-B19D-2115B92AFC94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{805A4B6E-DFB4-47DE-8EAE-EA54B02CA818}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainObjects", "DomainObjects\DomainObjects.csproj", "{06F3DAFC-55BB-48C1-9742-C7AED7BD1FF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{199961CF-22DF-418C-8343-A846274B3F49}"
@@ -37,10 +35,6 @@ Global
 		{B308A561-A4D6-47DB-B19D-2115B92AFC94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B308A561-A4D6-47DB-B19D-2115B92AFC94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B308A561-A4D6-47DB-B19D-2115B92AFC94}.Release|Any CPU.Build.0 = Release|Any CPU
-		{805A4B6E-DFB4-47DE-8EAE-EA54B02CA818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{805A4B6E-DFB4-47DE-8EAE-EA54B02CA818}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{805A4B6E-DFB4-47DE-8EAE-EA54B02CA818}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{805A4B6E-DFB4-47DE-8EAE-EA54B02CA818}.Release|Any CPU.Build.0 = Release|Any CPU
 		{06F3DAFC-55BB-48C1-9742-C7AED7BD1FF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{06F3DAFC-55BB-48C1-9742-C7AED7BD1FF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06F3DAFC-55BB-48C1-9742-C7AED7BD1FF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
