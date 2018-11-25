@@ -42,10 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAccountController.cs" />
+    <Compile Include="IConfiguration.cs" />
     <Compile Include="ICryptoProvider.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IScreenController.cs" />
-    <Compile Include="IScreenInfoProvider.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="IUnitOfWorkFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

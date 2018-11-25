@@ -27,15 +27,16 @@ namespace Web
                 cfg.AddContentGroup(new MasterJsBundle());
             });
 
+            container.Register<IConfiguration, Configuration>();
             container.Register<IUnitOfWorkFactory, UnitOfWorkFactory>();
             container.Register<ICryptoProvider, CryptoProvider>();
             container.Register<IAccountController, AccountController>();
             container.Register<IScreenController, ScreenController>();
-            container.Register<IScreenInfoProvider, ScreenInfoProvider>();
 
             CustomStatusCode.AddCode(404);
 
-            pipelines.OnError += (ctx, ex) => {
+            pipelines.OnError += (ctx, ex) =>
+            {
                 return null;
             };
         }

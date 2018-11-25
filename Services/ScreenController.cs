@@ -1,4 +1,7 @@
-﻿using DomainObjects;
+﻿using DataExchange;
+using DataExchange.Requests;
+using DataExchange.Responces;
+using DomainObjects;
 using DomainObjects.Specifications;
 using ServiceInterfaces;
 using System;
@@ -10,16 +13,13 @@ namespace Services
     public class ScreenController : IScreenController
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IScreenInfoProvider _screenInfoProvider;
         private const string _screenWidthParameterName = "ScreenWidth";
         private const string _screenHeightParameterName = "ScreenHeight";
 
         public ScreenController(
-            IUnitOfWorkFactory unitOfWorkFactory,
-            IScreenInfoProvider screenInfoProvider)
+            IUnitOfWorkFactory unitOfWorkFactory)
         {
             _unitOfWork = unitOfWorkFactory.Create();
-            _screenInfoProvider = screenInfoProvider;
         }
 
         public async Task<ScreenInfo> GetDatabaseScreenInfoAsync()
@@ -72,7 +72,13 @@ namespace Services
 
         public async Task<ScreenInfo> GetSystemScreenInfoAsync()
         {
-            return _screenInfoProvider.GetScreenInfo();
+            var broker = Broker.GetBroker();
+            var responce = broker.GetResponce(new GetScreenSizeRequest()) as GetScreenSizeResponce;
+            return new ScreenInfo
+            {
+                Height = responce.Height,
+                Width = responce.Width
+            };
         }
     }
 }
