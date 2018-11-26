@@ -5,6 +5,21 @@
     self.fontSizes = ko.observableArray([]);
     self.screenHeight = ko.observable();
     self.screenWidth = ko.observable();
+    self.screens = ko.observableArray();
+    self.displays = ko.computed(function () {
+        var code = $("<div>");
+        self.screens().forEach(function (s) {
+            code = code.append(
+                $('<div>')
+                    .addClass('display')
+                    .css('width', s.width)
+                    .css('height', s.height)
+                    .css('margin-left', s.left)
+                    .css('margin-top', s.top)
+            );
+        })
+        return code.html();
+    });
 
     self.addTextBlock = function () {
         toastr.info("Click!");
@@ -33,7 +48,10 @@
             function (data) {
                 self.screenHeight(data.height);
                 self.screenWidth(data.width);
-                debugger;
+                data.screenDetails.forEach(function (screen) {
+                    //$('#videopanel').add($('div'));
+                    self.screens.push(screen);
+                })
             }
         );
     });

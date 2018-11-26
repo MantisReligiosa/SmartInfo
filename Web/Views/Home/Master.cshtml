@@ -1,8 +1,11 @@
 ﻿@using Nancy.Bundle
 @inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
 <!-- ko with: master-->
-<div class="container">
     @Html.Partial("Views/Home/_Menu.cshtml")
+<div class="container-fluid workspace">
+    <div id="videopanel" data-bind="html: displays">
+
+    </div>
 </div>
 <!-- /ko-->
 

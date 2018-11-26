@@ -23,18 +23,18 @@ namespace Web.Modules
                         FonSizes = new[] { 8, 10 }
                     });
                 };
-            Post["/api/screenResolution", true] = async (x, context) =>
+            Post["/api/screenResolution"] = parameters =>
                 {
                     var data = this.Bind<ScreenResolutionRequest>();
                     if (!data.RefreshData)
                     {
-                        var screenInfo = await screenController.GetDatabaseScreenInfoAsync();
+                        var screenInfo = screenController.GetDatabaseScreenInfo();
                         return Response.AsJson(screenInfo);
                     }
                     else
                     {
-                        var screenInfo = await screenController.GetSystemScreenInfoAsync();
-                        screenController.SetDatabaseScreenInfoAsync(screenInfo);
+                        var screenInfo = screenController.GetSystemScreenInfo();
+                        screenController.SetDatabaseScreenInfo(screenInfo);
                         return Response.AsJson(screenInfo);
                     }
                 };

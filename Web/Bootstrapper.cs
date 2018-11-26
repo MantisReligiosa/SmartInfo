@@ -48,10 +48,43 @@ namespace Web
                 var broker = Broker.GetBroker();
                 broker.RegisterHandler<GetScreenSizeRequest>((request) =>
                 {
+                    var height = 480;
+                    var width = 640;
                     var responce = new GetScreenSizeResponce
                     {
-                        Height = 1050 * 2,
-                        Width = 1680 * 2
+                        Height = height * 2,
+                        Width = width * 2,
+                        Screens = new ScreenSizeResponce[]
+                        {
+                            new ScreenSizeResponce
+                            {
+                                Height = height,
+                                Width = width,
+                                Top = 0,
+                                Left = 0
+                            },
+                            new ScreenSizeResponce
+                            {
+                                Height = height,
+                                Width = width,
+                                Top = 0,
+                                Left = width
+                            },
+                            new ScreenSizeResponce
+                            {
+                                Height = height,
+                                Width = width,
+                                Top = height,
+                                Left = 0
+                            },
+                            new ScreenSizeResponce
+                            {
+                                Height = height,
+                                Width = width,
+                                Top = height,
+                                Left = width
+                            }
+                        }
                     };
                     return responce;
                 });

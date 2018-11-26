@@ -4,6 +4,8 @@
 
 body {
     height: 100%;
+    display: flex;
+    flex-flow: column;
 }
 
 div.container {
@@ -158,5 +160,23 @@ div.tab-content {
 }
 
 input[type=number] {
-    background:#fff;
+    background: #fff;
+}
+
+.nav-tabs, .tab-content{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.nav-tabs, .tab-content {
+    flex: 0 1 auto;
+}
+
+.workspace {
+    flex: 1 1 auto;
+}
+
+.display {
+    position: absolute;
+    border: 1px solid #dee2e6;
 }

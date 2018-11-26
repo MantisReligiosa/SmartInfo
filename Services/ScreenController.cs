@@ -5,6 +5,7 @@ using DomainObjects;
 using DomainObjects.Specifications;
 using ServiceInterfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,10 +23,10 @@ namespace Services
             _unitOfWork = unitOfWorkFactory.Create();
         }
 
-        public async Task<ScreenInfo> GetDatabaseScreenInfoAsync()
+        public ScreenInfo GetDatabaseScreenInfo()
         {
-            var widthParameter = (await _unitOfWork.Parameters.FindAsync(ParameterSpecification.ByName(_screenWidthParameterName))).FirstOrDefault();
-            var heightParameter = (await _unitOfWork.Parameters.FindAsync(ParameterSpecification.ByName(_screenHeightParameterName))).FirstOrDefault();
+            var widthParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.ByName(_screenWidthParameterName))).FirstOrDefault();
+            var heightParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.ByName(_screenHeightParameterName))).FirstOrDefault();
             if (widthParameter != null && heightParameter != null)
                 return new ScreenInfo
                 {
@@ -35,10 +36,10 @@ namespace Services
             return null;
         }
 
-        public async void SetDatabaseScreenInfoAsync(ScreenInfo screenInfo)
+        public void SetDatabaseScreenInfo(ScreenInfo screenInfo)
         {
-            var widthParameter = (await _unitOfWork.Parameters.FindAsync(ParameterSpecification.ByName(_screenWidthParameterName))).FirstOrDefault();
-            var heightParameter = (await _unitOfWork.Parameters.FindAsync(ParameterSpecification.ByName(_screenHeightParameterName))).FirstOrDefault();
+            var widthParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.ByName(_screenWidthParameterName))).FirstOrDefault();
+            var heightParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.ByName(_screenHeightParameterName))).FirstOrDefault();
             if (widthParameter == null)
             {
                 _unitOfWork.Parameters.Create(new Parameter
@@ -67,17 +68,31 @@ namespace Services
                 heightParameter.Value = screenInfo.Height.ToString();
                 _unitOfWork.Parameters.Update(heightParameter);
             }
-            await _unitOfWork.CompleteAsync();
+            _unitOfWork.Complete();
         }
 
-        public async Task<ScreenInfo> GetSystemScreenInfoAsync()
+        public ScreenInfo GetSystemScreenInfo()
         {
             var broker = Broker.GetBroker();
             var responce = broker.GetResponce(new GetScreenSizeRequest()) as GetScreenSizeResponce;
+            var details = new List<ScreenDetail>();
+
+            foreach(var s in responce.Screens)
+            {
+                details.Add(new ScreenDetail
+                {
+                    Height = s.Height,
+                    Left = s.Left,
+                    Top = s.Top,
+                    Width = s.Width
+                });
+            }
+
             return new ScreenInfo
             {
                 Height = responce.Height,
-                Width = responce.Width
+                Width = responce.Width,
+                ScreenDetails = details.ToArray()
             };
         }
     }

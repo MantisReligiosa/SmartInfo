@@ -5,8 +5,8 @@ namespace ServiceInterfaces
 {
     public interface IScreenController
     {
-        Task<ScreenInfo> GetDatabaseScreenInfoAsync();
-        Task<ScreenInfo> GetSystemScreenInfoAsync();
-        void SetDatabaseScreenInfoAsync(ScreenInfo screenInfo);
+        ScreenInfo GetDatabaseScreenInfo();
+        ScreenInfo GetSystemScreenInfo();
+        void SetDatabaseScreenInfo(ScreenInfo screenInfo);
     }
 }

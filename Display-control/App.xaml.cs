@@ -3,6 +3,7 @@ using DataExchange.Requests;
 using DataExchange.Responces;
 using Nancy.Hosting.Self;
 using System;
+using System.Linq;
 using System.Windows;
 using Web;
 
@@ -19,10 +20,18 @@ namespace Display_control
             var broker = Broker.GetBroker();
             broker.RegisterHandler<GetScreenSizeRequest>((request) =>
             {
+                var screens = System.Windows.Forms.Screen.AllScreens;
                 var responce = new GetScreenSizeResponce
                 {
                     Height = (int)SystemParameters.VirtualScreenHeight,
-                    Width = (int)SystemParameters.VirtualScreenWidth
+                    Width = (int)SystemParameters.VirtualScreenWidth,
+                    Screens = screens.Select(s => new ScreenSizeResponce
+                    {
+                        Left = s.Bounds.X,
+                        Top = s.Bounds.Y,
+                        Width = s.Bounds.Width,
+                        Height = s.Bounds.Height
+                    })
                 };
                 return responce;
             });
