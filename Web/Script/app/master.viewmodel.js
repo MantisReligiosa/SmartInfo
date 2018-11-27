@@ -14,8 +14,8 @@
                     .addClass('display')
                     .css('width', s.width)
                     .css('height', s.height)
-                    .css('margin-left', s.left)
-                    .css('margin-top', s.top)
+                    .css('left', s.left)
+                    .css('top', s.top)
             );
         })
         return code.html();
@@ -43,12 +43,12 @@
             "POST",
             "/api/screenResolution",
             {
-                refreshData: true
+                refreshData: false
             },
             function (data) {
                 self.screenHeight(data.height);
                 self.screenWidth(data.width);
-                data.screenDetails.forEach(function (screen) {
+                data.displays.forEach(function (screen) {
                     //$('#videopanel').add($('div'));
                     self.screens.push(screen);
                 })

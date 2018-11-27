@@ -6,11 +6,13 @@ body {
     height: 100%;
     display: flex;
     flex-flow: column;
+    overflow-y: hidden;
 }
 
 div.container {
     /*margin: 5px;*/
     max-width: 100%;
+    overflow-y:scroll;
 }
 
 div.tab-content {
@@ -163,7 +165,7 @@ input[type=number] {
     background: #fff;
 }
 
-.nav-tabs, .tab-content{
+.nav-tabs, .tab-content {
     margin-left: 15px;
     margin-right: 15px;
 }
@@ -174,9 +176,10 @@ input[type=number] {
 
 .workspace {
     flex: 1 1 auto;
+    overflow-y: scroll;
+    position:relative;
 }
 
 .display {
     position: absolute;
-    border: 1px solid #dee2e6;
-}
+    border: 1px solid #dee2e6;}

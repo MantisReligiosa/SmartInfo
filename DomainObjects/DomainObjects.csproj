@@ -43,8 +43,8 @@
   <ItemGroup>
     <Compile Include="Parameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScreenDetail.cs" />
-    <Compile Include="ScreenInfo.cs" />
+    <Compile Include="Display.cs" />
+    <Compile Include="Videopanel.cs" />
     <Compile Include="Specifications\ParameterSpecification.cs" />
     <Compile Include="Specifications\UserSpecification.cs" />
     <Compile Include="User.cs" />

@@ -5,8 +5,8 @@ namespace ServiceInterfaces
 {
     public interface IScreenController
     {
-        ScreenInfo GetDatabaseScreenInfo();
-        ScreenInfo GetSystemScreenInfo();
-        void SetDatabaseScreenInfo(ScreenInfo screenInfo);
+        Videopanel GetDatabaseScreenInfo();
+        Videopanel GetSystemScreenInfo();
+        void SetDatabaseScreenInfo(Videopanel screenInfo);
     }
 }

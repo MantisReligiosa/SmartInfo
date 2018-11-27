@@ -7,6 +7,7 @@ namespace ServiceInterfaces
     {
         IRepository<User> Users { get; }
         IRepository<Parameter> Parameters { get; }
+        IRepository<Display> Displays { get; }
 
         int Complete();
         Task<int> CompleteAsync();

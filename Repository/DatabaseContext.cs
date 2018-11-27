@@ -18,11 +18,13 @@ namespace Repository
 
         public DbSet<User> Users { get; set; }
         public DbSet<Parameter> Parameters { get; set; }
+        public DbSet<Display> Displays { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new UserConfiguration());
             modelBuilder.Configurations.Add(new ParameterConfiguration());
+            modelBuilder.Configurations.Add(new DisplayConfiguration());
         }
     }
 }

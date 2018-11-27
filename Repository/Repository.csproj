@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\DisplayConfiguration.cs" />
     <Compile Include="Configurations\ParameterConfiguration.cs" />
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="EfUnitOfWork.cs" />
@@ -65,6 +66,10 @@
     <Compile Include="Migrations\201811211645465_AddParameters.cs" />
     <Compile Include="Migrations\201811211645465_AddParameters.Designer.cs">
       <DependentUpon>201811211645465_AddParameters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811271858014_AddDisplays.cs" />
+    <Compile Include="Migrations\201811271858014_AddDisplays.Designer.cs">
+      <DependentUpon>201811271858014_AddDisplays.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,6 +96,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811211645465_AddParameters.resx">
       <DependentUpon>201811211645465_AddParameters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811271858014_AddDisplays.resx">
+      <DependentUpon>201811271858014_AddDisplays.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

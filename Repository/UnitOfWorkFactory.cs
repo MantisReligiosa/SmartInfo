@@ -13,8 +13,7 @@ namespace Repository
 
         public IUnitOfWork Create()
         {
-            var connStr = _configuration.ConnectionString;
-            return new EfUnitOfWork(new DatabaseContext(connStr));
+            return new EfUnitOfWork(new DatabaseContext());
         }
     }
 }

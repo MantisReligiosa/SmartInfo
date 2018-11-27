@@ -29,6 +29,11 @@ namespace Web.Modules
                     if (!data.RefreshData)
                     {
                         var screenInfo = screenController.GetDatabaseScreenInfo();
+                        if (screenInfo == null)
+                        {
+                            screenInfo = screenController.GetSystemScreenInfo();
+                            screenController.SetDatabaseScreenInfo(screenInfo);
+                        }
                         return Response.AsJson(screenInfo);
                     }
                     else

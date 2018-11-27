@@ -7,7 +7,6 @@ using ServiceInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Services
 {
@@ -23,20 +22,21 @@ namespace Services
             _unitOfWork = unitOfWorkFactory.Create();
         }
 
-        public ScreenInfo GetDatabaseScreenInfo()
+        public Videopanel GetDatabaseScreenInfo()
         {
             var widthParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.ByName(_screenWidthParameterName))).FirstOrDefault();
             var heightParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.ByName(_screenHeightParameterName))).FirstOrDefault();
             if (widthParameter != null && heightParameter != null)
-                return new ScreenInfo
+                return new Videopanel
                 {
                     Height = Convert.ToInt32(heightParameter.Value),
-                    Width = Convert.ToInt32(widthParameter.Value)
+                    Width = Convert.ToInt32(widthParameter.Value),
+                    Displays = _unitOfWork.Displays.GetAll().ToArray()
                 };
             return null;
         }
 
-        public void SetDatabaseScreenInfo(ScreenInfo screenInfo)
+        public void SetDatabaseScreenInfo(Videopanel screenInfo)
         {
             var widthParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.ByName(_screenWidthParameterName))).FirstOrDefault();
             var heightParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.ByName(_screenHeightParameterName))).FirstOrDefault();
@@ -68,19 +68,23 @@ namespace Services
                 heightParameter.Value = screenInfo.Height.ToString();
                 _unitOfWork.Parameters.Update(heightParameter);
             }
+
+            _unitOfWork.Displays.DeleteRange(_unitOfWork.Displays.GetAll());
+            _unitOfWork.Displays.CreateMany(screenInfo.Displays);
             _unitOfWork.Complete();
         }
 
-        public ScreenInfo GetSystemScreenInfo()
+        public Videopanel GetSystemScreenInfo()
         {
             var broker = Broker.GetBroker();
             var responce = broker.GetResponce(new GetScreenSizeRequest()) as GetScreenSizeResponce;
-            var details = new List<ScreenDetail>();
+            var details = new List<Display>();
 
-            foreach(var s in responce.Screens)
+            foreach (var s in responce.Screens)
             {
-                details.Add(new ScreenDetail
+                details.Add(new Display
                 {
+                    Id = Guid.NewGuid(),
                     Height = s.Height,
                     Left = s.Left,
                     Top = s.Top,
@@ -88,11 +92,11 @@ namespace Services
                 });
             }
 
-            return new ScreenInfo
+            return new Videopanel
             {
                 Height = responce.Height,
                 Width = responce.Width,
-                ScreenDetails = details.ToArray()
+                Displays = details.ToArray()
             };
         }
     }
