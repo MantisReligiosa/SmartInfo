@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace DomainObjects
+﻿namespace DomainObjects
 {
-    public class Parameter
+    public class Parameter : Identity
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
         public string Value { get; set; }
     }
 }

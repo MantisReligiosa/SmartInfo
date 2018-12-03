@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\DisplayBlockConfiguration.cs" />
     <Compile Include="Configurations\DisplayConfiguration.cs" />
     <Compile Include="Configurations\ParameterConfiguration.cs" />
     <Compile Include="DatabaseContext.cs" />
@@ -70,6 +71,14 @@
     <Compile Include="Migrations\201811271858014_AddDisplays.cs" />
     <Compile Include="Migrations\201811271858014_AddDisplays.Designer.cs">
       <DependentUpon>201811271858014_AddDisplays.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812021749577_DisplayBlocks.cs" />
+    <Compile Include="Migrations\201812021749577_DisplayBlocks.Designer.cs">
+      <DependentUpon>201812021749577_DisplayBlocks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812021922076_ParametersOverview.cs" />
+    <Compile Include="Migrations\201812021922076_ParametersOverview.Designer.cs">
+      <DependentUpon>201812021922076_ParametersOverview.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,6 +108,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811271858014_AddDisplays.resx">
       <DependentUpon>201811271858014_AddDisplays.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812021749577_DisplayBlocks.resx">
+      <DependentUpon>201812021749577_DisplayBlocks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812021922076_ParametersOverview.resx">
+      <DependentUpon>201812021922076_ParametersOverview.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

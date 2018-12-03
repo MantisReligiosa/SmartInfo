@@ -6,6 +6,7 @@
     self.screenHeight = ko.observable();
     self.screenWidth = ko.observable();
     self.screens = ko.observableArray();
+    self.blocks = ko.observableArray();
     self.displays = ko.computed(function () {
         var code = $("<div>");
         self.screens().forEach(function (s) {
@@ -17,12 +18,41 @@
                     .css('left', s.left)
                     .css('top', s.top)
             );
-        })
+        });
+        self.blocks().forEach(function (b) {
+            var block = $('<div>')
+                .attr('id', b.id)
+                .attr('data-bind','click: test')
+                .addClass('displayBlock')
+                .css('width', b.width)
+                .css('height', b.height)
+                .css('left', b.left)
+                .css('top', b.top);
+            if (b.type === "text") {
+                block = block.append($('<label>')
+                    .html(b.text)
+                );
+                code = code.append(block);
+            }
+        });
         return code.html();
     });
 
     self.addTextBlock = function () {
-        toastr.info("Click!");
+        app.request(
+            "POST",
+            "/api/addTextBlock",
+            {},
+            function (data) {
+                data.type = "text";
+                self.blocks.push(data);
+            }
+        );
+    }
+
+    self.test = function (bind) {
+        debugger;
+        toastr.info("123");
     }
 
     $(document).ready(function () {

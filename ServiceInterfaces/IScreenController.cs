@@ -1,5 +1,5 @@
 ﻿using DomainObjects;
-using System.Threading.Tasks;
+using DomainObjects.Blocks;
 
 namespace ServiceInterfaces
 {
@@ -8,5 +8,6 @@ namespace ServiceInterfaces
         Videopanel GetDatabaseScreenInfo();
         Videopanel GetSystemScreenInfo();
         void SetDatabaseScreenInfo(Videopanel screenInfo);
+        TextBlock AddTextBlock();
     }
 }

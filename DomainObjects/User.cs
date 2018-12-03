@@ -1,11 +1,8 @@
-﻿using System;
-
-namespace DomainObjects
+﻿namespace DomainObjects
 {
-    public class User
+    public class User : Identity
     {
         public string Login { get; set; }
-        public Guid Id { get; set; }
         public string PasswordHash { get; set; }
     }
 }

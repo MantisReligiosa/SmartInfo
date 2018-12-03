@@ -12,7 +12,7 @@ body {
 div.container {
     /*margin: 5px;*/
     max-width: 100%;
-    overflow-y:scroll;
+    overflow-y: scroll;
 }
 
 div.tab-content {
@@ -177,9 +177,15 @@ input[type=number] {
 .workspace {
     flex: 1 1 auto;
     overflow-y: scroll;
-    position:relative;
+    position: relative;
 }
 
 .display {
     position: absolute;
-    border: 1px solid #dee2e6;}
+    border: 1px solid #dee2e6;
+}
+
+.displayBlock {
+    position: absolute;
+    border: 1px dotted #f300fe
+}

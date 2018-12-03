@@ -2,6 +2,8 @@
 using DataExchange.Requests;
 using DataExchange.Responces;
 using DomainObjects;
+using DomainObjects.Blocks;
+using DomainObjects.Parameters;
 using DomainObjects.Specifications;
 using ServiceInterfaces;
 using System;
@@ -24,8 +26,8 @@ namespace Services
 
         public Videopanel GetDatabaseScreenInfo()
         {
-            var widthParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.ByName(_screenWidthParameterName))).FirstOrDefault();
-            var heightParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.ByName(_screenHeightParameterName))).FirstOrDefault();
+            var widthParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenWidth>())).FirstOrDefault();
+            var heightParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenHeight>())).FirstOrDefault();
             if (widthParameter != null && heightParameter != null)
                 return new Videopanel
                 {
@@ -38,14 +40,12 @@ namespace Services
 
         public void SetDatabaseScreenInfo(Videopanel screenInfo)
         {
-            var widthParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.ByName(_screenWidthParameterName))).FirstOrDefault();
-            var heightParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.ByName(_screenHeightParameterName))).FirstOrDefault();
+            var widthParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenWidth>())).FirstOrDefault();
+            var heightParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenHeight>())).FirstOrDefault();
             if (widthParameter == null)
             {
-                _unitOfWork.Parameters.Create(new Parameter
+                _unitOfWork.Parameters.Create(new ScreenWidth
                 {
-                    Id = Guid.NewGuid(),
-                    Name = _screenWidthParameterName,
                     Value = screenInfo.Width.ToString()
                 });
             }
@@ -56,10 +56,8 @@ namespace Services
             }
             if (heightParameter == null)
             {
-                _unitOfWork.Parameters.Create(new Parameter
+                _unitOfWork.Parameters.Create(new ScreenHeight
                 {
-                    Id = Guid.NewGuid(),
-                    Name = _screenHeightParameterName,
                     Value = screenInfo.Height.ToString()
                 });
             }
@@ -98,6 +96,18 @@ namespace Services
                 Width = responce.Width,
                 Displays = details.ToArray()
             };
+        }
+
+        public TextBlock AddTextBlock()
+        {
+            var block = _unitOfWork.DisplayBlocks.Create(new TextBlock
+            {
+                Height = 50,
+                Width = 200,
+                Text = "Текст"
+            }) as TextBlock;
+            _unitOfWork.Complete();
+            return block;
         }
     }
 }

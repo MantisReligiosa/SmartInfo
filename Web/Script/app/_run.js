@@ -18,6 +18,16 @@
     };
 
     $(document).ready(function () {
+        ko.bindingHandlers.htmlBound = {
+            init: function () {
+                return { controlsDescendantBindings: true };
+            },
+            update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+                ko.utils.setHtml(element, valueAccessor());
+                ko.applyBindingsToDescendants(bindingContext, element);
+            }
+        };
+
         ko.applyBindings(app);
     });
 });

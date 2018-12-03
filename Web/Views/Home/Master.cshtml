@@ -2,7 +2,7 @@
 @inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
 <!-- ko with: master-->
     @Html.Partial("Views/Home/_Menu.cshtml")
-<div class="container-fluid workspace" data-bind="html: displays">
+<div class="container-fluid workspace" data-bind="htmlBound: displays">
     
 </div>
 <!-- /ko-->

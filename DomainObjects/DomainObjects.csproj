@@ -41,7 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blocks\DisplayBlock.cs" />
+    <Compile Include="Blocks\PictureBlock.cs" />
+    <Compile Include="Blocks\TextBlock.cs" />
+    <Compile Include="Identity.cs" />
     <Compile Include="Parameter.cs" />
+    <Compile Include="Parameters\ScreenHeight.cs" />
+    <Compile Include="Parameters\ScreenWidth.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="Videopanel.cs" />
@@ -49,5 +55,6 @@
     <Compile Include="Specifications\UserSpecification.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -9,7 +9,6 @@ namespace Repository.Configurations
         {
             ToTable("Parameters");
             HasKey(u => u.Id);
-            Property(u => u.Name);
             Property(u => u.Value);
         }
     }
