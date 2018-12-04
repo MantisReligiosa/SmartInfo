@@ -8,36 +8,6 @@
     self.screens = ko.observableArray();
     self.blocks = ko.observableArray();
     self.selectedBlock = ko.observable();
-    //self.displays = ko.computed(function () {
-    //    var code = $("<div>");
-    //    self.screens().forEach(function (s) {
-    //        code = code.append(
-    //            $('<div>')
-    //                .addClass('display')
-    //                .css('width', s.width)
-    //                .css('height', s.height)
-    //                .css('left', s.left)
-    //                .css('top', s.top)
-    //        );
-    //    });
-    //    self.blocks().forEach(function (b) {
-    //        var block = $('<div>')
-    //            .attr('id', b.id)
-    //            .attr('data-bind','click: test')
-    //            .addClass('displayBlock')
-    //            .css('width', b.width)
-    //            .css('height', b.height)
-    //            .css('left', b.left)
-    //            .css('top', b.top);
-    //        if (b.type === "text") {
-    //            block = block.append($('<label>')
-    //                .html(b.text)
-    //            );
-    //            code = code.append(block);
-    //        }
-    //    });
-    //    return code.html();
-    //});
 
     self.addTextBlock = function () {
         app.request(
@@ -45,16 +15,13 @@
             "/api/addTextBlock",
             {},
             function (data) {
-                data.type = "text";
                 data.selected = false;
                 self.blocks.push(data);
             }
         );
     };
 
-    test = function (bind) {
-        debugger;
-        toastr.info("123");
+    selectBlock = function (bind) {
         self.blocks.remove(bind);
         /*
         self.blocks.forEach(function (block) {
@@ -67,36 +34,57 @@
         self.selectedBlock(bind);
     };
 
+    unselectBlocks = function () {
+        var blocks = self.blocks.remove(function (block) { return block.selected; });
+        blocks.forEach(function (block) {
+            block.selected = false;
+            self.blocks.push(block);
+        });
+        self.selectedBlock(null);
+    }
+
     $(document).ready(function () {
+        loadFonts();
+        loadDisplays();
+        loadBlocks();
+    });
+
+    function loadBlocks() {
         app.request(
-            "POST",
-            "/api/fonts",
+            "GET",
+            "/api/blocks",
             {},
             function (data) {
-                data.fonts.forEach(function (entry) {
-                    self.fonts.push(entry);
-                });
-                data.fonSizes.forEach(function (entry) {
-                    self.fontSizes.push(entry);
+                data.forEach(function (block) { 
+                    block.selected = false;
+                    self.blocks.push(block);
                 });
             }
         );
-        app.request(
-            "POST",
-            "/api/screenResolution",
-            {
-                refreshData: false
-            },
-            function (data) {
-                self.screenHeight(data.height);
-                self.screenWidth(data.width);
-                data.displays.forEach(function (screen) {
-                    //$('#videopanel').add($('div'));
-                    self.screens.push(screen);
-                })
-            }
-        );
-    });
+    }
+
+    function loadDisplays() {
+        app.request("POST", "/api/screenResolution", {
+            refreshData: false
+        }, function(data) {
+            self.screenHeight(data.height);
+            self.screenWidth(data.width);
+            data.displays.forEach(function(screen) {
+                self.screens.push(screen);
+            });
+        });
+    }
+
+    function loadFonts() {
+        app.request("POST", "/api/fonts", {}, function(data) {
+            data.fonts.forEach(function(entry) {
+                self.fonts.push(entry);
+            });
+            data.fonSizes.forEach(function(entry) {
+                self.fontSizes.push(entry);
+            });
+        });
+    }
 }
 
 app.attach({

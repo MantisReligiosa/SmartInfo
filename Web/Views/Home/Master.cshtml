@@ -3,13 +3,12 @@
 <!-- ko with: master-->
 @Html.Partial("Views/Home/_Menu.cshtml")
 <div class="container-fluid workspace">
-    <!--data-bind="htmlBound: displays">-->
     <!-- ko foreach: screens-->
-    <div class="display" data-bind="style: {'width':width, 'height':height,'left':left, 'top':top}"></div>
+    <div class="display" data-bind="click:unselectBlocks, style: {'width':width, 'height':height,'left':left, 'top':top}"></div>
     <!-- /ko-->
     <!-- ko foreach: blocks-->
     <div class="displayBlock"
-         data-bind="attr:{id:id}, click:test, style: {'width':width, 'height':height,'left':left, 'top':top}, css:{selected: selected}">
+         data-bind="attr:{id:id}, click:selectBlock, style: {'width':width, 'height':height,'left':left, 'top':top}, css:{selected: selected}">
         <!-- ko if type == "text"-->
         <span class="unselectable" data-bind="text: text">
         </span>

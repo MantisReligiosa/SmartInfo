@@ -109,5 +109,10 @@ namespace Services
             _unitOfWork.Complete();
             return block;
         }
+
+        public IEnumerable<DisplayBlock> GetBlocks()
+        {
+            return _unitOfWork.DisplayBlocks.GetAll();
+        }
     }
 }

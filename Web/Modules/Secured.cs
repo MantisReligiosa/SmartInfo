@@ -52,10 +52,16 @@ namespace Web.Modules
                     textBlock.Width,
                     textBlock.Left,
                     textBlock.Top,
+                    type = "text",
                     id = textBlock.Id.ToString(),
                     textBlock.Text
                 };
                 return Response.AsJson(block);
+            };
+            Get["/api/blocks"] = parameters =>
+            {
+                var blocks = screenController.GetBlocks();
+                return Response.AsJson(blocks);
             };
         }
     }
