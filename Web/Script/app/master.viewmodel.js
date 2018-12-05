@@ -23,11 +23,11 @@
 
     selectBlock = function (bind) {
         self.blocks.remove(bind);
-        /*
-        self.blocks.forEach(function (block) {
-            block.selected = false;
-        });
-        */
+        
+        //self.blocks.forEach(function (block) {
+        //    block.selected = false;
+        //});
+        
         self.selectedBlock.selected = false;
         bind.selected = true;
         self.blocks.push(bind);
@@ -47,7 +47,50 @@
         loadFonts();
         loadDisplays();
         loadBlocks();
+        initReact();
     });
+
+    function initReact() {
+        interact('.resize-drag')
+            .draggable({
+                inertia: true,
+                restrict: {
+                    restriction: "parent",
+                    endOnly: true,
+                    elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+                },
+                autoScroll: true,
+
+                onmove: function (event) {
+
+
+                    var target = event.target,
+                        // keep the dragged position in the data-x/data-y attributes
+                        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+                        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+
+                    // translate the element
+                    target.style.webkitTransform =
+                        target.style.transform =
+                        'translate(' + x + 'px, ' + y + 'px)';
+
+                    // update the posiion attributes
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
+                },
+                onend: function (event) {
+                    var target = event.target;
+                    var id = target.getAttribute('id');
+                    var block = self.blocks.remove(function (block) { return block.id === id; })[0];
+                    block.left = +target.getAttribute('data-x') + block.left;
+                    block.top = +target.getAttribute('data-y') + block.top;
+                    self.blocks.push(block);
+                    selectBlock(block);
+                    //debugger;
+                }
+            });
+    };
 
     function loadBlocks() {
         app.request(
@@ -59,6 +102,7 @@
                     block.selected = false;
                     self.blocks.push(block);
                 });
+                
             }
         );
     }

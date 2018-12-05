@@ -203,3 +203,8 @@ input[type=number] {
     user-select: none;
     cursor: default;
 }
+
+.resize-drag {
+    -webkit-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+}

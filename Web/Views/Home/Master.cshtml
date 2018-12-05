@@ -7,7 +7,7 @@
     <div class="display" data-bind="click:unselectBlocks, style: {'width':width, 'height':height,'left':left, 'top':top}"></div>
     <!-- /ko-->
     <!-- ko foreach: blocks-->
-    <div class="displayBlock"
+    <div class="displayBlock resize-drag"
          data-bind="attr:{id:id}, click:selectBlock, style: {'width':width, 'height':height,'left':left, 'top':top}, css:{selected: selected}">
         <!-- ko if type == "text"-->
         <span class="unselectable" data-bind="text: text">

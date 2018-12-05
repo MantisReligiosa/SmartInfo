@@ -16,7 +16,8 @@ module.exports = function (grunt) {
                     'node_modules/knockout/build/output/knockout-latest.js',
                     'node_modules/popper.js/dist/umd/popper.js',
                     'node_modules/bootstrap/dist/js/bootstrap.js',
-                    'node_modules/toastr/build/toastr.min.js'
+                    'node_modules/toastr/build/toastr.min.js',
+                    'node_modules/interact.js/dist/interact.min.js'
                 ],
                 dest: 'Script/Vendor/vendor.js'
             },
