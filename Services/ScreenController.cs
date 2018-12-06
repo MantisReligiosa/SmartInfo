@@ -110,9 +110,23 @@ namespace Services
             return block;
         }
 
+        public void SaveTextBlock(TextBlock textBlock)
+        {
+            var block = _unitOfWork.DisplayBlocks.Get(textBlock.Id) as TextBlock;
+            block.Height = textBlock.Height;
+            block.Left = textBlock.Left;
+            block.Top = textBlock.Top;
+            block.Width = textBlock.Width;
+            block.Text = textBlock.Text;
+            //block = textBlock;
+            _unitOfWork.DisplayBlocks.Update(block);
+            _unitOfWork.Complete();
+        }
+
         public IEnumerable<DisplayBlock> GetBlocks()
         {
-            return _unitOfWork.DisplayBlocks.GetAll();
+            var result = _unitOfWork.DisplayBlocks.GetAll();
+            return result;
         }
     }
 }

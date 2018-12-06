@@ -23,11 +23,7 @@
 
     selectBlock = function (bind) {
         self.blocks.remove(bind);
-        
-        //self.blocks.forEach(function (block) {
-        //    block.selected = false;
-        //});
-        
+        unselectBlocks();
         self.selectedBlock.selected = false;
         bind.selected = true;
         self.blocks.push(bind);
@@ -50,7 +46,7 @@
         initReact();
     });
 
-    function initReact() {
+    initReact = function () {
         interact('.resize-drag')
             .draggable({
                 inertia: true,
@@ -62,13 +58,10 @@
                 autoScroll: true,
 
                 onmove: function (event) {
-
-
                     var target = event.target,
                         // keep the dragged position in the data-x/data-y attributes
                         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
                         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
 
                     // translate the element
                     target.style.webkitTransform =
@@ -79,6 +72,7 @@
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
                 },
+
                 onend: function (event) {
                     var target = event.target;
                     var id = target.getAttribute('id');
@@ -87,44 +81,53 @@
                     block.top = +target.getAttribute('data-y') + block.top;
                     self.blocks.push(block);
                     selectBlock(block);
-                    //debugger;
+                    saveBlock(block);
                 }
             });
     };
 
-    function loadBlocks() {
+    saveBlock = function (block) {
+        app.request(
+            "POST",
+            "/api/saveBlock",
+            block,
+            function (data) {}
+        );
+    };
+
+    loadBlocks = function () {
         app.request(
             "GET",
             "/api/blocks",
             {},
             function (data) {
-                data.forEach(function (block) { 
+                data.forEach(function (block) {
                     block.selected = false;
                     self.blocks.push(block);
                 });
-                
+
             }
         );
     }
 
-    function loadDisplays() {
+    loadDisplays = function () {
         app.request("POST", "/api/screenResolution", {
             refreshData: false
-        }, function(data) {
+        }, function (data) {
             self.screenHeight(data.height);
             self.screenWidth(data.width);
-            data.displays.forEach(function(screen) {
+            data.displays.forEach(function (screen) {
                 self.screens.push(screen);
             });
         });
     }
 
-    function loadFonts() {
-        app.request("POST", "/api/fonts", {}, function(data) {
-            data.fonts.forEach(function(entry) {
+    loadFonts = function () {
+        app.request("POST", "/api/fonts", {}, function (data) {
+            data.fonts.forEach(function (entry) {
                 self.fonts.push(entry);
             });
-            data.fonSizes.forEach(function(entry) {
+            data.fonSizes.forEach(function (entry) {
                 self.fontSizes.push(entry);
             });
         });

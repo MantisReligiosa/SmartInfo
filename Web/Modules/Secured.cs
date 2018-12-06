@@ -1,8 +1,11 @@
-﻿using Nancy;
+﻿using DomainObjects.Blocks;
+using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Security;
 using ServiceInterfaces;
+using System.Linq;
 using Web.Models;
+using Web.Models.Blocks;
 
 namespace Web.Modules
 {
@@ -12,6 +15,7 @@ namespace Web.Modules
             IScreenController screenController
             )
         {
+
             this.RequiresAuthentication();
             Get["/master"] = parameters => View["Views/Home/Master.cshtml"];
             Get["/"] = parameters => View["Views/Home/Master.cshtml"];
@@ -46,22 +50,67 @@ namespace Web.Modules
             Post["/api/addTextBlock"] = parameters =>
             {
                 var textBlock = screenController.AddTextBlock();
-                var block = new
+                var block = new TextBlockDto
                 {
-                    textBlock.Height,
-                    textBlock.Width,
-                    textBlock.Left,
-                    textBlock.Top,
-                    type = "text",
-                    id = textBlock.Id.ToString(),
-                    textBlock.Text
+                    Height = textBlock.Height,
+                    Width = textBlock.Width,
+                    Left = textBlock.Left,
+                    Top = textBlock.Top,
+                    Type = "text",
+                    Id = textBlock.Id,
+                    Text = textBlock.Text
                 };
                 return Response.AsJson(block);
             };
             Get["/api/blocks"] = parameters =>
             {
-                var blocks = screenController.GetBlocks();
+                var blocks = screenController.GetBlocks().Select<DisplayBlock, BlockDto>(b => 
+                {
+                    if (b is TextBlock textBlock)
+                    {
+                        var block = new TextBlockDto
+                        {
+                            Height = b.Height,
+                            Id = b.Id,
+                            Left = b.Left,
+                            Top = b.Top,
+                            Width = b.Width
+                        };
+                        block.Type = "text";
+                        block.Text = textBlock.Text;
+                        return block;
+                    }
+                    return new BlockDto
+                    {
+                        Height = b.Height,
+                        Id = b.Id,
+                        Left = b.Left,
+                        Top = b.Top,
+                        Width = b.Width
+                    };
+                });
                 return Response.AsJson(blocks);
+            };
+            Post["/api/saveBlock"] = parameters =>
+            {
+                //var data = this.Bind<SaveBlockRequest<BlockDto>>();
+                var data = this.Bind<BlockDto>();
+                if (data.Type.Equals("text",System.StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var b = this.Bind<TextBlockDto>();
+                    var block = new TextBlock
+                    {
+                        Height = b.Height,
+                        Id = b.Id,
+                        Left = b.Left,
+                        Top = b.Top,
+                        Width = b.Width,
+                        Text = b.Text
+                    };
+                    screenController.SaveTextBlock(block);
+                }
+
+                return Response.AsJson(true);
             };
         }
     }

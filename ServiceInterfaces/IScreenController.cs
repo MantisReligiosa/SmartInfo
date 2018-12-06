@@ -11,5 +11,6 @@ namespace ServiceInterfaces
         void SetDatabaseScreenInfo(Videopanel screenInfo);
         TextBlock AddTextBlock();
         IEnumerable<DisplayBlock> GetBlocks();
+        void SaveTextBlock(TextBlock textBlock);
     }
 }

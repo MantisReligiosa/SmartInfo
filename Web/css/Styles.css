@@ -178,6 +178,7 @@ input[type=number] {
     flex: 1 1 auto;
     overflow-y: scroll;
     position: relative;
+    width: calc(100wv - 30px);
 }
 
 .display {
