@@ -12,7 +12,8 @@ namespace Web.Modules
     public class Secured : NancyModule
     {
         public Secured(
-            IScreenController screenController
+            IScreenController screenController,
+            IBlockController blockController
             )
         {
 
@@ -49,7 +50,7 @@ namespace Web.Modules
             };
             Post["/api/addTextBlock"] = parameters =>
             {
-                var textBlock = screenController.AddTextBlock();
+                var textBlock = blockController.AddTextBlock();
                 var block = new TextBlockDto
                 {
                     Height = textBlock.Height,
@@ -64,7 +65,7 @@ namespace Web.Modules
             };
             Get["/api/blocks"] = parameters =>
             {
-                var blocks = screenController.GetBlocks().Select<DisplayBlock, BlockDto>(b => 
+                var blocks = blockController.GetBlocks().Select<DisplayBlock, BlockDto>(b => 
                 {
                     if (b is TextBlock textBlock)
                     {
@@ -107,7 +108,7 @@ namespace Web.Modules
                         Width = b.Width,
                         Text = b.Text
                     };
-                    screenController.SaveTextBlock(block);
+                    blockController.SaveTextBlock(block);
                 }
 
                 return Response.AsJson(true);

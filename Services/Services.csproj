@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountController.cs" />
+    <Compile Include="BlockController.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="CryptoProvider.cs" />
     <Compile Include="Profiles\AutoMapperConfig.cs" />

@@ -34,6 +34,7 @@ namespace Web
             container.Register<ICryptoProvider, CryptoProvider>();
             container.Register<IAccountController, AccountController>();
             container.Register<IScreenController, ScreenController>();
+            container.Register<IBlockController, BlockController>();
 
             CustomStatusCode.AddCode(404);
 
