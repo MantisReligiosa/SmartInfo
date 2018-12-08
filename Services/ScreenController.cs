@@ -1,4 +1,5 @@
-﻿using DataExchange;
+﻿using AutoMapper;
+using DataExchange;
 using DataExchange.Requests;
 using DataExchange.Responces;
 using DomainObjects;
@@ -6,6 +7,7 @@ using DomainObjects.Blocks;
 using DomainObjects.Parameters;
 using DomainObjects.Specifications;
 using ServiceInterfaces;
+using Services.Profiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +19,7 @@ namespace Services
         private readonly IUnitOfWork _unitOfWork;
         private const string _screenWidthParameterName = "ScreenWidth";
         private const string _screenHeightParameterName = "ScreenHeight";
+        private IMapper _mapper => AutoMapperConfig.Mapper;
 
         public ScreenController(
             IUnitOfWorkFactory unitOfWorkFactory)
@@ -28,7 +31,7 @@ namespace Services
         {
             var widthParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenWidth>())).FirstOrDefault();
             var heightParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenHeight>())).FirstOrDefault();
-            if (widthParameter != null && heightParameter != null)
+            if (widthParameter != null && heightParameter != null && _unitOfWork.Displays.Count(d => true) > 0)
                 return new Videopanel
                 {
                     Height = Convert.ToInt32(heightParameter.Value),
@@ -82,7 +85,6 @@ namespace Services
             {
                 details.Add(new Display
                 {
-                    Id = Guid.NewGuid(),
                     Height = s.Height,
                     Left = s.Left,
                     Top = s.Top,
@@ -118,7 +120,6 @@ namespace Services
             block.Top = textBlock.Top;
             block.Width = textBlock.Width;
             block.Text = textBlock.Text;
-            //block = textBlock;
             _unitOfWork.DisplayBlocks.Update(block);
             _unitOfWork.Complete();
         }
