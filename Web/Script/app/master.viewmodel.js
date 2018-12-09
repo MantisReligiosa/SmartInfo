@@ -8,9 +8,14 @@
     self.screens = ko.observableArray();
     self.blocks = ko.observableArray();
     self.selectedBlock = ko.observable();
+    self.isSelectedBlock = ko.computed(function () {
+        var block = self.selectedBlock();
+        var result = (block != null);
+        return result;
+    });
     self.gridSteps = ko.observableArray([5, 10, 20, 25, 50]);
     self.selectedGridSteps = ko.observableArray([5]);
-    self.gridEnabled = ko.observable(false);
+    self.gridEnabled = ko.observable(true);
 
     self.addTextBlock = function () {
         app.request(
@@ -22,6 +27,17 @@
                 self.blocks.push(data);
             }
         );
+    };
+
+    self.showProperties = function () {
+        $("#properties")
+            .modal({ backdrop: 'static', keyboard: false })
+            .modal("show");
+        var t = self.selectedBlock();
+    };
+
+    self.applyProperties = function () {
+        $("#properties").modal("hide");
     };
 
     selectBlock = function (bind) {
@@ -51,7 +67,7 @@
     });
 
     init = function () {
-
+        
     };
 
     initReact = function () {

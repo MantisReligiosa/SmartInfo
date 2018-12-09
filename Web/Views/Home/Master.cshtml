@@ -16,6 +16,28 @@
     </div>
     <!-- /ko-->
 </div>
+<div id="properties" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Свойства</h5>
+            </div>
+            <div class="modal-body" style="display:flex">
+                <div>
+                    <!-- ko ifnot: isSelectedBlock -->
+                    Настройка фона
+                    <!-- /ko -->
+                    <!-- ko if: isSelectedBlock -->
+                    Настройка зоны
+                    <!-- /ko -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bind="click:applyProperties">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- /ko-->
 
 @Html.Raw(Bundles.GetJsKey("master-js-key"))
