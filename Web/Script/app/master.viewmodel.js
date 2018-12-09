@@ -8,6 +8,9 @@
     self.screens = ko.observableArray();
     self.blocks = ko.observableArray();
     self.selectedBlock = ko.observable();
+    self.gridSteps = ko.observableArray([5, 10, 20, 25, 50]);
+    self.selectedGridSteps = ko.observableArray([5]);
+    self.gridEnabled = ko.observable(false);
 
     self.addTextBlock = function () {
         app.request(
@@ -40,11 +43,16 @@
     }
 
     $(document).ready(function () {
+        init();
         loadFonts();
         loadDisplays();
         loadBlocks();
         initReact();
     });
+
+    init = function () {
+
+    };
 
     initReact = function () {
         interact('.resize-drag')
@@ -120,16 +128,35 @@
         var w = +target.getAttribute('data-w');
         var h = +target.getAttribute('data-h');
         if (w > 0) {
+            if (self.gridEnabled()) {
+                w = adjustToStep(w);
+            }
             block.width = w;
         }
         if (h > 0) {
+            if (self.gridEnabled) {
+                h = adjustToStep(h);
+            }
             block.height = h;
         }
-        block.left = +target.getAttribute('data-x') + block.left;
-        block.top = +target.getAttribute('data-y') + block.top;
+        var x = +target.getAttribute('data-x') + block.left;
+        var y = +target.getAttribute('data-y') + block.top;
+
+        if (self.gridEnabled()) {
+            x = adjustToStep(x);
+            y = adjustToStep(y);
+        };
+
+        block.left = x;
+        block.top = y;
         self.blocks.push(block);
         selectBlock(block);
         saveBlock(block);
+    };
+
+    adjustToStep = function (value) {
+        var step = self.selectedGridSteps()[0];
+        return Math.round(value / step) * step;
     }
 
     saveBlock = function (block) {
@@ -137,7 +164,7 @@
             "POST",
             "/api/saveBlock",
             block,
-            function (data) {}
+            function (data) { }
         );
     };
 

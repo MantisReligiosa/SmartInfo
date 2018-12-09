@@ -157,51 +157,38 @@
                     </div>
                 </button>
                 <div class="ribbon-clip">
-                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                        <div class="ribbon-horizontal-button-content">
-                            <div class="arrow-left ribbon-small-icon"></div>
-                            <div class="ribbon-horizontal-button-text">Влево</div>
+
+                    <div class="ribbon-row">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" data-bind="checked: gridEnabled">
+                            <label class="form-check-label" for="exampleCheck1">Привязать к сетке</label>
                         </div>
-                    </button>
-                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                        <div class="ribbon-horizontal-button-content">
-                            <div class="arrow-up ribbon-small-icon"></div>
-                            <div class="ribbon-horizontal-button-text">Вверх</div>
-                        </div>
-                    </button>
-                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                        <div class="ribbon-horizontal-button-content">
-                            <div class="arrow-down ribbon-small-icon"></div>
-                            <div class="ribbon-horizontal-button-text">Вниз</div>
-                        </div>
-                    </button>
-                </div>
-                <div class="ribbon-clip">
-                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                        <div class="ribbon-horizontal-button-content">
-                            <div class="arrow-right ribbon-small-icon"></div>
-                            <div class="ribbon-horizontal-button-text">Вправо</div>
-                        </div>
-                    </button>
-                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                        <div class="ribbon-horizontal-button-content">
-                            <div class="arrow-up1 ribbon-small-icon"></div>
-                            <div class="ribbon-horizontal-button-text">Выше</div>
-                        </div>
-                    </button>
-                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                        <div class="ribbon-horizontal-button-content">
-                            <div class="arrow-down1 ribbon-small-icon"></div>
-                            <div class="ribbon-horizontal-button-text">Ниже</div>
-                        </div>
-                    </button>
+                    </div>
+                    <div class="ribbon-row">
+                        <label class="form-check-label" for="gridSpin">Шаг сетки:</label>
+                        <select class="custom-select btn-sm ribbon-element ribbon-numerical-input" id="inputGroupSelect03" data-bind="options:gridSteps, selectedOptions: selectedGridSteps"></select>
+                    </div>
+                    <div class="ribbon-row">
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="arrow-up1 ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Выше</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="arrow-down1 ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Ниже</div>
+                            </div>
+                        </button>
+                    </div>
+
                 </div>
             </div>
             <div class="panel-footer ribbon-group-title">
                 <label>
                     Расположение и слой
                 </label>
-
             </div>
         </div>
     </div>
