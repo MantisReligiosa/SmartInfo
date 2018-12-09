@@ -1,10 +1,13 @@
 ﻿using DomainObjects.Blocks;
 using ServiceInterfaces;
+using System.Collections.Generic;
 
 namespace Services
 {
     public class BlockController : IBlockController
     {
+        private readonly IUnitOfWork _unitOfWork;
+
         public BlockController(
             IUnitOfWorkFactory unitOfWorkFactory)
         {
