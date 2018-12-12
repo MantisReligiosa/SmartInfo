@@ -46,6 +46,7 @@
     <Compile Include="Blocks\TextBlock.cs" />
     <Compile Include="Identity.cs" />
     <Compile Include="Parameter.cs" />
+    <Compile Include="Parameters\BackgroundColor.cs" />
     <Compile Include="Parameters\ScreenHeight.cs" />
     <Compile Include="Parameters\ScreenWidth.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

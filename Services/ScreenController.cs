@@ -3,7 +3,6 @@ using DataExchange;
 using DataExchange.Requests;
 using DataExchange.Responces;
 using DomainObjects;
-using DomainObjects.Blocks;
 using DomainObjects.Parameters;
 using DomainObjects.Specifications;
 using ServiceInterfaces;
@@ -98,6 +97,31 @@ namespace Services
                 Width = responce.Width,
                 Displays = details.ToArray()
             };
+        }
+
+
+        public void SetBackground(string color)
+        {
+            var backgroundColor = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<BackgroundColor>())).FirstOrDefault();
+            if (backgroundColor == null)
+            {
+                _unitOfWork.Parameters.Create(new BackgroundColor
+                {
+                    Value = color
+                });
+            }
+            else
+            {
+                backgroundColor.Value = color;
+                _unitOfWork.Parameters.Update(backgroundColor);
+            }
+            _unitOfWork.Complete();
+        }
+
+        public string GetBackground()
+        {
+            var backgroundColor = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<BackgroundColor>())).FirstOrDefault();
+            return backgroundColor?.Value ?? string.Empty;
         }
     }
 }

@@ -48,6 +48,16 @@ namespace Web.Modules
                     return Response.AsJson(screenInfo);
                 }
             };
+            Post["/api/setBackground"] = parameters =>
+            {
+                var data = this.Bind<ScreenBackgroundRequest>();
+                screenController.SetBackground(data.Color);
+                return Response.AsJson(true);
+            };
+            Get["/api/background"] = parameters =>
+            {
+                return Response.AsJson(screenController.GetBackground());
+            };
             Post["/api/addTextBlock"] = parameters =>
             {
                 var textBlock = blockController.AddTextBlock();

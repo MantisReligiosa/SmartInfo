@@ -4,7 +4,7 @@
 @Html.Partial("Views/Home/_Menu.cshtml")
 <div class="container-fluid workspace">
     <!-- ko foreach: screens-->
-    <div class="display" data-bind="click:unselectBlocks, style: {'width':width, 'height':height,'left':left, 'top':top}"></div>
+    <div class="display" data-bind="click:unselectBlocks, style: {'width':width, 'height':height,'left':left, 'top':top, 'background': $parent.background}"></div>
     <!-- /ko-->
     <!-- ko foreach: blocks-->
     <div class="displayBlock resize-drag"
@@ -25,7 +25,11 @@
             <div class="modal-body" style="display:flex">
                 <div>
                     <!-- ko ifnot: isSelectedBlock -->
-                    Настройка фона
+                    <div id="backgroundCP" class="input-group colorpicker-component">
+                        <span class="input-group-text" id="basic-addon1">Цвет фона</span>
+                        <input type="text" value="#ffff" class="form-control" />
+                        <span class="input-group-addon"><i></i></span>
+                    </div>
                     <!-- /ko -->
                     <!-- ko if: isSelectedBlock -->
                     Настройка зоны

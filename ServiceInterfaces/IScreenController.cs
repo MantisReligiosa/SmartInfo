@@ -7,5 +7,8 @@ namespace ServiceInterfaces
         Videopanel GetDatabaseScreenInfo();
         Videopanel GetSystemScreenInfo();
         void SetDatabaseScreenInfo(Videopanel screenInfo);
+
+        void SetBackground(string color);
+        string GetBackground();
     }
 }

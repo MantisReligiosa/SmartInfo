@@ -17,6 +17,8 @@
     self.selectedGridSteps = ko.observableArray([5]);
     self.gridEnabled = ko.observable(true);
 
+    self.background = ko.observable("#ffffff");
+
     self.addTextBlock = function () {
         app.request(
             "POST",
@@ -33,11 +35,22 @@
         $("#properties")
             .modal({ backdrop: 'static', keyboard: false })
             .modal("show");
-        var t = self.selectedBlock();
     };
 
     self.applyProperties = function () {
         $("#properties").modal("hide");
+        var block = self.selectedBlock();
+        if (block == null) {
+            app.request(
+                "POST",
+                "/api/setBackground",
+                { color: backColor },
+                function () {
+                    self.background(backColor);
+                }
+            );
+        }
+
     };
 
     selectBlock = function (bind) {
@@ -66,8 +79,15 @@
         initReact();
     });
 
+    var backColor;
+
     init = function () {
-        
+        $('#backgroundCP').colorpicker({
+            format: "rgba"
+        });
+        $('#backgroundCP').on('colorpickerChange', function (e) {
+            backColor = e.color.toString();
+        });
     };
 
     initReact = function () {
@@ -200,15 +220,31 @@
     }
 
     loadDisplays = function () {
-        app.request("POST", "/api/screenResolution", {
-            refreshData: false
-        }, function (data) {
-            self.screenHeight(data.height);
-            self.screenWidth(data.width);
-            data.displays.forEach(function (screen) {
-                self.screens.push(screen);
+        app.request(
+            "POST",
+            "/api/screenResolution",
+            {
+                refreshData: false
+            },
+            function (data) {
+                self.screenHeight(data.height);
+                self.screenWidth(data.width);
+                data.displays.forEach(function (screen) {
+                    self.screens.push(screen);
+                });
             });
-        });
+        app.request(
+            "GET",
+            "/api/background",
+            {},
+            function (data) {
+                if (data == '') {
+                    self.background("#ffffff");
+                }
+                else {
+                    self.background(data);
+                }
+            });
     }
 
     loadFonts = function () {

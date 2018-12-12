@@ -306,6 +306,7 @@
     <Compile Include="Models\Blocks\TextBlockDto.cs" />
     <Compile Include="Models\CreditsRequest.cs" />
     <Compile Include="Models\SaveBlockRequest.cs" />
+    <Compile Include="Models\ScreenBackgroundRequest.cs" />
     <Compile Include="Models\ScreenResolutionResponce.cs" />
     <Compile Include="Models\DatabaseUser.cs" />
     <Compile Include="Models\Font.cs" />
