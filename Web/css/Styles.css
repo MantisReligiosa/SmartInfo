@@ -188,11 +188,16 @@ input[type=number] {
 
 .displayBlock {
     position: absolute;
-    border: 1px dotted #f300fe
+    /*border: 1px dotted #f300fe*/
 }
 
 .selected {
-    border: 1px solid #4cff00
+    border: 4px solid; /*#4cff00*/
+    border-image: url(../Images/border.png) 14 14 14 14 repeat repeat;
+    /*border-image-slice: 100;
+    border-image-repeat: stretch;
+    border-image-width: 4px;*/
+    /*border-image: radial-gradient(rgba(0,0,0,.5),rgba(255,255,255,0) 45%) 25% 33% 40% 25%;*/
 }
 
 .unselectable {

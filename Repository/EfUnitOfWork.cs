@@ -1,5 +1,6 @@
 ﻿using DomainObjects;
 using DomainObjects.Blocks;
+using Repository.Repositories;
 using ServiceInterfaces;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace Repository
             Users = new Repository<User>(_databaseContext);
             Parameters = new Repository<Parameter>(_databaseContext);
             Displays = new Repository<Display>(_databaseContext);
-            DisplayBlocks = new Repository<DisplayBlock>(_databaseContext);
+            DisplayBlocks = new DisplayBlockRepository(_databaseContext);
         }
 
         public IRepository<User> Users { get; private set; }

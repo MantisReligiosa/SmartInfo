@@ -10,12 +10,13 @@
     <div class="displayBlock resize-drag"
          data-bind="attr:{id:id}, click:selectBlock, style: {'width':width, 'height':height,'left':left, 'top':top}, css:{selected: selected}">
         <!-- ko if type == "text"-->
-        <span class="unselectable" data-bind="text: text">
-        </span>
+        <label class="unselectable" data-bind="text: text, style: {'background-color':backColor}">
+        </label>
         <!-- /ko-->
     </div>
     <!-- /ko-->
 </div>
+
 <div id="properties" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -24,16 +25,16 @@
             </div>
             <div class="modal-body" style="display:flex">
                 <div>
-                    <!-- ko ifnot: isSelectedBlock -->
-                    <div id="backgroundCP" class="input-group colorpicker-component">
-                        <span class="input-group-text" id="basic-addon1">Цвет фона</span>
-                        <input type="text" value="#ffff" class="form-control" />
-                        <span class="input-group-addon"><i></i></span>
-                    </div>
-                    <!-- /ko -->
-                    <!-- ko if: isSelectedBlock -->
-                    Настройка зоны
-                    <!-- /ko -->
+
+                    <!-- ko if: selectedBlock() == null -->
+                    @Html.Partial("Home/ScreenProperties")
+                    <!-- /ko-->
+                    <!-- ko with: selectedBlock()-->
+                    <!-- ko if:  $data.type === 'text' -->
+                    @Html.Partial("Home/TextBlockProperties")
+                    <!-- /ko-->
+                    <!-- /ko-->
+
                 </div>
             </div>
             <div class="modal-footer">
@@ -42,6 +43,6 @@
         </div>
     </div>
 </div>
-<!-- /ko-->
 
+<!--/ko-->
 @Html.Raw(Bundles.GetJsKey("master-js-key"))

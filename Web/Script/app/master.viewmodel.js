@@ -8,11 +8,6 @@
     self.screens = ko.observableArray();
     self.blocks = ko.observableArray();
     self.selectedBlock = ko.observable();
-    self.isSelectedBlock = ko.computed(function () {
-        var block = self.selectedBlock();
-        var result = (block != null);
-        return result;
-    });
     self.gridSteps = ko.observableArray([5, 10, 20, 25, 50]);
     self.selectedGridSteps = ko.observableArray([5]);
     self.gridEnabled = ko.observable(true);
@@ -49,8 +44,20 @@
                     self.background(backColor);
                 }
             );
+            return;
         }
-
+        if (block.type === 'text') {
+            self.blocks.remove(block);
+            block.backColor = textBlockBackColor;
+            app.request(
+                "POST",
+                "/api/saveBlock",
+                block,
+                function (data) {
+                    self.blocks.push(block);
+                }
+            );
+        }
     };
 
     selectBlock = function (bind) {
@@ -60,6 +67,7 @@
         bind.selected = true;
         self.blocks.push(bind);
         self.selectedBlock(bind);
+        initializeControls();
     };
 
     unselectBlocks = function () {
@@ -69,24 +77,33 @@
             self.blocks.push(block);
         });
         self.selectedBlock(null);
+        initializeControls();
     }
 
     $(document).ready(function () {
-        init();
+        initializeControls();
         loadFonts();
         loadDisplays();
         loadBlocks();
         initReact();
     });
 
-    var backColor;
+    var backColor, textBlockBackColor;
 
-    init = function () {
+    initializeControls = function () {
         $('#backgroundCP').colorpicker({
             format: "rgba"
         });
         $('#backgroundCP').on('colorpickerChange', function (e) {
             backColor = e.color.toString();
+        });
+
+        //textBlockBackgroundCP
+        $('#textBlockBackgroundCP').colorpicker({
+            format: "rgba"
+        });
+        $('#textBlockBackgroundCP').on('colorpickerChange', function (e) {
+            textBlockBackColor = e.color.toString();
         });
     };
 

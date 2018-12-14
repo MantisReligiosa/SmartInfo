@@ -11,7 +11,7 @@ namespace Repository
     public class Repository<TEntity> : IRepository<TEntity>
         where TEntity : class
     {
-        private readonly DatabaseContext Context;
+        internal readonly DatabaseContext Context;
 
         public Repository(DatabaseContext context)
         {
@@ -91,7 +91,7 @@ namespace Repository
             return Context.Set<TEntity>().Find(id);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public virtual IEnumerable<TEntity> GetAll()
         {
             return Context.Set<TEntity>().ToList();
         }
@@ -102,6 +102,16 @@ namespace Repository
         }
 
         public IEnumerable<TEntity> GetAllWithInclude(params Expression<Func<TEntity, object>>[] includes)
+        {
+            var query = Context.Set<TEntity>().AsQueryable<TEntity>();
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+            return query.ToList();
+        }
+
+        public IEnumerable<TEntity> GetAllWithInclude<T>(params Expression<Func<TEntity, object>>[] includes)
         {
             var query = Context.Set<TEntity>().AsQueryable<TEntity>();
             if (includes != null)

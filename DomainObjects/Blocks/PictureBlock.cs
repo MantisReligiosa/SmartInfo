@@ -1,7 +1,9 @@
-﻿namespace DomainObjects.Blocks
+﻿using DomainObjects.Blocks.Details;
+
+namespace DomainObjects.Blocks
 {
     public class PictureBlock : DisplayBlock
     {
-        public byte[] Image { get; set; }
+        public PictureBlockDetails Details { get; set; }
     }
 }

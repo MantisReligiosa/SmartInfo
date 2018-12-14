@@ -1,7 +1,9 @@
-﻿namespace DomainObjects.Blocks
+﻿using DomainObjects.Blocks.Details;
+
+namespace DomainObjects.Blocks
 {
     public class TextBlock : DisplayBlock
     {
-        public string Text { get; set; }
+        public TextBlockDetails Details { get; set; }
     }
 }

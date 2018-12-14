@@ -1,4 +1,6 @@
-﻿namespace DomainObjects.Blocks
+﻿using DomainObjects.Blocks.Details;
+
+namespace DomainObjects.Blocks
 {
     public abstract class DisplayBlock : Identity
     {

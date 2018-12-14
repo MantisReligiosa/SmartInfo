@@ -1,4 +1,5 @@
-﻿using DomainObjects.Blocks;
+using DomainObjects.Blocks;
+using DomainObjects.Blocks.Details;
 using ServiceInterfaces;
 using System.Collections.Generic;
 
@@ -20,7 +21,10 @@ namespace Services
             {
                 Height = 50,
                 Width = 200,
-                Text = "Текст"
+                Details = new TextBlockDetails
+                {
+                    Text = "Текст"
+                }
             }) as TextBlock;
             _unitOfWork.Complete();
             return block;
@@ -33,7 +37,7 @@ namespace Services
             block.Left = textBlock.Left;
             block.Top = textBlock.Top;
             block.Width = textBlock.Width;
-            block.Text = textBlock.Text;
+            block.Details.Text = textBlock.Details.Text;
             _unitOfWork.DisplayBlocks.Update(block);
             _unitOfWork.Complete();
         }

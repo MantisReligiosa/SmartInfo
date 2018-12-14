@@ -1,4 +1,5 @@
 ﻿using DomainObjects.Blocks;
+using DomainObjects.Blocks.Details;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Security;
@@ -69,29 +70,17 @@ namespace Web.Modules
                     Top = textBlock.Top,
                     Type = "text",
                     Id = textBlock.Id,
-                    Text = textBlock.Text
+                    Text = textBlock.Details.Text
                 };
                 return Response.AsJson(block);
             };
             Get["/api/blocks"] = parameters =>
             {
-                var blocks = blockController.GetBlocks().Select<DisplayBlock, BlockDto>(b => 
+            var blocks = blockController.GetBlocks().Select(b =>
+            {
+                if (b is TextBlock textBlock)
                 {
-                    if (b is TextBlock textBlock)
-                    {
-                        var block = new TextBlockDto
-                        {
-                            Height = b.Height,
-                            Id = b.Id,
-                            Left = b.Left,
-                            Top = b.Top,
-                            Width = b.Width
-                        };
-                        block.Type = "text";
-                        block.Text = textBlock.Text;
-                        return block;
-                    }
-                    return new BlockDto
+                    var block = new TextBlockDto
                     {
                         Height = b.Height,
                         Id = b.Id,
@@ -99,14 +88,26 @@ namespace Web.Modules
                         Top = b.Top,
                         Width = b.Width
                     };
-                });
-                return Response.AsJson(blocks);
-            };
+                    block.Type = "text";
+                    block.Text = textBlock.Details.Text;
+                    return block;
+                }
+                return new BlockDto
+                {
+                    Height = b.Height,
+                    Id = b.Id,
+                    Left = b.Left,
+                    Top = b.Top,
+                    Width = b.Width
+                };
+            });
+            return Response.AsJson(blocks);
+        };
             Post["/api/saveBlock"] = parameters =>
             {
                 //var data = this.Bind<SaveBlockRequest<BlockDto>>();
                 var data = this.Bind<BlockDto>();
-                if (data.Type.Equals("text",System.StringComparison.InvariantCultureIgnoreCase))
+                if (data.Type.Equals("text", System.StringComparison.InvariantCultureIgnoreCase))
                 {
                     var b = this.Bind<TextBlockDto>();
                     var block = new TextBlock
@@ -116,7 +117,10 @@ namespace Web.Modules
                         Left = b.Left,
                         Top = b.Top,
                         Width = b.Width,
-                        Text = b.Text
+                        Details = new TextBlockDetails
+                        {
+                            Text = b.Text
+                        }
                     };
                     blockController.SaveTextBlock(block);
                 }
