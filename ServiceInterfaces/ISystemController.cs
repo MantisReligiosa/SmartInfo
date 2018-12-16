@@ -1,8 +1,9 @@
-﻿using DomainObjects;
+﻿using System.Collections.Generic;
+using DomainObjects;
 
 namespace ServiceInterfaces
 {
-    public interface IScreenController
+    public interface ISystemController
     {
         Videopanel GetDatabaseScreenInfo();
         Videopanel GetSystemScreenInfo();
@@ -10,5 +11,7 @@ namespace ServiceInterfaces
 
         void SetBackground(string color);
         string GetBackground();
+        IEnumerable<int> GetFontSizes();
+        IEnumerable<string> GetFonts();
     }
 }

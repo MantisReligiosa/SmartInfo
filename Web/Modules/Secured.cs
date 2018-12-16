@@ -13,7 +13,7 @@ namespace Web.Modules
     public class Secured : NancyModule
     {
         public Secured(
-            IScreenController screenController,
+            ISystemController systemController,
             IBlockController blockController
             )
         {
@@ -25,8 +25,8 @@ namespace Web.Modules
             {
                 return Response.AsJson(new FontInfo
                 {
-                    Fonts = new Font[] { new Font { Id = 1, Name = "Font1" }, new Font { Id = 2, Name = "Font2" } },
-                    FonSizes = new[] { 8, 10 }
+                    Fonts = systemController.GetFonts(),
+                    FonSizes = systemController.GetFontSizes()
                 });
             };
             Post["/api/screenResolution"] = parameters =>
@@ -34,30 +34,30 @@ namespace Web.Modules
                 var data = this.Bind<ScreenResolutionRequest>();
                 if (!data.RefreshData)
                 {
-                    var screenInfo = screenController.GetDatabaseScreenInfo();
+                    var screenInfo = systemController.GetDatabaseScreenInfo();
                     if (screenInfo == null)
                     {
-                        screenInfo = screenController.GetSystemScreenInfo();
-                        screenController.SetDatabaseScreenInfo(screenInfo);
+                        screenInfo = systemController.GetSystemScreenInfo();
+                        systemController.SetDatabaseScreenInfo(screenInfo);
                     }
                     return Response.AsJson(screenInfo);
                 }
                 else
                 {
-                    var screenInfo = screenController.GetSystemScreenInfo();
-                    screenController.SetDatabaseScreenInfo(screenInfo);
+                    var screenInfo = systemController.GetSystemScreenInfo();
+                    systemController.SetDatabaseScreenInfo(screenInfo);
                     return Response.AsJson(screenInfo);
                 }
             };
             Post["/api/setBackground"] = parameters =>
             {
                 var data = this.Bind<ScreenBackgroundRequest>();
-                screenController.SetBackground(data.Color);
+                systemController.SetBackground(data.Color);
                 return Response.AsJson(true);
             };
             Get["/api/background"] = parameters =>
             {
-                return Response.AsJson(screenController.GetBackground());
+                return Response.AsJson(systemController.GetBackground());
             };
             Post["/api/addTextBlock"] = parameters =>
             {
@@ -70,7 +70,9 @@ namespace Web.Modules
                     Top = textBlock.Top,
                     Type = "text",
                     Id = textBlock.Id,
-                    Text = textBlock.Details.Text
+                    Text = textBlock.Details.Text,
+                    BackColor = textBlock.Details.BackColor,
+                    TextColor = textBlock.Details.TextColor
                 };
                 return Response.AsJson(block);
             };
@@ -90,6 +92,9 @@ namespace Web.Modules
                     };
                     block.Type = "text";
                     block.Text = textBlock.Details.Text;
+                    block.TextColor = textBlock.Details.TextColor;
+                    block.BackColor = textBlock.Details.BackColor;
+                    block.Font = textBlock.Details.FontName;
                     return block;
                 }
                 return new BlockDto
@@ -119,7 +124,10 @@ namespace Web.Modules
                         Width = b.Width,
                         Details = new TextBlockDetails
                         {
-                            Text = b.Text
+                            Text = b.Text,
+                            BackColor = b.BackColor,
+                            TextColor = b.TextColor,
+                            FontName = b.Font
                         }
                     };
                     blockController.SaveTextBlock(block);

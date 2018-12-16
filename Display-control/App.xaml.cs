@@ -1,4 +1,5 @@
 ﻿using DataExchange;
+using DataExchange.DTO;
 using DataExchange.Requests;
 using DataExchange.Responces;
 using Nancy.Hosting.Self;
@@ -18,14 +19,14 @@ namespace Display_control
         {
             base.OnStartup(e);
             var broker = Broker.GetBroker();
-            broker.RegisterHandler<GetScreenSizeRequest>((request) =>
+            broker.RegisterHandler<GetScreenSizeRequest>(request =>
             {
                 var screens = System.Windows.Forms.Screen.AllScreens;
                 var responce = new GetScreenSizeResponce
                 {
                     Height = (int)SystemParameters.VirtualScreenHeight,
                     Width = (int)SystemParameters.VirtualScreenWidth,
-                    Screens = screens.Select(s => new ScreenSizeResponce
+                    Screens = screens.Select(s => new ScreenSize
                     {
                         Left = s.Bounds.X,
                         Top = s.Bounds.Y,
@@ -35,6 +36,14 @@ namespace Display_control
                 };
                 return responce;
             });
+            broker.RegisterHandler<GetFontsRequest>(request =>
+            {
+                return new GetFontsResponce
+                {
+                    Fonts = System.Drawing.FontFamily.Families.Select(f => f.Name)
+                };
+            });
+
 
             var hostConfiguration = new HostConfiguration
             {

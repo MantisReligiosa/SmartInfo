@@ -45,9 +45,11 @@
     <Compile Include="IRequest.cs" />
     <Compile Include="IResponce.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\GetFontsRequest.cs" />
     <Compile Include="Requests\GetScreenSizeRequest.cs" />
+    <Compile Include="Responces\GetFontsResponce.cs" />
     <Compile Include="Responces\GetScreenSizeResponce.cs" />
-    <Compile Include="Responces\ScreenSizeResponce.cs" />
+    <Compile Include="DTO\ScreenSize.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

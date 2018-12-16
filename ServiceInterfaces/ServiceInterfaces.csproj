@@ -46,7 +46,7 @@
     <Compile Include="IConfiguration.cs" />
     <Compile Include="ICryptoProvider.cs" />
     <Compile Include="IRepository.cs" />
-    <Compile Include="IScreenController.cs" />
+    <Compile Include="ISystemController.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="IUnitOfWorkFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

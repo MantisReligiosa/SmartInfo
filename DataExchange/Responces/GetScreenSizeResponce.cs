@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DataExchange.DTO;
+using System.Collections.Generic;
 
 namespace DataExchange.Responces
 {
@@ -6,6 +7,6 @@ namespace DataExchange.Responces
     {
         public int Height { get; set; }
         public int Width { get; set; }
-        public IEnumerable<ScreenSizeResponce> Screens { get; set; }
+        public IEnumerable<ScreenSize> Screens { get; set; }
     }
 }

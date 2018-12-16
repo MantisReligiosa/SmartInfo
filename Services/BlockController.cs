@@ -23,7 +23,9 @@ namespace Services
                 Width = 200,
                 Details = new TextBlockDetails
                 {
-                    Text = "Текст"
+                    Text = "Текст",
+                    BackColor="#ffffff",
+                    TextColor="#000000"
                 }
             }) as TextBlock;
             _unitOfWork.Complete();
@@ -38,6 +40,9 @@ namespace Services
             block.Top = textBlock.Top;
             block.Width = textBlock.Width;
             block.Details.Text = textBlock.Details.Text;
+            block.Details.BackColor = textBlock.Details.BackColor;
+            block.Details.TextColor = textBlock.Details.TextColor;
+            block.Details.FontName = textBlock.Details.FontName;
             _unitOfWork.DisplayBlocks.Update(block);
             _unitOfWork.Complete();
         }

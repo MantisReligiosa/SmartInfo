@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='all' />
+/// <binding BeforeBuild='all' />
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
     grunt.initConfig({

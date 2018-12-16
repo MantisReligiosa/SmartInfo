@@ -1,4 +1,5 @@
 ﻿using DataExchange;
+using DataExchange.DTO;
 using DataExchange.Requests;
 using DataExchange.Responces;
 using Nancy;
@@ -33,7 +34,7 @@ namespace Web
             container.Register<IUnitOfWorkFactory, UnitOfWorkFactory>();
             container.Register<ICryptoProvider, CryptoProvider>();
             container.Register<IAccountController, AccountController>();
-            container.Register<IScreenController, ScreenController>();
+            container.Register<ISystemController, SystemController>();
             container.Register<IBlockController, BlockController>();
 
             CustomStatusCode.AddCode(404);
@@ -55,30 +56,30 @@ namespace Web
                     {
                         Height = height * 2,
                         Width = width * 2,
-                        Screens = new ScreenSizeResponce[]
+                        Screens = new ScreenSize[]
                         {
-                            new ScreenSizeResponce
+                            new ScreenSize
                             {
                                 Height = height,
                                 Width = width,
                                 Top = 0,
                                 Left = 0
                             },
-                            new ScreenSizeResponce
+                            new ScreenSize
                             {
                                 Height = height,
                                 Width = width,
                                 Top = 0,
                                 Left = width
                             },
-                            new ScreenSizeResponce
+                            new ScreenSize
                             {
                                 Height = height,
                                 Width = width,
                                 Top = height,
                                 Left = 0
                             },
-                            new ScreenSizeResponce
+                            new ScreenSize
                             {
                                 Height = height,
                                 Width = width,
@@ -88,6 +89,22 @@ namespace Web
                         }
                     };
                     return responce;
+                });
+                broker.RegisterHandler<GetFontsRequest>(request =>
+                {
+                    return new GetFontsResponce
+                    {
+                        Fonts = new string[]
+                        {
+                            "Arial",
+                            "Calibri",
+                            "Comic Sans MS",
+                            "Consolas",
+                            "Courier New",
+                            "Tahoma",
+                            "Times New Roman"
+                        }
+                    };
                 });
             }
         }

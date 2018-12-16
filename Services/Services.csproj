@@ -55,7 +55,7 @@
     <Compile Include="CryptoProvider.cs" />
     <Compile Include="Profiles\AutoMapperConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScreenController.cs" />
+    <Compile Include="SystemController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataExchange\DataExchange.csproj">

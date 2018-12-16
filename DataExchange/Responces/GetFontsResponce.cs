@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace Web.Models
+namespace DataExchange.Responces
 {
-    public class FontInfo
+    public class GetFontsResponce : IResponce
     {
         public IEnumerable<string> Fonts { get; set; }
-        public IEnumerable<int> FonSizes { get; set; }
     }
 }

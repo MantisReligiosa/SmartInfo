@@ -2,6 +2,7 @@
     var self = this;
 
     self.fonts = ko.observableArray([]);
+    self.selectedFonts = ko.observableArray([""]);
     self.fontSizes = ko.observableArray([]);
     self.screenHeight = ko.observable();
     self.screenWidth = ko.observable();
@@ -49,6 +50,8 @@
         if (block.type === 'text') {
             self.blocks.remove(block);
             block.backColor = textBlockBackColor;
+            block.textColor = textBlockTextColor;
+            block.font = self.selectedFonts()[0];
             app.request(
                 "POST",
                 "/api/saveBlock",
@@ -88,7 +91,7 @@
         initReact();
     });
 
-    var backColor, textBlockBackColor;
+    var backColor, textBlockBackColor, textBlockTextColor;
 
     initializeControls = function () {
         $('#backgroundCP').colorpicker({
@@ -104,6 +107,14 @@
         });
         $('#textBlockBackgroundCP').on('colorpickerChange', function (e) {
             textBlockBackColor = e.color.toString();
+        });
+
+        //textBlockTextColorCP
+        $('#textBlockTextColorCP').colorpicker({
+            format: "rgba"
+        });
+        $('#textBlockTextColorCP').on('colorpickerChange', function (e) {
+            textBlockTextColor = e.color.toString();
         });
     };
 

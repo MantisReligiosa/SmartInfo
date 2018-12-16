@@ -309,7 +309,6 @@
     <Compile Include="Models\ScreenBackgroundRequest.cs" />
     <Compile Include="Models\ScreenResolutionResponce.cs" />
     <Compile Include="Models\DatabaseUser.cs" />
-    <Compile Include="Models\Font.cs" />
     <Compile Include="Models\FontInfo.cs" />
     <Compile Include="Models\ScreenResolutionRequest.cs" />
     <Compile Include="Modules\Public.cs" />

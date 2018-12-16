@@ -10,7 +10,6 @@ body {
 }
 
 div.container {
-    /*margin: 5px;*/
     max-width: 100%;
     overflow-y: scroll;
 }
@@ -19,7 +18,6 @@ div.tab-content {
     border-bottom: 1px solid #dee2e6;
     border-left: 1px solid #dee2e6;
     border-right: 1px solid #dee2e6;
-    /*width: 125px;*/
 }
 
 .spinner {
@@ -66,15 +64,11 @@ div.tab-content {
 
 .ribbon-group-title {
     border-top: 1px solid #dee2e6;
-    /*border-left: 1px solid #dee2e6;
-    border-right: 1px solid #dee2e6;*/
     margin-right: 3px;
     text-align: center;
 }
 
 .ribbon-toolbar {
-    /*border-left: 1px solid #dee2e6;
-    border-right: 1px solid #dee2e6;*/
     display: flex;
 }
 
@@ -88,7 +82,6 @@ div.tab-content {
 .ribbon-element, .tableBtn {
     padding: 1px;
     margin: 1px;
-    /*height: 25px;*/
     min-height: 25px;
 }
 
@@ -188,16 +181,11 @@ input[type=number] {
 
 .displayBlock {
     position: absolute;
-    /*border: 1px dotted #f300fe*/
 }
 
 .selected {
-    border: 4px solid; /*#4cff00*/
+    border: 4px solid;
     border-image: url(../Images/border.png) 14 14 14 14 repeat repeat;
-    /*border-image-slice: 100;
-    border-image-repeat: stretch;
-    border-image-width: 4px;*/
-    /*border-image: radial-gradient(rgba(0,0,0,.5),rgba(255,255,255,0) 45%) 25% 33% 40% 25%;*/
 }
 
 .unselectable {
@@ -210,7 +198,42 @@ input[type=number] {
     cursor: default;
 }
 
+.textblock {
+    padding: 1px;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    margin-bottom: 0;
+}
+
 .resize-drag {
     -webkit-transform: translate(0px, 0px);
     transform: translate(0px, 0px);
+}
+
+.btn-toggle {
+    padding-left: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+}
+
+.btn-toggle-image {
+    width: 30px;
+    height: 30px;
+}
+
+.accordion-properties{
+    width: 450px;
+}
+
+.color-prompt {
+    width: 115px;
+}
+
+.fontPicker {
+    width: 115px;
+}
+
+.fontSizePicker {
+    width: 70px;
 }

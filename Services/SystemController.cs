@@ -13,14 +13,14 @@ using System.Linq;
 
 namespace Services
 {
-    public class ScreenController : IScreenController
+    public class SystemController : ISystemController
     {
         private readonly IUnitOfWork _unitOfWork;
         private const string _screenWidthParameterName = "ScreenWidth";
         private const string _screenHeightParameterName = "ScreenHeight";
         private IMapper _mapper => AutoMapperConfig.Mapper;
 
-        public ScreenController(
+        public SystemController(
             IUnitOfWorkFactory unitOfWorkFactory)
         {
             _unitOfWork = unitOfWorkFactory.Create();
@@ -122,6 +122,23 @@ namespace Services
         {
             var backgroundColor = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<BackgroundColor>())).FirstOrDefault();
             return backgroundColor?.Value ?? string.Empty;
+        }
+
+        public IEnumerable<int> GetFontSizes()
+        {
+            return new List<int>
+            {
+                8,9,10,11,12,14,16,18,20,24,26,28,36,48,72
+            };
+        }
+
+        public IEnumerable<string> GetFonts()
+        {
+            var broker = Broker.GetBroker();
+            var responce = broker.GetResponce(new GetFontsRequest()) as GetFontsResponce;
+            var details = new List<Display>();
+
+            return responce.Fonts;
         }
     }
 }

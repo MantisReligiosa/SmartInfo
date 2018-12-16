@@ -1,6 +1,6 @@
-﻿namespace DataExchange.Responces
+﻿namespace DataExchange.DTO
 {
-    public class ScreenSizeResponce
+    public class ScreenSize
     {
         public int Left { get; set; }
         public int Top { get; set; }
