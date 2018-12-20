@@ -9,7 +9,8 @@ namespace Web.Bundles
         {
             return new List<IContentItem>()
             {
-                new ContentFile("~/script/app/master.viewmodel.js", eMinify.DoNotMinifyIt)
+                new ContentFile("~/script/app/master.viewmodel.js", eMinify.DoNotMinifyIt),
+                new ContentFile("~/script/app/textBlockEdit.viewmodel.js", eMinify.DoNotMinifyIt)
             };
         }
 

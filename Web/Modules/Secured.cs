@@ -110,7 +110,6 @@ namespace Web.Modules
         };
             Post["/api/saveBlock"] = parameters =>
             {
-                //var data = this.Bind<SaveBlockRequest<BlockDto>>();
                 var data = this.Bind<BlockDto>();
                 if (data.Type.Equals("text", System.StringComparison.InvariantCultureIgnoreCase))
                 {

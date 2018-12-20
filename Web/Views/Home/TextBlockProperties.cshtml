@@ -11,7 +11,7 @@
             <div class="card-body">
                 <div id="textBlockBackgroundCP" class="input-group colorpicker-component">
                     <span class="input-group-text color-prompt" id="basic-addon1">Цвет фона</span>
-                    <input type="hidden" value="#ffff" class="form-control" />
+                    <input type="text" class="form-control" />
                     <span class="input-group-append">
                         <span class="input-group-text colorpicker-input-addon"><i></i></span>
                     </span>
@@ -19,7 +19,7 @@
 
                 <div id="textBlockTextColorCP" class="input-group colorpicker-component">
                     <span class="input-group-text color-prompt" id="basic-addon2">Цвет текста</span>
-                    <input type="hidden" value="#ffff" class="form-control" />
+                    <input type="text" class="form-control" />
                     <span class="input-group-append">
                         <span class="input-group-text colorpicker-input-addon"><i></i></span>
                     </span>
@@ -60,7 +60,7 @@
         <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordionExample">
             <div class="card-body">
                 <div class="form-group">
-                    <select class="form-control fontPicker d-inline" id="sel1" data-bind="selectedOptions:$parent.selectedFonts">
+                    <select class="form-control fontPicker d-inline" id="sel1" data-bind="selectedOptions:$parent.textBlockEditViewModel().selectedFonts">
                         <!-- ko foreach: $parent.fonts()-->
                         <option data-bind="style:{fontFamily:$data}, text:$data, value:$data"></option>
                         <!-- /ko-->

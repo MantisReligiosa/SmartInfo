@@ -2,7 +2,7 @@
     var self = this;
 
     self.fonts = ko.observableArray([]);
-    self.selectedFonts = ko.observableArray([""]);
+    
     self.fontSizes = ko.observableArray([]);
     self.screenHeight = ko.observable();
     self.screenWidth = ko.observable();
@@ -12,6 +12,8 @@
     self.gridSteps = ko.observableArray([5, 10, 20, 25, 50]);
     self.selectedGridSteps = ko.observableArray([5]);
     self.gridEnabled = ko.observable(true);
+
+    self.textBlockEditViewModel = ko.computed(function () { return new TextBlockEditViewModel(self); });
 
     self.background = ko.observable("#ffffff");
 
@@ -31,6 +33,16 @@
         $("#properties")
             .modal({ backdrop: 'static', keyboard: false })
             .modal("show");
+        var block = self.selectedBlock();
+        if (block != null) {
+            if (block.type === 'text') {
+                debugger;
+                var model = self.textBlockEditViewModel();
+                self.textBlockEditViewModel().setBlockBackColor(block.backColor);
+                self.textBlockEditViewModel().setBlockTextColor(block.textColor);
+                self.textBlockEditViewModel().setFont(block.font);
+            };
+        };
     };
 
     self.applyProperties = function () {
@@ -49,18 +61,18 @@
         }
         if (block.type === 'text') {
             self.blocks.remove(block);
-            block.backColor = textBlockBackColor;
-            block.textColor = textBlockTextColor;
-            block.font = self.selectedFonts()[0];
-            app.request(
-                "POST",
-                "/api/saveBlock",
-                block,
-                function (data) {
-                    self.blocks.push(block);
-                }
-            );
-        }
+            block.backColor = self.textBlockEditViewModel().textBlockBackColor;
+            block.textColor = self.textBlockEditViewModel().textBlockTextColor;
+            block.font = self.textBlockEditViewModel().selectedFonts()[0];
+        };
+        app.request(
+            "POST",
+            "/api/saveBlock",
+            block,
+            function (data) {
+                self.blocks.push(block);
+            }
+        );
     };
 
     selectBlock = function (bind) {
@@ -91,7 +103,7 @@
         initReact();
     });
 
-    var backColor, textBlockBackColor, textBlockTextColor;
+    var backColor;
 
     initializeControls = function () {
         $('#backgroundCP').colorpicker({
@@ -106,7 +118,7 @@
             format: "rgba"
         });
         $('#textBlockBackgroundCP').on('colorpickerChange', function (e) {
-            textBlockBackColor = e.color.toString();
+            self.textBlockEditViewModel().textBlockBackColor = e.color.toString();
         });
 
         //textBlockTextColorCP
@@ -114,7 +126,7 @@
             format: "rgba"
         });
         $('#textBlockTextColorCP').on('colorpickerChange', function (e) {
-            textBlockTextColor = e.color.toString();
+            self.textBlockEditViewModel().textBlockTextColor = e.color.toString();
         });
     };
 
