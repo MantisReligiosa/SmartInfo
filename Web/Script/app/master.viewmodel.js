@@ -36,8 +36,6 @@
         var block = self.selectedBlock();
         if (block != null) {
             if (block.type === 'text') {
-                debugger;
-                var model = self.textBlockEditViewModel();
                 self.textBlockEditViewModel().setBlockBackColor(block.backColor);
                 self.textBlockEditViewModel().setBlockTextColor(block.textColor);
                 self.textBlockEditViewModel().setFont(block.font);

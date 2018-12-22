@@ -19,9 +19,9 @@
 
                 <div id="textBlockTextColorCP" class="input-group colorpicker-component">
                     <span class="input-group-text color-prompt" id="basic-addon2">Цвет текста</span>
-                    <input type="text" class="form-control" />
+                    <input type="text" class="form-control" data-bind="value:$parent.textBlockEditViewModel().textColor"/>
                     <span class="input-group-append">
-                        <span class="input-group-text colorpicker-input-addon"><i></i></span>
+                        <span class="input-group-text colorpicker-input-addon"><i data-bind="style: {'background-color':$parent.textBlockEditViewModel().textColor}"></i></span>
                     </span>
                 </div>
             </div>

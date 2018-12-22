@@ -3,6 +3,8 @@
 		textBlockBackColor,
 		textBlockTextColor;
 
+	self.textColor = ko.observable();
+
 	self.setBlockBackColor = function (color) {
 	    //var t = $('#textBlockBackgroundCP');
 	    //var x = $('#textBlockBackgroundCP').colorpicker({ "color": "#16813D" });
@@ -11,7 +13,8 @@
 		//$("#textBlockBackgroundCP").trigger('change');
 	};
 
-	self.setBlockTextColor = function (color) {
+    self.setBlockTextColor = function (color) {
+        self.textColor(color);
 		//$("#textBlockTextColorCP").val(color);
 		//$("#textBlockTextColorCP").trigger('change');
 		//$("#textBlockTextColorCP").colorpicker({ color: color })
