@@ -8,9 +8,10 @@
     <!-- /ko-->
     <!-- ko foreach: blocks-->
     <div class="displayBlock resize-drag"
-         data-bind="attr:{id:id}, click:selectBlock, style: {'width':width, 'height':height,'left':left, 'top':top}, css:{selected: selected}">
+         data-bind="attr:{id:id}, click:selectBlock, style: {'width':width, 'height':height,'left':left, 'top':top, 'overflow':'hidden'}, css:{selected: selected}">
         <!-- ko if type == "text"-->
-        <label class="textblock unselectable" data-bind="text: text, style: {'background-color':backColor, 'color':textColor, 'fontFamily':font}">
+        <label class="textblock unselectable" 
+               data-bind="text: text, style: {'background-color':backColor, 'color':textColor, 'font-family':font, 'font-size':fontSize+'px'}">
         </label>
         <!-- /ko-->
     </div>

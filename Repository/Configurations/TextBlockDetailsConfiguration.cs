@@ -13,6 +13,8 @@ namespace Repository.Configurations
             Property(t => t.BackColor);
             Property(t => t.TextColor);
             Property(t => t.FontName);
+            Property(t => t.FontSize);
+            Property(t => t.Align);
         }
     }
 }

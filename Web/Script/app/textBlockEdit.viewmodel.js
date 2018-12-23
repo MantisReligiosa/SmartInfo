@@ -1,31 +1,20 @@
 ﻿function TextBlockEditViewModel(master) {
-	var self = this,
-		textBlockBackColor,
-		textBlockTextColor;
+	var self = this;
 
 	self.textColor = ko.observable();
-
-	self.setBlockBackColor = function (color) {
-	    //var t = $('#textBlockBackgroundCP');
-	    //var x = $('#textBlockBackgroundCP').colorpicker({ "color": "#16813D" });
-	    //debugger;
-	    //$("#textBlockBackgroundCP").colorpicker({ "color": "rgb(22, 129, 61)" });
-		//$("#textBlockBackgroundCP").trigger('change');
-	};
-
-    self.setBlockTextColor = function (color) {
-        self.textColor(color);
-		//$("#textBlockTextColorCP").val(color);
-		//$("#textBlockTextColorCP").trigger('change');
-		//$("#textBlockTextColorCP").colorpicker({ color: color })
-		//$('#textBlockTextColorCP').colorpicker(document.getElementById('inputcolor'), '#ea0437');
-	},
+	self.backColor = ko.observable();
+	self.selectedFonts = ko.observableArray([""]);
+    self.selectedFontSizes = ko.observableArray([""]);
+    self.text = ko.observable();
+    self.align = ko.observable();
 
 	self.setFont = function (font) {
 		self.selectedFonts.removeAll();
 		self.selectedFonts.push(font);
 	};
 
-	self.selectedFonts = ko.observableArray([""]);
-
+	self.setFontSize = function (fontSize) {
+	    self.selectedFontSizes.removeAll();
+        self.selectedFontSizes.push(fontSize);
+	};
 }

@@ -36,9 +36,12 @@
         var block = self.selectedBlock();
         if (block != null) {
             if (block.type === 'text') {
-                self.textBlockEditViewModel().setBlockBackColor(block.backColor);
-                self.textBlockEditViewModel().setBlockTextColor(block.textColor);
+                self.textBlockEditViewModel().backColor(block.backColor);
+                self.textBlockEditViewModel().textColor(block.textColor);
                 self.textBlockEditViewModel().setFont(block.font);
+                self.textBlockEditViewModel().setFontSize(block.fontSize);
+                self.textBlockEditViewModel().text(block.text);
+                self.textBlockEditViewModel().align(block.align);
             };
         };
     };
@@ -59,9 +62,12 @@
         }
         if (block.type === 'text') {
             self.blocks.remove(block);
-            block.backColor = self.textBlockEditViewModel().textBlockBackColor;
-            block.textColor = self.textBlockEditViewModel().textBlockTextColor;
+            block.backColor = self.textBlockEditViewModel().backColor();
+            block.textColor = self.textBlockEditViewModel().textColor();
             block.font = self.textBlockEditViewModel().selectedFonts()[0];
+            block.fontSize = self.textBlockEditViewModel().selectedFontSizes()[0];
+            block.text = self.textBlockEditViewModel().text();
+            block.align = self.textBlockEditViewModel().align();
         };
         app.request(
             "POST",

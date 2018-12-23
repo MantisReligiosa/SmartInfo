@@ -1,76 +1,91 @@
-﻿<div class="accordion accordion-properties" id="accordionExample">
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h5 class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Цвета
-                </button>
-            </h5>
-        </div>
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <div class="card-body">
-                <div id="textBlockBackgroundCP" class="input-group colorpicker-component">
-                    <span class="input-group-text color-prompt" id="basic-addon1">Цвет фона</span>
-                    <input type="text" class="form-control" />
-                    <span class="input-group-append">
-                        <span class="input-group-text colorpicker-input-addon"><i></i></span>
-                    </span>
-                </div>
+﻿<div class="form-group">
+    <select class="form-control fontPicker d-inline" id="sel1" data-bind="selectedOptions:$parent.textBlockEditViewModel().selectedFonts">
+        <!-- ko foreach: $parent.fonts()-->
+        <option data-bind="style:{fontFamily:$data}, text:$data, value:$data"></option>
+        <!-- /ko-->
+    </select>
 
-                <div id="textBlockTextColorCP" class="input-group colorpicker-component">
-                    <span class="input-group-text color-prompt" id="basic-addon2">Цвет текста</span>
-                    <input type="text" class="form-control" data-bind="value:$parent.textBlockEditViewModel().textColor"/>
-                    <span class="input-group-append">
-                        <span class="input-group-text colorpicker-input-addon"><i data-bind="style: {'background-color':$parent.textBlockEditViewModel().textColor}"></i></span>
-                    </span>
+    <select class="form-control fontSizePicker d-inline" data-bind="options: $parent.fontSizes, selectedOptions:$parent.textBlockEditViewModel().selectedFontSizes"></select>
+</div>
+
+<div class="form-group">
+    <div id="textBlockText" class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Текст</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Текст в блоке" data-bind="value:$parent.textBlockEditViewModel().text" />
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="accordion accordion-properties" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Цвета
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div id="textBlockBackgroundCP" class="input-group colorpicker-component">
+                        <span class="input-group-text color-prompt" id="basic-addon1">Цвет фона</span>
+                        <input type="text" class="form-control" data-bind="value:$parent.textBlockEditViewModel().backColor" />
+                        <span class="input-group-append">
+                            <span class="input-group-text colorpicker-input-addon">
+                                <i data-bind="style: {'background-color':$parent.textBlockEditViewModel().backColor}"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <div id="textBlockTextColorCP" class="input-group colorpicker-component">
+                        <span class="input-group-text color-prompt" id="basic-addon2">Цвет текста</span>
+                        <input type="text" class="form-control" data-bind="value:$parent.textBlockEditViewModel().textColor" />
+                        <span class="input-group-append">
+                            <span class="input-group-text colorpicker-input-addon">
+                                <i data-bind="style: {'background-color':$parent.textBlockEditViewModel().textColor}"></i>
+                            </span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h5 class="mb-0">
-                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Выравнивание
-                </button>
-            </h5>
-        </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-            <div class="card-body">
-                <div class="radio">
-                    <label><input type="radio" name="optradio" checked>По левому краю</label>
-                </div>
-                <div class="radio">
-                    <label><input type="radio" name="optradio">По центру</label>
-                </div>
-                <div class="radio disabled">
-                    <label><input type="radio" name="optradio" disabled>По правому краю</label>
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseStyle" aria-expanded="true" aria-controls="collapseStyle">
+                        Начертание
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseStyle" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Курсив</label>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="heading3">
-            <h5 class="mb-0">
-                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
-                    Шрифт
-                </button>
-            </h5>
-        </div>
-        <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordionExample">
-            <div class="card-body">
-                <div class="form-group">
-                    <select class="form-control fontPicker d-inline" id="sel1" data-bind="selectedOptions:$parent.textBlockEditViewModel().selectedFonts">
-                        <!-- ko foreach: $parent.fonts()-->
-                        <option data-bind="style:{fontFamily:$data}, text:$data, value:$data"></option>
-                        <!-- /ko-->
-                    </select>
-                
-                    <input class="form-control fontSizePicker d-inline" list=sizes>
-                    <datalist id=sizes>
-                        <option>6</option>
-                        <option>8</option>
-                    </datalist>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Выравнивание
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" checked>По левому краю</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">По центру</label>
+                    </div>
+                    <div class="radio disabled">
+                        <label><input type="radio" name="optradio">По правому краю</label>
+                    </div>
                 </div>
             </div>
         </div>

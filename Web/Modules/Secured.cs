@@ -72,7 +72,9 @@ namespace Web.Modules
                     Id = textBlock.Id,
                     Text = textBlock.Details.Text,
                     BackColor = textBlock.Details.BackColor,
-                    TextColor = textBlock.Details.TextColor
+                    TextColor = textBlock.Details.TextColor,
+                    Font = textBlock.Details.FontName,
+                    FontSize = textBlock.Details.FontSize
                 };
                 return Response.AsJson(block);
             };
@@ -95,6 +97,7 @@ namespace Web.Modules
                     block.TextColor = textBlock.Details.TextColor;
                     block.BackColor = textBlock.Details.BackColor;
                     block.Font = textBlock.Details.FontName;
+                    block.FontSize = textBlock.Details.FontSize;
                     return block;
                 }
                 return new BlockDto
@@ -126,7 +129,9 @@ namespace Web.Modules
                             Text = b.Text,
                             BackColor = b.BackColor,
                             TextColor = b.TextColor,
-                            FontName = b.Font
+                            FontName = b.Font,
+                            FontSize = b.FontSize,
+                            Align = b.Align
                         }
                     };
                     blockController.SaveTextBlock(block);

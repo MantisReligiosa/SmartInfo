@@ -1,6 +1,4 @@
-﻿using DomainObjects.Blocks.Details;
-
-namespace DomainObjects.Blocks
+﻿namespace DomainObjects.Blocks
 {
     public abstract class DisplayBlock : Identity
     {
@@ -8,5 +6,12 @@ namespace DomainObjects.Blocks
         public int Top { get; set; }
         public int Height { get; set; }
         public int Width { get; set; }
+    }
+
+    public enum Align
+    {
+        Left = 0,
+        Center,
+        Right
     }
 }

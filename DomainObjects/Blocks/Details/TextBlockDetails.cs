@@ -6,5 +6,7 @@
         public string BackColor { get; set; }
         public string TextColor { get; set; }
         public string FontName { get; set; }
+        public int FontSize { get; set; }
+        public Align Align { get; set; }
     }
 }
