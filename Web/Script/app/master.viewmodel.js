@@ -1,4 +1,4 @@
-﻿function masterViewModel(app) {
+function masterViewModel(app) {
     var self = this;
 
     self.fonts = ko.observableArray([]);
@@ -41,7 +41,7 @@
                 self.textBlockEditViewModel().setFont(block.font);
                 self.textBlockEditViewModel().setFontSize(block.fontSize);
                 self.textBlockEditViewModel().text(block.text);
-                self.textBlockEditViewModel().align(block.align);
+                self.textBlockEditViewModel().align(block.align.toString());
             };
         };
     };

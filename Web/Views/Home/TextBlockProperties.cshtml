@@ -61,8 +61,12 @@
             <div id="collapseStyle" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">Курсив</label>
+                        <input type="checkbox" class="form-check-input" id="italicCheck">
+                        <label class="form-check-label" for="italicCheck">Курсив</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="boldCheck">
+                        <label class="form-check-label" for="boldCheck">Полужирный</label>
                     </div>
                 </div>
             </div>
@@ -78,13 +82,13 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div class="card-body">
                     <div class="radio">
-                        <label><input type="radio" name="optradio" checked>По левому краю</label>
+                        <label><input type="radio" name="optradio" value="0" data-bind="checked: $parent.textBlockEditViewModel().align">По левому краю</label>
                     </div>
                     <div class="radio">
-                        <label><input type="radio" name="optradio">По центру</label>
+                        <label><input type="radio" name="optradio" value="1" data-bind="checked: $parent.textBlockEditViewModel().align">По центру</label>
                     </div>
-                    <div class="radio disabled">
-                        <label><input type="radio" name="optradio">По правому краю</label>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" value="2" data-bind="checked: $parent.textBlockEditViewModel().align">По правому краю</label>
                     </div>
                 </div>
             </div>

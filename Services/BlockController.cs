@@ -46,6 +46,7 @@ namespace Services
             block.Details.TextColor = textBlock.Details.TextColor;
             block.Details.FontName = textBlock.Details.FontName;
             block.Details.FontSize = textBlock.Details.FontSize;
+            block.Details.Align = textBlock.Details.Align;
             _unitOfWork.DisplayBlocks.Update(block);
             _unitOfWork.Complete();
         }

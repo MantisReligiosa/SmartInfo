@@ -6,7 +6,7 @@
 	self.selectedFonts = ko.observableArray([""]);
     self.selectedFontSizes = ko.observableArray([""]);
     self.text = ko.observable();
-    self.align = ko.observable();
+    self.align = ko.observable(0);
 
 	self.setFont = function (font) {
 		self.selectedFonts.removeAll();

@@ -74,7 +74,8 @@ namespace Web.Modules
                     BackColor = textBlock.Details.BackColor,
                     TextColor = textBlock.Details.TextColor,
                     Font = textBlock.Details.FontName,
-                    FontSize = textBlock.Details.FontSize
+                    FontSize = textBlock.Details.FontSize,
+                    Align = Align.Left
                 };
                 return Response.AsJson(block);
             };
@@ -98,6 +99,7 @@ namespace Web.Modules
                     block.BackColor = textBlock.Details.BackColor;
                     block.Font = textBlock.Details.FontName;
                     block.FontSize = textBlock.Details.FontSize;
+                    block.Align = textBlock.Details.Align;
                     return block;
                 }
                 return new BlockDto
