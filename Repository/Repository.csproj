@@ -83,21 +83,9 @@
     <Compile Include="Migrations\201812130541575_DisplayBlocksDetails.Designer.cs">
       <DependentUpon>201812130541575_DisplayBlocksDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812141624545_TextBlockDetails.cs" />
-    <Compile Include="Migrations\201812141624545_TextBlockDetails.Designer.cs">
-      <DependentUpon>201812141624545_TextBlockDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812171736320_TextBlockDetails_FontName.cs" />
-    <Compile Include="Migrations\201812171736320_TextBlockDetails_FontName.Designer.cs">
-      <DependentUpon>201812171736320_TextBlockDetails_FontName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812221842114_TextBlockDetails_FontSize.cs" />
-    <Compile Include="Migrations\201812221842114_TextBlockDetails_FontSize.Designer.cs">
-      <DependentUpon>201812221842114_TextBlockDetails_FontSize.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812230407194_TextBlockDetails_Align.cs" />
-    <Compile Include="Migrations\201812230407194_TextBlockDetails_Align.Designer.cs">
-      <DependentUpon>201812230407194_TextBlockDetails_Align.cs</DependentUpon>
+    <Compile Include="Migrations\201812261631594_TextBlockDetails.cs" />
+    <Compile Include="Migrations\201812261631594_TextBlockDetails.Designer.cs">
+      <DependentUpon>201812261631594_TextBlockDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,17 +126,8 @@
     <EmbeddedResource Include="Migrations\201812130541575_DisplayBlocksDetails.resx">
       <DependentUpon>201812130541575_DisplayBlocksDetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812141624545_TextBlockDetails.resx">
-      <DependentUpon>201812141624545_TextBlockDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812171736320_TextBlockDetails_FontName.resx">
-      <DependentUpon>201812171736320_TextBlockDetails_FontName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812221842114_TextBlockDetails_FontSize.resx">
-      <DependentUpon>201812221842114_TextBlockDetails_FontSize.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812230407194_TextBlockDetails_Align.resx">
-      <DependentUpon>201812230407194_TextBlockDetails_Align.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812261631594_TextBlockDetails.resx">
+      <DependentUpon>201812261631594_TextBlockDetails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

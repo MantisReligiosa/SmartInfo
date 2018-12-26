@@ -2,14 +2,16 @@ using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
 using ServiceInterfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Services
 {
     public class BlockController : IBlockController
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISystemController _systemController;
 
-        public BlockController(
+        public BlockController(ISystemController systemController,
             IUnitOfWorkFactory unitOfWorkFactory)
         {
             _unitOfWork = unitOfWorkFactory.Create();
@@ -26,8 +28,11 @@ namespace Services
                     Text = "Текст",
                     BackColor = "#ffffff",
                     TextColor = "#000000",
-                    FontName = "Arial",
-                    FontSize = 8
+                    FontName = _systemController.GetFonts().First(),
+                    FontSize = _systemController.GetFontSizes().First(),
+                    Align = Align.Left,
+                    Bold = false,
+                    Italic = false
                 }
             }) as TextBlock;
             _unitOfWork.Complete();
@@ -47,6 +52,8 @@ namespace Services
             block.Details.FontName = textBlock.Details.FontName;
             block.Details.FontSize = textBlock.Details.FontSize;
             block.Details.Align = textBlock.Details.Align;
+            block.Details.Italic = textBlock.Details.Italic;
+            block.Details.Bold = textBlock.Details.Bold;
             _unitOfWork.DisplayBlocks.Update(block);
             _unitOfWork.Complete();
         }

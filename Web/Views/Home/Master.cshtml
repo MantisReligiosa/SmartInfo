@@ -10,9 +10,18 @@
     <div class="displayBlock resize-drag"
          data-bind="attr:{id:id}, click:selectBlock, style: {'width':width, 'height':height,'left':left, 'top':top, 'overflow':'hidden'}, css:{selected: selected}">
         <!-- ko if type == "text"-->
-        <label class="textblock unselectable" 
-               data-bind="text: text, style: {'background-color':backColor, 'color':textColor, 'font-family':font, 'font-size':fontSize+'px', 'text-align':align==0?'left':align==1?'center':'right' }">
-        </label>
+            <label class="textblock unselectable"
+                   data-bind="text: text, 
+                   style: {
+                    'background-color' : backColor, 
+                    'color' : textColor, 
+                    'font-family' : font, 
+                    'font-size' : fontSize+'px', 
+                    'text-align' : align==0 ? 'left' : align==1 ? 'center' : 'right',
+                    'font-weight': bold ? 'bold' : '',
+                    'font-style': italic ? 'italic' : ''
+                   }">
+            </label>
         <!-- /ko-->
     </div>
     <!-- /ko-->

@@ -42,6 +42,8 @@ function masterViewModel(app) {
                 self.textBlockEditViewModel().setFontSize(block.fontSize);
                 self.textBlockEditViewModel().text(block.text);
                 self.textBlockEditViewModel().align(block.align.toString());
+                self.textBlockEditViewModel().italic(block.italic);
+                self.textBlockEditViewModel().bold(block.bold);
             };
         };
     };
@@ -68,6 +70,8 @@ function masterViewModel(app) {
             block.fontSize = self.textBlockEditViewModel().selectedFontSizes()[0];
             block.text = self.textBlockEditViewModel().text();
             block.align = self.textBlockEditViewModel().align();
+            block.italic = self.textBlockEditViewModel().italic();
+            block.bold = self.textBlockEditViewModel().bold();
         };
         app.request(
             "POST",
@@ -117,21 +121,7 @@ function masterViewModel(app) {
             backColor = e.color.toString();
         });
 
-        //textBlockBackgroundCP
-        $('#textBlockBackgroundCP').colorpicker({
-            format: "rgba"
-        });
-        $('#textBlockBackgroundCP').on('colorpickerChange', function (e) {
-            self.textBlockEditViewModel().textBlockBackColor = e.color.toString();
-        });
-
-        //textBlockTextColorCP
-        $('#textBlockTextColorCP').colorpicker({
-            format: "rgba"
-        });
-        $('#textBlockTextColorCP').on('colorpickerChange', function (e) {
-            self.textBlockEditViewModel().textBlockTextColor = e.color.toString();
-        });
+        self.textBlockEditViewModel().initializeControls();
     };
 
     initReact = function () {

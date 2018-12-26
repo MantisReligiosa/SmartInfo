@@ -8,5 +8,7 @@
         public string FontName { get; set; }
         public int FontSize { get; set; }
         public Align Align { get; set; }
+        public bool Italic { get; set; }
+        public bool Bold { get; set; }
     }
 }

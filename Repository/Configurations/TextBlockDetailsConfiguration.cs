@@ -15,6 +15,8 @@ namespace Repository.Configurations
             Property(t => t.FontName);
             Property(t => t.FontSize);
             Property(t => t.Align);
+            Property(t => t.Italic);
+            Property(t => t.Bold);
         }
     }
 }

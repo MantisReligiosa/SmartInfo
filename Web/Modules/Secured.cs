@@ -75,17 +75,38 @@ namespace Web.Modules
                     TextColor = textBlock.Details.TextColor,
                     Font = textBlock.Details.FontName,
                     FontSize = textBlock.Details.FontSize,
-                    Align = Align.Left
+                    Align = Align.Left,
+                    Italic = false,
+                    Bold = false
                 };
                 return Response.AsJson(block);
             };
             Get["/api/blocks"] = parameters =>
             {
-            var blocks = blockController.GetBlocks().Select(b =>
-            {
-                if (b is TextBlock textBlock)
+                var blocks = blockController.GetBlocks().Select(b =>
                 {
-                    var block = new TextBlockDto
+                    if (b is TextBlock textBlock)
+                    {
+                        var block = new TextBlockDto
+                        {
+                            Height = b.Height,
+                            Id = b.Id,
+                            Left = b.Left,
+                            Top = b.Top,
+                            Width = b.Width
+                        };
+                        block.Type = "text";
+                        block.Text = textBlock.Details.Text;
+                        block.TextColor = textBlock.Details.TextColor;
+                        block.BackColor = textBlock.Details.BackColor;
+                        block.Font = textBlock.Details.FontName;
+                        block.FontSize = textBlock.Details.FontSize;
+                        block.Align = textBlock.Details.Align;
+                        block.Italic = textBlock.Details.Italic;
+                        block.Bold = textBlock.Details.Bold;
+                        return block;
+                    }
+                    return new BlockDto
                     {
                         Height = b.Height,
                         Id = b.Id,
@@ -93,26 +114,9 @@ namespace Web.Modules
                         Top = b.Top,
                         Width = b.Width
                     };
-                    block.Type = "text";
-                    block.Text = textBlock.Details.Text;
-                    block.TextColor = textBlock.Details.TextColor;
-                    block.BackColor = textBlock.Details.BackColor;
-                    block.Font = textBlock.Details.FontName;
-                    block.FontSize = textBlock.Details.FontSize;
-                    block.Align = textBlock.Details.Align;
-                    return block;
-                }
-                return new BlockDto
-                {
-                    Height = b.Height,
-                    Id = b.Id,
-                    Left = b.Left,
-                    Top = b.Top,
-                    Width = b.Width
-                };
-            });
-            return Response.AsJson(blocks);
-        };
+                });
+                return Response.AsJson(blocks);
+            };
             Post["/api/saveBlock"] = parameters =>
             {
                 var data = this.Bind<BlockDto>();
@@ -133,7 +137,9 @@ namespace Web.Modules
                             TextColor = b.TextColor,
                             FontName = b.Font,
                             FontSize = b.FontSize,
-                            Align = b.Align
+                            Align = b.Align,
+                            Italic = b.Italic,
+                            Bold = b.Bold
                         }
                     };
                     blockController.SaveTextBlock(block);

@@ -61,11 +61,11 @@
             <div id="collapseStyle" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="italicCheck">
+                        <input type="checkbox" class="form-check-input" id="italicCheck" data-bind="checked: $parent.textBlockEditViewModel().italic">
                         <label class="form-check-label" for="italicCheck">Курсив</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="boldCheck">
+                        <input type="checkbox" class="form-check-input" id="boldCheck" data-bind="checked: $parent.textBlockEditViewModel().bold">
                         <label class="form-check-label" for="boldCheck">Полужирный</label>
                     </div>
                 </div>

@@ -10,5 +10,7 @@ namespace Web.Models.Blocks
         public string Font { get; set; }
         public int FontSize { get; set; }
         public Align Align { get; internal set; }
+        public bool Bold { get; set; }
+        public bool Italic { get; set; }
     }
 }
