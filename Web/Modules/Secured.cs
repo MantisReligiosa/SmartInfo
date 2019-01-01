@@ -81,6 +81,14 @@ namespace Web.Modules
                 };
                 return Response.AsJson(block);
             };
+            Post["addTableBlock"] = parameters =>
+            {
+                var tableBlock = blockController.AddTableBlock();
+                var block = new TableBlockDto
+                {
+                };
+                return Response.AsJson(block);
+            };
             Get["/api/blocks"] = parameters =>
             {
                 var blocks = blockController.GetBlocks().Select(b =>

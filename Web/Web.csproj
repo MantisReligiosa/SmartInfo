@@ -303,6 +303,7 @@
     <Compile Include="CustomStatusCode.cs" />
     <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Models\Blocks\BlockDto.cs" />
+    <Compile Include="Models\Blocks\TableBlockDto.cs" />
     <Compile Include="Models\Blocks\TextBlockDto.cs" />
     <Compile Include="Models\CreditsRequest.cs" />
     <Compile Include="Models\SaveBlockRequest.cs" />
@@ -313,6 +314,7 @@
     <Compile Include="Models\ScreenResolutionRequest.cs" />
     <Compile Include="Modules\Public.cs" />
     <Compile Include="Modules\Secured.cs" />
+    <Compile Include="Profiles\AutoMapperConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RazorConfig.cs" />
     <Compile Include="Startup.cs" />

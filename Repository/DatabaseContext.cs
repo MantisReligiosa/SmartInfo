@@ -28,6 +28,8 @@ namespace Repository
             modelBuilder.Configurations.Add(new ParameterConfiguration());
             modelBuilder.Configurations.Add(new DisplayConfiguration());
             modelBuilder.Configurations.Add(new DisplayBlockConfiguration());
+            modelBuilder.Configurations.Add(new TableBlockDetailsConfiguration());
+            modelBuilder.Configurations.Add(new TableBlockCellDetailsConfiguration());
         }
     }
 }

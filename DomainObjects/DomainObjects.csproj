@@ -43,9 +43,13 @@
   <ItemGroup>
     <Compile Include="Blocks\Details\BlockDetails.cs" />
     <Compile Include="Blocks\Details\PictureBlockDetails.cs" />
+    <Compile Include="Blocks\Details\TableBlockCellDetails.cs" />
+    <Compile Include="Blocks\Details\TableBlockDetails.cs" />
+    <Compile Include="Blocks\Details\TableBlockRowDetails.cs" />
     <Compile Include="Blocks\Details\TextBlockDetails.cs" />
     <Compile Include="Blocks\DisplayBlock.cs" />
     <Compile Include="Blocks\PictureBlock.cs" />
+    <Compile Include="Blocks\TableBlock.cs" />
     <Compile Include="Blocks\TextBlock.cs" />
     <Compile Include="Identity.cs" />
     <Compile Include="Parameter.cs" />

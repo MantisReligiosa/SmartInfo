@@ -52,6 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations\PictureBlockDetailsConfiguration.cs" />
+    <Compile Include="Configurations\TableBlockCellDetailsConfiguration.cs" />
+    <Compile Include="Configurations\TableBlockDetailsConfiguration.cs" />
+    <Compile Include="Configurations\TableBlockRowDetailsConfiguration.cs" />
     <Compile Include="Configurations\TextBlockDetailsConfiguration.cs" />
     <Compile Include="Configurations\DisplayBlockConfiguration.cs" />
     <Compile Include="Configurations\DisplayConfiguration.cs" />
@@ -86,6 +89,10 @@
     <Compile Include="Migrations\201812261631594_TextBlockDetails.cs" />
     <Compile Include="Migrations\201812261631594_TextBlockDetails.Designer.cs">
       <DependentUpon>201812261631594_TextBlockDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901010555271_TableBlock_Details.cs" />
+    <Compile Include="Migrations\201901010555271_TableBlock_Details.Designer.cs">
+      <DependentUpon>201901010555271_TableBlock_Details.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,6 +135,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812261631594_TextBlockDetails.resx">
       <DependentUpon>201812261631594_TextBlockDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901010555271_TableBlock_Details.resx">
+      <DependentUpon>201901010555271_TableBlock_Details.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

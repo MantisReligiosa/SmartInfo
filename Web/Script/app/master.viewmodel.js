@@ -29,6 +29,18 @@ function masterViewModel(app) {
         );
     };
 
+    self.addTableBlock = function () {
+        app.request(
+            "POST",
+            "api/addTableBlock",
+            {},
+            function (data) {
+                data.selected = false;
+                self.blocks.push(data);
+            }
+        );
+    }
+
     self.showProperties = function () {
         $("#properties")
             .modal({ backdrop: 'static', keyboard: false })

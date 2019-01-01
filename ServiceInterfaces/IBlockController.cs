@@ -6,6 +6,7 @@ namespace ServiceInterfaces
     public interface IBlockController
     {
         TextBlock AddTextBlock();
+        TableBlock AddTableBlock();
         IEnumerable<DisplayBlock> GetBlocks();
         void SaveTextBlock(TextBlock textBlock);
     }

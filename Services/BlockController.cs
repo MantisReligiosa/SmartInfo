@@ -15,6 +15,7 @@ namespace Services
             IUnitOfWorkFactory unitOfWorkFactory)
         {
             _unitOfWork = unitOfWorkFactory.Create();
+            _systemController = systemController;
         }
 
         public TextBlock AddTextBlock()
