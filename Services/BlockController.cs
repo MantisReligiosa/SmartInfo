@@ -50,6 +50,30 @@ namespace Services
                 {
                     FontName = _systemController.GetFonts().First(),
                     FontSize = _systemController.GetFontSizes().First(),
+                    HeaderDetails = new TableBlockRowDetails
+                    {
+                        Align = Align.Center,
+                        BackColor = "#000000",
+                        TextColor = "#ffffff",
+                        Bold = true,
+                        Italic = false,
+                    },
+                    EvenRowDetails = new TableBlockRowDetails
+                    {
+                        Align = Align.Left,
+                        BackColor = "#ffffff",
+                        TextColor = "#000000",
+                        Bold = false,
+                        Italic = true,
+                    },
+                    OddRowDetails = new TableBlockRowDetails
+                    {
+                        Align = Align.Left,
+                        BackColor = "#e6e6e6",
+                        TextColor = "#000000",
+                        Bold = false,
+                        Italic = true,
+                    },
                     Cells = new List<TableBlockCellDetails>
                     {
                         new TableBlockCellDetails{Row=0, Column=0, Value = "Header1"},
@@ -71,34 +95,6 @@ namespace Services
                     },
                 }
             }) as TableBlock;
-            _unitOfWork.Complete();
-            block.Details.HeaderDetails = new TableBlockRowDetails
-            {
-                Align = Align.Center,
-                BackColor = "#000000",
-                TextColor = "#ffffff",
-                Bold = true,
-                Italic = false,
-                TableBlockDetails = block.Details
-            };
-            block.Details.EvenRowDetails = new TableBlockRowDetails
-            {
-                Align = Align.Left,
-                BackColor = "#ffffff",
-                TextColor = "#000000",
-                Bold = false,
-                Italic = true,
-                TableBlockDetails = block.Details
-            };
-            block.Details.OddRowDetails = new TableBlockRowDetails
-            {
-                Align = Align.Left,
-                BackColor = "#e6e6e6",
-                TextColor = "#000000",
-                Bold = false,
-                Italic = true,
-                TableBlockDetails = block.Details
-            };
             _unitOfWork.Complete();
             return block;
         }

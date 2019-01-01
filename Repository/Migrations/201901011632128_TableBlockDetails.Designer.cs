@@ -7,13 +7,13 @@ namespace Repository.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class TableBlock_Details : IMigrationMetadata
+    public sealed partial class TableBlockDetails : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(TableBlock_Details));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(TableBlockDetails));
         
         string IMigrationMetadata.Id
         {
-            get { return "201901010555271_TableBlock_Details"; }
+            get { return "201901011632128_TableBlockDetails"; }
         }
         
         string IMigrationMetadata.Source

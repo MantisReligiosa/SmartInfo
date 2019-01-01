@@ -3,7 +3,7 @@ namespace Repository.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class TableBlock_Details : DbMigration
+    public partial class TableBlockDetails : DbMigration
     {
         public override void Up()
         {
@@ -51,11 +51,8 @@ namespace Repository.Migrations
                         Align = c.Int(nullable: false),
                         Italic = c.Boolean(nullable: false),
                         Bold = c.Boolean(nullable: false),
-                        TableBlockDetails_Id = c.Guid(),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.TableBlockDetails", t => t.TableBlockDetails_Id)
-                .Index(t => t.TableBlockDetails_Id);
+                .PrimaryKey(t => t.Id);
             
             AddColumn("dbo.DisplayBlocks", "Details_Id2", c => c.Guid());
             CreateIndex("dbo.DisplayBlocks", "Details_Id2");
@@ -70,9 +67,7 @@ namespace Repository.Migrations
             DropForeignKey("dbo.TableBlockDetails", "OddRowDetails_Id", "dbo.TableBlockRowDetails");
             DropForeignKey("dbo.TableBlockDetails", "HeaderDetails_Id", "dbo.TableBlockRowDetails");
             DropForeignKey("dbo.TableBlockDetails", "EvenRowDetails_Id", "dbo.TableBlockRowDetails");
-            DropForeignKey("dbo.TableBlockRowDetails", "TableBlockDetails_Id", "dbo.TableBlockDetails");
             DropForeignKey("dbo.TableCells", "TableBlockDetailsId", "dbo.TableBlockDetails");
-            DropIndex("dbo.TableBlockRowDetails", new[] { "TableBlockDetails_Id" });
             DropIndex("dbo.TableCells", new[] { "TableBlockDetailsId" });
             DropIndex("dbo.TableBlockDetails", new[] { "OddRowDetails_Id" });
             DropIndex("dbo.TableBlockDetails", new[] { "HeaderDetails_Id" });

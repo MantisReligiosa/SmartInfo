@@ -90,9 +90,9 @@
     <Compile Include="Migrations\201812261631594_TextBlockDetails.Designer.cs">
       <DependentUpon>201812261631594_TextBlockDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901010555271_TableBlock_Details.cs" />
-    <Compile Include="Migrations\201901010555271_TableBlock_Details.Designer.cs">
-      <DependentUpon>201901010555271_TableBlock_Details.cs</DependentUpon>
+    <Compile Include="Migrations\201901011632128_TableBlockDetails.cs" />
+    <Compile Include="Migrations\201901011632128_TableBlockDetails.Designer.cs">
+      <DependentUpon>201901011632128_TableBlockDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -136,8 +136,8 @@
     <EmbeddedResource Include="Migrations\201812261631594_TextBlockDetails.resx">
       <DependentUpon>201812261631594_TextBlockDetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901010555271_TableBlock_Details.resx">
-      <DependentUpon>201901010555271_TableBlock_Details.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201901011632128_TableBlockDetails.resx">
+      <DependentUpon>201901011632128_TableBlockDetails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
