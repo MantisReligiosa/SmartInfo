@@ -40,6 +40,65 @@ namespace Services
             return block;
         }
 
+        public TableBlock AddTableBlock()
+        {
+            var block = _unitOfWork.DisplayBlocks.Create(new TableBlock
+            {
+                Height = 200,
+                Width = 200,
+                Details = new TableBlockDetails
+                {
+                    FontName = _systemController.GetFonts().First(),
+                    FontSize = _systemController.GetFontSizes().First(),
+                    Cells = new List<TableBlockCellDetails>
+                    {
+                        new TableBlockCellDetails{Row=0, Column=0, Value = "Header1"},
+                        new TableBlockCellDetails{Row=0, Column=1, Value = "Header2"},
+                        new TableBlockCellDetails{Row=0, Column=2, Value = "Header3"},
+                        new TableBlockCellDetails{Row=0, Column=3, Value = "Header4"},
+                        new TableBlockCellDetails{Row=1, Column=0, Value = "Cell11"},
+                        new TableBlockCellDetails{Row=1, Column=1, Value = "Cell12"},
+                        new TableBlockCellDetails{Row=1, Column=2, Value = "Cell13"},
+                        new TableBlockCellDetails{Row=1, Column=3, Value = "Cell14"},
+                        new TableBlockCellDetails{Row=2, Column=0, Value = "Cell21"},
+                        new TableBlockCellDetails{Row=2, Column=1, Value = "Cell22"},
+                        new TableBlockCellDetails{Row=2, Column=2, Value = "Cell23"},
+                        new TableBlockCellDetails{Row=2, Column=3, Value = "Cell24"},
+                        new TableBlockCellDetails{Row=3, Column=0, Value = "Cell31"},
+                        new TableBlockCellDetails{Row=3, Column=1, Value = "Cell32"},
+                        new TableBlockCellDetails{Row=3, Column=2, Value = "Cell33"},
+                        new TableBlockCellDetails{Row=3, Column=3, Value = "Cell34"}
+                    },
+                    HeaderDetails = new TableBlockRowDetails
+                    {
+                        Align = Align.Center,
+                        BackColor = "#000000",
+                        TextColor = "#ffffff",
+                        Bold = true,
+                        Italic = false,
+                    },
+                    EvenRowDetails = new TableBlockRowDetails
+                    {
+                        Align = Align.Left,
+                        BackColor = "#ffffff",
+                        TextColor = "#000000",
+                        Bold = false,
+                        Italic = true,
+                    },
+                    OddRowDetails = new TableBlockRowDetails
+                    {
+                        Align = Align.Left,
+                        BackColor = "#e6e6e6",
+                        TextColor = "#000000",
+                        Bold = false,
+                        Italic = true,
+                    },
+                }
+            }) as TableBlock;
+            _unitOfWork.Complete();
+            return block;
+        }
+
         public void SaveTextBlock(TextBlock textBlock)
         {
             var block = _unitOfWork.DisplayBlocks.Get(textBlock.Id) as TextBlock;
