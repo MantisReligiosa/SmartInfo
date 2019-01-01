@@ -1,4 +1,4 @@
-﻿namespace DomainObjects.Blocks.Details
+namespace DomainObjects.Blocks.Details
 {
     public class TableBlockRowDetails : Identity
     {

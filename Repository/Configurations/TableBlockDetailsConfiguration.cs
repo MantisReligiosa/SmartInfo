@@ -1,4 +1,4 @@
-using DomainObjects.Blocks.Details;
+﻿using DomainObjects.Blocks.Details;
 using System.Data.Entity.ModelConfiguration;
 
 namespace Repository.Configurations

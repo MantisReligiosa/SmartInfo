@@ -9,6 +9,7 @@ namespace Repository.Configurations
         {
             ToTable("TableBlockRowDetails");
             HasKey(t => t.Id);
+            HasRequired(t => t.TableBlockDetails);
         }
     }
 }

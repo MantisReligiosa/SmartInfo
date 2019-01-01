@@ -81,7 +81,7 @@ namespace Web.Modules
                 };
                 return Response.AsJson(block);
             };
-            Post["addTableBlock"] = parameters =>
+            Post["/api/addTableBlock"] = parameters =>
             {
                 var tableBlock = blockController.AddTableBlock();
                 var block = new TableBlockDto
