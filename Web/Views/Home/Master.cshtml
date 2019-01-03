@@ -9,7 +9,8 @@
     <!-- ko foreach: blocks-->
     <div class="displayBlock resize-drag"
          data-bind="attr:{id:id}, click:selectBlock, style: {'width':width, 'height':height,'left':left, 'top':top, 'overflow':'hidden'}, css:{selected: selected}">
-        <!-- ko if type == "text"-->
+        <!-- ko if: type == "text"-->
+        Text
             <label class="textblock unselectable"
                    data-bind="text: text, 
                    style: {
@@ -22,6 +23,9 @@
                     'font-style': italic ? 'italic' : ''
                    }">
             </label>
+        <!-- /ko-->
+        <!-- ko if: type == "table"-->
+        Table
         <!-- /ko-->
     </div>
     <!-- /ko-->

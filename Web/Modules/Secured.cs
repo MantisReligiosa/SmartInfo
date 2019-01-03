@@ -1,4 +1,5 @@
-﻿using DomainObjects.Blocks;
+﻿using AutoMapper;
+using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
 using Nancy;
 using Nancy.ModelBinding;
@@ -7,11 +8,14 @@ using ServiceInterfaces;
 using System.Linq;
 using Web.Models;
 using Web.Models.Blocks;
+using Web.Profiles;
 
 namespace Web.Modules
 {
     public class Secured : NancyModule
     {
+        private IMapper _mapper = AutoMapperConfig.Mapper;
+
         public Secured(
             ISystemController systemController,
             IBlockController blockController
@@ -62,31 +66,13 @@ namespace Web.Modules
             Post["/api/addTextBlock"] = parameters =>
             {
                 var textBlock = blockController.AddTextBlock();
-                var block = new TextBlockDto
-                {
-                    Height = textBlock.Height,
-                    Width = textBlock.Width,
-                    Left = textBlock.Left,
-                    Top = textBlock.Top,
-                    Type = "text",
-                    Id = textBlock.Id,
-                    Text = textBlock.Details.Text,
-                    BackColor = textBlock.Details.BackColor,
-                    TextColor = textBlock.Details.TextColor,
-                    Font = textBlock.Details.FontName,
-                    FontSize = textBlock.Details.FontSize,
-                    Align = Align.Left,
-                    Italic = false,
-                    Bold = false
-                };
+                var block = _mapper.Map<TextBlockDto>(textBlock);
                 return Response.AsJson(block);
             };
             Post["/api/addTableBlock"] = parameters =>
             {
                 var tableBlock = blockController.AddTableBlock();
-                var block = new TableBlockDto
-                {
-                };
+                var block = _mapper.Map<TableBlockDto>(tableBlock);
                 return Response.AsJson(block);
             };
             Get["/api/blocks"] = parameters =>
@@ -95,23 +81,12 @@ namespace Web.Modules
                 {
                     if (b is TextBlock textBlock)
                     {
-                        var block = new TextBlockDto
-                        {
-                            Height = b.Height,
-                            Id = b.Id,
-                            Left = b.Left,
-                            Top = b.Top,
-                            Width = b.Width
-                        };
-                        block.Type = "text";
-                        block.Text = textBlock.Details.Text;
-                        block.TextColor = textBlock.Details.TextColor;
-                        block.BackColor = textBlock.Details.BackColor;
-                        block.Font = textBlock.Details.FontName;
-                        block.FontSize = textBlock.Details.FontSize;
-                        block.Align = textBlock.Details.Align;
-                        block.Italic = textBlock.Details.Italic;
-                        block.Bold = textBlock.Details.Bold;
+                        var block = _mapper.Map<TextBlockDto>(textBlock);
+                        return block;
+                    }
+                    if (b is TableBlock tableBlock)
+                    {
+                        var block = _mapper.Map<TableBlockDto>(tableBlock);
                         return block;
                     }
                     return new BlockDto
