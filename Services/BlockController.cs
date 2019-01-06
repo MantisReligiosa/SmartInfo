@@ -123,5 +123,54 @@ namespace Services
             var result = _unitOfWork.DisplayBlocks.GetAll();
             return result;
         }
+
+        public void SaveTableBlock(TableBlock block)
+        {
+            var databaseTableBlock = _unitOfWork.DisplayBlocks.Get(block.Id) as TableBlock;
+            databaseTableBlock.Height = block.Height;
+            databaseTableBlock.Left = block.Left;
+            databaseTableBlock.Top = block.Top;
+            databaseTableBlock.Width = block.Width;
+            databaseTableBlock.Details.FontName = block.Details.FontName;
+            databaseTableBlock.Details.FontSize = block.Details.FontSize;
+            UpdateRowDetails(databaseTableBlock.Details.EvenRowDetails, block.Details.EvenRowDetails);
+            UpdateRowDetails(databaseTableBlock.Details.OddRowDetails, block.Details.OddRowDetails);
+            UpdateRowDetails(databaseTableBlock.Details.HeaderDetails, block.Details.HeaderDetails);
+
+            var cellsToDelete = databaseTableBlock.Details.Cells
+                .Where(dbCell => !block.Details.Cells.Any(cell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column)));
+            foreach (var cellToDelete in cellsToDelete)
+            {
+                databaseTableBlock.Details.Cells.Remove(cellToDelete);
+            }
+            foreach (var cell in block.Details.Cells)
+            {
+                var databaseCell = databaseTableBlock.Details.Cells.FirstOrDefault(dbCell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column));
+                if (databaseCell == null)
+                {
+                    databaseTableBlock.Details.Cells.Add(new TableBlockCellDetails
+                    {
+                        Row = cell.Row,
+                        Column = cell.Column,
+                        Value = cell.Value
+                    });
+                }
+                else
+                {
+                    databaseCell.Value = cell.Value;
+                }
+            }
+            _unitOfWork.DisplayBlocks.Update(databaseTableBlock);
+            _unitOfWork.Complete();
+        }
+
+        private void UpdateRowDetails(TableBlockRowDetails destination, TableBlockRowDetails source)
+        {
+            destination.Align = source.Align;
+            destination.BackColor = source.BackColor;
+            destination.Bold = source.Bold;
+            destination.Italic = source.Italic;
+            destination.TextColor = source.TextColor;
+        }
     }
 }

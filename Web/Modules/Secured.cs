@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using DomainObjects.Blocks;
-using DomainObjects.Blocks.Details;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Security;
 using ServiceInterfaces;
+using System.Collections.Generic;
 using System.Linq;
 using Web.Models;
 using Web.Models.Blocks;
+using Web.Models.Blocks.Binders;
 using Web.Profiles;
 
 namespace Web.Modules
@@ -106,26 +107,14 @@ namespace Web.Modules
                 if (data.Type.Equals("text", System.StringComparison.InvariantCultureIgnoreCase))
                 {
                     var b = this.Bind<TextBlockDto>();
-                    var block = new TextBlock
-                    {
-                        Height = b.Height,
-                        Id = b.Id,
-                        Left = b.Left,
-                        Top = b.Top,
-                        Width = b.Width,
-                        Details = new TextBlockDetails
-                        {
-                            Text = b.Text,
-                            BackColor = b.BackColor,
-                            TextColor = b.TextColor,
-                            FontName = b.Font,
-                            FontSize = b.FontSize,
-                            Align = b.Align,
-                            Italic = b.Italic,
-                            Bold = b.Bold
-                        }
-                    };
+                    var block = _mapper.Map<TextBlock>(b);
                     blockController.SaveTextBlock(block);
+                }
+                else if (data.Type.Equals("table", System.StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var b = this.Bind<TableBlockDto>();
+                    var block = _mapper.Map<TableBlock>(b);
+                    blockController.SaveTableBlock(block);
                 }
 
                 return Response.AsJson(true);

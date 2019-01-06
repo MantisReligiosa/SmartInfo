@@ -11,7 +11,8 @@
         $.ajax({
             method: method,
             url: url,
-            data: data,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             headers: {
                 'Accept': 'application/json'

@@ -8,6 +8,6 @@
         public RowStyleDto EvenStyle { get; set; }
         public RowStyleDto OddStyle { get; set; }
         public string[] Header { get; set; }
-        public string[][] Rows { get; set; }
+        public RowDto[] Rows { get; set; }
     }
 }

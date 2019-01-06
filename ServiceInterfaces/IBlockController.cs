@@ -9,5 +9,6 @@ namespace ServiceInterfaces
         TableBlock AddTableBlock();
         IEnumerable<DisplayBlock> GetBlocks();
         void SaveTextBlock(TextBlock textBlock);
+        void SaveTableBlock(TableBlock block);
     }
 }
