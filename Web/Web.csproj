@@ -260,6 +260,7 @@
     <Content Include="Script\app\master.viewmodel.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Script\app\tableBlockEdit.viewmodel.js" />
     <Content Include="Script\app\_run.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -355,6 +356,7 @@
     <Content Include="Views\Home\ScreenProperties.cshtml" />
     <Content Include="Views\Home\TextBlockProperties.cshtml" />
     <Content Include="Views\Shared\PropertiesLayout.cshtml" />
+    <Content Include="Views\Home\TableBlockProperties.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

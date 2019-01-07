@@ -2,7 +2,7 @@ function masterViewModel(app) {
     var self = this;
 
     self.fonts = ko.observableArray([]);
-    
+
     self.fontSizes = ko.observableArray([]);
     self.screenHeight = ko.observable();
     self.screenWidth = ko.observable();
@@ -14,6 +14,7 @@ function masterViewModel(app) {
     self.gridEnabled = ko.observable(true);
 
     self.textBlockEditViewModel = ko.computed(function () { return new TextBlockEditViewModel(self); });
+    self.tableBlockEditViewModel = ko.computed(function () { return new TableBlockEditViewModel(self); });
 
     self.background = ko.observable("#ffffff");
 
@@ -57,6 +58,15 @@ function masterViewModel(app) {
                 self.textBlockEditViewModel().italic(block.italic);
                 self.textBlockEditViewModel().bold(block.bold);
             };
+            if (block.type === 'table') {
+                self.tableBlockEditViewModel().setFont(block.font);
+                self.tableBlockEditViewModel().setFontSize(block.fontSize);
+                self.tableBlockEditViewModel().headerTextColor(block.headerStyle.textColor);
+                self.tableBlockEditViewModel().headerBackColor(block.headerStyle.backColor);
+                self.tableBlockEditViewModel().headerItalic(block.headerStyle.italic);
+                self.tableBlockEditViewModel().headerBold(block.headerStyle.bold);
+                self.tableBlockEditViewModel().headerAlign(block.headerStyle.align.toString());
+            }
         };
     };
 
@@ -85,6 +95,15 @@ function masterViewModel(app) {
             block.italic = self.textBlockEditViewModel().italic();
             block.bold = self.textBlockEditViewModel().bold();
         };
+        if (block.type === 'table') {
+            block.font = self.tableBlockEditViewModel().selectedFonts()[0];
+            block.fontSize = self.tableBlockEditViewModel().selectedFontSizes()[0];
+            block.headerStyle.textColor = self.tableBlockEditViewModel().headerTextColor();
+            block.headerStyle.backColor = self.tableBlockEditViewModel().headerBackColor();
+            block.headerStyle.italic = self.tableBlockEditViewModel().headerItalic();
+            block.headerStyle.bold = self.tableBlockEditViewModel().headerBold();
+            block.headerStyle.align=self.tableBlockEditViewModel().headerAlign();
+        }
         app.request(
             "POST",
             "/api/saveBlock",
@@ -134,6 +153,7 @@ function masterViewModel(app) {
         });
 
         self.textBlockEditViewModel().initializeControls();
+        self.tableBlockEditViewModel().initializeControls();
     };
 
     initReact = function () {

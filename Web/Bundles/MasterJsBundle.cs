@@ -1,4 +1,4 @@
-﻿using Nancy.Bundle;
+using Nancy.Bundle;
 using System.Collections.Generic;
 
 namespace Web.Bundles
@@ -10,7 +10,8 @@ namespace Web.Bundles
             return new List<IContentItem>()
             {
                 new ContentFile("~/script/app/master.viewmodel.js", eMinify.DoNotMinifyIt),
-                new ContentFile("~/script/app/textBlockEdit.viewmodel.js", eMinify.DoNotMinifyIt)
+                new ContentFile("~/script/app/textBlockEdit.viewmodel.js", eMinify.DoNotMinifyIt),
+                new ContentFile("~/script/app/tableBlockEdit.viewmodel.js", eMinify.DoNotMinifyIt)
             };
         }
 

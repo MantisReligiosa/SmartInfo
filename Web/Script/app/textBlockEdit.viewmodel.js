@@ -21,20 +21,12 @@
     };
 
     self.initializeControls = function () {
-        //textBlockBackgroundCP
         $('#textBlockBackgroundCP').colorpicker({
             format: "rgba"
         });
-        $('#textBlockBackgroundCP').on('colorpickerChange', function (e) {
-            self.textBlockBackColor = e.color.toString();
-        });
 
-        //textBlockTextColorCP
         $('#textBlockTextColorCP').colorpicker({
             format: "rgba"
-        });
-        $('#textBlockTextColorCP').on('colorpickerChange', function (e) {
-            self.textBlockTextColor = e.color.toString();
         });
     }
 }
