@@ -1,5 +1,5 @@
 ﻿<div class="form-group">
-    <select class="form-control fontPicker d-inline" id="sel1" data-bind="selectedOptions:$parent.tableBlockEditViewModel().selectedFonts">
+    <select class="form-control fontPicker d-inline" data-bind="selectedOptions:$parent.tableBlockEditViewModel().selectedFonts">
         <!-- ko foreach: $parent.fonts()-->
         <option data-bind="style:{fontFamily:$data}, text:$data, value:$data"></option>
         <!-- /ko-->
@@ -9,19 +9,19 @@
 </div>
 
 <div class="form-group">
-    <div class="accordion accordion-properties" id="accordionExample">
+    <div class="accordion accordion-properties" id="tableAccordion">
         <div class="card">
-            <div class="card-header" id="headingOne">
+            <div class="card-header" id="headingHeader">
                 <h5 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseHeader" aria-expanded="true" aria-controls="collapseHeader">
                         Формат заголовка
                     </button>
                 </h5>
             </div>
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div id="collapseHeader" class="collapse show" aria-labelledby="headingHeader" data-parent="#tableAccordion">
                 <div class="card-body">
                     <div id="tableBlockHeaderBackgroundCP" class="input-group colorpicker-component">
-                        <span class="input-group-text color-prompt" id="basic-addon1">Цвет фона</span>
+                        <span class="input-group-text color-prompt">Цвет фона</span>
                         <input type="text" class="form-control" data-bind="value:$parent.tableBlockEditViewModel().headerBackColor" />
                         <span class="input-group-append">
                             <span class="input-group-text colorpicker-input-addon">
@@ -30,7 +30,7 @@
                         </span>
                     </div>
                     <div id="tableBlockHeaderTextColorCP" class="input-group colorpicker-component">
-                        <span class="input-group-text color-prompt" id="basic-addon2">Цвет текста</span>
+                        <span class="input-group-text color-prompt">Цвет текста</span>
                         <input type="text" class="form-control" data-bind="value:$parent.tableBlockEditViewModel().headerTextColor" />
                         <span class="input-group-append">
                             <span class="input-group-text colorpicker-input-addon">
@@ -39,43 +39,74 @@
                         </span>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="italicCheck" data-bind="checked: $parent.tableBlockEditViewModel().headerItalic">
+                        <input type="checkbox" class="form-check-input" id="headerItalic" data-bind="checked: $parent.tableBlockEditViewModel().headerItalic">
                         <label class="form-check-label" for="italicCheck">Курсив</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="boldCheck" data-bind="checked: $parent.tableBlockEditViewModel().headerBold">
+                        <input type="checkbox" class="form-check-input" id="headerBold" data-bind="checked: $parent.tableBlockEditViewModel().headerBold">
                         <label class="form-check-label" for="boldCheck">Полужирный</label>
                     </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" value="0" data-bind="checked: $parent.tableBlockEditViewModel().headerAlign">По левому краю</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" value="1" data-bind="checked: $parent.textBlockEditViewModel().headerAlign">По центру</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" value="2" data-bind="checked: $parent.textBlockEditViewModel().headerAlign">По правому краю</label>
+                    <div id="headerAlign">
+                        <div class="radio">
+                            <label><input type="radio" name="headerAlign" value="0" data-bind="checked: $parent.tableBlockEditViewModel().headerAlign">По левому краю</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="headerAlign" value="1" data-bind="checked: $parent.tableBlockEditViewModel().headerAlign">По центру</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="headerAlign" value="2" data-bind="checked: $parent.tableBlockEditViewModel().headerAlign">По правому краю</label>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="card">
-            <div class="card-header" id="headingOne">
+            <div class="card-header" id="headingOdd">
                 <h5 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseStyle" aria-expanded="true" aria-controls="collapseStyle">
-                        Начертание
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOdd" aria-expanded="true" aria-controls="collapseStyle">
+                        Формат четных строк
+                        <!-- Пользователь номерует строки с 1, т.е. чётные в массиве - нечетные для пользователя-->
                     </button>
                 </h5>
             </div>
-            <div id="collapseStyle" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div id="collapseOdd" class="collapse" aria-labelledby="headingOdd" data-parent="#tableAccordion">
                 <div class="card-body">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="italicCheck" data-bind="checked: $parent.textBlockEditViewModel().italic">
-                        <label class="form-check-label" for="italicCheck">Курсив</label>
+                    <div id="tableBlockOddBackgroundCP" class="input-group colorpicker-component">
+                        <span class="input-group-text color-prompt">Цвет фона</span>
+                        <input type="text" class="form-control" data-bind="value:$parent.tableBlockEditViewModel().oddBackColor" />
+                        <span class="input-group-append">
+                            <span class="input-group-text colorpicker-input-addon">
+                                <i data-bind="style: {'background-color':$parent.tableBlockEditViewModel().oddBackColor}"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <div id="tableBlockOddTextColorCP" class="input-group colorpicker-component">
+                        <span class="input-group-text color-prompt">Цвет текста</span>
+                        <input type="text" class="form-control" data-bind="value:$parent.tableBlockEditViewModel().oddTextColor" />
+                        <span class="input-group-append">
+                            <span class="input-group-text colorpicker-input-addon">
+                                <i data-bind="style: {'background-color':$parent.tableBlockEditViewModel().oddTextColor}"></i>
+                            </span>
+                        </span>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="boldCheck" data-bind="checked: $parent.textBlockEditViewModel().bold">
-                        <label class="form-check-label" for="boldCheck">Полужирный</label>
+                        <input type="checkbox" class="form-check-input" id="oddItalic" data-bind="checked: $parent.tableBlockEditViewModel().oddItalic">
+                        <label class="form-check-label" for="oddItalicCheck">Курсив</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="oddBold" data-bind="checked: $parent.tableBlockEditViewModel().oddBold">
+                        <label class="form-check-label" for="oddBoldCheck">Полужирный</label>
+                    </div>
+                    <div id="oddAlign">
+                        <div class="radio">
+                            <label><input type="radio" name="oddAlign" value="0" data-bind="checked: $parent.tableBlockEditViewModel().oddAlign">По левому краю</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="oddAlign" value="1" data-bind="checked: $parent.tableBlockEditViewModel().oddAlign">По центру</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="oddAlign" value="2" data-bind="checked: $parent.tableBlockEditViewModel().oddAlign">По правому краю</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -88,7 +119,7 @@
                     </button>
                 </h5>
             </div>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#tableAccordion">
                 <div class="card-body">
                     <div class="radio">
                         <label><input type="radio" name="optradio" value="0" data-bind="checked: $parent.textBlockEditViewModel().align">По левому краю</label>

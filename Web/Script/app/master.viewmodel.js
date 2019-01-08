@@ -66,6 +66,11 @@ function masterViewModel(app) {
                 self.tableBlockEditViewModel().headerItalic(block.headerStyle.italic);
                 self.tableBlockEditViewModel().headerBold(block.headerStyle.bold);
                 self.tableBlockEditViewModel().headerAlign(block.headerStyle.align.toString());
+                self.tableBlockEditViewModel().oddTextColor(block.oddStyle.textColor);
+                self.tableBlockEditViewModel().oddBackColor(block.oddStyle.backColor);
+                self.tableBlockEditViewModel().oddItalic(block.oddStyle.italic);
+                self.tableBlockEditViewModel().oddBold(block.oddStyle.bold);
+                self.tableBlockEditViewModel().oddAlign(block.oddStyle.align.toString());
             }
         };
     };
@@ -96,13 +101,19 @@ function masterViewModel(app) {
             block.bold = self.textBlockEditViewModel().bold();
         };
         if (block.type === 'table') {
+            self.blocks.remove(block);
             block.font = self.tableBlockEditViewModel().selectedFonts()[0];
             block.fontSize = self.tableBlockEditViewModel().selectedFontSizes()[0];
             block.headerStyle.textColor = self.tableBlockEditViewModel().headerTextColor();
             block.headerStyle.backColor = self.tableBlockEditViewModel().headerBackColor();
             block.headerStyle.italic = self.tableBlockEditViewModel().headerItalic();
             block.headerStyle.bold = self.tableBlockEditViewModel().headerBold();
-            block.headerStyle.align=self.tableBlockEditViewModel().headerAlign();
+            block.headerStyle.align = self.tableBlockEditViewModel().headerAlign();
+            block.oddStyle.textColor = self.tableBlockEditViewModel().oddTextColor();
+            block.oddStyle.backColor = self.tableBlockEditViewModel().oddBackColor();
+            block.oddStyle.italic = self.tableBlockEditViewModel().oddItalic();
+            block.oddStyle.bold = self.tableBlockEditViewModel().oddBold();
+            block.oddStyle.align = self.tableBlockEditViewModel().oddAlign();
         }
         app.request(
             "POST",

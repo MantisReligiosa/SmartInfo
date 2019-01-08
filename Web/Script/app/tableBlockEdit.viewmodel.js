@@ -7,7 +7,12 @@
     self.headerTextColor = ko.observable();
     self.headerItalic = ko.observable(false);
     self.headerBold = ko.observable(false);
-    self.headerAlign = ko.observable(0);
+    self.headerAlign = ko.observable();
+    self.oddBackColor = ko.observable();
+    self.oddTextColor = ko.observable();
+    self.oddItalic = ko.observable(false);
+    self.oddBold = ko.observable(false);
+    self.oddAlign = ko.observable();
 
     self.setFont = function (font) {
         self.selectedFonts.removeAll();
@@ -20,12 +25,9 @@
     };
 
     self.initializeControls = function () {
-        $('#tableBlockHeaderBackgroundCP').colorpicker({
-            format: "rgba"
-        });
-
-        $('#tableBlockHeaderTextColorCP').colorpicker({
-            format: "rgba"
-        });
+        $('#tableBlockHeaderBackgroundCP').colorpicker({format: "rgba"});
+        $('#tableBlockHeaderTextColorCP').colorpicker({ format: "rgba" });
+        $('#tableBlockOddBackgroundCP').colorpicker({ format: "rgba" });
+        $('#tableBlockOddTextColorCP').colorpicker({ format: "rgba" });
     }
 }
