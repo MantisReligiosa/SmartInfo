@@ -61,21 +61,14 @@ function masterViewModel(app) {
             if (block.type === 'table') {
                 self.tableBlockEditViewModel().setFont(block.font);
                 self.tableBlockEditViewModel().setFontSize(block.fontSize);
-                self.tableBlockEditViewModel().headerTextColor(block.headerStyle.textColor);
-                self.tableBlockEditViewModel().headerBackColor(block.headerStyle.backColor);
-                self.tableBlockEditViewModel().headerItalic(block.headerStyle.italic);
-                self.tableBlockEditViewModel().headerBold(block.headerStyle.bold);
-                self.tableBlockEditViewModel().headerAlign(block.headerStyle.align.toString());
-                self.tableBlockEditViewModel().oddTextColor(block.oddStyle.textColor);
-                self.tableBlockEditViewModel().oddBackColor(block.oddStyle.backColor);
-                self.tableBlockEditViewModel().oddItalic(block.oddStyle.italic);
-                self.tableBlockEditViewModel().oddBold(block.oddStyle.bold);
-                self.tableBlockEditViewModel().oddAlign(block.oddStyle.align.toString());
-                self.tableBlockEditViewModel().evenTextColor(block.evenStyle.textColor);
-                self.tableBlockEditViewModel().evenBackColor(block.evenStyle.backColor);
-                self.tableBlockEditViewModel().evenItalic(block.evenStyle.italic);
-                self.tableBlockEditViewModel().evenBold(block.evenStyle.bold);
-                self.tableBlockEditViewModel().evenAlign(block.evenStyle.align.toString());
+
+                self.tableBlockEditViewModel().rowTypes.forEach(function (rowType) {
+                    self.tableBlockEditViewModel()[rowType + 'TextColor'](block[rowType + 'Style'].textColor);
+                    self.tableBlockEditViewModel()[rowType + 'BackColor'](block[rowType + 'Style'].backColor);
+                    self.tableBlockEditViewModel()[rowType + 'Italic'](block[rowType + 'Style'].italic);
+                    self.tableBlockEditViewModel()[rowType + 'Bold'](block[rowType + 'Style'].bold);
+                    self.tableBlockEditViewModel()[rowType + 'Align'](block[rowType + 'Style'].align.toString());
+                });
             }
         };
     };
@@ -109,23 +102,13 @@ function masterViewModel(app) {
             self.blocks.remove(block);
             block.font = self.tableBlockEditViewModel().selectedFonts()[0];
             block.fontSize = self.tableBlockEditViewModel().selectedFontSizes()[0];
-            block.headerStyle.textColor = self.tableBlockEditViewModel().headerTextColor();
-            block.headerStyle.backColor = self.tableBlockEditViewModel().headerBackColor();
-            block.headerStyle.italic = self.tableBlockEditViewModel().headerItalic();
-            block.headerStyle.bold = self.tableBlockEditViewModel().headerBold();
-            block.headerStyle.align = self.tableBlockEditViewModel().headerAlign();
-            block.oddStyle.textColor = self.tableBlockEditViewModel().oddTextColor();
-            block.oddStyle.backColor = self.tableBlockEditViewModel().oddBackColor();
-            block.oddStyle.italic = self.tableBlockEditViewModel().oddItalic();
-            block.oddStyle.bold = self.tableBlockEditViewModel().oddBold();
-            block.oddStyle.align = self.tableBlockEditViewModel().oddAlign();
-            block.evenStyle.textColor = self.tableBlockEditViewModel().evenTextColor();
-            block.evenStyle.backColor = self.tableBlockEditViewModel().evenBackColor();
-            block.evenStyle.italic = self.tableBlockEditViewModel().evenItalic();
-            block.evenStyle.bold = self.tableBlockEditViewModel().evenBold();
-            block.evenStyle.align = self.tableBlockEditViewModel().evenAlign();
-            var t = self.tableBlockEditViewModel()['evenBold']();
-            debugger;
+            self.tableBlockEditViewModel().rowTypes.forEach(function (rowType) {
+                block[rowType + 'Style'].textColor = self.tableBlockEditViewModel()[rowType + 'TextColor']();
+                block[rowType + 'Style'].backColor = self.tableBlockEditViewModel()[rowType + 'BackColor']();
+                block[rowType + 'Style'].italic = self.tableBlockEditViewModel()[rowType + 'Italic']();
+                block[rowType + 'Style'].bold = self.tableBlockEditViewModel()[rowType + 'Bold']();
+                block[rowType + 'Style'].align = self.tableBlockEditViewModel()[rowType + 'Align']();
+            });
         }
         app.request(
             "POST",

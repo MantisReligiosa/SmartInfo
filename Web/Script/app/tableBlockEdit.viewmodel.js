@@ -1,23 +1,19 @@
 ﻿function TableBlockEditViewModel(master) {
     var self = this;
 
+    self.rowTypes = ['header', 'odd', 'even'];
+
     self.selectedFonts = ko.observableArray([""]);
     self.selectedFontSizes = ko.observableArray([""]);
-    self.headerBackColor = ko.observable();
-    self.headerTextColor = ko.observable();
-    self.headerItalic = ko.observable(false);
-    self.headerBold = ko.observable(false);
-    self.headerAlign = ko.observable();
-    self.oddBackColor = ko.observable();
-    self.oddTextColor = ko.observable();
-    self.oddItalic = ko.observable(false);
-    self.oddBold = ko.observable(false);
-    self.oddAlign = ko.observable();
-    self.evenBackColor = ko.observable();
-    self.evenTextColor = ko.observable();
-    self.evenItalic = ko.observable(false);
-    self.evenBold = ko.observable(false);
-    self.evenAlign = ko.observable();
+
+    self.rowTypes.forEach(function (rowType) {
+        self[rowType + 'BackColor'] = ko.observable();
+        self[rowType + 'TextColor'] = ko.observable();
+        self[rowType + 'Italic'] = ko.observable(false);
+        self[rowType + 'Bold'] = ko.observable(false);
+        self[rowType + 'Align'] = ko.observable();
+    });
+
     self.setFont = function (font) {
         self.selectedFonts.removeAll();
         self.selectedFonts.push(font);
@@ -29,11 +25,13 @@
     };
 
     self.initializeControls = function () {
-        $('#tableBlockHeaderBackgroundCP').colorpicker({format: "rgba"});
-        $('#tableBlockHeaderTextColorCP').colorpicker({ format: "rgba" });
-        $('#tableBlockOddBackgroundCP').colorpicker({ format: "rgba" });
-        $('#tableBlockOddTextColorCP').colorpicker({ format: "rgba" });
-        $('#tableBlockEvenBackgroundCP').colorpicker({ format: "rgba" });
-        $('#tableBlockEvenTextColorCP').colorpicker({ format: "rgba" });
+        self.rowTypes.forEach(function (rowType) {
+            $('#tableBlock' + capitalize(rowType) + 'BackgroundCP').colorpicker({ format: "rgba" });
+            $('#tableBlock' + capitalize(rowType) + 'TextColorCP').colorpicker({ format: "rgba" });
+        });
+    }
+
+    function capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 }
