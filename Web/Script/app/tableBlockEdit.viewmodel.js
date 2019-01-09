@@ -13,7 +13,11 @@
     self.oddItalic = ko.observable(false);
     self.oddBold = ko.observable(false);
     self.oddAlign = ko.observable();
-
+    self.evenBackColor = ko.observable();
+    self.evenTextColor = ko.observable();
+    self.evenItalic = ko.observable(false);
+    self.evenBold = ko.observable(false);
+    self.evenAlign = ko.observable();
     self.setFont = function (font) {
         self.selectedFonts.removeAll();
         self.selectedFonts.push(font);
@@ -29,5 +33,7 @@
         $('#tableBlockHeaderTextColorCP').colorpicker({ format: "rgba" });
         $('#tableBlockOddBackgroundCP').colorpicker({ format: "rgba" });
         $('#tableBlockOddTextColorCP').colorpicker({ format: "rgba" });
+        $('#tableBlockEvenBackgroundCP').colorpicker({ format: "rgba" });
+        $('#tableBlockEvenTextColorCP').colorpicker({ format: "rgba" });
     }
 }

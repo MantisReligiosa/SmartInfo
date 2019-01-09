@@ -61,6 +61,57 @@
             </div>
         </div>
         <div class="card">
+            <div class="card-header" id="headingEven">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseEven" aria-expanded="true" aria-controls="collapseStyle">
+                        Формат нечетных строк
+                        <!-- Пользователь номерует строки с 1, т.е. чётные в массиве - нечетные для пользователя-->
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseEven" class="collapse" aria-labelledby="headingEven" data-parent="#tableAccordion">
+                <div class="card-body">
+                    <div id="tableBlockEvenBackgroundCP" class="input-group colorpicker-component">
+                        <span class="input-group-text color-prompt">Цвет фона</span>
+                        <input type="text" class="form-control" data-bind="value:$parent.tableBlockEditViewModel().evenBackColor" />
+                        <span class="input-group-append">
+                            <span class="input-group-text colorpicker-input-addon">
+                                <i data-bind="style: {'background-color':$parent.tableBlockEditViewModel().evenBackColor}"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <div id="tableBlockEvenTextColorCP" class="input-group colorpicker-component">
+                        <span class="input-group-text color-prompt">Цвет текста</span>
+                        <input type="text" class="form-control" data-bind="value:$parent.tableBlockEditViewModel().evenTextColor" />
+                        <span class="input-group-append">
+                            <span class="input-group-text colorpicker-input-addon">
+                                <i data-bind="style: {'background-color':$parent.tableBlockEditViewModel().evenTextColor}"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="evenItalic" data-bind="checked: $parent.tableBlockEditViewModel().evenItalic">
+                        <label class="form-check-label" for="evenItalicCheck">Курсив</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="evenBold" data-bind="checked: $parent.tableBlockEditViewModel().evenBold">
+                        <label class="form-check-label" for="evenBoldCheck">Полужирный</label>
+                    </div>
+                    <div id="evenAlign">
+                        <div class="radio">
+                            <label><input type="radio" name="evenAlign" value="0" data-bind="checked: $parent.tableBlockEditViewModel().evenAlign">По левому краю</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="evenAlign" value="1" data-bind="checked: $parent.tableBlockEditViewModel().evenAlign">По центру</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="evenAlign" value="2" data-bind="checked: $parent.tableBlockEditViewModel().evenAlign">По правому краю</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
             <div class="card-header" id="headingOdd">
                 <h5 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOdd" aria-expanded="true" aria-controls="collapseStyle">
@@ -107,28 +158,6 @@
                         <div class="radio">
                             <label><input type="radio" name="oddAlign" value="2" data-bind="checked: $parent.tableBlockEditViewModel().oddAlign">По правому краю</label>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header" id="headingTwo">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Выравнивание
-                    </button>
-                </h5>
-            </div>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#tableAccordion">
-                <div class="card-body">
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" value="0" data-bind="checked: $parent.textBlockEditViewModel().align">По левому краю</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" value="1" data-bind="checked: $parent.textBlockEditViewModel().align">По центру</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" value="2" data-bind="checked: $parent.textBlockEditViewModel().align">По правому краю</label>
                     </div>
                 </div>
             </div>

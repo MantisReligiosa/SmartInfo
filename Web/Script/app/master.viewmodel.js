@@ -71,6 +71,11 @@ function masterViewModel(app) {
                 self.tableBlockEditViewModel().oddItalic(block.oddStyle.italic);
                 self.tableBlockEditViewModel().oddBold(block.oddStyle.bold);
                 self.tableBlockEditViewModel().oddAlign(block.oddStyle.align.toString());
+                self.tableBlockEditViewModel().evenTextColor(block.evenStyle.textColor);
+                self.tableBlockEditViewModel().evenBackColor(block.evenStyle.backColor);
+                self.tableBlockEditViewModel().evenItalic(block.evenStyle.italic);
+                self.tableBlockEditViewModel().evenBold(block.evenStyle.bold);
+                self.tableBlockEditViewModel().evenAlign(block.evenStyle.align.toString());
             }
         };
     };
@@ -114,6 +119,13 @@ function masterViewModel(app) {
             block.oddStyle.italic = self.tableBlockEditViewModel().oddItalic();
             block.oddStyle.bold = self.tableBlockEditViewModel().oddBold();
             block.oddStyle.align = self.tableBlockEditViewModel().oddAlign();
+            block.evenStyle.textColor = self.tableBlockEditViewModel().evenTextColor();
+            block.evenStyle.backColor = self.tableBlockEditViewModel().evenBackColor();
+            block.evenStyle.italic = self.tableBlockEditViewModel().evenItalic();
+            block.evenStyle.bold = self.tableBlockEditViewModel().evenBold();
+            block.evenStyle.align = self.tableBlockEditViewModel().evenAlign();
+            var t = self.tableBlockEditViewModel()['evenBold']();
+            debugger;
         }
         app.request(
             "POST",
