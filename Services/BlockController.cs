@@ -138,11 +138,15 @@ namespace Services
             UpdateRowDetails(databaseTableBlock.Details.HeaderDetails, block.Details.HeaderDetails);
 
             var cellsToDelete = databaseTableBlock.Details.Cells
-                .Where(dbCell => !block.Details.Cells.Any(cell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column)));
+                .Where(dbCell => !block.Details.Cells.Any(cell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column))).ToList();
             foreach (var cellToDelete in cellsToDelete)
             {
-                databaseTableBlock.Details.Cells.Remove(cellToDelete);
+                _unitOfWork.TableBlockCellDetails.Delete(cellToDelete.Id);
+                //cellToDelete.TableBlockDetails = null;
+                //cellToDelete.TableBlockDetailsId = new System.Guid();
+                //databaseTableBlock.Details.Cells.Remove(cellToDelete);
             }
+            _unitOfWork.Complete();
             foreach (var cell in block.Details.Cells)
             {
                 var databaseCell = databaseTableBlock.Details.Cells.FirstOrDefault(dbCell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column));

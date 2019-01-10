@@ -69,6 +69,9 @@ function masterViewModel(app) {
                     self.tableBlockEditViewModel()[rowType + 'Bold'](block[rowType + 'Style'].bold);
                     self.tableBlockEditViewModel()[rowType + 'Align'](block[rowType + 'Style'].align.toString());
                 });
+
+                self.tableBlockEditViewModel().rows(block.rows);
+                self.tableBlockEditViewModel().header(block.header);
             }
         };
     };
@@ -109,6 +112,8 @@ function masterViewModel(app) {
                 block[rowType + 'Style'].bold = self.tableBlockEditViewModel()[rowType + 'Bold']();
                 block[rowType + 'Style'].align = self.tableBlockEditViewModel()[rowType + 'Align']();
             });
+            block.rows = self.tableBlockEditViewModel().rows();
+            block.header = self.tableBlockEditViewModel().header();
         }
         app.request(
             "POST",
