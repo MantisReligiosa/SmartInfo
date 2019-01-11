@@ -147,9 +147,10 @@ function masterViewModel(app) {
 
     $(document).ready(function () {
         initializeControls();
-        loadFonts();
-        loadDisplays();
-        loadBlocks();
+        loadFonts()
+            .then(function () { return loadResolution(); })
+            .then(function () { return loadBackground(); })
+            .then(function () { return loadBlocks(); });
         initReact();
     });
 
@@ -296,43 +297,59 @@ function masterViewModel(app) {
         );
     }
 
-    loadDisplays = function () {
-        app.request(
-            "POST",
-            "/api/screenResolution",
-            {
-                refreshData: false
-            },
-            function (data) {
-                self.screenHeight(data.height);
-                self.screenWidth(data.width);
-                data.displays.forEach(function (screen) {
-                    self.screens.push(screen);
-                });
+    loadResolution = function () {
+        return new Promise(
+            function (resolve, reject) {
+                app.request(
+                    "POST",
+                    "/api/screenResolution",
+                    {
+                        refreshData: false
+                    },
+                    function (data) {
+                        self.screenHeight(data.height);
+                        self.screenWidth(data.width);
+                        data.displays.forEach(function (screen) {
+                            self.screens.push(screen);
+                        });
+                        resolve();
+                    });
             });
-        app.request(
-            "GET",
-            "/api/background",
-            {},
-            function (data) {
-                if (data == '') {
-                    self.background("#ffffff");
-                }
-                else {
-                    self.background(data);
-                }
+    }
+
+    loadBackground = function () {
+        return new Promise(
+            function (resolve, reject) {
+                app.request(
+                    "GET",
+                    "/api/background",
+                    {},
+                    function (data) {
+                        if (data == '') {
+                            self.background("#ffffff");
+                        }
+                        else {
+                            self.background(data);
+                        }
+                        resolve();
+                    });
             });
     }
 
     loadFonts = function () {
-        app.request("POST", "/api/fonts", {}, function (data) {
-            data.fonts.forEach(function (entry) {
-                self.fonts.push(entry);
+        return new Promise(
+            function (resolve, reject) {
+                app.request("POST", "/api/fonts", {}, function (data) {
+                    data.fonts.forEach(function (entry) {
+                        self.fonts.push(entry);
+                    });
+                    data.fonSizes.forEach(function (entry) {
+                        self.fontSizes.push(entry);
+                    });
+                    resolve();
+                });
+
             });
-            data.fonSizes.forEach(function (entry) {
-                self.fontSizes.push(entry);
-            });
-        });
     }
 }
 
