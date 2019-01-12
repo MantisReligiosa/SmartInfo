@@ -197,12 +197,13 @@ input[type=number] {
     -ms-user-select: none;
     user-select: none;
     cursor: move;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
 }
 
 .textblock {
     padding: 1px;
-    width: -webkit-fill-available;
-    height: -webkit-fill-available;
+    
 }
 
 .resize-drag {
