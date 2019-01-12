@@ -98,6 +98,10 @@
     <Compile Include="Migrations\201901120437051_ZIndex.Designer.cs">
       <DependentUpon>201901120437051_ZIndex.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901120807598_PictureBlockDetails.cs" />
+    <Compile Include="Migrations\201901120807598_PictureBlockDetails.Designer.cs">
+      <DependentUpon>201901120807598_PictureBlockDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DisplayBlockRepository.cs" />
@@ -145,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901120437051_ZIndex.resx">
       <DependentUpon>201901120437051_ZIndex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901120807598_PictureBlockDetails.resx">
+      <DependentUpon>201901120807598_PictureBlockDetails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

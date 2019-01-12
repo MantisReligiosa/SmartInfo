@@ -42,6 +42,18 @@ function masterViewModel(app) {
         );
     }
 
+    self.addPictureBlock  = function () {
+        app.request(
+            "POST",
+            "api/addPictureBlock",
+            {},
+            function (data) {
+                data.selected = false;
+                self.blocks.push(data);
+            }
+        );
+    }
+
     self.showProperties = function () {
         $("#properties")
             .modal({ backdrop: 'static', keyboard: false })

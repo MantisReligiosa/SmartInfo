@@ -1,7 +1,10 @@
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
 using ServiceInterfaces;
+using Services.Properties;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Services
@@ -99,6 +102,25 @@ namespace Services
             return block;
         }
 
+        public PictureBlock AddPictureBlock()
+        {
+            var block = _unitOfWork.DisplayBlocks.Create(new PictureBlock
+            {
+                Height = 50,
+                Width = 50,
+                Details = new PictureBlockDetails()
+            }) as PictureBlock;
+
+            using (var stream = new MemoryStream())
+            {
+                Resources.DefImage.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                block.Details.Base64Image = Convert.ToBase64String(stream.ToArray());
+            }
+
+            _unitOfWork.Complete();
+            return block;
+        }
+
         public void SaveTextBlock(TextBlock textBlock)
         {
             var block = _unitOfWork.DisplayBlocks.Get(textBlock.Id) as TextBlock;
@@ -116,12 +138,6 @@ namespace Services
             block.Details.Bold = textBlock.Details.Bold;
             _unitOfWork.DisplayBlocks.Update(block);
             _unitOfWork.Complete();
-        }
-
-        public IEnumerable<DisplayBlock> GetBlocks()
-        {
-            var result = _unitOfWork.DisplayBlocks.GetAll();
-            return result;
         }
 
         public void SaveTableBlock(TableBlock block)
@@ -142,9 +158,6 @@ namespace Services
             foreach (var cellToDelete in cellsToDelete)
             {
                 _unitOfWork.TableBlockCellDetails.Delete(cellToDelete.Id);
-                //cellToDelete.TableBlockDetails = null;
-                //cellToDelete.TableBlockDetailsId = new System.Guid();
-                //databaseTableBlock.Details.Cells.Remove(cellToDelete);
             }
             _unitOfWork.Complete();
             foreach (var cell in block.Details.Cells)
@@ -166,6 +179,12 @@ namespace Services
             }
             _unitOfWork.DisplayBlocks.Update(databaseTableBlock);
             _unitOfWork.Complete();
+        }
+
+        public IEnumerable<DisplayBlock> GetBlocks()
+        {
+            var result = _unitOfWork.DisplayBlocks.GetAll();
+            return result;
         }
 
         private void UpdateRowDetails(TableBlockRowDetails destination, TableBlockRowDetails source)

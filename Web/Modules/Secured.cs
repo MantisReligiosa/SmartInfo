@@ -76,6 +76,12 @@ namespace Web.Modules
                 var block = _mapper.Map<TableBlockDto>(tableBlock);
                 return Response.AsJson(block);
             };
+            Post["/api/addPictureBlock"] = parameters =>
+            {
+                var pictureBlock = blockController.AddPictureBlock();
+                var block = _mapper.Map<PictureBlockDto>(pictureBlock);
+                return Response.AsJson(block);
+            };
             Get["/api/blocks"] = parameters =>
             {
                 var blocks = blockController.GetBlocks().Select(b =>
@@ -88,6 +94,11 @@ namespace Web.Modules
                     if (b is TableBlock tableBlock)
                     {
                         var block = _mapper.Map<TableBlockDto>(tableBlock);
+                        return block;
+                    }
+                    if (b is PictureBlock pictureBlock)
+                    {
+                        var block = _mapper.Map<PictureBlockDto>(pictureBlock);
                         return block;
                     }
                     return new BlockDto
