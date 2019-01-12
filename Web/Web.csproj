@@ -260,7 +260,12 @@
     <Content Include="Script\app\master.viewmodel.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Script\app\tableBlockEdit.viewmodel.js" />
+    <Content Include="Script\app\pictureBlockEdit.viewmodel.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Script\app\tableBlockEdit.viewmodel.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Script\app\_run.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -308,6 +313,7 @@
     <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Models\Blocks\Binders\FromBodyJsonBinder.cs" />
     <Compile Include="Models\Blocks\BlockDto.cs" />
+    <Compile Include="Models\Blocks\PictureBlockDto.cs" />
     <Compile Include="Models\Blocks\RowDto.cs" />
     <Compile Include="Models\Blocks\RowStyleDto.cs" />
     <Compile Include="Models\Blocks\TableBlockDto.cs" />
@@ -323,6 +329,7 @@
     <Compile Include="Modules\Secured.cs" />
     <Compile Include="Profiles\AutoMapperConfig.cs" />
     <Compile Include="Profiles\TableBlockProfile.cs" />
+    <Compile Include="Profiles\PictureBlockProfile.cs" />
     <Compile Include="Profiles\TextBlockProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RazorConfig.cs" />
@@ -346,7 +353,9 @@
     <Content Include="Views\Shared\_ErrorLayout.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Script\app\textBlockEdit.viewmodel.js" />
+    <Content Include="Script\app\textBlockEdit.viewmodel.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Views\Home\Login.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -357,6 +366,7 @@
     <Content Include="Views\Home\TextBlockProperties.cshtml" />
     <Content Include="Views\Shared\PropertiesLayout.cshtml" />
     <Content Include="Views\Home\TableBlockProperties.cshtml" />
+    <Content Include="Views\Home\PictureBlockProperties.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

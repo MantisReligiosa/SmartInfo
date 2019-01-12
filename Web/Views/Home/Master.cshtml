@@ -23,6 +23,9 @@
                    }">
         </label>
         <!-- /ko-->
+        <!-- ko if: type == "picture"-->
+        <img data-bind="attr:{src:'data:image/png;base64, '+ $data.base64Src}"/>
+        <!-- /ko-->
         <!-- ko if: type == "table"-->
         <table class="blockContent" data-bind="style:{
                'font-family' : font,
@@ -96,6 +99,9 @@
                     <!-- /ko-->
                     <!-- ko if:  $data.type === 'table' -->
                     @Html.Partial("Home/TableBlockProperties")
+                    <!-- /ko-->
+                    <!-- ko if: type == "picture"-->
+                    @Html.Partial("Home/PictureBlockProperties")
                     <!-- /ko-->
                     <!-- /ko-->
 

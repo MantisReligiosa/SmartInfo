@@ -15,6 +15,7 @@ function masterViewModel(app) {
 
     self.textBlockEditViewModel = ko.computed(function () { return new TextBlockEditViewModel(self); });
     self.tableBlockEditViewModel = ko.computed(function () { return new TableBlockEditViewModel(self); });
+    self.pictureBlockEditViewModel = ko.computed(function () { return new PictureBlockEditViewModel(self); });
 
     self.background = ko.observable("#ffffff");
 
@@ -34,6 +35,18 @@ function masterViewModel(app) {
         app.request(
             "POST",
             "api/addTableBlock",
+            {},
+            function (data) {
+                data.selected = false;
+                self.blocks.push(data);
+            }
+        );
+    }
+
+    self.addPictureBlock = function () {
+        app.request(
+            "POST",
+            "api/addPictureBlock",
             {},
             function (data) {
                 data.selected = false;
@@ -72,7 +85,10 @@ function masterViewModel(app) {
 
                 self.tableBlockEditViewModel().rows(block.rows);
                 self.tableBlockEditViewModel().header(block.header);
-            }
+            };
+            if (block.type === 'picture') {
+                self.pictureBlockEditViewModel().base64Image(block.base64Src);
+            };
         };
     };
 
@@ -114,6 +130,10 @@ function masterViewModel(app) {
             });
             block.rows = self.tableBlockEditViewModel().rows();
             block.header = self.tableBlockEditViewModel().header();
+        }
+        if (block.type === 'picture') {
+            self.blocks.remove(block);
+            block.base64Src = self.pictureBlockEditViewModel().base64Image();
         }
         app.request(
             "POST",

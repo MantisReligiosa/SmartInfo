@@ -2,6 +2,6 @@
 {
     public class PictureBlockDetails : BlockDetails
     {
-        public byte[] Image { get; set; }
+        public string Base64Image { get; set; }
     }
 }

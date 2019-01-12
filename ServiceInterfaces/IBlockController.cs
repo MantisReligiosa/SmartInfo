@@ -7,8 +7,10 @@ namespace ServiceInterfaces
     {
         TextBlock AddTextBlock();
         TableBlock AddTableBlock();
+        PictureBlock AddPictureBlock();
         IEnumerable<DisplayBlock> GetBlocks();
         void SaveTextBlock(TextBlock textBlock);
         void SaveTableBlock(TableBlock block);
+        void SavePictureBlock(PictureBlock block);
     }
 }

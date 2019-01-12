@@ -4,11 +4,9 @@ using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Security;
 using ServiceInterfaces;
-using System.Collections.Generic;
 using System.Linq;
 using Web.Models;
 using Web.Models.Blocks;
-using Web.Models.Blocks.Binders;
 using Web.Profiles;
 
 namespace Web.Modules
@@ -76,6 +74,12 @@ namespace Web.Modules
                 var block = _mapper.Map<TableBlockDto>(tableBlock);
                 return Response.AsJson(block);
             };
+            Post["/api/addPictureBlock"] = parameters =>
+            {
+                var pictureBlock = blockController.AddPictureBlock();
+                var block = _mapper.Map<PictureBlockDto>(pictureBlock);
+                return Response.AsJson(block);
+            };
             Get["/api/blocks"] = parameters =>
             {
                 var blocks = blockController.GetBlocks().Select(b =>
@@ -88,6 +92,11 @@ namespace Web.Modules
                     if (b is TableBlock tableBlock)
                     {
                         var block = _mapper.Map<TableBlockDto>(tableBlock);
+                        return block;
+                    }
+                    if (b is PictureBlock pictureBlock)
+                    {
+                        var block = _mapper.Map<PictureBlockDto>(pictureBlock);
                         return block;
                     }
                     return new BlockDto
@@ -115,6 +124,12 @@ namespace Web.Modules
                     var b = this.Bind<TableBlockDto>();
                     var block = _mapper.Map<TableBlock>(b);
                     blockController.SaveTableBlock(block);
+                }
+                else if (data.Type.Equals("picture", System.StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var b = this.Bind<PictureBlockDto>();
+                    var block = _mapper.Map<PictureBlock>(b);
+                    blockController.SavePictureBlock(block);
                 }
 
                 return Response.AsJson(true);
