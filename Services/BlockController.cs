@@ -193,10 +193,37 @@ namespace Services
             _unitOfWork.Complete();
         }
 
+        public TextBlock CopyTextBlock(TextBlock source)
+        {
+            var block = _unitOfWork.DisplayBlocks.Create(new TextBlock(source)) as TextBlock;
+            _unitOfWork.Complete();
+            return block;
+        }
+
+        public TableBlock CopyTableBlock(TableBlock source)
+        {
+            var block = _unitOfWork.DisplayBlocks.Create(new TableBlock(source)) as TableBlock;
+            _unitOfWork.Complete();
+            return block;
+        }
+
+        public PictureBlock CopyPictureBlock(PictureBlock source)
+        {
+            var block = _unitOfWork.DisplayBlocks.Create(new PictureBlock(source)) as PictureBlock;
+            _unitOfWork.Complete();
+            return block;
+        }
+
         public IEnumerable<DisplayBlock> GetBlocks()
         {
             var result = _unitOfWork.DisplayBlocks.GetAll();
             return result;
+        }
+
+        public void DeleteBlock(Guid id)
+        {
+            _unitOfWork.DisplayBlocks.Delete(id);
+            _unitOfWork.Complete();
         }
 
         private void UpdateRowDetails(TableBlockRowDetails destination, TableBlockRowDetails source)

@@ -134,6 +134,36 @@ namespace Web.Modules
 
                 return Response.AsJson(true);
             };
+            Post["/api/deleteBlock"] = parameters =>
+            {
+                var data = this.Bind<BlockDto>();
+                blockController.DeleteBlock(data.Id);
+                return Response.AsJson(true);
+            };
+            Post["/api/copyBlock"] = parameters =>
+            {
+                var data = this.Bind<BlockDto>();
+                if (data.Type.Equals("text", System.StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var b = this.Bind<TextBlockDto>();
+                    var block = _mapper.Map<TextBlock>(b);
+                    return _mapper.Map<TextBlockDto>(blockController.CopyTextBlock(block));
+                }
+                else if (data.Type.Equals("table", System.StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var b = this.Bind<TableBlockDto>();
+                    var block = _mapper.Map<TableBlock>(b);
+                    return _mapper.Map<TableBlockDto>(blockController.CopyTableBlock(block));
+                }
+                else if (data.Type.Equals("picture", System.StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var b = this.Bind<PictureBlockDto>();
+                    var block = _mapper.Map<PictureBlock>(b);
+                    return _mapper.Map<PictureBlockDto>(blockController.CopyPictureBlock(block));
+                }
+
+                return Response.AsJson(true);
+            };
         }
     }
 }

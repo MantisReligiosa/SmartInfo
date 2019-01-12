@@ -1,7 +1,8 @@
 function masterViewModel(app) {
-    var self = this;
+    var self = this,
+        clipboard;
 
-    self.fonts = ko.observableArray([]);
+     self.fonts = ko.observableArray([]);
 
     self.fontSizes = ko.observableArray([]);
     self.screenHeight = ko.observable();
@@ -141,6 +142,64 @@ function masterViewModel(app) {
             block,
             function (data) {
                 self.blocks.push(block);
+            }
+        );
+    };
+
+    var isCopying = false;
+
+    self.copy = function () {
+        isCopying = true;
+        clipboard = self.selectedBlock();
+    };
+
+    self.cut = function () {
+        isCopying = false;
+        clipboard = self.selectedBlock();
+        self.blocks.remove(clipboard);
+    };
+
+    self.paste = function () {
+        if (clipboard == null) {
+            return;
+        }
+        app.request(
+            "POST",
+            "/api/copyBlock",
+            clipboard,
+            function (data) {
+                data.selected = true;
+                self.selectedBlock(data);
+                self.blocks.push(data);
+                if (!isCopying) {
+                    app.request(
+                        "POST",
+                        "/api/deleteBlock",
+                        clipboard,
+                        function (data) { }
+                    );
+                }
+                else {
+                    self.blocks.remove(clipboard);
+                    clipboard.selected = false;
+                    self.blocks.push(clipboard);
+                }
+            }
+        );
+    };
+
+    self.deleteBlock = function () {
+        var block = self.selectedBlock();
+        if (block == null) {
+            return;
+        }
+        app.request(
+            "POST",
+            "/api/deleteBlock",
+            block,
+            function (data) {
+                self.blocks.remove(block);
+                self.selectedBlock(null);
             }
         );
     };
