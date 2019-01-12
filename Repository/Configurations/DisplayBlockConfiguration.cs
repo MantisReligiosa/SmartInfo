@@ -13,6 +13,7 @@ namespace Repository.Configurations
             Property(t => t.Top);
             Property(t => t.Width);
             Property(t => t.Height);
+            Property(t => t.ZIndex);
         }
     }
 }

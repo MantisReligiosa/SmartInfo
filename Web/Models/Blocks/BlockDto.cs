@@ -10,5 +10,6 @@ namespace Web.Models.Blocks
         public int Top { get; set; }
         public string Type { get; set; }
         public Guid Id { get; set; }
+        public int ZIndex { get; set; }
     }
 }

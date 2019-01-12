@@ -6,6 +6,7 @@
         public int Top { get; set; }
         public int Height { get; set; }
         public int Width { get; set; }
+        public int ZIndex { get; set; }
     }
 
     public enum Align
