@@ -7,6 +7,14 @@
         });
     }
 
+    self.errorMsg = function (message) {
+        toastr.error(message);
+    }
+
+    self.infoMsg = function (message) {
+        toastr.info(message);
+    }
+
     self.request = function (method, url, data, successHandler) {
         $.ajax({
             method: method,
