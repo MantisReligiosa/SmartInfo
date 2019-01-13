@@ -204,6 +204,46 @@ function masterViewModel(app) {
         );
     };
 
+    self.zUp = function ()
+    {
+        if (self.selectedBlock() == null) {
+            return;
+        }
+        var block = self.selectedBlock();
+        self.blocks.remove(block);
+        block.zIndex++;
+        app.request(
+            "POST",
+            "/api/saveBlock",
+            block,
+            function (data) {
+                self.blocks.push(block);
+            }
+        );
+    };
+
+    self.zDown = function ()
+    {
+        if (self.selectedBlock() == null) {
+            return;
+        }
+        var block = self.selectedBlock();
+        if (block.zIndex == 0) {
+            app.infoMsg("z-index is minimal");
+        }
+        self.blocks.remove(block);
+        block.zIndex--;
+        app.request(
+            "POST",
+            "/api/saveBlock",
+            block,
+            function (data) {
+                self.blocks.push(block);
+            }
+        );
+
+    };
+
     selectBlock = function (bind) {
         self.blocks.remove(bind);
         unselectBlocks();

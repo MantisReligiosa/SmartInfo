@@ -84,75 +84,6 @@
                 </label>
             </div>
         </div>
-
-        @*<div class="panel panel-default ribbon-group">
-            <div class="panel-body ribbon-toolbar">
-                <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: showProperties">
-                    <div class="ribbon-vertical-button-content">
-                        <div class="brush-large ribbon-large-icon"></div>
-                        <div>Свойства</div>
-                    </div>
-                </button>
-                <div class="ribbon-clip">
-                    <div class="ribbon-row">
-                        <div class="block-text ribbon-small-icon input-group-prepend" style="margin-top:5px"></div>
-                        <select class="custom-select btn-sm ribbon-element ribbon-font-picker" id="inputGroupSelect01" data-bind="options:fonts, optionsText:'name', value:'id'"></select>
-                        <select class="custom-select btn-sm ribbon-element ribbon-numerical-input" id="inputGroupSelect02" data-bind="options:fontSizes"></select>
-                    </div>
-                    <div class="ribbon-row">
-                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                            <div class="ribbon-horizontal-button-content">
-                                <div class="font-bold ribbon-small-icon"></div>
-                            </div>
-                        </button>
-                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                            <div class="ribbon-horizontal-button-content">
-                                <div class="font-italic ribbon-small-icon"></div>
-                            </div>
-                        </button>
-                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                            <div class="ribbon-horizontal-button-content">
-                                <div class="font-underline ribbon-small-icon"></div>
-                            </div>
-                        </button>
-                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                            <div class="ribbon-horizontal-button-content">
-                                <div class="font-strikethrough ribbon-small-icon"></div>
-                            </div>
-                        </button>
-                    </div>
-                    <div class="ribbon-row">
-                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                            <div class="ribbon-horizontal-button-content">
-                                <div class="align-left ribbon-small-icon"></div>
-                            </div>
-                        </button>
-                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                            <div class="ribbon-horizontal-button-content">
-                                <div class="align-center ribbon-small-icon"></div>
-                            </div>
-                        </button>
-                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                            <div class="ribbon-horizontal-button-content">
-                                <div class="align-right ribbon-small-icon"></div>
-                            </div>
-                        </button>
-                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                            <div class="ribbon-horizontal-button-content">
-                                <div class="align-fill ribbon-small-icon"></div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-footer ribbon-group-title">
-                <label>
-                    Формат
-                </label>
-
-            </div>
-        </div>*@
-
         <div class="panel panel-default ribbon-group">
             <div class="panel-body ribbon-toolbar">
                 <button class="btn btn-sm btn-light navbar-btn ribbon-element">
@@ -174,13 +105,13 @@
                         <select class="form-control ribbon-element ribbon-numerical-input" id="inputGroupSelect03" data-bind="options:gridSteps, selectedOptions: selectedGridSteps"></select>
                     </div>
                     <div class="ribbon-row">
-                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: zUp">
                             <div class="ribbon-horizontal-button-content">
                                 <div class="arrow-up1 ribbon-small-icon"></div>
                                 <div class="ribbon-horizontal-button-text">Выше</div>
                             </div>
                         </button>
-                        <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: zDown">
                             <div class="ribbon-horizontal-button-content">
                                 <div class="arrow-down1 ribbon-small-icon"></div>
                                 <div class="ribbon-horizontal-button-text">Ниже</div>
