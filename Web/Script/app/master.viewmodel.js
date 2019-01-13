@@ -2,7 +2,7 @@ function masterViewModel(app) {
     var self = this,
         clipboard;
 
-     self.fonts = ko.observableArray([]);
+    self.fonts = ko.observableArray([]);
 
     self.fontSizes = ko.observableArray([]);
     self.screenHeight = ko.observable();
@@ -17,6 +17,7 @@ function masterViewModel(app) {
     self.textBlockEditViewModel = ko.computed(function () { return new TextBlockEditViewModel(self); });
     self.tableBlockEditViewModel = ko.computed(function () { return new TableBlockEditViewModel(self); });
     self.pictureBlockEditViewModel = ko.computed(function () { return new PictureBlockEditViewModel(self); });
+    self.positionViewModel = ko.computed(function () { return new PositionViewModel(self); });
 
     self.background = ko.observable("#ffffff");
 
@@ -54,6 +55,10 @@ function masterViewModel(app) {
                 self.blocks.push(data);
             }
         );
+    }
+
+    self.showPosition = function () {
+
     }
 
     self.showProperties = function () {
@@ -204,8 +209,7 @@ function masterViewModel(app) {
         );
     };
 
-    self.zUp = function ()
-    {
+    self.zUp = function () {
         if (self.selectedBlock() == null) {
             return;
         }
@@ -222,8 +226,7 @@ function masterViewModel(app) {
         );
     };
 
-    self.zDown = function ()
-    {
+    self.zDown = function () {
         if (self.selectedBlock() == null) {
             return;
         }

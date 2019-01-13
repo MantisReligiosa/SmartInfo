@@ -1,14 +1,14 @@
 ﻿<div class="form-group">
-    <select class="form-control fontPicker d-inline" data-bind="selectedOptions:$parent.tableBlockEditViewModel().selectedFonts">
+    <select class="form-control fontPicker d-inline" data-bind="selectedOptions:selectedFonts">
         <!-- ko foreach: $parent.fonts()-->
         <option data-bind="style:{fontFamily:$data}, text:$data, value:$data"></option>
         <!-- /ko-->
     </select>
-    <select class="form-control fontSizePicker d-inline" data-bind="options: $parent.fontSizes, selectedOptions:$parent.tableBlockEditViewModel().selectedFontSizes"></select>
+    <select class="form-control fontSizePicker d-inline" data-bind="options: $parent.fontSizes, selectedOptions:selectedFontSizes"></select>
 </div>
 <div class="input-group mb-3">
     <input type="file" class="custom-file-input" id="inputFile" accept=".csv" style="display:none" >
-    <button class="btn btn-primary" data-bind="click: $parent.tableBlockEditViewModel().openFileDialog">Импорт из файла</button>
+    <button class="btn btn-primary" data-bind="click: openFileDialog">Импорт из файла</button>
 </div>
 
 <div class="form-group">
@@ -25,39 +25,39 @@
                 <div class="card-body">
                     <div id="tableBlockHeaderBackgroundCP" class="input-group colorpicker-component">
                         <span class="input-group-text color-prompt">Цвет фона</span>
-                        <input type="text" class="form-control" data-bind="value:$parent.tableBlockEditViewModel().headerBackColor" />
+                        <input type="text" class="form-control" data-bind="value:headerBackColor" />
                         <span class="input-group-append">
                             <span class="input-group-text colorpicker-input-addon">
-                                <i data-bind="style: {'background-color':$parent.tableBlockEditViewModel().headerBackColor}"></i>
+                                <i data-bind="style: {'background-color':headerBackColor}"></i>
                             </span>
                         </span>
                     </div>
                     <div id="tableBlockHeaderTextColorCP" class="input-group colorpicker-component">
                         <span class="input-group-text color-prompt">Цвет текста</span>
-                        <input type="text" class="form-control" data-bind="value:$parent.tableBlockEditViewModel().headerTextColor" />
+                        <input type="text" class="form-control" data-bind="value:headerTextColor" />
                         <span class="input-group-append">
                             <span class="input-group-text colorpicker-input-addon">
-                                <i data-bind="style: {'background-color':$parent.tableBlockEditViewModel().headerTextColor}"></i>
+                                <i data-bind="style: {'background-color':headerTextColor}"></i>
                             </span>
                         </span>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="headerItalic" data-bind="checked: $parent.tableBlockEditViewModel().headerItalic">
+                        <input type="checkbox" class="form-check-input" id="headerItalic" data-bind="checked: headerItalic">
                         <label class="form-check-label" for="italicCheck">Курсив</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="headerBold" data-bind="checked: $parent.tableBlockEditViewModel().headerBold">
+                        <input type="checkbox" class="form-check-input" id="headerBold" data-bind="checked: headerBold">
                         <label class="form-check-label" for="boldCheck">Полужирный</label>
                     </div>
                     <div id="headerAlign">
                         <div class="radio">
-                            <label><input type="radio" name="headerAlign" value="0" data-bind="checked: $parent.tableBlockEditViewModel().headerAlign">По левому краю</label>
+                            <label><input type="radio" name="headerAlign" value="0" data-bind="checked: headerAlign">По левому краю</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" name="headerAlign" value="1" data-bind="checked: $parent.tableBlockEditViewModel().headerAlign">По центру</label>
+                            <label><input type="radio" name="headerAlign" value="1" data-bind="checked: headerAlign">По центру</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" name="headerAlign" value="2" data-bind="checked: $parent.tableBlockEditViewModel().headerAlign">По правому краю</label>
+                            <label><input type="radio" name="headerAlign" value="2" data-bind="checked: headerAlign">По правому краю</label>
                         </div>
                     </div>
                 </div>
@@ -76,39 +76,39 @@
                 <div class="card-body">
                     <div id="tableBlockEvenBackgroundCP" class="input-group colorpicker-component">
                         <span class="input-group-text color-prompt">Цвет фона</span>
-                        <input type="text" class="form-control" data-bind="value:$parent.tableBlockEditViewModel().evenBackColor" />
+                        <input type="text" class="form-control" data-bind="value:evenBackColor" />
                         <span class="input-group-append">
                             <span class="input-group-text colorpicker-input-addon">
-                                <i data-bind="style: {'background-color':$parent.tableBlockEditViewModel().evenBackColor}"></i>
+                                <i data-bind="style: {'background-color':evenBackColor}"></i>
                             </span>
                         </span>
                     </div>
                     <div id="tableBlockEvenTextColorCP" class="input-group colorpicker-component">
                         <span class="input-group-text color-prompt">Цвет текста</span>
-                        <input type="text" class="form-control" data-bind="value:$parent.tableBlockEditViewModel().evenTextColor" />
+                        <input type="text" class="form-control" data-bind="value:evenTextColor" />
                         <span class="input-group-append">
                             <span class="input-group-text colorpicker-input-addon">
-                                <i data-bind="style: {'background-color':$parent.tableBlockEditViewModel().evenTextColor}"></i>
+                                <i data-bind="style: {'background-color':evenTextColor}"></i>
                             </span>
                         </span>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="evenItalic" data-bind="checked: $parent.tableBlockEditViewModel().evenItalic">
+                        <input type="checkbox" class="form-check-input" id="evenItalic" data-bind="checked: evenItalic">
                         <label class="form-check-label" for="evenItalicCheck">Курсив</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="evenBold" data-bind="checked: $parent.tableBlockEditViewModel().evenBold">
+                        <input type="checkbox" class="form-check-input" id="evenBold" data-bind="checked: evenBold">
                         <label class="form-check-label" for="evenBoldCheck">Полужирный</label>
                     </div>
                     <div id="evenAlign">
                         <div class="radio">
-                            <label><input type="radio" name="evenAlign" value="0" data-bind="checked: $parent.tableBlockEditViewModel().evenAlign">По левому краю</label>
+                            <label><input type="radio" name="evenAlign" value="0" data-bind="checked: evenAlign">По левому краю</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" name="evenAlign" value="1" data-bind="checked: $parent.tableBlockEditViewModel().evenAlign">По центру</label>
+                            <label><input type="radio" name="evenAlign" value="1" data-bind="checked: evenAlign">По центру</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" name="evenAlign" value="2" data-bind="checked: $parent.tableBlockEditViewModel().evenAlign">По правому краю</label>
+                            <label><input type="radio" name="evenAlign" value="2" data-bind="checked: evenAlign">По правому краю</label>
                         </div>
                     </div>
                 </div>
@@ -127,39 +127,39 @@
                 <div class="card-body">
                     <div id="tableBlockOddBackgroundCP" class="input-group colorpicker-component">
                         <span class="input-group-text color-prompt">Цвет фона</span>
-                        <input type="text" class="form-control" data-bind="value:$parent.tableBlockEditViewModel().oddBackColor" />
+                        <input type="text" class="form-control" data-bind="value:oddBackColor" />
                         <span class="input-group-append">
                             <span class="input-group-text colorpicker-input-addon">
-                                <i data-bind="style: {'background-color':$parent.tableBlockEditViewModel().oddBackColor}"></i>
+                                <i data-bind="style: {'background-color':oddBackColor}"></i>
                             </span>
                         </span>
                     </div>
                     <div id="tableBlockOddTextColorCP" class="input-group colorpicker-component">
                         <span class="input-group-text color-prompt">Цвет текста</span>
-                        <input type="text" class="form-control" data-bind="value:$parent.tableBlockEditViewModel().oddTextColor" />
+                        <input type="text" class="form-control" data-bind="value:oddTextColor" />
                         <span class="input-group-append">
                             <span class="input-group-text colorpicker-input-addon">
-                                <i data-bind="style: {'background-color':$parent.tableBlockEditViewModel().oddTextColor}"></i>
+                                <i data-bind="style: {'background-color':oddTextColor}"></i>
                             </span>
                         </span>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="oddItalic" data-bind="checked: $parent.tableBlockEditViewModel().oddItalic">
+                        <input type="checkbox" class="form-check-input" id="oddItalic" data-bind="checked: oddItalic">
                         <label class="form-check-label" for="oddItalicCheck">Курсив</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="oddBold" data-bind="checked: $parent.tableBlockEditViewModel().oddBold">
+                        <input type="checkbox" class="form-check-input" id="oddBold" data-bind="checked: oddBold">
                         <label class="form-check-label" for="oddBoldCheck">Полужирный</label>
                     </div>
                     <div id="oddAlign">
                         <div class="radio">
-                            <label><input type="radio" name="oddAlign" value="0" data-bind="checked: $parent.tableBlockEditViewModel().oddAlign">По левому краю</label>
+                            <label><input type="radio" name="oddAlign" value="0" data-bind="checked: oddAlign">По левому краю</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" name="oddAlign" value="1" data-bind="checked: $parent.tableBlockEditViewModel().oddAlign">По центру</label>
+                            <label><input type="radio" name="oddAlign" value="1" data-bind="checked: oddAlign">По центру</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" name="oddAlign" value="2" data-bind="checked: $parent.tableBlockEditViewModel().oddAlign">По правому краю</label>
+                            <label><input type="radio" name="oddAlign" value="2" data-bind="checked: oddAlign">По правому краю</label>
                         </div>
                     </div>
                 </div>

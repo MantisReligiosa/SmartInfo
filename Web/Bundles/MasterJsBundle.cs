@@ -13,6 +13,7 @@ namespace Web.Bundles
                 new ContentFile("~/script/app/textBlockEdit.viewmodel.js", eMinify.DoNotMinifyIt),
                 new ContentFile("~/script/app/tableBlockEdit.viewmodel.js", eMinify.DoNotMinifyIt),
                 new ContentFile("~/script/app/pictureBlockEdit.viewmodel.js", eMinify.DoNotMinifyIt),
+                new ContentFile("~/script/app/position.viewmodel.js", eMinify.DoNotMinifyIt),
             };
         }
 

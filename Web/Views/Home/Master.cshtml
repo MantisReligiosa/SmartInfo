@@ -89,22 +89,44 @@
             </div>
             <div class="modal-body" style="display:flex">
                 <div>
-
                     <!-- ko if: selectedBlock() == null -->
                     @Html.Partial("Home/ScreenProperties")
                     <!-- /ko-->
-                    <!-- ko with: selectedBlock()-->
-                    <!-- ko if:  $data.type === 'text' -->
+                    <!-- ko if: selectedBlock() != null && selectedBlock().type === 'text' -->
+                    <!-- ko with: textBlockEditViewModel()-->
                     @Html.Partial("Home/TextBlockProperties")
                     <!-- /ko-->
-                    <!-- ko if:  $data.type === 'table' -->
+                    <!-- /ko-->
+                    <!-- ko if: selectedBlock() != null && selectedBlock().type === 'table' -->
+                    <!-- ko with: tableBlockEditViewModel()-->
                     @Html.Partial("Home/TableBlockProperties")
                     <!-- /ko-->
-                    <!-- ko if: type == "picture"-->
+                    <!-- /ko-->
+                    <!-- ko if: selectedBlock() != null && selectedBlock().type == "picture"-->
+                    <!-- ko with: pictureBlockEditViewModel()-->
                     @Html.Partial("Home/PictureBlockProperties")
                     <!-- /ko-->
                     <!-- /ko-->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bind="click:applyProperties">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div id="position" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Позиция</h5>
+            </div>
+            <div class="modal-body" style="display:flex">
+                <div>
+                    <!-- ko with: positionViewModel()-->
+                    
+                    <!-- /ko-->
                 </div>
             </div>
             <div class="modal-footer">

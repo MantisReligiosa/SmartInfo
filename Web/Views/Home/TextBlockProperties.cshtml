@@ -1,11 +1,11 @@
 ﻿<div class="form-group">
-    <select class="form-control fontPicker d-inline" id="sel1" data-bind="selectedOptions:$parent.textBlockEditViewModel().selectedFonts">
+    <select class="form-control fontPicker d-inline" id="sel1" data-bind="selectedOptions:selectedFonts">
         <!-- ko foreach: $parent.fonts()-->
         <option data-bind="style:{fontFamily:$data}, text:$data, value:$data"></option>
         <!-- /ko-->
     </select>
 
-    <select class="form-control fontSizePicker d-inline" data-bind="options: $parent.fontSizes, selectedOptions:$parent.textBlockEditViewModel().selectedFontSizes"></select>
+    <select class="form-control fontSizePicker d-inline" data-bind="options: $parent.fontSizes, selectedOptions:selectedFontSizes"></select>
 </div>
 
 <div class="form-group">
@@ -13,7 +13,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1">Текст</span>
         </div>
-        <input type="text" class="form-control" placeholder="Текст в блоке" data-bind="value:$parent.textBlockEditViewModel().text" />
+        <input type="text" class="form-control" placeholder="Текст в блоке" data-bind="value:text" />
     </div>
 </div>
 
@@ -31,19 +31,19 @@
                 <div class="card-body">
                     <div id="textBlockBackgroundCP" class="input-group colorpicker-component">
                         <span class="input-group-text color-prompt" id="basic-addon1">Цвет фона</span>
-                        <input type="text" class="form-control" data-bind="value:$parent.textBlockEditViewModel().backColor" />
+                        <input type="text" class="form-control" data-bind="value:backColor" />
                         <span class="input-group-append">
                             <span class="input-group-text colorpicker-input-addon">
-                                <i data-bind="style: {'background-color':$parent.textBlockEditViewModel().backColor}"></i>
+                                <i data-bind="style: {'background-color':backColor}"></i>
                             </span>
                         </span>
                     </div>
                     <div id="textBlockTextColorCP" class="input-group colorpicker-component">
                         <span class="input-group-text color-prompt" id="basic-addon2">Цвет текста</span>
-                        <input type="text" class="form-control" data-bind="value:$parent.textBlockEditViewModel().textColor" />
+                        <input type="text" class="form-control" data-bind="value:textColor" />
                         <span class="input-group-append">
                             <span class="input-group-text colorpicker-input-addon">
-                                <i data-bind="style: {'background-color':$parent.textBlockEditViewModel().textColor}"></i>
+                                <i data-bind="style: {'background-color':textColor}"></i>
                             </span>
                         </span>
                     </div>
@@ -61,11 +61,11 @@
             <div id="collapseStyle" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="italicCheck" data-bind="checked: $parent.textBlockEditViewModel().italic">
+                        <input type="checkbox" class="form-check-input" id="italicCheck" data-bind="checked: italic">
                         <label class="form-check-label" for="italicCheck">Курсив</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="boldCheck" data-bind="checked: $parent.textBlockEditViewModel().bold">
+                        <input type="checkbox" class="form-check-input" id="boldCheck" data-bind="checked: bold">
                         <label class="form-check-label" for="boldCheck">Полужирный</label>
                     </div>
                 </div>
@@ -82,13 +82,13 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div class="card-body">
                     <div class="radio">
-                        <label><input type="radio" name="optradio" value="0" data-bind="checked: $parent.textBlockEditViewModel().align">По левому краю</label>
+                        <label><input type="radio" name="optradio" value="0" data-bind="checked: align">По левому краю</label>
                     </div>
                     <div class="radio">
-                        <label><input type="radio" name="optradio" value="1" data-bind="checked: $parent.textBlockEditViewModel().align">По центру</label>
+                        <label><input type="radio" name="optradio" value="1" data-bind="checked: align">По центру</label>
                     </div>
                     <div class="radio">
-                        <label><input type="radio" name="optradio" value="2" data-bind="checked: $parent.textBlockEditViewModel().align">По правому краю</label>
+                        <label><input type="radio" name="optradio" value="2" data-bind="checked: align">По правому краю</label>
                     </div>
                 </div>
             </div>
