@@ -9,8 +9,6 @@ namespace Repository.Configurations
         {
             ToTable("TableBlockDetails");
             HasKey(t => t.Id);
-            Property(t => t.FontName);
-            Property(t => t.FontSize);
 
             HasMany(t => t.Cells)
                 .WithRequired(c => c.TableBlockDetails)

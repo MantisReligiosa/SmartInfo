@@ -6,14 +6,13 @@ namespace DomainObjects.Blocks
     {
         public PictureBlock() { }
 
-        public PictureBlock(PictureBlock source) : base(source)
-        {
-            Details = new PictureBlockDetails
-            {
-                Base64Image = source.Details.Base64Image
-            };
-        }
+        public PictureBlock(PictureBlock source) : base(source) { }
 
         public PictureBlockDetails Details { get; set; }
+
+        internal override void CopyDetails(DisplayBlock source)
+        {
+            Details = new PictureBlockDetails(((PictureBlock)source).Details);
+        }
     }
 }

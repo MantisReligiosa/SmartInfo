@@ -9,10 +9,6 @@ namespace Repository.Configurations
         {
             ToTable("Displays");
             HasKey(u => u.Id);
-            Property(u => u.Left);
-            Property(u => u.Top);
-            Property(u => u.Width);
-            Property(u => u.Height);
         }
     }
 }

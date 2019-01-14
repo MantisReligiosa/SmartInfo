@@ -5,7 +5,7 @@
 
     self.selectedFonts = ko.observableArray([""]);
     self.selectedFontSizes = ko.observableArray([""]);
-
+    self.selectedFontIndexes = ko.observableArray([""]);
     self.filePath = ko.observable();
 
     self.rows = ko.observableArray();
@@ -27,6 +27,11 @@
     self.setFontSize = function (fontSize) {
         self.selectedFontSizes.removeAll();
         self.selectedFontSizes.push(fontSize);
+    };
+
+    self.setFontIndex = function (fontIndex) {
+        self.selectedFontIndexes.removeAll();
+        self.selectedFontIndexes.push(fontIndex);
     };
 
     self.initializeControls = function () {

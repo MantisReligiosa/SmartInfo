@@ -6,9 +6,7 @@
 
         public DisplayBlock(DisplayBlock source)
         {
-            Height = source.Height;
-            Width = source.Width;
-            ZIndex = source.ZIndex;
+            CopyFrom(source);
         }
 
         public int Left { get; set; }
@@ -16,6 +14,16 @@
         public int Height { get; set; }
         public int Width { get; set; }
         public int ZIndex { get; set; }
+
+        public void CopyFrom(DisplayBlock source)
+        {
+            Height = source.Height;
+            Width = source.Width;
+            ZIndex = source.ZIndex;
+            CopyDetails(source);
+        }
+
+        internal abstract void CopyDetails(DisplayBlock source);
     }
 
     public enum Align

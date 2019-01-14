@@ -34,6 +34,7 @@ namespace Services
                     TextColor = "#000000",
                     FontName = _systemController.GetFonts().First(),
                     FontSize = _systemController.GetFontSizes().First(),
+                    FontIndex = 0,
                     Align = Align.Left,
                     Bold = false,
                     Italic = false
@@ -53,6 +54,7 @@ namespace Services
                 {
                     FontName = _systemController.GetFonts().First(),
                     FontSize = _systemController.GetFontSizes().First(),
+                    FontIndex = 1.5,
                     HeaderDetails = new TableBlockRowDetails
                     {
                         Align = Align.Center,
@@ -124,72 +126,54 @@ namespace Services
         public void SaveTextBlock(TextBlock textBlock)
         {
             var block = _unitOfWork.DisplayBlocks.Get(textBlock.Id) as TextBlock;
-            block.Height = textBlock.Height;
-            block.Left = textBlock.Left;
-            block.Top = textBlock.Top;
-            block.Width = textBlock.Width;
-            block.Details.Text = textBlock.Details.Text;
-            block.Details.BackColor = textBlock.Details.BackColor;
-            block.Details.TextColor = textBlock.Details.TextColor;
-            block.Details.FontName = textBlock.Details.FontName;
-            block.Details.FontSize = textBlock.Details.FontSize;
-            block.Details.Align = textBlock.Details.Align;
-            block.Details.Italic = textBlock.Details.Italic;
-            block.Details.Bold = textBlock.Details.Bold;
+            block.CopyFrom(textBlock);
             _unitOfWork.DisplayBlocks.Update(block);
             _unitOfWork.Complete();
         }
 
-        public void SaveTableBlock(TableBlock block)
+        public void SaveTableBlock(TableBlock tableBlock)
         {
-            var databaseTableBlock = _unitOfWork.DisplayBlocks.Get(block.Id) as TableBlock;
-            databaseTableBlock.Height = block.Height;
-            databaseTableBlock.Left = block.Left;
-            databaseTableBlock.Top = block.Top;
-            databaseTableBlock.Width = block.Width;
-            databaseTableBlock.Details.FontName = block.Details.FontName;
-            databaseTableBlock.Details.FontSize = block.Details.FontSize;
-            UpdateRowDetails(databaseTableBlock.Details.EvenRowDetails, block.Details.EvenRowDetails);
-            UpdateRowDetails(databaseTableBlock.Details.OddRowDetails, block.Details.OddRowDetails);
-            UpdateRowDetails(databaseTableBlock.Details.HeaderDetails, block.Details.HeaderDetails);
+            //ToDo: нужен рефакторинг
+            var block = _unitOfWork.DisplayBlocks.Get(tableBlock.Id) as TableBlock;
+            block.Height = tableBlock.Height;
+            block.Left = tableBlock.Left;
+            block.Top = tableBlock.Top;
+            block.Width = tableBlock.Width;
+            block.Details.FontName = tableBlock.Details.FontName;
+            block.Details.FontSize = tableBlock.Details.FontSize;
+            block.Details.FontIndex = tableBlock.Details.FontIndex;
+            block.Details.EvenRowDetails.CopyFrom(tableBlock.Details.EvenRowDetails);
+            block.Details.OddRowDetails.CopyFrom(tableBlock.Details.OddRowDetails);
+            block.Details.HeaderDetails.CopyFrom(tableBlock.Details.HeaderDetails);
 
-            var cellsToDelete = databaseTableBlock.Details.Cells
-                .Where(dbCell => !block.Details.Cells.Any(cell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column))).ToList();
+            var cellsToDelete = block.Details.Cells
+                .Where(dbCell => !tableBlock.Details.Cells.Any(cell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column))).ToList();
             foreach (var cellToDelete in cellsToDelete)
             {
                 _unitOfWork.TableBlockCellDetails.Delete(cellToDelete.Id);
             }
             _unitOfWork.Complete();
-            foreach (var cell in block.Details.Cells)
+            foreach (var cell in tableBlock.Details.Cells)
             {
-                var databaseCell = databaseTableBlock.Details.Cells.FirstOrDefault(dbCell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column));
+                var databaseCell = block.Details.Cells.FirstOrDefault(dbCell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column));
                 if (databaseCell == null)
                 {
-                    databaseTableBlock.Details.Cells.Add(new TableBlockCellDetails
-                    {
-                        Row = cell.Row,
-                        Column = cell.Column,
-                        Value = cell.Value
-                    });
+                    block.Details.Cells.Add(new TableBlockCellDetails(cell));
                 }
                 else
                 {
                     databaseCell.Value = cell.Value;
                 }
             }
-            _unitOfWork.DisplayBlocks.Update(databaseTableBlock);
+            _unitOfWork.DisplayBlocks.Update(block);
             _unitOfWork.Complete();
         }
 
-        public void SavePictureBlock(PictureBlock block)
+        public void SavePictureBlock(PictureBlock picturBlock)
         {
-            var databasePictureBlock = _unitOfWork.DisplayBlocks.Get(block.Id) as PictureBlock;
-            databasePictureBlock.Height = block.Height;
-            databasePictureBlock.Left = block.Left;
-            databasePictureBlock.Top = block.Top;
-            databasePictureBlock.Width = block.Width;
-            databasePictureBlock.Details.Base64Image = block.Details.Base64Image;
-            _unitOfWork.DisplayBlocks.Update(databasePictureBlock);
+            var block = _unitOfWork.DisplayBlocks.Get(picturBlock.Id) as PictureBlock;
+            block.CopyFrom(picturBlock);
+            _unitOfWork.DisplayBlocks.Update(block);
             _unitOfWork.Complete();
         }
 
@@ -224,15 +208,6 @@ namespace Services
         {
             _unitOfWork.DisplayBlocks.Delete(id);
             _unitOfWork.Complete();
-        }
-
-        private void UpdateRowDetails(TableBlockRowDetails destination, TableBlockRowDetails source)
-        {
-            destination.Align = source.Align;
-            destination.BackColor = source.BackColor;
-            destination.Bold = source.Bold;
-            destination.Italic = source.Italic;
-            destination.TextColor = source.TextColor;
         }
     }
 }

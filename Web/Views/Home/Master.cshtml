@@ -15,11 +15,11 @@
                    style: {
                     'background-color' : backColor,
                     'color' : textColor,
-                    'font-family' : font,
-                    'font-size' : fontSize+'px',
+                    'font' : fontSize + 'px/' + fontIndex + ' ' + font,
                     'text-align' : align==0 ? 'left' : align==1 ? 'center' : 'right',
                     'font-weight': bold ? 'bold' : '',
-                    'font-style': italic ? 'italic' : ''
+                    'font-style': italic ? 'italic' : '',
+                    'position': 'fixed'
                    }">
         </label>
         <!-- /ko-->
@@ -29,7 +29,7 @@
         <!-- ko if: type == "table"-->
         <table class="blockContent" data-bind="style:{
                'font-family' : font,
-               'font-size' : fontSize+'px',
+               'font-size' : fontSize
                }">
             <thead>
                 <tr data-bind="foreach: header,
@@ -45,7 +45,7 @@
                         }"></th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: rows">
+            <tbody data-bind="foreach: rows, style:{'line-height':fontIndex}">
                 <!-- ko if: index%2==0 -->
                 <!--чётная строка-->
                 <tr data-bind="style: {

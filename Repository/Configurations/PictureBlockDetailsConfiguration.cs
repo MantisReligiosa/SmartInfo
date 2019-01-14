@@ -9,7 +9,6 @@ namespace Repository.Configurations
         {
             ToTable("PictureBlockDetailsDetails");
             HasKey(t => t.Id);
-            Property(t => t.Base64Image);
         }
     }
 }

@@ -124,13 +124,16 @@ namespace Services
             return backgroundColor?.Value ?? string.Empty;
         }
 
-        public IEnumerable<int> GetFontSizes()
+        public IEnumerable<int> GetFontSizes() => new List<int>
         {
-            return new List<int>
-            {
-                15,20,25,30,35,40,45,50
-            };
-        }
+            15, 30, 50, 75, 100, 125, 150, 200
+        };
+
+
+        public IEnumerable<double> GetFontHeightIndex() => new List<double>
+        {
+            0, 0.2, 0.5, 0.8, 1, 1.2, 1.5, 1.8, 2
+        };
 
         public IEnumerable<string> GetFonts()
         {
