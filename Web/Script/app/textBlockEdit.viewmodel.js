@@ -5,6 +5,7 @@
 	self.backColor = ko.observable();
 	self.selectedFonts = ko.observableArray([""]);
     self.selectedFontSizes = ko.observableArray([""]);
+    self.selectedFontIndexes = ko.observableArray([""]);
     self.text = ko.observable();
     self.align = ko.observable(0);
     self.italic = ko.observable(false);
@@ -18,6 +19,11 @@
 	self.setFontSize = function (fontSize) {
 	    self.selectedFontSizes.removeAll();
         self.selectedFontSizes.push(fontSize);
+    };
+
+    self.setFontIndex = function (fontIndex) {
+        self.selectedFontIndexes.removeAll();
+        self.selectedFontIndexes.push(fontIndex);
     };
 
     self.initializeControls = function () {

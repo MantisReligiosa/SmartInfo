@@ -6,22 +6,20 @@ namespace DomainObjects.Blocks
     {
         public TableBlock() { }
 
-        public TableBlock(TableBlock source) : base(source)
+        public TableBlock(TableBlock source) : base(source) { }
+
+        public TableBlockDetails Details { get; set; }
+
+        internal override void CopyDetails(DisplayBlock source)
         {
-            Details = new TableBlockDetails
-            {
-                HeaderDetails = new TableBlockRowDetails(source.Details.HeaderDetails),
-                EvenRowDetails = new TableBlockRowDetails(source.Details.EvenRowDetails),
-                OddRowDetails = new TableBlockRowDetails(source.Details.OddRowDetails),
-                FontName = source.Details.FontName,
-                FontSize = source.Details.FontSize
-            };
-            foreach (var cell in source.Details.Cells)
+            var sourceDetails = ((TableBlock)source).Details;
+
+            Details = new TableBlockDetails(sourceDetails);
+
+            foreach (var cell in sourceDetails.Cells)
             {
                 Details.Cells.Add(new TableBlockCellDetails(cell));
             }
         }
-
-        public TableBlockDetails Details { get; set; }
     }
 }

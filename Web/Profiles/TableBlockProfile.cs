@@ -15,6 +15,7 @@ namespace Web.Profiles
                 .ForMember(b => b.Type, opt => opt.MapFrom(b => "table"))
                 .ForMember(b => b.Font, opt => opt.MapFrom(b => b.Details.FontName))
                 .ForMember(b => b.FontSize, opt => opt.MapFrom(b => b.Details.FontSize))
+                .ForMember(b => b.FontIndex, opt => opt.MapFrom(b => b.Details.FontIndex))
                 .ForMember(b => b.HeaderStyle, opt => opt.MapFrom(b => b.Details.HeaderDetails))
                 .ForMember(b => b.EvenStyle, opt => opt.MapFrom(b => b.Details.EvenRowDetails))
                 .ForMember(b => b.OddStyle, opt => opt.MapFrom(b => b.Details.OddRowDetails))

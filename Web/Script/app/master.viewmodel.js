@@ -3,8 +3,8 @@ function masterViewModel(app) {
         clipboard;
 
     self.fonts = ko.observableArray([]);
-
     self.fontSizes = ko.observableArray([]);
+    self.fontIndexes = ko.observableArray([]);
     self.screenHeight = ko.observable();
     self.screenWidth = ko.observable();
     self.screens = ko.observableArray();
@@ -72,6 +72,7 @@ function masterViewModel(app) {
                 self.textBlockEditViewModel().textColor(block.textColor);
                 self.textBlockEditViewModel().setFont(block.font);
                 self.textBlockEditViewModel().setFontSize(block.fontSize);
+                self.textBlockEditViewModel().setFontIndex(block.fontIndex);
                 self.textBlockEditViewModel().text(block.text);
                 self.textBlockEditViewModel().align(block.align.toString());
                 self.textBlockEditViewModel().italic(block.italic);
@@ -80,6 +81,7 @@ function masterViewModel(app) {
             if (block.type === 'table') {
                 self.tableBlockEditViewModel().setFont(block.font);
                 self.tableBlockEditViewModel().setFontSize(block.fontSize);
+                self.tableBlockEditViewModel().setFontIndex(block.fontIndex);
 
                 self.tableBlockEditViewModel().rowTypes.forEach(function (rowType) {
                     self.tableBlockEditViewModel()[rowType + 'TextColor'](block[rowType + 'Style'].textColor);
@@ -118,6 +120,7 @@ function masterViewModel(app) {
             block.textColor = self.textBlockEditViewModel().textColor();
             block.font = self.textBlockEditViewModel().selectedFonts()[0];
             block.fontSize = self.textBlockEditViewModel().selectedFontSizes()[0];
+            block.fontIndex = self.textBlockEditViewModel().selectedFontIndexes()[0];
             block.text = self.textBlockEditViewModel().text();
             block.align = self.textBlockEditViewModel().align();
             block.italic = self.textBlockEditViewModel().italic();
@@ -127,6 +130,7 @@ function masterViewModel(app) {
             self.blocks.remove(block);
             block.font = self.tableBlockEditViewModel().selectedFonts()[0];
             block.fontSize = self.tableBlockEditViewModel().selectedFontSizes()[0];
+            block.fontIndex = self.tableBlockEditViewModel().selectedFontIndexes()[0];
             self.tableBlockEditViewModel().rowTypes.forEach(function (rowType) {
                 block[rowType + 'Style'].textColor = self.tableBlockEditViewModel()[rowType + 'TextColor']();
                 block[rowType + 'Style'].backColor = self.tableBlockEditViewModel()[rowType + 'BackColor']();
@@ -465,12 +469,14 @@ function masterViewModel(app) {
                     data.fonts.forEach(function (entry) {
                         self.fonts.push(entry);
                     });
-                    data.fonSizes.forEach(function (entry) {
+                    data.sizes.forEach(function (entry) {
                         self.fontSizes.push(entry);
+                    });
+                    data.indexes.forEach(function (entry) {
+                        self.fontIndexes.push(entry);
                     });
                     resolve();
                 });
-
             });
     }
 }

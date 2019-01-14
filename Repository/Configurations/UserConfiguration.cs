@@ -9,8 +9,6 @@ namespace Repository.Configurations
         {
             ToTable("Users");
             HasKey(u => u.Id);
-            Property(u => u.Login);
-            Property(u => u.PasswordHash);
         }
     }
 }

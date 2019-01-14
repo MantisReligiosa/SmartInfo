@@ -9,14 +9,6 @@ namespace Repository.Configurations
         {
             ToTable("TextBlockDetails");
             HasKey(t => t.Id);
-            Property(t => t.Text);
-            Property(t => t.BackColor);
-            Property(t => t.TextColor);
-            Property(t => t.FontName);
-            Property(t => t.FontSize);
-            Property(t => t.Align);
-            Property(t => t.Italic);
-            Property(t => t.Bold);
         }
     }
 }

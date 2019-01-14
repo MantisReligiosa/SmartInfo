@@ -29,7 +29,8 @@ namespace Web.Modules
                 return Response.AsJson(new FontInfo
                 {
                     Fonts = systemController.GetFonts(),
-                    FonSizes = systemController.GetFontSizes()
+                    Sizes = systemController.GetFontSizes(),
+                    Indexes = systemController.GetFontHeightIndex()
                 });
             };
             Post["/api/screenResolution"] = parameters =>

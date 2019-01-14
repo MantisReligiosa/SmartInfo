@@ -10,5 +10,21 @@
         public Align Align { get; set; }
         public bool Italic { get; set; }
         public bool Bold { get; set; }
+        public double FontIndex { get; set; }
+
+        public TextBlockDetails() { }
+
+        public TextBlockDetails(TextBlockDetails source)
+        {
+            Align = source.Align;
+            BackColor = source.BackColor;
+            Bold = source.Bold;
+            FontName = source.FontName;
+            FontSize = source.FontSize;
+            FontIndex = source.FontIndex;
+            Italic = source.Italic;
+            Text = source.Text;
+            TextColor = source.TextColor;
+        }
     }
 }
