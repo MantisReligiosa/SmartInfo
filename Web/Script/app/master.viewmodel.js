@@ -415,8 +415,13 @@ function masterViewModel(app) {
         var y = +target.getAttribute('data-y') + block.top;
 
         if (self.gridEnabled()) {
-            x = adjustToStep(x);
-            y = adjustToStep(y);
+            var screen = self.screens().find(function (screen) {
+                return screen.left <= x && screen.left + screen.width >= x && screen.top <= y && screen.top + screen.height >= y;
+            });
+            var deltaX = x - screen.left;
+            var deltaY = y - screen.top;
+            x = screen.left + adjustToStep(deltaX);
+            y = screen.top + adjustToStep(deltaY);
         };
 
         block.left = x;
