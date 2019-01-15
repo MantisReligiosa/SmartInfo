@@ -58,7 +58,39 @@ function masterViewModel(app) {
     }
 
     self.showPosition = function () {
+        var block = self.selectedBlock();
+        if (block == null) {
+            return
+        }
+        $('#position').modal({ backdrop: 'static', keyboard: false })
+            .modal("show");
+        self.positionViewModel().top(block.top);
+        self.positionViewModel().left(block.left);
+        self.positionViewModel().width(block.width);
+        self.positionViewModel().height(block.height)
+        self.positionViewModel().zIndex(block.zIndex);
+    }
 
+    self.applyPosition = function () {
+        var block = self.selectedBlock();
+        if (block == null) {
+            return
+        }
+        $('#position').modal("hide");
+        self.blocks.remove(block);
+        block.top = +self.positionViewModel().top();
+        block.left = +self.positionViewModel().left();
+        block.width = +self.positionViewModel().width();
+        block.height = +self.positionViewModel().height()
+        block.zIndex = +self.positionViewModel().zIndex();
+        app.request(
+            "POST",
+            "/api/saveBlock",
+            block,
+            function (data) {
+                self.blocks.push(block);
+            }
+        );
     }
 
     self.showProperties = function () {

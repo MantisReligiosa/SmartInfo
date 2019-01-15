@@ -367,7 +367,6 @@
     </Content>
     <Content Include="Views\Home\ScreenProperties.cshtml" />
     <Content Include="Views\Home\TextBlockProperties.cshtml" />
-    <Content Include="Views\Shared\PropertiesLayout.cshtml" />
     <Content Include="Views\Home\TableBlockProperties.cshtml" />
     <Content Include="Views\Home\PictureBlockProperties.cshtml" />
     <None Include="Web.Debug.config">

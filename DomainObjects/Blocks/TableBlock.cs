@@ -15,11 +15,6 @@ namespace DomainObjects.Blocks
             var sourceDetails = ((TableBlock)source).Details;
 
             Details = new TableBlockDetails(sourceDetails);
-
-            foreach (var cell in sourceDetails.Cells)
-            {
-                Details.Cells.Add(new TableBlockCellDetails(cell));
-            }
         }
     }
 }

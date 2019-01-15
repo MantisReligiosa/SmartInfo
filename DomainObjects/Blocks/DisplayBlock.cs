@@ -20,6 +20,8 @@
             Height = source.Height;
             Width = source.Width;
             ZIndex = source.ZIndex;
+            Left = source.Left;
+            Top = source.Top;
             CopyDetails(source);
         }
 
