@@ -36,6 +36,7 @@ namespace Web
             container.Register<IAccountController, AccountController>();
             container.Register<ISystemController, SystemController>();
             container.Register<IBlockController, BlockController>();
+            container.Register<IOperationController, OperationController>();
 
             CustomStatusCode.AddCode(404);
 
@@ -105,6 +106,10 @@ namespace Web
                             "Times New Roman"
                         }
                     };
+                });
+                broker.RegisterHandler<StartShowRequest>(reqest =>
+                {
+                    return null;
                 });
             }
         }

@@ -6,6 +6,10 @@ namespace ServiceInterfaces
 {
     public interface IBlockController
     {
+        void SetBackground(string color);
+        string GetBackground();
+
+
         TextBlock AddTextBlock();
         TableBlock AddTableBlock();
         PictureBlock AddPictureBlock();

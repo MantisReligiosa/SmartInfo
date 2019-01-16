@@ -17,7 +17,8 @@ namespace Web.Modules
 
         public Secured(
             ISystemController systemController,
-            IBlockController blockController
+            IBlockController blockController,
+            IOperationController operationController
             )
         {
 
@@ -56,12 +57,12 @@ namespace Web.Modules
             Post["/api/setBackground"] = parameters =>
             {
                 var data = this.Bind<ScreenBackgroundRequest>();
-                systemController.SetBackground(data.Color);
+                blockController.SetBackground(data.Color);
                 return Response.AsJson(true);
             };
             Get["/api/background"] = parameters =>
             {
-                return Response.AsJson(systemController.GetBackground());
+                return Response.AsJson(blockController.GetBackground());
             };
             Post["/api/addTextBlock"] = parameters =>
             {
@@ -163,6 +164,11 @@ namespace Web.Modules
                     return _mapper.Map<PictureBlockDto>(blockController.CopyPictureBlock(block));
                 }
 
+                return Response.AsJson(true);
+            };
+            Post["/api/startShow"] = parameters =>
+            {
+                operationController.StartShow();
                 return Response.AsJson(true);
             };
         }

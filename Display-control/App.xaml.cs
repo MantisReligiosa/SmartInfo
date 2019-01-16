@@ -15,6 +15,8 @@ namespace Display_control
     /// </summary>
     public partial class App : Application
     {
+        private MainWindow _window;
+        private MainWindowViewModel _viewModel;
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -43,7 +45,13 @@ namespace Display_control
                     Fonts = System.Drawing.FontFamily.Families.Select(f => f.Name)
                 };
             });
-
+            broker.RegisterHandler<StartShowRequest>(request =>
+            {
+                var requestData = request as StartShowRequest;
+                _viewModel.Height = requestData.Screens.Height;
+                _viewModel.Width = requestData.Screens.Width;
+                return null;
+            });
 
             var hostConfiguration = new HostConfiguration
             {
@@ -55,6 +63,13 @@ namespace Display_control
 
             //var nancyHost = new NancyHost(new Uri("http://localhost:1234"), new Bootstrapper());
             nancyHost.Start();
+            _viewModel = new MainWindowViewModel
+            {
+                Height = 100,
+                Width = 100
+            };
+            _window = new MainWindow(_viewModel);
+            _window.Show();
         }
     }
 }

@@ -1,5 +1,7 @@
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
+using DomainObjects.Parameters;
+using DomainObjects.Specifications;
 using ServiceInterfaces;
 using Services.Properties;
 using System;
@@ -19,6 +21,30 @@ namespace Services
         {
             _unitOfWork = unitOfWorkFactory.Create();
             _systemController = systemController;
+        }
+
+        public void SetBackground(string color)
+        {
+            var backgroundColor = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<BackgroundColor>())).FirstOrDefault();
+            if (backgroundColor == null)
+            {
+                _unitOfWork.Parameters.Create(new BackgroundColor
+                {
+                    Value = color
+                });
+            }
+            else
+            {
+                backgroundColor.Value = color;
+                _unitOfWork.Parameters.Update(backgroundColor);
+            }
+            _unitOfWork.Complete();
+        }
+
+        public string GetBackground()
+        {
+            var backgroundColor = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<BackgroundColor>())).FirstOrDefault();
+            return backgroundColor?.Value ?? string.Empty;
         }
 
         public TextBlock AddTextBlock()

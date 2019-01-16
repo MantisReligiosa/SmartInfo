@@ -100,30 +100,6 @@ namespace Services
         }
 
 
-        public void SetBackground(string color)
-        {
-            var backgroundColor = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<BackgroundColor>())).FirstOrDefault();
-            if (backgroundColor == null)
-            {
-                _unitOfWork.Parameters.Create(new BackgroundColor
-                {
-                    Value = color
-                });
-            }
-            else
-            {
-                backgroundColor.Value = color;
-                _unitOfWork.Parameters.Update(backgroundColor);
-            }
-            _unitOfWork.Complete();
-        }
-
-        public string GetBackground()
-        {
-            var backgroundColor = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<BackgroundColor>())).FirstOrDefault();
-            return backgroundColor?.Value ?? string.Empty;
-        }
-
         public IEnumerable<int> GetFontSizes() => new List<int>
         {
             15, 30, 50, 75, 100, 125, 150, 200

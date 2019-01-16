@@ -9,8 +9,6 @@ namespace ServiceInterfaces
         Videopanel GetSystemScreenInfo();
         void SetDatabaseScreenInfo(Videopanel screenInfo);
 
-        void SetBackground(string color);
-        string GetBackground();
         IEnumerable<int> GetFontSizes();
         IEnumerable<string> GetFonts();
         IEnumerable<double> GetFontHeightIndex();

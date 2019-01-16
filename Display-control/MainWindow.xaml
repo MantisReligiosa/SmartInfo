@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Display_control"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="{Binding Height}" Width="{Binding Width}" Left="0" Top="0" d:DesignWidth="900" d:DesignHeight="540">
     <Grid>
         
     </Grid>

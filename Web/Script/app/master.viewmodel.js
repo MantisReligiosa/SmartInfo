@@ -516,6 +516,15 @@ function masterViewModel(app) {
                 });
             });
     }
+
+    self.startShow = function () {
+        app.request(
+            "POST",
+            "/api/startShow",
+            {},
+            function (data) { }
+        );
+    }
 }
 
 app.attach({
