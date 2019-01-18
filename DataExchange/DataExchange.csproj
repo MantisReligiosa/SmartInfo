@@ -48,6 +48,7 @@
     <Compile Include="Requests\GetFontsRequest.cs" />
     <Compile Include="Requests\GetScreenSizeRequest.cs" />
     <Compile Include="Requests\StartShowRequest.cs" />
+    <Compile Include="Requests\StopShowRequest.cs" />
     <Compile Include="Responces\GetFontsResponce.cs" />
     <Compile Include="Responces\GetScreenSizeResponce.cs" />
     <Compile Include="DTO\ScreenSize.cs" />

@@ -171,6 +171,11 @@ namespace Web.Modules
                 operationController.StartShow();
                 return Response.AsJson(true);
             };
+            Post["/api/stopShow"] = parameters =>
+            {
+                operationController.StopShow();
+                return Response.AsJson(true);
+            };
         }
     }
 }

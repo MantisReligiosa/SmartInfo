@@ -3,5 +3,6 @@
     public interface IOperationController
     {
         void StartShow();
+        void StopShow();
     }
 }

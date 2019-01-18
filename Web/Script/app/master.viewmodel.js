@@ -525,6 +525,15 @@ function masterViewModel(app) {
             function (data) { }
         );
     }
+
+    self.stopShow = function () {
+        app.request(
+            "POST",
+            "/api/stopShow",
+            {},
+            function (data) { }
+        );
+    }
 }
 
 app.attach({

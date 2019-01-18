@@ -30,5 +30,11 @@ namespace Services
             };
             broker.GetResponce(request);
         }
+
+        public void StopShow()
+        {
+            var broker = Broker.GetBroker();
+            broker.GetResponce(new StopShowRequest());
+        }
     }
 }
