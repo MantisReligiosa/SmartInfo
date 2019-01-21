@@ -4,11 +4,13 @@ using DataExchange.Requests;
 using DataExchange.Responces;
 using Nancy.Hosting.Self;
 using System;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Web;
 using DisplayBlock = DomainObjects.Blocks;
 using Media = System.Windows.Media;
@@ -104,6 +106,30 @@ namespace Display_control
                             Canvas.SetLeft(label, textBlock.Left);
                             Panel.SetZIndex(label, textBlock.ZIndex);
                             canvas.Children.Add(label);
+                        }
+                        if (block is DisplayBlock.PictureBlock pictureBlock)
+                        {
+                            var bitmap = new BitmapImage();
+                            using (MemoryStream ms = new MemoryStream(Convert.FromBase64String(pictureBlock.Details.Base64Image)))
+                            {
+                                bitmap.BeginInit();
+                                bitmap.CacheOption = BitmapCacheOption.OnLoad; // here
+                                bitmap.StreamSource = ms;
+                                bitmap.EndInit();
+                            }
+
+                            var _image = new Image
+                            {
+                                Height = pictureBlock.Height,
+                                Width = pictureBlock.Width,
+                                Source = bitmap,
+                                Stretch = Media.Stretch.None
+                            };
+
+                            Canvas.SetTop(_image, pictureBlock.Top);
+                            Canvas.SetLeft(_image, pictureBlock.Left);
+                            Panel.SetZIndex(_image, pictureBlock.ZIndex);
+                            canvas.Children.Add(_image);
                         }
                     }
 
