@@ -4,11 +4,14 @@ using DataExchange.Requests;
 using DataExchange.Responces;
 using Nancy.Hosting.Self;
 using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Web;
@@ -130,6 +133,44 @@ namespace Display_control
                             Canvas.SetLeft(_image, pictureBlock.Left);
                             Panel.SetZIndex(_image, pictureBlock.ZIndex);
                             canvas.Children.Add(_image);
+                        }
+                        if (block is DisplayBlock.TableBlock tableBlock)
+                        {
+                            var dataGrid = new DataGrid
+                            {
+                                HeadersVisibility = DataGridHeadersVisibility.None,
+                                Height = tableBlock.Height,
+                                Width = tableBlock.Width,
+                                BorderThickness = new Thickness(0),
+                                GridLinesVisibility = DataGridGridLinesVisibility.None
+                            };
+                            var columnCount = tableBlock.Details.Cells.Max(c => c.Column) + 1;
+                            for (int i = 0; i < columnCount; i++)
+                            {
+                                DataGridTextColumn column = new DataGridTextColumn();
+                                var name = $"Column{i}";
+                                column.Header = name;
+                                column.Binding = new Binding(name);
+                                dataGrid.Columns.Add(column);
+                            }
+                            foreach (var row in tableBlock.Details.Cells.GroupBy(c => c.Row).OrderBy(r => r.Key))
+                            {
+                                dynamic tableRow = new ExpandoObject();
+                                var i = 0;
+                                foreach (var cell in row.OrderBy(c => c.Column))
+                                {
+                                    var name = $"Column{i}";
+                                    ((IDictionary<string, object>)tableRow)[name] = cell.Value;
+                                    i++;
+                                }
+                                dataGrid.Items.Add(tableRow);
+                            }
+
+
+                            Canvas.SetTop(dataGrid, tableBlock.Top);
+                            Canvas.SetLeft(dataGrid, tableBlock.Left);
+                            Panel.SetZIndex(dataGrid, tableBlock.ZIndex);
+                            canvas.Children.Add(dataGrid);
                         }
                     }
 
