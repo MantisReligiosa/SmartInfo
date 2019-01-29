@@ -480,6 +480,23 @@ function masterViewModel(app) {
             });
     }
 
+    resetDisplays = function () {
+        app.request(
+            "POST",
+            "/api/screenResolution",
+            {
+                refreshData: true
+            },
+            function (data) {
+                self.screenHeight(data.height);
+                self.screenWidth(data.width);
+                self.screens.removeAll();
+                data.displays.forEach(function (screen) {
+                    self.screens.push(screen);
+                });
+            });
+    }
+
     loadBackground = function () {
         return new Promise(
             function (resolve, reject) {

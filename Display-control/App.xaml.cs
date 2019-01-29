@@ -167,8 +167,6 @@ namespace Display_control
             };
             rowStyle.Triggers.Add(oddTrigger);
             rowStyle.Triggers.Add(evenTrigger);
-#warning Дописать автоподбор высоты строки
-            //rowStyle.Setters.Add(new Setter(DataGridRow.HeightProperty, DataGridLength.Auto));
 
             if (TryToParseRGB(tableBlock.Details.OddRowDetails.TextColor, out colorHex))
             {
