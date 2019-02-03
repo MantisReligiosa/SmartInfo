@@ -60,7 +60,7 @@ namespace Services
                     TextColor = "#000000",
                     FontName = _systemController.GetFonts().First(),
                     FontSize = _systemController.GetFontSizes().First(),
-                    FontIndex = 0,
+                    FontIndex = 1.5,
                     Align = Align.Left,
                     Bold = false,
                     Italic = false

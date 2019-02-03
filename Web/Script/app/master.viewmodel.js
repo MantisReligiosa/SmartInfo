@@ -269,6 +269,7 @@ function masterViewModel(app) {
         var block = self.selectedBlock();
         if (block.zIndex == 0) {
             app.infoMsg("z-index is minimal");
+            return;
         }
         self.blocks.remove(block);
         block.zIndex--;

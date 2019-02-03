@@ -35,6 +35,9 @@
                 },
                 404: function () {
                     debugger;
+                },
+                406: function () {
+                    location.reload(true);
                 }
             },
             success: successHandler,
