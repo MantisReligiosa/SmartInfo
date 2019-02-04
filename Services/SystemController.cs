@@ -108,7 +108,7 @@ namespace Services
 
         public IEnumerable<double> GetFontHeightIndex() => new List<double>
         {
-            0, 0.2, 0.5, 0.8, 1, 1.2, 1.5, 1.8, 2
+            0.1, 0.2, 0.5, 0.8, 1, 1.2, 1.5, 1.8, 2
         };
 
         public IEnumerable<string> GetFonts()

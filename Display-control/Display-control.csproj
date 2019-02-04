@@ -87,6 +87,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blocks\AbstractBuilder.cs" />
+    <Compile Include="Blocks\BlockBuilder.cs" />
+    <Compile Include="Blocks\Builders\PictureBlockBuilder.cs" />
+    <Compile Include="Blocks\Builders\TableBlockBuilder.cs" />
+    <Compile Include="Blocks\Builders\TextBlockBuilder.cs" />
+    <Compile Include="ColorConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
