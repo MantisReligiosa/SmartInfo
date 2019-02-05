@@ -6,6 +6,7 @@ using Nancy.Security;
 using NLog;
 using ServiceInterfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Web.Models;
 using Web.Models.Blocks;
@@ -183,19 +184,19 @@ namespace Web.Modules
                 try
                 {
                     var data = this.Bind<BlockDto>();
-                    if (data.Type.Equals("text", System.StringComparison.InvariantCultureIgnoreCase))
+                    if (data.Type.Equals("text", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var b = this.Bind<TextBlockDto>();
                         var block = _mapper.Map<TextBlock>(b);
                         blockController.SaveTextBlock(block);
                     }
-                    else if (data.Type.Equals("table", System.StringComparison.InvariantCultureIgnoreCase))
+                    else if (data.Type.Equals("table", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var b = this.Bind<TableBlockDto>();
                         var block = _mapper.Map<TableBlock>(b);
                         blockController.SaveTableBlock(block);
                     }
-                    else if (data.Type.Equals("picture", System.StringComparison.InvariantCultureIgnoreCase))
+                    else if (data.Type.Equals("picture", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var b = this.Bind<PictureBlockDto>();
                         var block = _mapper.Map<PictureBlock>(b);
@@ -282,6 +283,43 @@ namespace Web.Modules
                 {
                     logger.Error(ex);
                     throw new Exception("Ошибка остановки презентации", ex);
+                }
+            };
+            Post["/api/parseCSV"] = parameters =>
+            {
+                try
+                {
+                    var linesSeparator = new char[] { '\r', '\n' };
+                    var itemSeparator = ',';
+
+                    var data = this.Bind<CsvDataDto>();
+                    var lines = data.Text.Split(linesSeparator, StringSplitOptions.RemoveEmptyEntries);
+                    var result = new CsvTableDto();
+                    result.Header.AddRange(lines.First().Split(itemSeparator));
+                    var rowIndex = 0;
+                    foreach (var line in lines.Skip(1))
+                    {
+                        var cells = line.Split(itemSeparator);
+                        var delta = cells.Length - result.Header.Count;
+                        if (delta > 0)
+                            for (int i = 0; i < delta; i++)
+                            {
+                                result.Header.Add(string.Empty);
+                            }
+                        result.Rows.Add(new RowDto
+                        {
+                            Index = rowIndex,
+                            Cells = cells
+                        });
+                        rowIndex++;
+                    }
+
+                    return Response.AsJson(result);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    throw new Exception("Ошибка чтения csv", ex);
                 }
             };
         }

@@ -48,43 +48,22 @@
 
             reader.onload = (function (theFile) {
                 return function (e) {
-                    var string = e.target.result;
-                    var lines = string.split('\n');
-                    var rowsArray = [];
-                    var headerArray = [];
-                    var rowIndex = 0;
-                    lines.forEach(function (line) {
-                        if (line == "")
-                            return;
-                        var cells = line.split(',');
-                        if (cells.length <= 1)
-                            cells = line.split(';');
-                        var columnIndex = 0;
-                        if (rowIndex == 0) {
-                            cells.forEach(function (cell) {
-                                headerArray[columnIndex] = cell;
-                                columnIndex++;
-                            });
+                    var text = e.target.result;
+                    app.request(
+                        "POST",
+                        "/api/parseCSV",
+                        {text:text},
+                        function (data) {
+                            self.header.removeAll();
+                            self.header(data.header);
+                            self.rows.removeAll();
+                            self.rows(data.rows);
                         }
-                        else {
-                            var index = rowIndex - 1;
-                            var row = { index: index, cells: [] };
-                            cells.forEach(function (cell) {
-                                row.cells[columnIndex] = cell;
-                                columnIndex++;
-                            });
-                            rowsArray[index] = row;
-                        }
-                        rowIndex++;
-                    });
-                    self.rows.removeAll();
-                    self.rows(rowsArray);
-                    self.header.removeAll();
-                    self.header(headerArray);
+                    );
                 };
             })(file);
 
-            reader.readAsText(file, 'CP1251');
+            reader.readAsText(file/*, 'CP1251'*/);
         }).click();
     }
 
