@@ -4,6 +4,7 @@ using Setup.Data;
 using Setup.Interfaces;
 using Setup.Managers;
 using System;
+using System.Diagnostics;
 using WixSharp;
 using WixSharp.Forms;
 using static WixSharp.SetupEventArgs;
@@ -16,9 +17,9 @@ namespace Setup
 
         private static void Main(string[] args)
         {
-            AssemblyManager.GetAssemblyInfo(
-                System.IO.Path.Combine(Constants.PublishFolder, Constants.ExecFile),
-                out Guid guid, out Version version);
+            var path = System.IO.Path.Combine(Constants.PublishFolder, Constants.ExecFile);
+            Debug.Write(path.ToString());
+            AssemblyManager.GetAssemblyInfo(path, out Guid guid, out Version version);
 
             var managedUI = new ManagedUI();
             managedUI.InstallDialogs

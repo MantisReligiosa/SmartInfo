@@ -330,3 +330,9 @@ ASALocalRun/
 .mfractor/
 Web/css/vendor.css
 Web/Script/Vendor/vendor.js
+
+_publish/
+
+Setup/wix/
+
+tools/

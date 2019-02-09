@@ -3,7 +3,7 @@
     public static class Constants
     {
 
-        public const string PublishFolder = @"..\..\_publish";
+        public static string PublishFolder => $@"..\_publish\{ProductName}";
 
         public const string Manufacturer = "Smart Technologies-M";
 
@@ -19,9 +19,6 @@
 
         public const string ConfigFileSource = "web.config";
 
-        internal static string[] DependentAssemblies => new[]
-        {
-            "BCrypt.Net-Next.dll"
-        };
+        internal static string[] DependentAssemblies => new string[] { };
     }
 }

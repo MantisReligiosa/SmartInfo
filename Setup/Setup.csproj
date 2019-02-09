@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\WiX.3.11.1\build\wix.props" Condition="Exists('..\packages\WiX.3.11.1\build\wix.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -54,6 +55,9 @@
     <Reference Include="WixSharp, Version=1.9.4.0, Culture=neutral, PublicKeyToken=3775edd25acc43c2, processorArchitecture=MSIL">
       <HintPath>..\packages\WixSharp.bin.1.9.4\lib\WixSharp.dll</HintPath>
     </Reference>
+    <Reference Include="WixSharp.Lab, Version=1.9.4.0, Culture=neutral, PublicKeyToken=3775edd25acc43c2, processorArchitecture=MSIL">
+      <HintPath>..\packages\WixSharp.Lab.1.9.4\lib\WixSharp.Lab.dll</HintPath>
+    </Reference>
     <Reference Include="WixSharp.Msi, Version=1.9.4.0, Culture=neutral, PublicKeyToken=3775edd25acc43c2, processorArchitecture=MSIL">
       <HintPath>..\packages\WixSharp.bin.1.9.4\lib\WixSharp.Msi.dll</HintPath>
     </Reference>
@@ -79,6 +83,12 @@
     <Compile Include="Data\CustomProperty.cs" />
     <Compile Include="Data\Parameters.cs" />
     <Compile Include="Data\Properties.cs" />
+    <Compile Include="EmptyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EmptyDialog.Designer.cs">
+      <DependentUpon>EmptyDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Exceptions\SqlException.cs" />
     <Compile Include="Interfaces\ISqlManager.cs" />
     <Compile Include="Managers\AssemblyManager.cs" />
@@ -87,10 +97,20 @@
     <Compile Include="Managers\NotificationManager.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="wix\$(ProjectName).g.wxs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Files\Bin\MyApp.exe" />
+    <Content Include="Files\Docs\Manual.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EmptyDialog.resx">
+      <DependentUpon>EmptyDialog.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\WixSharp.bin.1.9.4\build\WixSharp.bin.targets" Condition="Exists('..\packages\WixSharp.bin.1.9.4\build\WixSharp.bin.targets')" />
@@ -100,7 +120,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\WixSharp.bin.1.9.4\build\WixSharp.bin.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WixSharp.bin.1.9.4\build\WixSharp.bin.targets'))" />
     <Error Condition="!Exists('..\packages\WixSharp.1.9.4\build\WixSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WixSharp.1.9.4\build\WixSharp.targets'))" />
+    <Error Condition="!Exists('..\packages\WiX.3.11.1\build\wix.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WiX.3.11.1\build\wix.props'))" />
+    <Error Condition="!Exists('..\packages\WixSharp.ClrDialog.1.0.26.0\build\WixSharp.ClrDialog.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WixSharp.ClrDialog.1.0.26.0\build\WixSharp.ClrDialog.targets'))" />
   </Target>
   <Import Project="..\packages\WixSharp.1.9.4\build\WixSharp.targets" Condition="Exists('..\packages\WixSharp.1.9.4\build\WixSharp.targets')" />
-  <UsingTask AssemblyFile="$(SolutionDir)packages\WixSharp.1.9.4\build\SetEnvVar.dll" TaskName="SetEnvVar" />
+  <Import Project="..\packages\WixSharp.ClrDialog.1.0.26.0\build\WixSharp.ClrDialog.targets" Condition="Exists('..\packages\WixSharp.ClrDialog.1.0.26.0\build\WixSharp.ClrDialog.targets')" />
+  <UsingTask AssemblyFile="packages\WixSharp.ClrDialog.1.0.26.0\build\SetEnvVar.dll" TaskName="SetEnvVar" />
 </Project>
