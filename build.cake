@@ -57,6 +57,11 @@ Task("CopyDisplayControl")
 	var sourceDir = $"./Display-control/bin/Release";
 	var targetDir = $"{publishDir}/Display-control";
 	CopyBase(sourceDir, targetDir);
+	var subDirs = new string[] {"/css", "/Images", "/Script", "/Views"};
+	foreach (var subDir in subDirs)
+	{
+		CopyDirectory(sourceDir + subDir, targetDir + subDir);
+	}
 });
 
 Task("CopyKeygen")
@@ -66,7 +71,6 @@ Task("CopyKeygen")
 	//var targetDir = $"{publishDir}/Keygen";
 	//CopyBase(sourceDir, targetDir);
 });
-
 
 private void CopyBase(string sourceDir, string targetDir)
 {
