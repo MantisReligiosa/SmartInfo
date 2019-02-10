@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "Views/Shared/_ErrorLayout.cshtml";
+}
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Упс</h5>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex">
+                    <div class="sad" style="height:130px;width:130px;">
+                    </div>
+                    <div style="word-wrap:normal">
+                        Давайте сделаем вид, что ничего не было и начнем заново
+                    </div>
+                </div>
+            </div>
+            <form action="/">
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Сначала</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".modal")
+            .modal({ backdrop: 'static', keyboard: false })
+            .modal("show");
+    });
+</script>

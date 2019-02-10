@@ -1,0 +1,16 @@
+﻿@using Nancy.Bundle
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Display-control</title>
+</head>
+<body>
+    @Html.Raw(Bundles.GetCssKey("css-key"))
+    @Html.Raw(Bundles.GetJsKey("vendor-js-key"))
+    @Html.Raw(Bundles.GetJsKey("app-js-key"))
+    @RenderBody()
+</body>
+</html>
