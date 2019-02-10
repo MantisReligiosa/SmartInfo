@@ -107,26 +107,31 @@ Task("BuildSetup")
 Task("UpdateVersion")
 .Does(() =>
 {
-	var path = "./Display-control/Properties/AssemblyInfo.cs";
-	var assemblyInfo = ParseAssemblyInfo(path);
-	var parsedVersion = assemblyInfo.AssemblyVersion.Split('.');
-	var major = Convert.ToInt32(parsedVersion[0]);
-	var minor = Convert.ToInt32(parsedVersion[1]);
-	var build = Convert.ToInt32(parsedVersion[2]);
-	Information($"Major {major}");
-	Information($"Minor {minor}");
-	Information($"Build {build}");
-	build++;
-	var newVersion = $"{major}.{minor}.{build}";
-	Information($"Update version to {newVersion}");
-	CreateAssemblyInfo(path, new AssemblyInfoSettings 
+	var projects = new string[]{"DataExchange","Display-control","DomainObjects","Repository","ServiceInterfaces","Services","Web"}
+
+	foreach(var project in projects)
 	{
-    	Version = newVersion,
-    	FileVersion = newVersion,
-    	InformationalVersion = newVersion,
-		Guid = "01C10720-3D90-417C-80AC-5D7841718D12",
-    	Copyright = string.Format("Copyright (c) {0}", DateTime.Now.Year)
-	});
+		var path = $"./{project}/Properties/AssemblyInfo.cs";
+		var assemblyInfo = ParseAssemblyInfo(path);
+		var parsedVersion = assemblyInfo.AssemblyVersion.Split('.');
+		var major = Convert.ToInt32(parsedVersion[0]);
+		var minor = Convert.ToInt32(parsedVersion[1]);
+		var build = Convert.ToInt32(parsedVersion[2]);
+		//Information($"Major {major}");
+		//Information($"Minor {minor}");
+		//Information($"Build {build}");
+		build++;
+		var newVersion = $"{major}.{minor}.{build}";
+		Information($"Update version of {project} to {newVersion}");
+		CreateAssemblyInfo(path, new AssemblyInfoSettings 
+		{
+			Version = newVersion,
+			FileVersion = newVersion,
+			InformationalVersion = newVersion,
+			Guid = assemblyInfo.Guid,
+			Copyright = string.Format("Copyright (c) {0}", DateTime.Now.Year)
+		});
+	}
 });
 
 RunTarget("ReCreatePublishDir");
