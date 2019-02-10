@@ -1,0 +1,40 @@
+﻿<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Авторизация</h5>
+            </div>
+            <form method="post">
+                <div class="modal-body" style="display:flex">
+                    <div class="user-hudge" style="height:130px; width:130px;">
+                    </div>
+                    <div>
+                        <div class="input-group mb-3">
+                            <input type="text" name="login" class="form-control" placeholder="Имя пользователя" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" name="password" class="form-control" placeholder="Пароль" aria-label="Password" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary">Очистить</button>
+                    <button type="submit" class="btn btn-primary">Вход</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $(".modal")
+            .modal({ backdrop: 'static', keyboard: false })
+            .modal("show");
+        @if(Model!=null && !Model)
+        {
+            @:toastr.error("В доступе отказано");
+        }
+    });
+</script>

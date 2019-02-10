@@ -1,0 +1,169 @@
+﻿@using Nancy.Bundle
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+<!-- ko with: master-->
+@Html.Partial("Views/Home/_Menu.cshtml")
+<div class="container-fluid workspace">
+    <!-- ko foreach: screens-->
+    <div class="display" data-bind="click:unselectBlocks, style: {'width':width, 'height':height,'left':left, 'top':top, 'background': $parent.background}"></div>
+    <!-- /ko-->
+    <!-- ko foreach: blocks-->
+    <div class="displayBlock resize-drag"
+         data-bind="attr:{id:id}, click:selectBlock, style: {'width':width, 'height':height,'left':left, 'top':top, 'overflow':'hidden', 'z-index':zIndex}, css:{selected: selected}">
+        <!-- ko if: type == "text"-->
+        <label class="textblock blockContent"
+               data-bind="text: text,
+                   style: {
+                    'background-color' : backColor,
+                    'color' : textColor,
+                    'font' : fontSize + 'px/' + fontIndex + ' ' + font,
+                    'text-align' : align==0 ? 'left' : align==1 ? 'center' : 'right',
+                    'font-weight': bold ? 'bold' : '',
+                    'font-style': italic ? 'italic' : '',
+                    'position': 'fixed'
+                   }">
+        </label>
+        <!-- /ko-->
+        <!-- ko if: type == "picture"-->
+        <img data-bind="attr:{src:'data:image/png;base64, '+ $data.base64Src}"/>
+        <!-- /ko-->
+        <!-- ko if: type == "table"-->
+        <table class="blockContent" data-bind="style:{
+               'font-family' : font,
+               'font-size' : fontSize+'px',
+               }">
+            <thead>
+                <tr data-bind="foreach: header,
+                    style: {
+                        'background-color' : headerStyle.backColor,
+                        'color' : headerStyle.textColor,
+                        'text-align' : headerStyle.align==0 ? 'left' : headerStyle.align==1 ? 'center' : 'right',
+                        'font-weight': headerStyle.bold ? 'bold' : 'normal',
+                        'font-style': headerStyle.italic ? 'italic' : ''
+                    }">
+                    <th data-bind="text: $data, style: {
+                        'font-weight': $parent.headerStyle.bold ? 'bold' : 'normal'
+                        }"></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: rows, style:{'line-height':fontIndex}">
+                <!-- ko if: index%2==0 -->
+                <!--чётная строка-->
+                <tr data-bind="style: {
+                    'background-color' : $parent.evenStyle.backColor,
+                    'color' : $parent.evenStyle.textColor,
+                    'text-align' : $parent.evenStyle.align==0 ? 'left' : $parent.evenStyle.align==1 ? 'center' : 'right',
+                    'font-weight': $parent.evenStyle.bold ? 'bold' : '',
+                    'font-style': $parent.evenStyle.italic ? 'italic' : ''
+                    }">
+                    <!-- ko foreach: cells-->
+                    <td data-bind="text: $data"></td>
+                    <!-- /ko-->
+                </tr>
+                <!--/ko-->
+                <!-- ko if: index%2==1 -->
+                <!--нечётная строка-->
+                <tr data-bind="style: {
+                    'background-color' : $parent.oddStyle.backColor,
+                    'color' : $parent.oddStyle.textColor,
+                    'text-align' : $parent.oddStyle.align==0 ? 'left' : $parent.oddStyle.align==1 ? 'center' : 'right',
+                    'font-weight': $parent.oddStyle.bold ? 'bold' : '',
+                    'font-style': $parent.oddStyle.italic ? 'italic' : ''
+                    }">
+                    <!-- ko foreach: cells-->
+                    <td data-bind="text: $data"></td>
+                    <!-- /ko-->
+                </tr>
+                <!--/ko-->
+            </tbody>
+        </table>
+        <!-- /ko-->
+    </div>
+    <!-- /ko-->
+</div>
+
+<div id="properties" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Свойства</h5>
+            </div>
+            <div class="modal-body" style="display:flex">
+                <div>
+                    <!-- ko if: selectedBlock() == null -->
+                    @Html.Partial("Home/ScreenProperties")
+                    <!-- /ko-->
+                    <!-- ko if: selectedBlock() != null && selectedBlock().type === 'text' -->
+                    <!-- ko with: textBlockEditViewModel()-->
+                    @Html.Partial("Home/TextBlockProperties")
+                    <!-- /ko-->
+                    <!-- /ko-->
+                    <!-- ko if: selectedBlock() != null && selectedBlock().type === 'table' -->
+                    <!-- ko with: tableBlockEditViewModel()-->
+                    @Html.Partial("Home/TableBlockProperties")
+                    <!-- /ko-->
+                    <!-- /ko-->
+                    <!-- ko if: selectedBlock() != null && selectedBlock().type == "picture"-->
+                    <!-- ko with: pictureBlockEditViewModel()-->
+                    @Html.Partial("Home/PictureBlockProperties")
+                    <!-- /ko-->
+                    <!-- /ko-->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bind="click:applyProperties">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="position" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Позиция</h5>
+            </div>
+            <div class="modal-body" style="display:flex">
+                <div>
+                    <!-- ko with: positionViewModel()-->
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="posTop">Отступ сверху</span>
+                        </div>
+                        <input type="number" class="form-control" id="posTopInput" min="0" data-bind="value: top" aria-describedby="posTop">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="posTop">Отступ слева</span>
+                        </div>
+                        <input type="number" class="form-control" id="posTopInput" min="0" data-bind="value: left" aria-describedby="posTop">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="posTop">Высота</span>
+                        </div>
+                        <input type="number" class="form-control" id="posTopInput" min="0" data-bind="value: height" aria-describedby="posTop">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="posTop">Ширина</span>
+                        </div>
+                        <input type="number" class="form-control" id="posTopInput" min="0" data-bind="value: width" aria-describedby="posTop">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="posTop">Слой</span>
+                        </div>
+                        <input type="number" class="form-control" id="posTopInput" min="0" data-bind="value: zIndex" aria-describedby="posTop">
+                    </div>
+                    <!-- /ko-->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bind="click:applyPosition">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--/ko-->
+@Html.Raw(Bundles.GetJsKey("master-js-key"))

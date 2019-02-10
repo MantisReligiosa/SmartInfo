@@ -1,0 +1,238 @@
+﻿<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="video-tab" data-toggle="tab" href="#video" role="tab" aria-controls="video" aria-selected="true">Видеостена</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="system-tab" data-toggle="tab" href="#system" role="tab" aria-controls="system" aria-selected="false">Система</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="video" role="tabpanel" aria-labelledby="video-tab">
+        <div class="panel panel-default ribbon-group">
+            <div class="panel-body ribbon-toolbar">
+                <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: addTextBlock">
+                    <div class="ribbon-vertical-button-content">
+                        <div class="block-text-large ribbon-large-icon"></div>
+                        <div>Текст</div>
+                    </div>
+                </button>
+                <div class="ribbon-clip">
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: addTableBlock">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="block-table ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Таблица</div>
+                        </div>
+                    </button>
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: addPictureBlock">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="block-image ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Изображение</div>
+                        </div>
+                    </button>
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="block-datetime ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Дата/время</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="panel-footer ribbon-group-title">
+                <label>
+                    Блоки
+                </label>
+            </div>
+        </div>
+        <div class="panel panel-default ribbon-group">
+            <div class="panel-body ribbon-toolbar">
+                <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: paste">
+                    <div class="ribbon-vertical-button-content">
+                        <div class="clipboard-paste-large ribbon-large-icon"></div>
+                        <div>Вставить</div>
+                    </div>
+                </button>
+                <div class="ribbon-clip">
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: cut">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="clipboard-cut ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Вырезать</div>
+                        </div>
+                    </button>
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: copy">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="clipboard-copy ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Копировать</div>
+                        </div>
+                    </button>
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: deleteBlock">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="delete ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Удалить</div>
+                        </div>
+                    </button>
+                </div>
+                <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: showProperties">
+                    <div class="ribbon-vertical-button-content">
+                        <div class="brush-large ribbon-large-icon"></div>
+                        <div>Свойства</div>
+                    </div>
+                </button>
+            </div>
+            <div class="panel-footer ribbon-group-title">
+                <label>
+                    Правка
+                </label>
+            </div>
+        </div>
+        <div class="panel panel-default ribbon-group">
+            <div class="panel-body ribbon-toolbar">
+                <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: showPosition">
+                    <div class="ribbon-vertical-button-content">
+                        <div class="coordinates-large ribbon-large-icon"></div>
+                        <div>Позиция</div>
+                    </div>
+                </button>
+                <div class="ribbon-clip">
+
+                    <div class="ribbon-row">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" data-bind="checked: gridEnabled">
+                            <label class="form-check-label" for="exampleCheck1">Привязать к сетке</label>
+                        </div>
+                    </div>
+                    <div class="ribbon-row">
+                        <label class="form-check-label" for="gridSpin">Шаг сетки:</label>
+                        <select class="form-control ribbon-element ribbon-numerical-input" id="inputGroupSelect03" data-bind="options:gridSteps, selectedOptions: selectedGridSteps"></select>
+                    </div>
+                    <div class="ribbon-row">
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: zUp">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="arrow-up1 ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Выше</div>
+                            </div>
+                        </button>
+                        <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: zDown">
+                            <div class="ribbon-horizontal-button-content">
+                                <div class="arrow-down1 ribbon-small-icon"></div>
+                                <div class="ribbon-horizontal-button-text">Ниже</div>
+                            </div>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel-footer ribbon-group-title">
+                <label>
+                    Расположение и слой
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab">
+        <div class="panel panel-default ribbon-group">
+            <div class="panel-body ribbon-toolbar">
+                <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: startShow">
+                    <div class="ribbon-vertical-button-content">
+                        <div class="displays-on-large ribbon-large-icon"></div>
+                        <div>Пуск</div>
+                    </div>
+                </button>
+                <div class="ribbon-clip">
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: stopShow">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="displays-off ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Стоп</div>
+                        </div>
+                    </button>
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: resetDisplays">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="displays-refesh ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Обновить</div>
+                        </div>
+                    </button>
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="displays-test ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Тест</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="panel-footer ribbon-group-title">
+                <label>
+                    Видеопанель
+                </label>
+            </div>
+        </div>
+        <div class="panel panel-default ribbon-group">
+            <div class="panel-body ribbon-toolbar">
+                <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                    <div class="ribbon-vertical-button-content">
+                        <div class="config-download ribbon-large-icon"></div>
+                        <div>Выгрузить</div>
+                    </div>
+                </button>
+                <div class="ribbon-clip">
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="config-upload ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Загрузить</div>
+                        </div>
+                    </button>
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="displays-cleanup ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Очистить</div>
+                        </div>
+                    </button>
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="config-data-source ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Источники</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="panel-footer ribbon-group-title">
+                <label>
+                    Конфигурация
+                </label>
+            </div>
+        </div>
+        <div class="panel panel-default ribbon-group">
+            <div class="panel-body ribbon-toolbar">
+                <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                    <div class="ribbon-vertical-button-content">
+                        <div class="access-account ribbon-large-icon"></div>
+                        <div>Логин/пароль</div>
+                    </div>
+                </button>
+                <div class="ribbon-clip">
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="access-exit ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Выход</div>
+                        </div>
+                    </button>
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="access-reset ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Сброс</div>
+                        </div>
+                    </button>
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="access-list ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Разрешения</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="panel-footer ribbon-group-title">
+                <label>
+                    Доступ
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
