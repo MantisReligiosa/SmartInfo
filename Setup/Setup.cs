@@ -5,6 +5,7 @@ using Setup.Interfaces;
 using Setup.Managers;
 using System;
 using System.Diagnostics;
+using System.IO;
 using WixSharp;
 using WixSharp.Forms;
 using static WixSharp.SetupEventArgs;
@@ -60,8 +61,15 @@ namespace Setup
                 AssemblyManager.GetAssemblyPathsCollection(System.IO.Path.GetDirectoryName(
                     System.Reflection.Assembly.GetExecutingAssembly().Location)));
             project.AfterInstall += Project_AfterInstall;
+            project.UIInitialized += Project_UIInitialized;
 
             Compiler.BuildMsi(project);
+        }
+
+        private static void Project_UIInitialized(SetupEventArgs e)
+        {
+            e.Data[Properties.ConnectionString.PropertyName] = Properties.ConnectionString.DefaultValue;
+            e.Session[Properties.ConnectionString.PropertyName] = Properties.ConnectionString.DefaultValue;
         }
 
         private static void Project_AfterInstall(SetupEventArgs e)
@@ -76,7 +84,9 @@ namespace Setup
             try
             {
                 _sqlManager.CreateDatabase(connectionString);
-                _sqlManager.ApplyMigrations();
+                var processToStart = Path.Combine(e.InstallDir, "migrate.exe");
+                NotificationManager.ShowExclamationMessage(processToStart);
+                _sqlManager.ApplyMigrations(processToStart);
 
             }
             catch (Exception ex)

@@ -2,7 +2,7 @@
 {
     public interface ISqlManager
     {
-        void ApplyMigrations();
+        void ApplyMigrations(string installDir);
 
         void ValidateConnectionString(string connectionString);
 

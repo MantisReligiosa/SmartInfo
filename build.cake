@@ -26,6 +26,18 @@ Task("RunUnitTests")
 	///XUnit2("./Devices/SevenSegmentTesting/bin/Release/SevenSegmentTesting.dll");
 });
 
+Task("CopyMigrate")
+.Does(() =>
+{
+	//копируем migrate.exe
+	var files = GetFiles($"{packagesDir}/EntityFramework.6.2.0/tools/migrate.exe");
+	CopyFiles(files, $"{publishDir}/Display-control");
+	
+	//копируем migrate.bat
+	files = GetFiles($"./migrate.bat");
+	CopyFiles(files, $"{publishDir}/Display-control");
+});
+
 Task("ReCreatePublishDir")
 .Does(() =>
 {
@@ -122,6 +134,8 @@ RunTarget("Build");
 RunTarget("RunUnitTests");
 
 RunTarget("CopyDisplayControl");
+
+RunTarget("CopyMigrate");
 
 RunTarget("CopyKeygen");
 

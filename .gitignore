@@ -336,3 +336,5 @@ _publish/
 Setup/wix/
 
 tools/
+
+*.msi

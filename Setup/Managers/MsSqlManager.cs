@@ -1,4 +1,5 @@
-﻿using Setup.Interfaces;
+﻿using Setup.Data;
+using Setup.Interfaces;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
@@ -101,10 +102,10 @@ namespace Setup.Managers
             }
         }
 
-        public void ApplyMigrations()
+        public void ApplyMigrations(string processToStart)
         {
-            var processToStart = "migrate.exe";
-            var parameters = $"Repository.dll /startupConfigurationFile=\"web.config\"";
+            
+            var parameters = $"Repository.dll /startupConfigurationFile=\"web.dll.config\"";
 
             using (var process = Process.Start(processToStart, parameters))
                 process.WaitForExit();
