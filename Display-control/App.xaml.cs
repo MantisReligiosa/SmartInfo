@@ -25,21 +25,29 @@ namespace Display_control
         {
             base.OnStartup(e);
             CreateNotifyIcon();
-            RegisterHandlers();
-            StartNancy();
 
-            _window = new Window()
+            try
             {
-                Visibility = Visibility.Hidden,
-                ShowInTaskbar = false,
-                WindowStyle = WindowStyle.None,
-                Cursor = Cursors.None,
-                ResizeMode = ResizeMode.NoResize,
+                RegisterHandlers();
+                StartNancy();
+
+                _window = new Window()
+                {
+                    Visibility = Visibility.Hidden,
+                    ShowInTaskbar = false,
+                    WindowStyle = WindowStyle.None,
+                    Cursor = Cursors.None,
+                    ResizeMode = ResizeMode.NoResize,
 #if !DEBUG
-                Topmost = true
+                    Topmost = true
 #endif
-            };
-            _notifyIcon.ShowBalloonTip(1, "Display-control", "Сервер запущен и готов к работе", System.Windows.Forms.ToolTipIcon.Info);
+                };
+                _notifyIcon.ShowBalloonTip(1, "Display-control", "Сервер запущен и готов к работе", System.Windows.Forms.ToolTipIcon.Info);
+            }
+            catch (Exception ex)
+            {
+                _notifyIcon.ShowBalloonTip(1, "Display-control", ex.Message, System.Windows.Forms.ToolTipIcon.Error);
+            }
         }
 
         private static void StartNancy()
