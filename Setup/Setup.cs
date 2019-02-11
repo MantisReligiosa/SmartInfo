@@ -37,7 +37,17 @@ namespace Setup
 
             var project = new ManagedProject(Constants.CommonInstallationName,
                 new Dir(Constants.InstallationDirectory,
-                    new DirFiles(System.IO.Path.Combine(Constants.PublishFolder, "*.*"))),
+                    new DirFiles(Path.Combine(Constants.PublishFolder, "*.*")),
+                    new Dir("css", new DirFiles(Path.Combine(Constants.PublishFolder,"css", "*.*"))),
+                    new Dir("Images", new DirFiles(Path.Combine(Constants.PublishFolder, "Images", "*.*"))),
+                    new Dir("Script", 
+                        new Dir("app", new DirFiles(Path.Combine(Constants.PublishFolder,"Script", "app", "*.*"))),
+                        new Dir("Vendor", new DirFiles(Path.Combine(Constants.PublishFolder, "Script", "Vendor", "*.*")))),
+                    new Dir("Views", new DirFiles(Path.Combine(Constants.PublishFolder, "Views", "*.*")),
+                        new Dir("Codes", new DirFiles(Path.Combine(Constants.PublishFolder, "Views", "Codes", "*.*"))),
+                        new Dir("Home", new DirFiles(Path.Combine(Constants.PublishFolder, "Views", "Home", "*.*"))),
+                        new Dir("Shared", new DirFiles(Path.Combine(Constants.PublishFolder, "Views", "Shared", "*.*"))))
+                    ),
                 new Dir(Constants.ProgramMenuDirectory,
                         new ExeFileShortcut($"Uninstall {Constants.ProductName}", "[System64Folder]msiexec.exe", "/x [ProductCode]"),
                         new ExeFileShortcut(Constants.ProductName, "[INSTALLDIR]Display-control.exe", arguments: "")),
