@@ -90,7 +90,7 @@ namespace Setup.CustomDialogs
             }
             catch (Exception ex)
             {
-                NotificationManager.ShowExclamationMessage(
+                NotificationManager.ShowErrorMessage(
                     $"{ex.Message}: {ex.InnerException?.Message}");
                 return;
             }
