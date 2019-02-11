@@ -38,10 +38,10 @@ namespace Setup
             var project = new ManagedProject(Constants.CommonInstallationName,
                 new Dir(Constants.InstallationDirectory,
                     new DirFiles(Path.Combine(Constants.PublishFolder, "*.*")),
-                    new Dir("css", new DirFiles(Path.Combine(Constants.PublishFolder,"css", "*.*"))),
+                    new Dir("css", new DirFiles(Path.Combine(Constants.PublishFolder, "css", "*.*"))),
                     new Dir("Images", new DirFiles(Path.Combine(Constants.PublishFolder, "Images", "*.*"))),
-                    new Dir("Script", 
-                        new Dir("app", new DirFiles(Path.Combine(Constants.PublishFolder,"Script", "app", "*.*"))),
+                    new Dir("Script",
+                        new Dir("app", new DirFiles(Path.Combine(Constants.PublishFolder, "Script", "app", "*.*"))),
                         new Dir("Vendor", new DirFiles(Path.Combine(Constants.PublishFolder, "Script", "Vendor", "*.*")))),
                     new Dir("Views", new DirFiles(Path.Combine(Constants.PublishFolder, "Views", "*.*")),
                         new Dir("Codes", new DirFiles(Path.Combine(Constants.PublishFolder, "Views", "Codes", "*.*"))),
@@ -61,7 +61,8 @@ namespace Setup
                 {
                     UpgradeVersions = VersionRange.OlderThanThis,
                     PreventDowngradingVersions = VersionRange.ThisAndNewer,
-                    NewerProductInstalledErrorMessage = Messages.NewerProductInstalledErrorMessage
+                    NewerProductInstalledErrorMessage = Messages.NewerProductInstalledErrorMessage,
+                    RemoveExistingProductAfter = Step.InstallInitialize
                 },
                 ManagedUI = managedUI,
                 Version = version,
@@ -72,7 +73,6 @@ namespace Setup
                     System.Reflection.Assembly.GetExecutingAssembly().Location)));
             project.AfterInstall += Project_AfterInstall;
             project.UIInitialized += Project_UIInitialized;
-
             Compiler.BuildMsi(project);
         }
 
@@ -95,7 +95,6 @@ namespace Setup
             {
                 _sqlManager.CreateDatabase(connectionString);
                 var processToStart = Path.Combine(e.InstallDir, "migrate.exe");
-                NotificationManager.ShowExclamationMessage(processToStart);
                 _sqlManager.ApplyMigrations(processToStart);
 
             }
