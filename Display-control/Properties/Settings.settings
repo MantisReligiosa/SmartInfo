@@ -10,5 +10,8 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=localhost\sqlexpress;Initial Catalog=Display-control;Integrated Security=True</Value>
     </Setting>
+    <Setting Name="ServerPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1234</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

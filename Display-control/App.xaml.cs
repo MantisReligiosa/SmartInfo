@@ -3,6 +3,7 @@ using DataExchange.DTO;
 using DataExchange.Requests;
 using DataExchange.Responces;
 using Display_control.Blocks;
+using Display_control.Properties;
 using Nancy.Hosting.Self;
 using System;
 using System.Linq;
@@ -56,7 +57,8 @@ namespace Display_control
             {
                 UrlReservations = new UrlReservations() { CreateAutomatically = true }
             };
-            var uri = new Uri("http://localhost:1234");
+            var port = Settings.Default.ServerPort;
+            var uri = new Uri($"http://localhost:{port}");
             var bootstrapper = new Bootstrapper();
             var nancyHost = new NancyHost(bootstrapper, hostConfiguration, uri);
             nancyHost.Start();
