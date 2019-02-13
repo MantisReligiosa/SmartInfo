@@ -7,6 +7,7 @@ using Display_control.Properties;
 using Nancy.Hosting.Self;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -132,6 +133,16 @@ namespace Display_control
                     _window.Visibility = Visibility.Hidden;
                 });
                 return null;
+            });
+            broker.RegisterHandler<GetVersionRequest>(request =>
+            {
+                var version = Assembly.GetExecutingAssembly().GetName().Version;
+                return new GetVersionResponce
+                {
+                    Major = version.Major,
+                    Minor = version.Minor,
+                    Build = version.Build
+                };
             });
         }
 

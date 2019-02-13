@@ -111,6 +111,15 @@ namespace Web
                 {
                     return null;
                 });
+                broker.RegisterHandler<GetVersionRequest>(request =>
+                {
+                    return new GetVersionResponce
+                    {
+                        Major = 12,
+                        Minor = 34,
+                        Build = 56
+                    };
+                });
             }
         }
 
