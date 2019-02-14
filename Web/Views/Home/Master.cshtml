@@ -10,6 +10,9 @@
     <div class="displayBlock resize-drag"
          data-bind="attr:{id:id}, click:selectBlock, style: {'width':width, 'height':height,'left':left, 'top':top, 'overflow':'hidden', 'z-index':zIndex}, css:{selected: selected}">
         <!-- ko if: type == "text"-->
+        <!-- ko if: text.length<1 -->
+        <span class="block-icon block-text" data-bind="style:{'z-index': zIndex+1}"></span>
+        <!-- /ko-->
         <label class="textblock blockContent"
                data-bind="text: text,
                    style: {
@@ -24,9 +27,17 @@
         </label>
         <!-- /ko-->
         <!-- ko if: type == "picture"-->
-        <img data-bind="attr:{src:'data:image/png;base64, '+ $data.base64Src}"/>
+        <!-- ko if: base64Src==null -->
+        <span class="block-icon block-image" data-bind="style:{'z-index': zIndex+1}"></span>
+        <!-- /ko-->
+        <!-- ko if: base64Src!=null -->
+        <img data-bind="attr:{src:'data:image/png;base64, '+ $data.base64Src}" />
+        <!-- /ko-->
         <!-- /ko-->
         <!-- ko if: type == "table"-->
+        <!-- ko if: header.length<1 -->
+        <span class="block-icon block-table" data-bind="style:{'z-index': zIndex+1}"></span>
+        <!-- /ko-->
         <table class="blockContent" data-bind="style:{
                'font-family' : font,
                'font-size' : fontSize+'px',

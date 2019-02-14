@@ -55,7 +55,7 @@ namespace Services
                 Width = 200,
                 Details = new TextBlockDetails
                 {
-                    Text = "Текст",
+                    //Text = "Текст",
                     BackColor = "#ffffff",
                     TextColor = "#000000",
                     FontName = _systemController.GetFonts().First(),
@@ -107,6 +107,7 @@ namespace Services
                     },
                     Cells = new List<TableBlockCellDetails>
                     {
+                        /*
                         new TableBlockCellDetails{Row=0, Column=0, Value = "Header1"},
                         new TableBlockCellDetails{Row=0, Column=1, Value = "Header2"},
                         new TableBlockCellDetails{Row=0, Column=2, Value = "Header3"},
@@ -123,6 +124,7 @@ namespace Services
                         new TableBlockCellDetails{Row=3, Column=1, Value = "Cell32"},
                         new TableBlockCellDetails{Row=3, Column=2, Value = "Cell33"},
                         new TableBlockCellDetails{Row=3, Column=3, Value = "Cell34"}
+                        */
                     },
                 }
             }) as TableBlock;
@@ -138,13 +140,13 @@ namespace Services
                 Width = 50,
                 Details = new PictureBlockDetails()
             }) as PictureBlock;
-
+            /*
             using (var stream = new MemoryStream())
             {
                 Resources.DefImage.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
                 block.Details.Base64Image = Convert.ToBase64String(stream.ToArray());
             }
-
+            */
             _unitOfWork.Complete();
             return block;
         }
