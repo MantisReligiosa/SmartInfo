@@ -284,6 +284,10 @@ function masterViewModel(app) {
 
     };
 
+    self.downloadConfig = function () {
+        window.location="/api/downloadConfig";
+    }
+
     selectBlock = function (bind) {
         self.blocks.remove(bind);
         unselectBlocks();

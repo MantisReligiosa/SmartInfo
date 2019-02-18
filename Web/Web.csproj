@@ -331,6 +331,7 @@
     <Compile Include="Models\Blocks\RowStyleDto.cs" />
     <Compile Include="Models\Blocks\TableBlockDto.cs" />
     <Compile Include="Models\Blocks\TextBlockDto.cs" />
+    <Compile Include="Models\ConfigDto.cs" />
     <Compile Include="Models\CreditsRequest.cs" />
     <Compile Include="Models\CsvDataDto.cs" />
     <Compile Include="Models\CsvTableDto.cs" />

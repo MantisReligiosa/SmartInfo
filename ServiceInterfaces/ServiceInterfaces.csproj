@@ -47,6 +47,7 @@
     <Compile Include="ICryptoProvider.cs" />
     <Compile Include="IOperationController.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="ISerializationController.cs" />
     <Compile Include="ISystemController.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="IUnitOfWorkFactory.cs" />
