@@ -21,7 +21,8 @@ namespace Web.Modules
         public Secured(
             ISystemController systemController,
             IBlockController blockController,
-            IOperationController operationController
+            IOperationController operationController,
+            ISerializationController serializationController
             )
         {
             this.RequiresAuthentication();
@@ -145,32 +146,7 @@ namespace Web.Modules
             {
                 try
                 {
-                    var blocks = blockController.GetBlocks().Select(b =>
-                            {
-                                if (b is TextBlock textBlock)
-                                {
-                                    var block = _mapper.Map<TextBlockDto>(textBlock);
-                                    return block;
-                                }
-                                if (b is TableBlock tableBlock)
-                                {
-                                    var block = _mapper.Map<TableBlockDto>(tableBlock);
-                                    return block;
-                                }
-                                if (b is PictureBlock pictureBlock)
-                                {
-                                    var block = _mapper.Map<PictureBlockDto>(pictureBlock);
-                                    return block;
-                                }
-                                return new BlockDto
-                                {
-                                    Height = b.Height,
-                                    Id = b.Id,
-                                    Left = b.Left,
-                                    Top = b.Top,
-                                    Width = b.Width
-                                };
-                            });
+                    var blocks = GetBlocks(blockController);
                     return Response.AsJson(blocks);
                 }
                 catch (Exception ex)
@@ -322,6 +298,58 @@ namespace Web.Modules
                     throw new Exception("Ошибка чтения csv", ex);
                 }
             };
+            Get["/api/downloadConfig"] = parameters =>
+            {
+                try
+                {
+                    var response = new Response
+                    {
+                        ContentType = "text/xml",
+                        Contents = (stream) => serializationController.SerializeXML(new ConfigDto
+                        {
+                            Background = blockController.GetBackground(),
+                            GetBlocks = GetBlocks(blockController).ToList()
+                        }).CopyTo(stream)
+                    };
+                    response.Headers.Add("Content-Disposition", "attachment; filename=config.xml");
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    throw new Exception("Ошибка выгрузки конфигурации", ex);
+                }
+            };
+        }
+
+        private IEnumerable<BlockDto> GetBlocks(IBlockController blockController)
+        {
+            return blockController.GetBlocks().Select(b =>
+            {
+                if (b is TextBlock textBlock)
+                {
+                    var block = _mapper.Map<TextBlockDto>(textBlock);
+                    return block;
+                }
+                if (b is TableBlock tableBlock)
+                {
+                    var block = _mapper.Map<TableBlockDto>(tableBlock);
+                    return block;
+                }
+                if (b is PictureBlock pictureBlock)
+                {
+                    var block = _mapper.Map<PictureBlockDto>(pictureBlock);
+                    return block;
+                }
+                return new BlockDto
+                {
+                    Height = b.Height,
+                    Id = b.Id,
+                    Left = b.Left,
+                    Top = b.Top,
+                    Width = b.Width
+                };
+            });
         }
     }
 }

@@ -37,6 +37,7 @@ namespace Web
             container.Register<ISystemController, SystemController>();
             container.Register<IBlockController, BlockController>();
             container.Register<IOperationController, OperationController>();
+            container.Register<ISerializationController, SerializationController>();
 
             CustomStatusCode.AddCode(404);
 
