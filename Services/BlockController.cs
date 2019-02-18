@@ -3,10 +3,8 @@ using DomainObjects.Blocks.Details;
 using DomainObjects.Parameters;
 using DomainObjects.Specifications;
 using ServiceInterfaces;
-using Services.Properties;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Services
@@ -153,55 +151,73 @@ namespace Services
 
         public void SaveTextBlock(TextBlock textBlock)
         {
-            var block = _unitOfWork.DisplayBlocks.Get(textBlock.Id) as TextBlock;
-            block.CopyFrom(textBlock);
-            _unitOfWork.DisplayBlocks.Update(block);
+            if (!(_unitOfWork.DisplayBlocks.Get(textBlock.Id) is TextBlock block))
+            {
+                _unitOfWork.DisplayBlocks.Create(textBlock);
+            }
+            else
+            {
+                block.CopyFrom(textBlock);
+                _unitOfWork.DisplayBlocks.Update(block);
+            }
             _unitOfWork.Complete();
         }
 
         public void SaveTableBlock(TableBlock tableBlock)
         {
-            //ToDo: нужен рефакторинг
-            var block = _unitOfWork.DisplayBlocks.Get(tableBlock.Id) as TableBlock;
-            block.Height = tableBlock.Height;
-            block.Left = tableBlock.Left;
-            block.Top = tableBlock.Top;
-            block.Width = tableBlock.Width;
-            block.Details.FontName = tableBlock.Details.FontName;
-            block.Details.FontSize = tableBlock.Details.FontSize;
-            block.Details.FontIndex = tableBlock.Details.FontIndex;
-            block.Details.EvenRowDetails.CopyFrom(tableBlock.Details.EvenRowDetails);
-            block.Details.OddRowDetails.CopyFrom(tableBlock.Details.OddRowDetails);
-            block.Details.HeaderDetails.CopyFrom(tableBlock.Details.HeaderDetails);
+            if (!(_unitOfWork.DisplayBlocks.Get(tableBlock.Id) is TableBlock block))
+            {
+                _unitOfWork.DisplayBlocks.Create(tableBlock);
+            }
+            else
+            {
+                //ToDo: нужен рефакторинг
+                block.Height = tableBlock.Height;
+                block.Left = tableBlock.Left;
+                block.Top = tableBlock.Top;
+                block.Width = tableBlock.Width;
+                block.Details.FontName = tableBlock.Details.FontName;
+                block.Details.FontSize = tableBlock.Details.FontSize;
+                block.Details.FontIndex = tableBlock.Details.FontIndex;
+                block.Details.EvenRowDetails.CopyFrom(tableBlock.Details.EvenRowDetails);
+                block.Details.OddRowDetails.CopyFrom(tableBlock.Details.OddRowDetails);
+                block.Details.HeaderDetails.CopyFrom(tableBlock.Details.HeaderDetails);
 
-            var cellsToDelete = block.Details.Cells
-                .Where(dbCell => !tableBlock.Details.Cells.Any(cell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column))).ToList();
-            foreach (var cellToDelete in cellsToDelete)
-            {
-                _unitOfWork.TableBlockCellDetails.Delete(cellToDelete.Id);
-            }
-            _unitOfWork.Complete();
-            foreach (var cell in tableBlock.Details.Cells)
-            {
-                var databaseCell = block.Details.Cells.FirstOrDefault(dbCell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column));
-                if (databaseCell == null)
+                var cellsToDelete = block.Details.Cells
+                    .Where(dbCell => !tableBlock.Details.Cells.Any(cell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column))).ToList();
+                foreach (var cellToDelete in cellsToDelete)
                 {
-                    block.Details.Cells.Add(new TableBlockCellDetails(cell));
+                    _unitOfWork.TableBlockCellDetails.Delete(cellToDelete.Id);
                 }
-                else
+                _unitOfWork.Complete();
+                foreach (var cell in tableBlock.Details.Cells)
                 {
-                    databaseCell.Value = cell.Value;
+                    var databaseCell = block.Details.Cells.FirstOrDefault(dbCell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column));
+                    if (databaseCell == null)
+                    {
+                        block.Details.Cells.Add(new TableBlockCellDetails(cell));
+                    }
+                    else
+                    {
+                        databaseCell.Value = cell.Value;
+                    }
                 }
+                _unitOfWork.DisplayBlocks.Update(block);
             }
-            _unitOfWork.DisplayBlocks.Update(block);
             _unitOfWork.Complete();
         }
 
-        public void SavePictureBlock(PictureBlock picturBlock)
+        public void SavePictureBlock(PictureBlock pictureBlock)
         {
-            var block = _unitOfWork.DisplayBlocks.Get(picturBlock.Id) as PictureBlock;
-            block.CopyFrom(picturBlock);
-            _unitOfWork.DisplayBlocks.Update(block);
+            if (!(_unitOfWork.DisplayBlocks.Get(pictureBlock.Id) is PictureBlock block))
+            {
+                _unitOfWork.DisplayBlocks.Create(pictureBlock);
+            }
+            else
+            {
+                block.CopyFrom(pictureBlock);
+                _unitOfWork.DisplayBlocks.Update(block);
+            }
             _unitOfWork.Complete();
         }
 
@@ -235,6 +251,13 @@ namespace Services
         public void DeleteBlock(Guid id)
         {
             _unitOfWork.DisplayBlocks.Delete(id);
+            _unitOfWork.Complete();
+        }
+
+        public void Cleanup()
+        {
+            var blocks = _unitOfWork.DisplayBlocks.GetAll();
+            _unitOfWork.DisplayBlocks.DeleteRange(blocks);
             _unitOfWork.Complete();
         }
     }

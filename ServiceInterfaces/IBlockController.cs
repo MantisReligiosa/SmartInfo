@@ -21,5 +21,6 @@ namespace ServiceInterfaces
         void SaveTableBlock(TableBlock block);
         void SavePictureBlock(PictureBlock block);
         void DeleteBlock(Guid id);
+        void Cleanup();
     }
 }

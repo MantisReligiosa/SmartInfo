@@ -308,7 +308,7 @@ namespace Web.Modules
                         Contents = (stream) => serializationController.SerializeXML(new ConfigDto
                         {
                             Background = blockController.GetBackground(),
-                            GetBlocks = GetBlocks(blockController).ToList()
+                            Blocks = GetBlocks(blockController).ToList()
                         }).CopyTo(stream)
                     };
                     response.Headers.Add("Content-Disposition", "attachment; filename=config.xml");
@@ -318,6 +318,40 @@ namespace Web.Modules
                 {
                     logger.Error(ex);
                     throw new Exception("Ошибка выгрузки конфигурации", ex);
+                }
+            };
+            Post["/api/uploadConfig"] = parameters =>
+            {
+                try
+                {
+                    var data = this.Bind<ConfigDataDto>();
+                    var configDto = serializationController.Deserialize<ConfigDto>(data.Text);
+                    blockController.SetBackground(configDto.Background);
+                    blockController.Cleanup();
+                    foreach(var b in configDto.Blocks)
+                    {
+                        if (b is TextBlockDto textBlock)
+                        {
+                            var block = _mapper.Map<TextBlock>(textBlock);
+                            blockController.SaveTextBlock(block);
+                        }
+                        if (b is TableBlockDto tableBlock)
+                        {
+                            var block = _mapper.Map<TableBlock>(tableBlock);
+                            blockController.SaveTableBlock(block);
+                        }
+                        if (b is PictureBlockDto pictureBlock)
+                        {
+                            var block = _mapper.Map<PictureBlock>(pictureBlock);
+                            blockController.SavePictureBlock(block);
+                        }
+                    }
+                    return Response.AsJson(true);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    throw new Exception("Ошибка загрузки конфигурации", ex);
                 }
             };
         }

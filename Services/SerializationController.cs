@@ -1,14 +1,21 @@
-﻿using System.IO;
+﻿using ServiceInterfaces;
+using System.IO;
 using System.Xml.Serialization;
-using ServiceInterfaces;
 
 namespace Services
 {
     public class SerializationController : ISerializationController
     {
-        public T Deserialize<T>(Stream stream)
+        public T Deserialize<T>(string source) where T : class
         {
-            throw new System.NotImplementedException();
+            var serializer = new XmlSerializer(typeof(T));
+            object obj;
+            using (TextReader reader = new StringReader(source))
+            {
+                obj = serializer.Deserialize(reader);
+            }
+            var result =  obj as T;
+            return result;
         }
 
         public Stream SerializeXML<T>(T source)

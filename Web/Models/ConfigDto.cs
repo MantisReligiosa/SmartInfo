@@ -10,6 +10,6 @@ namespace Web.Models
     public class ConfigDto
     {
         public string Background { get; set; }
-        public List<BlockDto> GetBlocks { get; set; }
+        public List<BlockDto> Blocks { get; set; }
     }
 }

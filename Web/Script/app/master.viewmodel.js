@@ -288,6 +288,34 @@ function masterViewModel(app) {
         window.location="/api/downloadConfig";
     }
 
+    self.uploadConfig = function () {
+        $('<input>')
+            .attr('type', 'file')
+            .attr('accept', '.xml')
+            .on('change', function (e) {
+                var file = this.files[0];
+                var reader = new FileReader();
+
+                reader.onload = (function (theFile) {
+                    return function (e) {
+                        var text = e.target.result;
+                        app.request(
+                            "POST",
+                            "/api/uploadConfig",
+                            { text: text },
+                            function (data) {
+                                loadBackground()
+                                    .then(function () { return loadBlocks(); });
+                            }
+                        );
+                    };
+                })(file);
+
+                reader.readAsText(file/*, 'CP1251'*/);
+            })
+            .click();
+    }
+
     selectBlock = function (bind) {
         self.blocks.remove(bind);
         unselectBlocks();
