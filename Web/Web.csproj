@@ -329,6 +329,7 @@
     <Compile Include="Models\Blocks\PictureBlockDto.cs" />
     <Compile Include="Models\Blocks\RowDto.cs" />
     <Compile Include="Models\Blocks\RowStyleDto.cs" />
+    <Compile Include="Models\Blocks\SizeAndPositionDto.cs" />
     <Compile Include="Models\Blocks\TableBlockDto.cs" />
     <Compile Include="Models\Blocks\TextBlockDto.cs" />
     <Compile Include="Models\ConfigDataDto.cs" />

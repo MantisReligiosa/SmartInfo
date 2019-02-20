@@ -260,5 +260,19 @@ namespace Services
             _unitOfWork.DisplayBlocks.DeleteRange(blocks);
             _unitOfWork.Complete();
         }
+
+        public void MoveAndResizeBlock(Guid id, int height, int width, int left, int top)
+        {
+            var block = _unitOfWork.DisplayBlocks.Get(id);
+            if (block == null)
+            {
+                return;
+            }
+            block.Height = height;
+            block.Width = width;
+            block.Left = left;
+            block.Top = top;
+            _unitOfWork.Complete();
+        }
     }
 }

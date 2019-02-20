@@ -155,6 +155,20 @@ namespace Web.Modules
                     throw new Exception("Ошибка загрузки блоков", ex);
                 }
             };
+            Post["/api/moveAndResize"] = parameters =>
+            {
+                try
+                {
+                    var block = this.Bind<SizeAndPositionDto>();
+                    blockController.MoveAndResizeBlock(block.Id, block.Height, block.Width, block.Left, block.Top);
+                    return Response.AsJson(true);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    throw new Exception("Ошибка изменения размеров и положения блока", ex);
+                }
+            };
             Post["/api/saveBlock"] = parameters =>
             {
                 try
@@ -328,7 +342,7 @@ namespace Web.Modules
                     var configDto = serializationController.Deserialize<ConfigDto>(data.Text);
                     blockController.SetBackground(configDto.Background);
                     blockController.Cleanup();
-                    foreach(var b in configDto.Blocks)
+                    foreach (var b in configDto.Blocks)
                     {
                         if (b is TextBlockDto textBlock)
                         {

@@ -461,8 +461,23 @@ function masterViewModel(app) {
         block.top = y;
         self.blocks.push(block);
         selectBlock(block);
-        saveBlock(block);
+        resizeAndMoveBlock(block);
     };
+
+    resizeAndMoveBlock = function (block) {
+        app.request(
+            "POST",
+            "/api/moveAndResize",
+            {
+                Id: block.id,
+                Height: block.height,
+                Width: block.width,
+                Left: block.left,
+                Top: block.top
+            },
+            function (data) { }
+        );
+    }
 
     adjustToStep = function (value) {
         var step = self.selectedGridSteps()[0];

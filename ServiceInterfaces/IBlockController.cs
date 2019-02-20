@@ -22,5 +22,6 @@ namespace ServiceInterfaces
         void SavePictureBlock(PictureBlock block);
         void DeleteBlock(Guid id);
         void Cleanup();
+        void MoveAndResizeBlock(Guid id, int height, int width, int left, int top);
     }
 }
