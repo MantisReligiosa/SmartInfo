@@ -10,7 +10,7 @@
     <div class="displayBlock resize-drag"
          data-bind="attr:{id:id}, click:selectBlock, style: {'width':width, 'height':height,'left':left, 'top':top, 'overflow':'hidden', 'z-index':zIndex}, css:{selected: selected}">
         <!-- ko if: type == "text"-->
-        <!-- ko if: text.length<1 -->
+        <!-- ko if: (text==null || text.length<1) -->
         <span class="block-icon block-text" data-bind="style:{'z-index': zIndex+1}"></span>
         <!-- /ko-->
         <label class="textblock blockContent"
