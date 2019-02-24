@@ -47,11 +47,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\GetFontsRequest.cs" />
     <Compile Include="Requests\GetScreenSizeRequest.cs" />
+    <Compile Include="Requests\GetVersionRequest.cs" />
     <Compile Include="Requests\StartShowRequest.cs" />
     <Compile Include="Requests\StopShowRequest.cs" />
     <Compile Include="Responces\GetFontsResponce.cs" />
     <Compile Include="Responces\GetScreenSizeResponce.cs" />
     <Compile Include="DTO\ScreenSize.cs" />
+    <Compile Include="Responces\GetVersionResponce.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainObjects\DomainObjects.csproj">

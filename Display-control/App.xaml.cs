@@ -3,9 +3,11 @@ using DataExchange.DTO;
 using DataExchange.Requests;
 using DataExchange.Responces;
 using Display_control.Blocks;
+using Display_control.Properties;
 using Nancy.Hosting.Self;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -56,7 +58,8 @@ namespace Display_control
             {
                 UrlReservations = new UrlReservations() { CreateAutomatically = true }
             };
-            var uri = new Uri("http://localhost:1234");
+            var port = Settings.Default.ServerPort;
+            var uri = new Uri($"http://localhost:{port}");
             var bootstrapper = new Bootstrapper();
             var nancyHost = new NancyHost(bootstrapper, hostConfiguration, uri);
             nancyHost.Start();
@@ -130,6 +133,16 @@ namespace Display_control
                     _window.Visibility = Visibility.Hidden;
                 });
                 return null;
+            });
+            broker.RegisterHandler<GetVersionRequest>(request =>
+            {
+                var version = Assembly.GetExecutingAssembly().GetName().Version;
+                return new GetVersionResponce
+                {
+                    Major = version.Major,
+                    Minor = version.Minor,
+                    Build = version.Build
+                };
             });
         }
 

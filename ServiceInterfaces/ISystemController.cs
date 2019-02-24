@@ -12,5 +12,6 @@ namespace ServiceInterfaces
         IEnumerable<int> GetFontSizes();
         IEnumerable<string> GetFonts();
         IEnumerable<double> GetFontHeightIndex();
+        string GetVersion();
     }
 }
