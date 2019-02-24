@@ -119,5 +119,13 @@ namespace Services
 
             return responce.Fonts;
         }
+
+        public string GetVersion()
+        {
+            var broker = Broker.GetBroker();
+            var responce = broker.GetResponce(new GetVersionRequest()) as GetVersionResponce;
+
+            return $"v{responce.Major}.{responce.Minor}.{responce.Build}";
+        }
     }
 }

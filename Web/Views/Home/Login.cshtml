@@ -1,4 +1,5 @@
-﻿<div class="modal" tabindex="-1" role="dialog">
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+<div class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -23,16 +24,20 @@
                 </div>
             </form>
         </div>
+        <small>
+            <strong>
+                @Model.Version
+            </strong>
+        </small>        
     </div>
 </div>
-
 
 <script>
     $(document).ready(function () {
         $(".modal")
             .modal({ backdrop: 'static', keyboard: false })
             .modal("show");
-        @if(Model!=null && !Model)
+        @if(Model!=null && !Model.AccessGranted)
         {
             @:toastr.error("В доступе отказано");
         }

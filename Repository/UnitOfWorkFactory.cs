@@ -1,10 +1,12 @@
-﻿using ServiceInterfaces;
+using ServiceInterfaces;
 
 namespace Repository
 {
     public class UnitOfWorkFactory : IUnitOfWorkFactory
     {
         private readonly IConfiguration _configuration;
+
+        private static IUnitOfWork _unitOfWork;
 
         public UnitOfWorkFactory(IConfiguration configuration)
         {
@@ -13,7 +15,11 @@ namespace Repository
 
         public IUnitOfWork Create()
         {
-            return new EfUnitOfWork(new DatabaseContext());
+            if (_unitOfWork == null)
+            {
+                _unitOfWork = new EfUnitOfWork(new DatabaseContext());
+            }
+            return _unitOfWork;
         }
     }
 }

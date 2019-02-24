@@ -37,6 +37,7 @@ namespace Web
             container.Register<ISystemController, SystemController>();
             container.Register<IBlockController, BlockController>();
             container.Register<IOperationController, OperationController>();
+            container.Register<ISerializationController, SerializationController>();
 
             CustomStatusCode.AddCode(404);
 
@@ -110,6 +111,15 @@ namespace Web
                 broker.RegisterHandler<StartShowRequest>(reqest =>
                 {
                     return null;
+                });
+                broker.RegisterHandler<GetVersionRequest>(request =>
+                {
+                    return new GetVersionResponce
+                    {
+                        Major = 12,
+                        Minor = 34,
+                        Build = 56
+                    };
                 });
             }
         }

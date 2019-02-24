@@ -284,6 +284,38 @@ function masterViewModel(app) {
 
     };
 
+    self.downloadConfig = function () {
+        window.location="/api/downloadConfig";
+    }
+
+    self.uploadConfig = function () {
+        $('<input>')
+            .attr('type', 'file')
+            .attr('accept', '.xml')
+            .on('change', function (e) {
+                var file = this.files[0];
+                var reader = new FileReader();
+
+                reader.onload = (function (theFile) {
+                    return function (e) {
+                        var text = e.target.result;
+                        app.request(
+                            "POST",
+                            "/api/uploadConfig",
+                            { text: text },
+                            function (data) {
+                                loadBackground()
+                                    .then(function () { return loadBlocks(); });
+                            }
+                        );
+                    };
+                })(file);
+
+                reader.readAsText(file/*, 'CP1251'*/);
+            })
+            .click();
+    }
+
     selectBlock = function (bind) {
         self.blocks.remove(bind);
         unselectBlocks();
@@ -429,8 +461,23 @@ function masterViewModel(app) {
         block.top = y;
         self.blocks.push(block);
         selectBlock(block);
-        saveBlock(block);
+        resizeAndMoveBlock(block);
     };
+
+    resizeAndMoveBlock = function (block) {
+        app.request(
+            "POST",
+            "/api/moveAndResize",
+            {
+                Id: block.id,
+                Height: block.height,
+                Width: block.width,
+                Left: block.left,
+                Top: block.top
+            },
+            function (data) { }
+        );
+    }
 
     adjustToStep = function (value) {
         var step = self.selectedGridSteps()[0];

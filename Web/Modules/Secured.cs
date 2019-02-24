@@ -21,7 +21,8 @@ namespace Web.Modules
         public Secured(
             ISystemController systemController,
             IBlockController blockController,
-            IOperationController operationController
+            IOperationController operationController,
+            ISerializationController serializationController
             )
         {
             this.RequiresAuthentication();
@@ -145,38 +146,27 @@ namespace Web.Modules
             {
                 try
                 {
-                    var blocks = blockController.GetBlocks().Select(b =>
-                            {
-                                if (b is TextBlock textBlock)
-                                {
-                                    var block = _mapper.Map<TextBlockDto>(textBlock);
-                                    return block;
-                                }
-                                if (b is TableBlock tableBlock)
-                                {
-                                    var block = _mapper.Map<TableBlockDto>(tableBlock);
-                                    return block;
-                                }
-                                if (b is PictureBlock pictureBlock)
-                                {
-                                    var block = _mapper.Map<PictureBlockDto>(pictureBlock);
-                                    return block;
-                                }
-                                return new BlockDto
-                                {
-                                    Height = b.Height,
-                                    Id = b.Id,
-                                    Left = b.Left,
-                                    Top = b.Top,
-                                    Width = b.Width
-                                };
-                            });
+                    var blocks = GetBlocks(blockController);
                     return Response.AsJson(blocks);
                 }
                 catch (Exception ex)
                 {
                     logger.Error(ex);
                     throw new Exception("Ошибка загрузки блоков", ex);
+                }
+            };
+            Post["/api/moveAndResize"] = parameters =>
+            {
+                try
+                {
+                    var block = this.Bind<SizeAndPositionDto>();
+                    blockController.MoveAndResizeBlock(block.Id, block.Height, block.Width, block.Left, block.Top);
+                    return Response.AsJson(true);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    throw new Exception("Ошибка изменения размеров и положения блока", ex);
                 }
             };
             Post["/api/saveBlock"] = parameters =>
@@ -322,6 +312,92 @@ namespace Web.Modules
                     throw new Exception("Ошибка чтения csv", ex);
                 }
             };
+            Get["/api/downloadConfig"] = parameters =>
+            {
+                try
+                {
+                    var response = new Response
+                    {
+                        ContentType = "text/xml",
+                        Contents = (stream) => serializationController.SerializeXML(new ConfigDto
+                        {
+                            Background = blockController.GetBackground(),
+                            Blocks = GetBlocks(blockController).ToList()
+                        }).CopyTo(stream)
+                    };
+                    response.Headers.Add("Content-Disposition", "attachment; filename=config.xml");
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    throw new Exception("Ошибка выгрузки конфигурации", ex);
+                }
+            };
+            Post["/api/uploadConfig"] = parameters =>
+            {
+                try
+                {
+                    var data = this.Bind<ConfigDataDto>();
+                    var configDto = serializationController.Deserialize<ConfigDto>(data.Text);
+                    blockController.SetBackground(configDto.Background);
+                    blockController.Cleanup();
+                    foreach (var b in configDto.Blocks)
+                    {
+                        if (b is TextBlockDto textBlock)
+                        {
+                            var block = _mapper.Map<TextBlock>(textBlock);
+                            blockController.SaveTextBlock(block);
+                        }
+                        if (b is TableBlockDto tableBlock)
+                        {
+                            var block = _mapper.Map<TableBlock>(tableBlock);
+                            blockController.SaveTableBlock(block);
+                        }
+                        if (b is PictureBlockDto pictureBlock)
+                        {
+                            var block = _mapper.Map<PictureBlock>(pictureBlock);
+                            blockController.SavePictureBlock(block);
+                        }
+                    }
+                    return Response.AsJson(true);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    throw new Exception("Ошибка загрузки конфигурации", ex);
+                }
+            };
+        }
+
+        private IEnumerable<BlockDto> GetBlocks(IBlockController blockController)
+        {
+            return blockController.GetBlocks().Select(b =>
+            {
+                if (b is TextBlock textBlock)
+                {
+                    var block = _mapper.Map<TextBlockDto>(textBlock);
+                    return block;
+                }
+                if (b is TableBlock tableBlock)
+                {
+                    var block = _mapper.Map<TableBlockDto>(tableBlock);
+                    return block;
+                }
+                if (b is PictureBlock pictureBlock)
+                {
+                    var block = _mapper.Map<PictureBlockDto>(pictureBlock);
+                    return block;
+                }
+                return new BlockDto
+                {
+                    Height = b.Height,
+                    Id = b.Id,
+                    Left = b.Left,
+                    Top = b.Top,
+                    Width = b.Width
+                };
+            });
         }
     }
 }
