@@ -249,3 +249,14 @@ input[type=number] {
     width: -webkit-fill-available;
     height: -webkit-fill-available;
 }
+
+.zoomPanel /*, .zoomPanel:after, .zoomPanel:before */ {
+    z-index: 2147483647;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    position: fixed;
+    right: 15px;
+    margin-top: 10px;
+    margin-right: 10px;
+}

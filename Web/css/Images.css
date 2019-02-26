@@ -166,3 +166,15 @@
 .access-exit {
     background: url('../Images/access-exit.png') no-repeat center center;
 }
+
+.zoom-fit {
+    background: url('../Images/zoom_fit.png') no-repeat center center;
+}
+
+.zoom-in {
+    background: url('../Images/zoom_in.png') no-repeat center center;
+}
+
+.zoom-out {
+    background: url('../Images/zoom_out.png') no-repeat center center;
+}

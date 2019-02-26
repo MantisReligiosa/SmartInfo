@@ -14,12 +14,54 @@ function masterViewModel(app) {
     self.selectedGridSteps = ko.observableArray([5]);
     self.gridEnabled = ko.observable(true);
 
+
+    self.zoomStep = ko.observable(5);
+    self.scales = ko.observableArray([
+        { value: 10, label: "10%" },
+        { value: 100, label: "100%" },
+        { value: 125, label: "125%" }
+    ]);
+    self.minScale = ko.computed(function () {
+        return Math.min.apply(
+            Math, $.map(self.scales(), function (val, i) {
+            return val.value
+        }));
+    });
+    self.maxScale = ko.computed(function () {
+        return Math.max.apply(
+            Math, $.map(self.scales(), function (val, i) {
+                return val.value
+            }));
+    });
+    self.zoomValue = ko.observable(100);
+    self.scale = ko.computed(function () {
+        return self.zoomValue() / 100;
+    });
+
     self.textBlockEditViewModel = ko.computed(function () { return new TextBlockEditViewModel(self); });
     self.tableBlockEditViewModel = ko.computed(function () { return new TableBlockEditViewModel(self); });
     self.pictureBlockEditViewModel = ko.computed(function () { return new PictureBlockEditViewModel(self); });
     self.positionViewModel = ko.computed(function () { return new PositionViewModel(self); });
 
     self.background = ko.observable("#ffffff");
+
+    self.zoomFit = function () {
+        self.zoomValue(100);
+    }
+
+    self.zoomIn = function () {
+        var t = +self.zoomValue();
+        if (t < self.maxScale()) {
+            self.zoomValue(t + self.zoomStep());
+        }
+    }
+
+    self.zoomOut = function () {
+        var t = +self.zoomValue();
+        if (t > self.minScale()) {
+            self.zoomValue(t - self.zoomStep());
+        }
+    }
 
     self.addTextBlock = function () {
         app.request(
@@ -398,23 +440,24 @@ function masterViewModel(app) {
     onResizeMove = function (event) {
         var target = event.target,
             // keep the dragged position in the data-x/data-y attributes
-            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+            scale = self.scale();
+            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx*scale,
+            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy*scale;
 
         if (event.rect != null) {
             x = (parseFloat(target.getAttribute('data-x')) || 0);
             y = (parseFloat(target.getAttribute('data-y')) || 0);
 
             // update the element's style
-            target.style.width = event.rect.width + 'px';
-            target.style.height = event.rect.height + 'px';
+            target.style.width = event.rect.width*scale + 'px';
+            target.style.height = event.rect.height*scale + 'px';
 
             // translate when resizing from top or left edges
-            x += event.deltaRect.left;
-            y += event.deltaRect.top;
+            x += event.deltaRect.left*scale;
+            y += event.deltaRect.top*scale;
 
-            target.setAttribute('data-w', event.rect.width);
-            target.setAttribute('data-h', event.rect.height);
+            target.setAttribute('data-w', event.rect.width*scale);
+            target.setAttribute('data-h', event.rect.height*scale);
         }
 
         target.style.webkitTransform =
@@ -444,6 +487,7 @@ function masterViewModel(app) {
             }
             block.height = h;
         }
+        var dataX = target.getAttribute('data-x');
         var x = +target.getAttribute('data-x') + block.left;
         var y = +target.getAttribute('data-y') + block.top;
 
