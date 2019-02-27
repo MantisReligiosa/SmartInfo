@@ -406,7 +406,7 @@ function masterViewModel(app) {
             .draggable({
                 inertia: true,
                 restrict: {
-                    restriction: "parent",
+                    restriction: ".workspace",
                     endOnly: true,
                     elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
                 },
@@ -422,7 +422,7 @@ function masterViewModel(app) {
 
                 // keep the edges inside the parent
                 restrictEdges: {
-                    outer: 'parent',
+                    outer: '.workspace',
                     endOnly: true,
                 },
 
@@ -441,23 +441,23 @@ function masterViewModel(app) {
         var target = event.target,
             // keep the dragged position in the data-x/data-y attributes
             scale = self.scale();
-            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx*scale,
-            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy*scale;
+            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx / scale,
+            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy / scale;
 
         if (event.rect != null) {
             x = (parseFloat(target.getAttribute('data-x')) || 0);
             y = (parseFloat(target.getAttribute('data-y')) || 0);
 
             // update the element's style
-            target.style.width = event.rect.width*scale + 'px';
-            target.style.height = event.rect.height*scale + 'px';
+            target.style.width = event.rect.width / scale + 'px';
+            target.style.height = event.rect.height / scale + 'px';
 
             // translate when resizing from top or left edges
-            x += event.deltaRect.left*scale;
-            y += event.deltaRect.top*scale;
+            x += event.deltaRect.left / scale;
+            y += event.deltaRect.top / scale;
 
-            target.setAttribute('data-w', event.rect.width*scale);
-            target.setAttribute('data-h', event.rect.height*scale);
+            target.setAttribute('data-w', event.rect.width / scale);
+            target.setAttribute('data-h', event.rect.height / scale);
         }
 
         target.style.webkitTransform =
