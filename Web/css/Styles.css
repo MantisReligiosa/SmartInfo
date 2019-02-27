@@ -242,15 +242,13 @@ input[type=number] {
 .block-icon {
     display: flex;
     position: absolute;
-    /*height:10px;
-    width:10px;*/
     background-size: auto !important;
     opacity: 0.2;
     width: -webkit-fill-available;
     height: -webkit-fill-available;
 }
 
-.zoomPanel /*, .zoomPanel:after, .zoomPanel:before */ {
+.zoomPanel {
     z-index: 2147483647;
     background: #fff;
     border: 1px solid #dee2e6;
