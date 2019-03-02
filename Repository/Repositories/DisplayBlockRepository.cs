@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Repository.Repositories
 {
-    public class DisplayBlockRepository : Repository<DisplayBlock>
+    public class DisplayBlockRepository : CachedRepository<DisplayBlock>
     {
         public DisplayBlockRepository(DatabaseContext context)
             : base(context)
@@ -14,18 +14,24 @@ namespace Repository.Repositories
 
         public override IEnumerable<DisplayBlock> GetAll()
         {
-            var result = new List<DisplayBlock>();
-            result.AddRange(Context.DisplayBlocks.OfType<TextBlock>().Include(t => t.Details).ToList());
-            result.AddRange(Context.DisplayBlocks.OfType<PictureBlock>().Include(t => t.Details).ToList());
-            result.AddRange(Context.DisplayBlocks.OfType<TableBlock>()
+            if (GetFullyCachedEneities().Contains(typeof(DisplayBlock)))
+            {
+                return GetCache().OfType<DisplayBlock>();
+            }
+            var items = new List<DisplayBlock>();
+            items.AddRange(Context.DisplayBlocks.OfType<TextBlock>().Include(t => t.Details).ToList());
+            items.AddRange(Context.DisplayBlocks.OfType<PictureBlock>().Include(t => t.Details).ToList());
+            items.AddRange(Context.DisplayBlocks.OfType<TableBlock>()
                 .Include(t => t.Details)
                 .Include(t => t.Details.Cells)
                 .Include(t => t.Details.EvenRowDetails)
                 .Include(t => t.Details.OddRowDetails)
                 .Include(t => t.Details.HeaderDetails)
                 .ToList());
-            return result;
-        }
 
+            GetCache().AddRange(items);
+            GetFullyCachedEneities().Add(typeof(DisplayBlock));
+            return items;
+        }
     }
 }

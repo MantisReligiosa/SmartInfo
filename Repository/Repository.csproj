@@ -108,6 +108,11 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueuedTasks\GuidTask.cs" />
+    <Compile Include="QueuedTasks\ItemsTask.cs" />
+    <Compile Include="QueuedTasks\ItemTask.cs" />
+    <Compile Include="QueuedTasks\IQueuedTask.cs" />
+    <Compile Include="Repositories\CachedRepository.cs" />
     <Compile Include="Repositories\DisplayBlockRepository.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="UnitOfWorkFactory.cs" />
