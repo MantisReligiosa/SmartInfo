@@ -1,4 +1,6 @@
 ﻿using DomainObjects.Blocks;
+using Repository.QueuedTasks;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -32,6 +34,18 @@ namespace Repository.Repositories
             GetCache().AddRange(items);
             GetFullyCachedEneities().Add(typeof(DisplayBlock));
             return items;
+        }
+
+        public override void Delete(Guid id)
+        {
+            var item = GetCache().OfType<DisplayBlock>().FirstOrDefault(i => i.Id.Equals(id));
+            if (item != null)
+                GetCache().Remove(item);
+            var task = new GuidTask((identity) =>
+            {
+                base.Delete(identity);
+            }, id);
+            GetTaskQueue().Enqueue(task);
         }
     }
 }

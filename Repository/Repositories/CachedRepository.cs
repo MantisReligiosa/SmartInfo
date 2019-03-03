@@ -49,7 +49,12 @@ namespace Repository.Repositories
         public override TEntity Create(TEntity item)
         {
             GetCache().Add(item);
-            var task = new ItemTask((i) => base.Create(i as TEntity), item);
+            var task = new ItemTask((i) =>
+            {
+                var result=base.Create(i as TEntity);
+                Context.SaveChanges();
+                return result;
+            }, item);
             GetTaskQueue().Enqueue(task);
             return item;
         }
@@ -60,7 +65,11 @@ namespace Repository.Repositories
             {
                 GetCache().Add(item);
             }
-            var task = new ItemsTask((i) => base.CreateMany(i.Select(t => t as TEntity)), list);
+            var task = new ItemsTask((i) =>
+            {
+                base.CreateMany(i.Select(t => t as TEntity));
+                Context.SaveChanges();
+            }, list);
             GetTaskQueue().Enqueue(task);
         }
 
@@ -69,7 +78,11 @@ namespace Repository.Repositories
             var item = GetCache().OfType<TEntity>().FirstOrDefault(i => i.Id.Equals(id));
             if (item != null)
                 GetCache().Remove(item);
-            var task = new GuidTask((identity) => base.Delete(identity), id);
+            var task = new GuidTask((identity) =>
+            {
+                base.Delete(identity);
+                Context.SaveChanges();
+            }, id);
             GetTaskQueue().Enqueue(task);
         }
 
@@ -79,7 +92,11 @@ namespace Repository.Repositories
             {
                 GetCache().Remove(item);
             }
-            var task = new ItemsTask((i) => base.DeleteRange(i.Select(t => t as TEntity)), list);
+            var task = new ItemsTask((i) =>
+            {
+                base.DeleteRange(i.Select(t => t as TEntity));
+                Context.SaveChanges();
+            }, list);
             GetTaskQueue().Enqueue(task);
         }
 
@@ -130,6 +147,7 @@ namespace Repository.Repositories
             var task = new ItemTask((i) =>
             {
                 base.Update(i as TEntity);
+                Context.SaveChanges();
                 return null;
             }, item);
             GetTaskQueue().Enqueue(task);

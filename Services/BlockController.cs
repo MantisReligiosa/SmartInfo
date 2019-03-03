@@ -160,7 +160,7 @@ namespace Services
                 block.CopyFrom(textBlock);
                 _unitOfWork.DisplayBlocks.Update(block);
             }
-            _unitOfWork.Complete();
+            //_unitOfWork.Complete();
         }
 
         public void SaveTableBlock(TableBlock tableBlock)
@@ -204,7 +204,7 @@ namespace Services
                 }
                 _unitOfWork.DisplayBlocks.Update(block);
             }
-            _unitOfWork.Complete();
+            //_unitOfWork.Complete();
         }
 
         public void SavePictureBlock(PictureBlock pictureBlock)
@@ -218,27 +218,27 @@ namespace Services
                 block.CopyFrom(pictureBlock);
                 _unitOfWork.DisplayBlocks.Update(block);
             }
-            _unitOfWork.Complete();
+            //_unitOfWork.Complete();
         }
 
         public TextBlock CopyTextBlock(TextBlock source)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new TextBlock(source)) as TextBlock;
-            _unitOfWork.Complete();
+            //_unitOfWork.Complete();
             return block;
         }
 
         public TableBlock CopyTableBlock(TableBlock source)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new TableBlock(source)) as TableBlock;
-            _unitOfWork.Complete();
+            //_unitOfWork.Complete();
             return block;
         }
 
         public PictureBlock CopyPictureBlock(PictureBlock source)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new PictureBlock(source)) as PictureBlock;
-            _unitOfWork.Complete();
+            //_unitOfWork.Complete();
             return block;
         }
 
@@ -251,14 +251,14 @@ namespace Services
         public void DeleteBlock(Guid id)
         {
             _unitOfWork.DisplayBlocks.Delete(id);
-            _unitOfWork.Complete();
+           // _unitOfWork.Complete();
         }
 
         public void Cleanup()
         {
             var blocks = _unitOfWork.DisplayBlocks.GetAll();
             _unitOfWork.DisplayBlocks.DeleteRange(blocks);
-            _unitOfWork.Complete();
+            //_unitOfWork.Complete();
         }
 
         public void MoveAndResizeBlock(Guid id, int height, int width, int left, int top)
