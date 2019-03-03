@@ -85,6 +85,14 @@ div.tab-content {
     min-height: 25px;
 }
 
+.ribbon-toolbar > .ribbon-element {
+    height: 75px;
+}
+
+.ribbon-clip > .ribbon-element {
+    height: 25px;
+}
+
 .ribbon-dropdown {
     display: flex;
     padding: 1px;
@@ -107,6 +115,7 @@ div.tab-content {
 
 .ribbon-clip {
     display: grid;
+    height: 81px;
 }
 
 .ribbon-row {
@@ -203,7 +212,6 @@ input[type=number] {
 
 .textblock {
     padding: 1px;
-    
 }
 
 .resize-drag {
@@ -223,7 +231,7 @@ input[type=number] {
     height: 30px;
 }
 
-.accordion-properties{
+.accordion-properties {
     width: 450px;
 }
 

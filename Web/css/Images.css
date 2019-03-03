@@ -123,8 +123,8 @@
     background: url('../Images/displays_on_large.png') no-repeat center center;
 }
 
-.displays-off {
-    background: url('../Images/displays_off.png') no-repeat center center;
+.displays-off-large {
+    background: url('../Images/displays_off_large.png') no-repeat center center;
 }
 
 .displays-refesh {
