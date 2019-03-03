@@ -129,20 +129,20 @@
             </div>
             <div class="modal-body" style="display:flex">
                 <div>
-                    <!-- ko if: selectedBlock() == null -->
+                    <!-- ko if: backgroundPropertiesMode() -->
                     @Html.Partial("Home/ScreenProperties")
                     <!-- /ko-->
-                    <!-- ko if: selectedBlock() != null && selectedBlock().type === 'text' -->
+                    <!-- ko if: !backgroundPropertiesMode() && selectedBlock() != null && selectedBlock().type === 'text' -->
                     <!-- ko with: textBlockEditViewModel()-->
                     @Html.Partial("Home/TextBlockProperties")
                     <!-- /ko-->
                     <!-- /ko-->
-                    <!-- ko if: selectedBlock() != null && selectedBlock().type === 'table' -->
+                    <!-- ko if: !backgroundPropertiesMode() && selectedBlock() != null && selectedBlock().type === 'table' -->
                     <!-- ko with: tableBlockEditViewModel()-->
                     @Html.Partial("Home/TableBlockProperties")
                     <!-- /ko-->
                     <!-- /ko-->
-                    <!-- ko if: selectedBlock() != null && selectedBlock().type == "picture"-->
+                    <!-- ko if: !backgroundPropertiesMode() && selectedBlock() != null && selectedBlock().type == "picture"-->
                     <!-- ko with: pictureBlockEditViewModel()-->
                     @Html.Partial("Home/PictureBlockProperties")
                     <!-- /ko-->

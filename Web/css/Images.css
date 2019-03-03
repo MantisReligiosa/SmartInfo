@@ -91,6 +91,10 @@
     background: url('../Images/sad_hudge.png') no-repeat center center;
 }
 
+.color-large {
+    background: url('../Images/color_large.png') no-repeat center center;
+}
+
 .coordinates-large {
     background: url('../Images/coordinates_large.png') no-repeat center center;
 }

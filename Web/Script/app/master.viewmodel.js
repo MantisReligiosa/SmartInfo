@@ -24,8 +24,8 @@ function masterViewModel(app) {
     self.minScale = ko.computed(function () {
         return Math.min.apply(
             Math, $.map(self.scales(), function (val, i) {
-            return val.value
-        }));
+                return val.value
+            }));
     });
     self.maxScale = ko.computed(function () {
         return Math.max.apply(
@@ -42,6 +42,7 @@ function masterViewModel(app) {
     self.tableBlockEditViewModel = ko.computed(function () { return new TableBlockEditViewModel(self); });
     self.pictureBlockEditViewModel = ko.computed(function () { return new PictureBlockEditViewModel(self); });
     self.positionViewModel = ko.computed(function () { return new PositionViewModel(self); });
+    self.backgroundPropertiesMode = ko.observable(true);
 
     self.background = ko.observable("#ffffff");
 
@@ -135,49 +136,60 @@ function masterViewModel(app) {
         );
     }
 
-    self.showProperties = function () {
+    self.showBackgroundProperties = function () {
+        self.backgroundPropertiesMode(true);
         $("#properties")
             .modal({ backdrop: 'static', keyboard: false })
             .modal("show");
+    }
+
+
+    self.showProperties = function () {
         var block = self.selectedBlock();
-        if (block != null) {
-            if (block.type === 'text') {
-                self.textBlockEditViewModel().backColor(block.backColor);
-                self.textBlockEditViewModel().textColor(block.textColor);
-                self.textBlockEditViewModel().setFont(block.font);
-                self.textBlockEditViewModel().setFontSize(block.fontSize);
-                self.textBlockEditViewModel().setFontIndex(block.fontIndex);
-                self.textBlockEditViewModel().text(block.text);
-                self.textBlockEditViewModel().align(block.align.toString());
-                self.textBlockEditViewModel().italic(block.italic);
-                self.textBlockEditViewModel().bold(block.bold);
-            };
-            if (block.type === 'table') {
-                self.tableBlockEditViewModel().setFont(block.font);
-                self.tableBlockEditViewModel().setFontSize(block.fontSize);
-                self.tableBlockEditViewModel().setFontIndex(block.fontIndex);
-
-                self.tableBlockEditViewModel().rowTypes.forEach(function (rowType) {
-                    self.tableBlockEditViewModel()[rowType + 'TextColor'](block[rowType + 'Style'].textColor);
-                    self.tableBlockEditViewModel()[rowType + 'BackColor'](block[rowType + 'Style'].backColor);
-                    self.tableBlockEditViewModel()[rowType + 'Italic'](block[rowType + 'Style'].italic);
-                    self.tableBlockEditViewModel()[rowType + 'Bold'](block[rowType + 'Style'].bold);
-                    self.tableBlockEditViewModel()[rowType + 'Align'](block[rowType + 'Style'].align.toString());
-                });
-
-                self.tableBlockEditViewModel().rows(block.rows);
-                self.tableBlockEditViewModel().header(block.header);
-            };
-            if (block.type === 'picture') {
-                self.pictureBlockEditViewModel().base64Image(block.base64Src);
-            };
+        if (block == null) {
+            return;
         };
+        self.backgroundPropertiesMode(false);
+        $("#properties")
+            .modal({ backdrop: 'static', keyboard: false })
+            .modal("show");
+        if (block.type === 'text') {
+            self.textBlockEditViewModel().backColor(block.backColor);
+            self.textBlockEditViewModel().textColor(block.textColor);
+            self.textBlockEditViewModel().setFont(block.font);
+            self.textBlockEditViewModel().setFontSize(block.fontSize);
+            self.textBlockEditViewModel().setFontIndex(block.fontIndex);
+            self.textBlockEditViewModel().text(block.text);
+            self.textBlockEditViewModel().align(block.align.toString());
+            self.textBlockEditViewModel().italic(block.italic);
+            self.textBlockEditViewModel().bold(block.bold);
+        };
+        if (block.type === 'table') {
+            self.tableBlockEditViewModel().setFont(block.font);
+            self.tableBlockEditViewModel().setFontSize(block.fontSize);
+            self.tableBlockEditViewModel().setFontIndex(block.fontIndex);
+
+            self.tableBlockEditViewModel().rowTypes.forEach(function (rowType) {
+                self.tableBlockEditViewModel()[rowType + 'TextColor'](block[rowType + 'Style'].textColor);
+                self.tableBlockEditViewModel()[rowType + 'BackColor'](block[rowType + 'Style'].backColor);
+                self.tableBlockEditViewModel()[rowType + 'Italic'](block[rowType + 'Style'].italic);
+                self.tableBlockEditViewModel()[rowType + 'Bold'](block[rowType + 'Style'].bold);
+                self.tableBlockEditViewModel()[rowType + 'Align'](block[rowType + 'Style'].align.toString());
+            });
+
+            self.tableBlockEditViewModel().rows(block.rows);
+            self.tableBlockEditViewModel().header(block.header);
+        };
+        if (block.type === 'picture') {
+            self.pictureBlockEditViewModel().base64Image(block.base64Src);
+        };
+
     };
 
     self.applyProperties = function () {
         $("#properties").modal("hide");
         var block = self.selectedBlock();
-        if (block == null) {
+        if (self.backgroundPropertiesMode()) {
             app.request(
                 "POST",
                 "/api/setBackground",
@@ -327,7 +339,7 @@ function masterViewModel(app) {
     };
 
     self.downloadConfig = function () {
-        window.location="/api/downloadConfig";
+        window.location = "/api/downloadConfig";
     }
 
     self.uploadConfig = function () {
@@ -441,7 +453,7 @@ function masterViewModel(app) {
         var target = event.target,
             // keep the dragged position in the data-x/data-y attributes
             scale = self.scale();
-            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx / scale,
+        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx / scale,
             y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy / scale;
 
         if (event.rect != null) {
