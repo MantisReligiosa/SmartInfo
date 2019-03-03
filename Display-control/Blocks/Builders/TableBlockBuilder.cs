@@ -15,6 +15,7 @@ namespace Display_control.Blocks.Builders
         public override UIElement BuildElement(DisplayBlock.DisplayBlock displayBlock)
         {
             var tableBlock = displayBlock as DisplayBlock.TableBlock;
+            var rows = tableBlock.Details.Cells.GroupBy(c => c.Row).OrderBy(r => r.Key);
 
             var headerStyle = new Style(typeof(System.Windows.Controls.Primitives.DataGridColumnHeader));
             foreach (var style in GetRowStyleSetters(tableBlock.Details.HeaderDetails, tableBlock.Details.FontSize, tableBlock.Details.FontName))
@@ -36,29 +37,34 @@ namespace Display_control.Blocks.Builders
             rowStyle.Triggers.Add(oddTrigger);
             rowStyle.Triggers.Add(evenTrigger);
 
+            var rowHeight = (tableBlock.Height - tableBlock.Details.FontSize * tableBlock.Details.FontIndex) / (rows.Count() - 1);
+
             foreach (var style in GetRowStyleSetters(tableBlock.Details.OddRowDetails, tableBlock.Details.FontSize, tableBlock.Details.FontName))
             {
                 oddTrigger.Setters.Add(style);
             }
+            oddTrigger.Setters.Add(new Setter(FrameworkElement.HeightProperty, (double)rowHeight));
 
             foreach (var style in GetRowStyleSetters(tableBlock.Details.EvenRowDetails, tableBlock.Details.FontSize, tableBlock.Details.FontName))
             {
                 evenTrigger.Setters.Add(style);
             }
+            evenTrigger.Setters.Add(new Setter(FrameworkElement.HeightProperty, (double)rowHeight));
 
             var dataGrid = new DataGrid
             {
                 HeadersVisibility = DataGridHeadersVisibility.Column,
                 Height = tableBlock.Height,
                 Width = tableBlock.Width,
+                VerticalAlignment = VerticalAlignment.Stretch,
                 BorderThickness = new Thickness(0),
+                RowHeight = 50,
                 GridLinesVisibility = DataGridGridLinesVisibility.None,
                 AlternationCount = 2,
                 ColumnHeaderStyle = headerStyle,
                 RowStyle = rowStyle
             };
             var columnCount = tableBlock.Details.Cells.Max(c => c.Column) + 1;
-            var rows = tableBlock.Details.Cells.GroupBy(c => c.Row).OrderBy(r => r.Key);
             var header = rows.FirstOrDefault().OrderBy(c => c.Column).ToArray();
             for (int i = 0; i < columnCount; i++)
             {
