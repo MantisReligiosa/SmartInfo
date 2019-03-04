@@ -12,7 +12,8 @@ namespace Repository.Configurations
 
             HasMany(t => t.Cells)
                 .WithRequired(c => c.TableBlockDetails)
-                .HasForeignKey(c => c.TableBlockDetailsId);
+                .HasForeignKey(c => c.TableBlockDetailsId)
+                .WillCascadeOnDelete(true);
         }
     }
 }

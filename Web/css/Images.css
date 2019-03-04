@@ -91,6 +91,10 @@
     background: url('../Images/sad_hudge.png') no-repeat center center;
 }
 
+.color-large {
+    background: url('../Images/color_large.png') no-repeat center center;
+}
+
 .coordinates-large {
     background: url('../Images/coordinates_large.png') no-repeat center center;
 }
@@ -123,8 +127,8 @@
     background: url('../Images/displays_on_large.png') no-repeat center center;
 }
 
-.displays-off {
-    background: url('../Images/displays_off.png') no-repeat center center;
+.displays-off-large {
+    background: url('../Images/displays_off_large.png') no-repeat center center;
 }
 
 .displays-refesh {
@@ -165,4 +169,16 @@
 
 .access-exit {
     background: url('../Images/access-exit.png') no-repeat center center;
+}
+
+.zoom-fit {
+    background: url('../Images/zoom_fit.png') no-repeat center center;
+}
+
+.zoom-in {
+    background: url('../Images/zoom_in.png') no-repeat center center;
+}
+
+.zoom-out {
+    background: url('../Images/zoom_out.png') no-repeat center center;
 }
