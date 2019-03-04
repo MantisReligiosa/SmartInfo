@@ -1,4 +1,4 @@
-﻿using DomainObjects.Blocks;
+using DomainObjects.Blocks;
 using System;
 using System.Collections.Generic;
 

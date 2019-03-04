@@ -77,6 +77,12 @@
                         <div>Свойства</div>
                     </div>
                 </button>
+                <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: showBackgroundProperties">
+                    <div class="ribbon-vertical-button-content">
+                        <div class="color-large ribbon-large-icon"></div>
+                        <div>Фон</div>
+                    </div>
+                </button>
             </div>
             <div class="panel-footer ribbon-group-title">
                 <label>
@@ -131,13 +137,19 @@
     <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab">
         <div class="panel panel-default ribbon-group">
             <div class="panel-body ribbon-toolbar">
-                <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: startShow">
+                <button class="btn btn-sm btn-light navbar-btn ribbon-element" style="width: 50px;" data-bind="click: startShow">
                     <div class="ribbon-vertical-button-content">
                         <div class="displays-on-large ribbon-large-icon"></div>
                         <div>Пуск</div>
                     </div>
                 </button>
-                <div class="ribbon-clip">
+                <button class="btn btn-sm btn-light navbar-btn ribbon-element" style="width: 50px;" data-bind="click: stopShow">
+                    <div class="ribbon-vertical-button-content">
+                        <div class="displays-off-large ribbon-large-icon"></div>
+                        <div>Стоп</div>
+                    </div>
+                </button>
+                @*<div class="ribbon-clip">
                     <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: stopShow">
                         <div class="ribbon-horizontal-button-content">
                             <div class="displays-off ribbon-small-icon"></div>
@@ -151,12 +163,12 @@
                         </div>
                     </button>
                     <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-                        <div class="ribbon-horizontal-button-content">
-                            <div class="displays-test ribbon-small-icon"></div>
-                            <div class="ribbon-horizontal-button-text">Тест</div>
-                        </div>
-                    </button>
-                </div>
+            <div class="ribbon-horizontal-button-content">
+                <div class="displays-test ribbon-small-icon"></div>
+                <div class="ribbon-horizontal-button-text">Тест</div>
+            </div>
+        </button>
+            </div>*@
             </div>
             <div class="panel-footer ribbon-group-title">
                 <label>

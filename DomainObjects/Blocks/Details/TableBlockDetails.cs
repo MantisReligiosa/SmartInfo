@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace DomainObjects.Blocks.Details
 {
@@ -23,6 +24,11 @@ namespace DomainObjects.Blocks.Details
             FontName = source.FontName;
             FontSize = source.FontSize;
             FontIndex = source.FontIndex;
+            Cells = new List<TableBlockCellDetails>();
+            foreach(var cell in source.Cells)
+            {
+                Cells.Add(new TableBlockCellDetails(cell));
+            }
         }
     }
 }

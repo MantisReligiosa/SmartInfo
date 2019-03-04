@@ -85,6 +85,14 @@ div.tab-content {
     min-height: 25px;
 }
 
+.ribbon-toolbar > .ribbon-element {
+    height: 75px;
+}
+
+.ribbon-clip > .ribbon-element {
+    height: 25px;
+}
+
 .ribbon-dropdown {
     display: flex;
     padding: 1px;
@@ -107,6 +115,7 @@ div.tab-content {
 
 .ribbon-clip {
     display: grid;
+    height: 81px;
 }
 
 .ribbon-row {
@@ -203,7 +212,6 @@ input[type=number] {
 
 .textblock {
     padding: 1px;
-    
 }
 
 .resize-drag {
@@ -223,7 +231,7 @@ input[type=number] {
     height: 30px;
 }
 
-.accordion-properties{
+.accordion-properties {
     width: 450px;
 }
 
@@ -242,10 +250,19 @@ input[type=number] {
 .block-icon {
     display: flex;
     position: absolute;
-    /*height:10px;
-    width:10px;*/
     background-size: auto !important;
     opacity: 0.2;
     width: -webkit-fill-available;
     height: -webkit-fill-available;
+}
+
+.zoomPanel {
+    z-index: 2147483647;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    position: fixed;
+    right: 15px;
+    margin-top: 10px;
+    margin-right: 10px;
 }

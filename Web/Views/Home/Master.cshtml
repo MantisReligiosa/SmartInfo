@@ -3,18 +3,46 @@
 <!-- ko with: master-->
 @Html.Partial("Views/Home/_Menu.cshtml")
 <div class="container-fluid workspace">
-    <!-- ko foreach: screens-->
-    <div class="display" data-bind="click:unselectBlocks, style: {'width':width, 'height':height,'left':left, 'top':top, 'background': $parent.background}"></div>
-    <!-- /ko-->
-    <!-- ko foreach: blocks-->
-    <div class="displayBlock resize-drag"
-         data-bind="attr:{id:id}, click:selectBlock, style: {'width':width, 'height':height,'left':left, 'top':top, 'overflow':'hidden', 'z-index':zIndex}, css:{selected: selected}">
-        <!-- ko if: type == "text"-->
-        <!-- ko if: (text==null || text.length<1) -->
-        <span class="block-icon block-text" data-bind="style:{'z-index': zIndex+1}"></span>
+
+    <div class="zoomPanel panel">
+        <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: zoomOut">
+            <div class="ribbon-horizontal-button-content">
+                <div class="zoom-out ribbon-small-icon"></div>
+            </div>
+        </button>
+        <input type="range" style="vertical-align: middle" list="scales" data-bind="attr:{step:zoomStep, min:minScale, max:maxScale}, value:zoomValue">
+        <datalist id="scales">
+
+            <!--ko foreach: scales -->
+            <option data-bind="attr:{value:value,label:label}"></option>
+            <!-- /ko -->
+        </datalist>
+
+
+        <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: zoomIn">
+            <div class="ribbon-horizontal-button-content">
+                <div class="zoom-in ribbon-small-icon"></div>
+            </div>
+        </button>
+        <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: zoomFit">
+            <div class="ribbon-horizontal-button-content">
+                <div class="zoom-fit ribbon-small-icon"></div>
+            </div>
+        </button>
+    </div>
+    <div data-bind="style:{'transform':'scale(' + scale() + ')', 'position':'absolute'}">
+        <!-- ko foreach: screens-->
+        <div class="display" data-bind="click:unselectBlocks, style: {'width':width, 'height':height,'left':left, 'top':top, 'background': $parent.background}"></div>
         <!-- /ko-->
-        <label class="textblock blockContent"
-               data-bind="text: text,
+        <!-- ko foreach: blocks-->
+        <div class="displayBlock resize-drag"
+             data-bind="attr:{id:id}, click:selectBlock, style: {'width':width, 'height':height,'left':left, 'top':top, 'overflow':'hidden', 'z-index':zIndex}, css:{selected: selected}">
+            <!-- ko if: type == "text"-->
+            <!-- ko if: (text == null || text.length < 1) -->
+            <span class="block-icon block-text" data-bind="style:{'z-index': zIndex+1}"></span>
+            <!-- /ko-->
+            <label class="textblock blockContent"
+                   data-bind="text: text,
                    style: {
                     'background-color' : backColor,
                     'color' : textColor,
@@ -24,26 +52,26 @@
                     'font-style': italic ? 'italic' : '',
                     'position': 'fixed'
                    }">
-        </label>
-        <!-- /ko-->
-        <!-- ko if: type == "picture"-->
-        <!-- ko if: base64Src==null -->
-        <span class="block-icon block-image" data-bind="style:{'z-index': zIndex+1}"></span>
-        <!-- /ko-->
-        <!-- ko if: base64Src!=null -->
-        <img data-bind="attr:{src:'data:image/png;base64, '+ $data.base64Src}" />
-        <!-- /ko-->
-        <!-- /ko-->
-        <!-- ko if: type == "table"-->
-        <!-- ko if: header.length<1 -->
-        <span class="block-icon block-table" data-bind="style:{'z-index': zIndex+1}"></span>
-        <!-- /ko-->
-        <table class="blockContent" data-bind="style:{
+            </label>
+            <!-- /ko-->
+            <!-- ko if: type == "picture"-->
+            <!-- ko if: base64Src == null -->
+            <span class="block-icon block-image" data-bind="style:{'z-index': zIndex+1}"></span>
+            <!-- /ko-->
+            <!-- ko if: base64Src != null -->
+            <img data-bind="attr:{src:'data:image/png;base64, '+ $data.base64Src}" />
+            <!-- /ko-->
+            <!-- /ko-->
+            <!-- ko if: type == "table"-->
+            <!-- ko if: header.length < 1 -->
+            <span class="block-icon block-table" data-bind="style:{'z-index': zIndex+1}"></span>
+            <!-- /ko-->
+            <table class="blockContent" data-bind="style:{
                'font-family' : font,
                'font-size' : fontSize+'px',
                }">
-            <thead>
-                <tr data-bind="foreach: header,
+                <thead>
+                    <tr data-bind="foreach: header,
                     style: {
                         'background-color' : headerStyle.backColor,
                         'color' : headerStyle.textColor,
@@ -51,45 +79,46 @@
                         'font-weight': headerStyle.bold ? 'bold' : 'normal',
                         'font-style': headerStyle.italic ? 'italic' : ''
                     }">
-                    <th data-bind="text: $data, style: {
+                        <th data-bind="text: $data, style: {
                         'font-weight': $parent.headerStyle.bold ? 'bold' : 'normal'
                         }"></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: rows, style:{'line-height':fontIndex}">
-                <!-- ko if: index%2==0 -->
-                <!--чётная строка-->
-                <tr data-bind="style: {
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: rows, style:{'line-height':fontIndex}">
+                    <!-- ko if: index % 2 == 0 -->
+                    <!--чётная строка-->
+                    <tr data-bind="style: {
                     'background-color' : $parent.evenStyle.backColor,
                     'color' : $parent.evenStyle.textColor,
                     'text-align' : $parent.evenStyle.align==0 ? 'left' : $parent.evenStyle.align==1 ? 'center' : 'right',
                     'font-weight': $parent.evenStyle.bold ? 'bold' : '',
                     'font-style': $parent.evenStyle.italic ? 'italic' : ''
                     }">
-                    <!-- ko foreach: cells-->
-                    <td data-bind="text: $data"></td>
-                    <!-- /ko-->
-                </tr>
-                <!--/ko-->
-                <!-- ko if: index%2==1 -->
-                <!--нечётная строка-->
-                <tr data-bind="style: {
+                        <!-- ko foreach: cells-->
+                        <td data-bind="text: $data"></td>
+                        <!-- /ko-->
+                    </tr>
+                    <!--/ko-->
+                    <!-- ko if: index % 2 == 1 -->
+                    <!--нечётная строка-->
+                    <tr data-bind="style: {
                     'background-color' : $parent.oddStyle.backColor,
                     'color' : $parent.oddStyle.textColor,
                     'text-align' : $parent.oddStyle.align==0 ? 'left' : $parent.oddStyle.align==1 ? 'center' : 'right',
                     'font-weight': $parent.oddStyle.bold ? 'bold' : '',
                     'font-style': $parent.oddStyle.italic ? 'italic' : ''
                     }">
-                    <!-- ko foreach: cells-->
-                    <td data-bind="text: $data"></td>
-                    <!-- /ko-->
-                </tr>
-                <!--/ko-->
-            </tbody>
-        </table>
+                        <!-- ko foreach: cells-->
+                        <td data-bind="text: $data"></td>
+                        <!-- /ko-->
+                    </tr>
+                    <!--/ko-->
+                </tbody>
+            </table>
+            <!-- /ko-->
+        </div>
         <!-- /ko-->
     </div>
-    <!-- /ko-->
 </div>
 
 <div id="properties" class="modal" tabindex="-1" role="dialog">
@@ -100,20 +129,20 @@
             </div>
             <div class="modal-body" style="display:flex">
                 <div>
-                    <!-- ko if: selectedBlock() == null -->
+                    <!-- ko if: backgroundPropertiesMode() -->
                     @Html.Partial("Home/ScreenProperties")
                     <!-- /ko-->
-                    <!-- ko if: selectedBlock() != null && selectedBlock().type === 'text' -->
+                    <!-- ko if: !backgroundPropertiesMode() && selectedBlock() != null && selectedBlock().type === 'text' -->
                     <!-- ko with: textBlockEditViewModel()-->
                     @Html.Partial("Home/TextBlockProperties")
                     <!-- /ko-->
                     <!-- /ko-->
-                    <!-- ko if: selectedBlock() != null && selectedBlock().type === 'table' -->
+                    <!-- ko if: !backgroundPropertiesMode() && selectedBlock() != null && selectedBlock().type === 'table' -->
                     <!-- ko with: tableBlockEditViewModel()-->
                     @Html.Partial("Home/TableBlockProperties")
                     <!-- /ko-->
                     <!-- /ko-->
-                    <!-- ko if: selectedBlock() != null && selectedBlock().type == "picture"-->
+                    <!-- ko if: !backgroundPropertiesMode() && selectedBlock() != null && selectedBlock().type == "picture"-->
                     <!-- ko with: pictureBlockEditViewModel()-->
                     @Html.Partial("Home/PictureBlockProperties")
                     <!-- /ko-->

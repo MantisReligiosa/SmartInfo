@@ -1,4 +1,4 @@
-﻿using DataExchange;
+using DataExchange;
 using DataExchange.DTO;
 using DataExchange.Requests;
 using DataExchange.Responces;

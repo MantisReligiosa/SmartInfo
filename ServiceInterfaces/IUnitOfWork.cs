@@ -1,4 +1,4 @@
-﻿using DomainObjects;
+using DomainObjects;
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
 using System.Threading.Tasks;
