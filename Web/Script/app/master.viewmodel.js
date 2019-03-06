@@ -487,38 +487,74 @@ function masterViewModel(app) {
         var block = self.blocks.remove(function (block) { return block.id === id; })[0];
         var w = +target.getAttribute('data-w');
         var h = +target.getAttribute('data-h');
-        if (w > 0) {
-            if (self.gridEnabled()) {
-                w = adjustToStep(w);
-            }
-            block.width = w;
+        if (w == 0) {
+            w = block.width;
         }
-        if (h > 0) {
-            if (self.gridEnabled) {
-                h = adjustToStep(h);
-            }
-            block.height = h;
+        if (h == 0) {
+            h = block.height;
         }
-        var dataX = target.getAttribute('data-x');
+        if (self.gridEnabled()) {
+            w = adjustToStep(w);
+            h = adjustToStep(h);
+        }
+
         var x = +target.getAttribute('data-x') + block.left;
         var y = +target.getAttribute('data-y') + block.top;
+        var screen = self.screens().find(function (screen) {
+            return pointInScreen(screen, x, y)
+                && pointInScreen(screen, x + w, y)
+                && pointInScreen(screen, x, y + h)
+                && pointInScreen(screen, x + w, y + h);
+        });
 
-        if (self.gridEnabled()) {
-            var screen = self.screens().find(function (screen) {
-                return screen.left <= x && screen.left + screen.width >= x && screen.top <= y && screen.top + screen.height >= y;
+        var isInScreens = (screen != null);
+        if (!isInScreens) {
+            var screenLeft = self.screens().find(function (screen) {
+                return pointInScreen(screen, x, y)
+                    && pointInScreen(screen, x, y + h);
             });
-            var deltaX = x - screen.left;
-            var deltaY = y - screen.top;
-            x = screen.left + adjustToStep(deltaX);
-            y = screen.top + adjustToStep(deltaY);
-        };
+            var screenRight = self.screens().find(function (screen) {
+                return pointInScreen(screen, x + w, y)
+                    && pointInScreen(screen, x + w, y + h);
+            });
+            isInScreens = (screenLeft != null) && (screenRight != null);
+            screen = screenLeft;
+        }
 
-        block.left = x;
-        block.top = y;
+        if (!isInScreens) {
+            var screenTop = self.screens().find(function (screen) {
+                return pointInScreen(screen, x, y)
+                    && pointInScreen(screen, x + w, y);
+            });
+            var screenBottom = self.screens().find(function (screen) {
+                return pointInScreen(screen, x, y + h)
+                    && pointInScreen(screen, x + w, y + h);
+            });
+            isInScreens = (screenTop != null) && (screenBottom != null);
+            screen = screenTop;
+        }
+
+        if (isInScreens) {
+            if (self.gridEnabled()) {
+
+                var deltaX = x - screen.left;
+                var deltaY = y - screen.top;
+                x = screen.left + adjustToStep(deltaX);
+                y = screen.top + adjustToStep(deltaY);
+            };
+            block.width = w;
+            block.height = h;
+            block.left = x;
+            block.top = y;
+        }
         self.blocks.push(block);
         selectBlock(block);
         resizeAndMoveBlock(block);
     };
+
+    pointInScreen = function (screen, x, y) {
+        return screen.left <= x && screen.left + screen.width >= x && screen.top <= y && screen.top + screen.height >= y;
+    }
 
     resizeAndMoveBlock = function (block) {
         app.request(
