@@ -1,7 +1,9 @@
 ﻿<div id="backgroundCP" class="input-group colorpicker-component">
     <span class="input-group-text" id="basic-addon1">Цвет фона</span>
-    <input type="text" value="#ffff" class="form-control" />
+    <input type="text" value="#ffff" class="form-control" data-bind="value:background"/>
     <span class="input-group-append">
-        <span class="input-group-text colorpicker-input-addon"><i></i></span>
+        <span class="input-group-text colorpicker-input-addon">
+            <i data-bind="style: {'background-color':background}"></i>
+        </span>
     </span>
 </div>
