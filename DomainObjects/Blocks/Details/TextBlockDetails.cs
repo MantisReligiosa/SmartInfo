@@ -1,6 +1,6 @@
 ﻿namespace DomainObjects.Blocks.Details
 {
-    public class TextBlockDetails : BlockDetails
+    public class TextBlockDetails : Identity, ICopyable<TextBlockDetails>
     {
         public string Text { get; set; }
         public string BackColor { get; set; }
@@ -15,6 +15,11 @@
         public TextBlockDetails() { }
 
         public TextBlockDetails(TextBlockDetails source)
+        {
+            CopyFrom(source);
+        }
+
+        public void CopyFrom(TextBlockDetails source)
         {
             Align = source.Align;
             BackColor = source.BackColor;

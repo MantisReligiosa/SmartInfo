@@ -4,17 +4,28 @@ namespace DomainObjects.Blocks
 {
     public class TableBlock : DisplayBlock
     {
-        public TableBlock() { }
+        public TableBlock()
+            : base()
+        {
 
-        public TableBlock(TableBlock source) : base(source) { }
+        }
+
+        public TableBlock(TableBlock source)
+            :base(source)
+        {
+
+        }
 
         public TableBlockDetails Details { get; set; }
 
         internal override void CopyDetails(DisplayBlock source)
         {
             var sourceDetails = ((TableBlock)source).Details;
-
-            Details = new TableBlockDetails(sourceDetails);
+            if (Details == null)
+            {
+                Details = new TableBlockDetails();
+            }
+            Details.CopyFrom(sourceDetails);
         }
     }
 }

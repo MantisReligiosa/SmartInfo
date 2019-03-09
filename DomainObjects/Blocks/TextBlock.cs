@@ -4,15 +4,28 @@ namespace DomainObjects.Blocks
 {
     public class TextBlock : DisplayBlock
     {
-        public TextBlock() : base() { }
+        public TextBlock()
+            :base()
+        {
 
-        public TextBlock(TextBlock source) : base(source) { }
+        }
+
+        public TextBlock(TextBlock source)
+            :base(source)
+        {
+
+        }
 
         public TextBlockDetails Details { get; set; }
 
         internal override void CopyDetails(DisplayBlock source)
         {
-            Details = new TextBlockDetails(((TextBlock)source).Details);
+            var sourceDetails = ((TextBlock)source).Details;
+            if (Details == null)
+            {
+                Details = new TextBlockDetails();
+            }
+            Details.CopyFrom(sourceDetails);
         }
     }
 }

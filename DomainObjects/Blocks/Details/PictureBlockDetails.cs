@@ -1,6 +1,8 @@
-﻿namespace DomainObjects.Blocks.Details
+﻿using System;
+
+namespace DomainObjects.Blocks.Details
 {
-    public class PictureBlockDetails : BlockDetails
+    public class PictureBlockDetails : Identity, ICopyable<PictureBlockDetails>
     {
         public string Base64Image { get; set; }
 
@@ -8,7 +10,12 @@
 
         public PictureBlockDetails(PictureBlockDetails source)
         {
-            Base64Image = source.Base64Image;
+            CopyFrom(source);
+        }
+
+        public void CopyFrom(PictureBlockDetails sourceDetails)
+        {
+            Base64Image = sourceDetails.Base64Image;
         }
     }
 }

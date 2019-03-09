@@ -1,8 +1,6 @@
-using System;
-
 namespace DomainObjects.Blocks.Details
 {
-    public class TableBlockRowDetails : Identity
+    public class TableBlockRowDetails : Identity, ICopyable<TableBlockRowDetails>
     {
         public TableBlockRowDetails() { }
 
