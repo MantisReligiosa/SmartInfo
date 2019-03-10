@@ -1,4 +1,5 @@
 ﻿using DomainObjects.Blocks;
+using DomainObjects.Blocks.Details;
 using Repository.QueuedTasks;
 using System;
 using System.Collections.Generic;
@@ -38,12 +39,35 @@ namespace Repository.Repositories
 
         public override void Delete(Guid id)
         {
-            var item = GetCache().OfType<DisplayBlock>().FirstOrDefault(i => i.Id.Equals(id));
-            if (item != null)
-                GetCache().Remove(item);
+            var displayBlock = GetCache().OfType<DisplayBlock>().FirstOrDefault(i => i.Id.Equals(id));
+            if (displayBlock != null)
+                GetCache().Remove(displayBlock);
             var task = new GuidTask((identity) =>
             {
+                if (displayBlock == null)
+                {
+                    displayBlock = base.Get(id);
+                }
                 base.Delete(identity);
+                if (displayBlock is TextBlock textBlock)
+                {
+                    Context.Set<TextBlockDetails>().Remove(textBlock.Details);
+                }
+                else if (displayBlock is PictureBlock pictureBlock)
+                {
+                    Context.Set<PictureBlockDetails>().Remove(pictureBlock.Details);
+                }
+                else if (displayBlock is TableBlock tableBlock)
+                {
+                    var rowDetails = new List<TableBlockRowDetails>
+                    {
+                        tableBlock.Details.HeaderDetails,
+                        tableBlock.Details.EvenRowDetails,
+                        tableBlock.Details.OddRowDetails
+                    };
+                    Context.Set<TableBlockDetails>().Remove(tableBlock.Details);
+                    Context.Set<TableBlockRowDetails>().RemoveRange(rowDetails);
+                }
             }, id);
             GetTaskQueue().Enqueue(task);
         }
