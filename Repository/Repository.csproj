@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\DateTimeDetailsConfiguration.cs" />
     <Compile Include="Configurations\PictureBlockDetailsConfiguration.cs" />
     <Compile Include="Configurations\TableBlockCellDetailsConfiguration.cs" />
     <Compile Include="Configurations\TableBlockDetailsConfiguration.cs" />
@@ -105,6 +106,10 @@
     <Compile Include="Migrations\201901141724230_fontIndex.cs" />
     <Compile Include="Migrations\201901141724230_fontIndex.Designer.cs">
       <DependentUpon>201901141724230_fontIndex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903101004171_DateTimeBlock.cs" />
+    <Compile Include="Migrations\201903101004171_DateTimeBlock.Designer.cs">
+      <DependentUpon>201903101004171_DateTimeBlock.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -164,6 +169,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901141724230_fontIndex.resx">
       <DependentUpon>201901141724230_fontIndex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903101004171_DateTimeBlock.resx">
+      <DependentUpon>201903101004171_DateTimeBlock.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
