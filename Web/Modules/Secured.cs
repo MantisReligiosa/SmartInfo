@@ -142,6 +142,20 @@ namespace Web.Modules
                     throw new Exception("Ошибка добавления картинки", ex);
                 }
             };
+            Post["/api/addDateTimeBlock"] = parameters =>
+            {
+                try
+                {
+                    var dateTimeBlock = blockController.AddDateTimeBlock();
+                    var block = _mapper.Map<DateTimeBlockDto>(dateTimeBlock);
+                    return Response.AsJson(block);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    throw new Exception("Ошибка добавления блока даты/времени", ex);
+                }
+            };
             Get["/api/blocks"] = parameters =>
             {
                 try
@@ -176,12 +190,11 @@ namespace Web.Modules
                     var data = this.Bind<BlockDto>();
                     if (data.Type.Equals("text", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        var b = this.Bind<TextBlockDto>();
-                        var block = _mapper.Map<TextBlock>(b);
-                        blockController.SaveTextBlock(block);
+                        SaveBlock<TextBlock, TextBlockDto>(b => blockController.SaveTextBlock(b));
                     }
                     else if (data.Type.Equals("table", StringComparison.InvariantCultureIgnoreCase))
                     {
+#warning продолжить рефакторинг
                         var b = this.Bind<TableBlockDto>();
                         var block = _mapper.Map<TableBlock>(b);
                         blockController.SaveTableBlock(block);
@@ -192,7 +205,12 @@ namespace Web.Modules
                         var block = _mapper.Map<PictureBlock>(b);
                         blockController.SavePictureBlock(block);
                     }
-
+                    else if (data.Type.Equals("datetime", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        var b = this.Bind<DateTimeBlockDto>();
+                        var block = _mapper.Map<DateTimeBlock>(b);
+                        blockController.SaveDateTimeBlock(block);
+                    }
                     return Response.AsJson(true);
                 }
                 catch (Exception ex)
@@ -221,23 +239,29 @@ namespace Web.Modules
                 try
                 {
                     var data = this.Bind<BlockDto>();
-                    if (data.Type.Equals("text", System.StringComparison.InvariantCultureIgnoreCase))
+                    if (data.Type.Equals("text", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var b = this.Bind<TextBlockDto>();
                         var block = _mapper.Map<TextBlock>(b);
                         return _mapper.Map<TextBlockDto>(blockController.CopyTextBlock(block));
                     }
-                    else if (data.Type.Equals("table", System.StringComparison.InvariantCultureIgnoreCase))
+                    else if (data.Type.Equals("table", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var b = this.Bind<TableBlockDto>();
                         var block = _mapper.Map<TableBlock>(b);
                         return _mapper.Map<TableBlockDto>(blockController.CopyTableBlock(block));
                     }
-                    else if (data.Type.Equals("picture", System.StringComparison.InvariantCultureIgnoreCase))
+                    else if (data.Type.Equals("picture", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var b = this.Bind<PictureBlockDto>();
                         var block = _mapper.Map<PictureBlock>(b);
                         return _mapper.Map<PictureBlockDto>(blockController.CopyPictureBlock(block));
+                    }
+                    else if (data.Type.Equals("datetime", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        var b = this.Bind<DateTimeBlockDto>();
+                        var block = _mapper.Map<DateTimeBlock>(b);
+                        return _mapper.Map<DateTimeBlockDto>(blockController.CopyDateTimeBlock(block));
                     }
 
                     return Response.AsJson(true);
@@ -368,6 +392,15 @@ namespace Web.Modules
                     throw new Exception("Ошибка загрузки конфигурации", ex);
                 }
             };
+        }
+
+        private void SaveBlock<TBlock, TBlockDto>(Action<TBlock> saveAction)
+            where TBlock : DisplayBlock
+            where TBlockDto : BlockDto
+        {
+            var b = this.Bind<TBlockDto>();
+            var block = _mapper.Map<TBlock>(b);
+            saveAction.Invoke(block);
         }
 
         private IEnumerable<BlockDto> GetBlocks(IBlockController blockController)

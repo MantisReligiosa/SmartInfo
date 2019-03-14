@@ -10,9 +10,7 @@
         public bool Italic { get; set; }
         public bool Bold { get; set; }
         public double FontIndex { get; set; }
-        public DateTimeFormatDetails TimeFromat { get; set; }
-        public DateTimeFormatDetails DateFromat { get; set; }
-        public bool TimeBeforeDate { get; set; }
+        public DateTimeFormatDetails Fromat { get; set; }
 
         public DateTimeBlockDetails() { }
 
@@ -31,9 +29,7 @@
             FontIndex = source.FontIndex;
             Italic = source.Italic;
             TextColor = source.TextColor;
-            TimeFromat = source.TimeFromat;
-            DateFromat = source.DateFromat;
-            TimeBeforeDate = source.TimeBeforeDate;
+            Fromat = source.Fromat;
         }
     }
 }

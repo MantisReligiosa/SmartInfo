@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blocks\Details\MetaBlockDetails.cs" />
+    <Compile Include="Blocks\MetaBlock.cs" />
     <Compile Include="Blocks\DateTimeBlock.cs" />
     <Compile Include="Blocks\Details\DateTimeBlockDetails.cs" />
     <Compile Include="Blocks\Details\DateTimeFormatDetails.cs" />

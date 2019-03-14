@@ -2,28 +2,28 @@
 
 namespace DomainObjects.Blocks
 {
-    public class DateTimeBlock : DisplayBlock
+    public class MetaBlock : DisplayBlock
     {
-        public DateTimeBlock()
+        public MetaBlock()
             : base()
         {
 
         }
 
-        public DateTimeBlock(DateTimeBlock source)
+        public MetaBlock(MetaBlock source)
             : base(source)
         {
 
         }
 
-        public DateTimeBlockDetails Details { get; set; }
+        public MetaBlockDetails Details { get; set; }
 
         internal override void CopyDetails(DisplayBlock source)
         {
-            var sourceDetails = ((DateTimeBlock)source).Details;
+            var sourceDetails = ((MetaBlock)source).Details;
             if (Details == null)
             {
-                Details = new DateTimeBlockDetails();
+                Details = new MetaBlockDetails();
             }
             Details.CopyFrom(sourceDetails);
         }

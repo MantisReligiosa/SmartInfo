@@ -342,6 +342,7 @@
     <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Models\Blocks\Binders\FromBodyJsonBinder.cs" />
     <Compile Include="Models\Blocks\BlockDto.cs" />
+    <Compile Include="Models\Blocks\DateTimeBlockDto.cs" />
     <Compile Include="Models\Blocks\PictureBlockDto.cs" />
     <Compile Include="Models\Blocks\RowDto.cs" />
     <Compile Include="Models\Blocks\RowStyleDto.cs" />
@@ -362,6 +363,7 @@
     <Compile Include="Modules\Public.cs" />
     <Compile Include="Modules\Secured.cs" />
     <Compile Include="Profiles\AutoMapperConfig.cs" />
+    <Compile Include="Profiles\DateTimeBlockProfile.cs" />
     <Compile Include="Profiles\TableBlockProfile.cs" />
     <Compile Include="Profiles\PictureBlockProfile.cs" />
     <Compile Include="Profiles\TextBlockProfile.cs" />
