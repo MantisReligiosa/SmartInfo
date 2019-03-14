@@ -100,6 +100,18 @@ function masterViewModel(app) {
         );
     }
 
+    self.addDateTimeBlock = function () {
+        app.request(
+            "POST",
+            "api/addDateTimeBlock",
+            {},
+            function (data) {
+                data.selected = false;
+                self.blocks.push(data);
+            }
+        );
+    }
+
     self.showPosition = function () {
         var block = self.selectedBlock();
         if (block == null) {

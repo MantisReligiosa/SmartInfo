@@ -400,6 +400,11 @@ namespace Web.Modules
                     var block = _mapper.Map<PictureBlockDto>(pictureBlock);
                     return block;
                 }
+                if (b is DateTimeBlock dateTimeBlock)
+                {
+                    var block = _mapper.Map<DateTimeBlockDto>(dateTimeBlock);
+                    return block;
+                }
                 return new BlockDto
                 {
                     Height = b.Height,
