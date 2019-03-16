@@ -597,6 +597,15 @@ function masterViewModel(app) {
         );
     };
 
+    var timer = setInterval(function () {
+        var datetimeblocks = $(".datetimeblock");
+        datetimeblocks.each(function (index) {
+            var datetimeFormat = this.getAttribute('datetimeformat');
+            var datetime = moment().format(datetimeFormat);
+            $(this).text(datetime);
+        });
+    }, 1000);
+
     loadBlocks = function () {
         app.request(
             "GET",
@@ -605,6 +614,9 @@ function masterViewModel(app) {
             function (data) {
                 data.forEach(function (block) {
                     block.selected = false;
+                    if (block.type = 'datetime') {
+                        block.text = ''
+                    }
                     self.blocks.push(block);
                 });
 

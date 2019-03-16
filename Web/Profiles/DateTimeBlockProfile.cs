@@ -15,7 +15,8 @@ namespace Web.Profiles
                 .ForMember(b => b.TextColor, opt => opt.MapFrom(b => b.Details.TextColor))
                 .ForMember(b => b.Font, opt => opt.MapFrom(b => b.Details.FontName))
                 .ForMember(b => b.FontSize, opt => opt.MapFrom(b => b.Details.FontSize))
-                .ForMember(b => b.FontIndex, opt => opt.MapFrom(b => b.Details.FontIndex));
+                .ForMember(b => b.FontIndex, opt => opt.MapFrom(b => b.Details.FontIndex))
+                .ForMember(b => b.Format, opt => opt.MapFrom(b => b.Details.Format));
 
             CreateMap<DateTimeBlockDto, DateTimeBlock>()
                 .ForMember(b => b.Details, opt => opt.MapFrom(b => new DateTimeBlockDetails
@@ -28,7 +29,7 @@ namespace Web.Profiles
                     Align = b.Align,
                     Italic = b.Italic,
                     Bold = b.Bold,
-                    //Fromat = b.Format
+                    Format = b.Format
                 }));
         }
     }

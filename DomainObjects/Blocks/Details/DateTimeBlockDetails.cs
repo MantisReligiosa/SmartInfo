@@ -10,7 +10,7 @@
         public bool Italic { get; set; }
         public bool Bold { get; set; }
         public double FontIndex { get; set; }
-        public DateTimeFormatDetails Fromat { get; set; }
+        public DateTimeFormatDetails Format { get; set; }
 
         public DateTimeBlockDetails() { }
 
@@ -29,7 +29,7 @@
             FontIndex = source.FontIndex;
             Italic = source.Italic;
             TextColor = source.TextColor;
-            Fromat = source.Fromat;
+            Format = source.Format;
         }
     }
 }

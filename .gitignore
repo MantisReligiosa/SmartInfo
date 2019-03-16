@@ -338,3 +338,5 @@ Setup/wix/
 tools/
 
 *.msi
+
+Web/package-lock\.json

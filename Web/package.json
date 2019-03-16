@@ -15,6 +15,7 @@
     "popper.js": "1.14.3",
     "toastr": "2.1.4",
     "interact.js": "1.2.8",
-    "bootstrap-colorpicker": "3.0.3"
+    "bootstrap-colorpicker": "3.0.3",
+    "moment": "2.24.0"
   }
 }

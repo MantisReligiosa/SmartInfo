@@ -24,6 +24,7 @@ namespace Repository.Repositories
             var items = new List<DisplayBlock>();
             items.AddRange(Context.DisplayBlocks.OfType<TextBlock>().Include(t => t.Details).ToList());
             items.AddRange(Context.DisplayBlocks.OfType<PictureBlock>().Include(t => t.Details).ToList());
+            items.AddRange(Context.DisplayBlocks.OfType<DateTimeBlock>().Include(t => t.Details).Include(t => t.Details.Format).ToList());
             items.AddRange(Context.DisplayBlocks.OfType<TableBlock>()
                 .Include(t => t.Details)
                 .Include(t => t.Details.Cells)

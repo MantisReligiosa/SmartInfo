@@ -18,7 +18,8 @@ module.exports = function (grunt) {
                     'node_modules/bootstrap/dist/js/bootstrap.js',
                     'node_modules/toastr/build/toastr.min.js',
                     'node_modules/interact.js/dist/interact.min.js',
-                    'node_modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js'
+                    'node_modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
+                    'node_modules/moment/min/moment-with-locales.min.js'
                 ],
                 dest: 'Script/Vendor/vendor.js'
             },
