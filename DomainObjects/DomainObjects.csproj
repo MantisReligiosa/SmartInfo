@@ -45,7 +45,7 @@
     <Compile Include="Blocks\MetaBlock.cs" />
     <Compile Include="Blocks\DateTimeBlock.cs" />
     <Compile Include="Blocks\Details\DateTimeBlockDetails.cs" />
-    <Compile Include="Blocks\Details\DateTimeFormatDetails.cs" />
+    <Compile Include="DateTimeFormatDetails.cs" />
     <Compile Include="Blocks\Details\ICopyable.cs" />
     <Compile Include="Blocks\Details\PictureBlockDetails.cs" />
     <Compile Include="Blocks\Details\TableBlockCellDetails.cs" />

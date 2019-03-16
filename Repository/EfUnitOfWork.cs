@@ -20,6 +20,7 @@ namespace Repository
             Displays = new Repository<Display>(_databaseContext);
             DisplayBlocks = new DisplayBlockRepository(_databaseContext);
             TableBlockCellDetails = new Repository<TableBlockCellDetails>(_databaseContext);
+            DateTimeFormatDetails = new Repository<DateTimeFormatDetails>(_databaseContext);
         }
 
         public IRepository<User> Users { get; private set; }
@@ -27,6 +28,7 @@ namespace Repository
         public IRepository<Display> Displays { get; private set; }
         public IRepository<DisplayBlock> DisplayBlocks { get; private set; }
         public IRepository<TableBlockCellDetails> TableBlockCellDetails { get; private set; }
+        public IRepository<DateTimeFormatDetails> DateTimeFormatDetails { get; private set; }
 
         public int Complete()
         {

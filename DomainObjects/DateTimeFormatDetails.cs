@@ -1,4 +1,4 @@
-﻿namespace DomainObjects.Blocks.Details
+﻿namespace DomainObjects
 {
     public class DateTimeFormatDetails : Identity
     {

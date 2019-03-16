@@ -168,6 +168,11 @@
                     @Html.Partial("Home/PictureBlockProperties")
                     <!-- /ko-->
                     <!-- /ko-->
+                    <!-- ko if: !backgroundPropertiesMode() && selectedBlock() != null && selectedBlock().type == "datetime"-->
+                    <!-- ko with: datetimeBlockEditViewModel()-->
+                    @Html.Partial("Home/DatetimeBlockProperties")
+                    <!-- /ko-->
+                    <!-- /ko-->
                 </div>
             </div>
             <div class="modal-footer">

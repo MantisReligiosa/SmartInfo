@@ -9,6 +9,7 @@ function masterViewModel(app) {
     self.screenWidth = ko.observable();
     self.screens = ko.observableArray();
     self.blocks = ko.observableArray();
+
     self.selectedBlock = ko.observable();
     self.gridSteps = ko.observableArray([5, 10, 20, 25, 50]);
     self.selectedGridSteps = ko.observableArray([5]);
@@ -41,6 +42,7 @@ function masterViewModel(app) {
     self.textBlockEditViewModel = ko.computed(function () { return new TextBlockEditViewModel(self); });
     self.tableBlockEditViewModel = ko.computed(function () { return new TableBlockEditViewModel(self); });
     self.pictureBlockEditViewModel = ko.computed(function () { return new PictureBlockEditViewModel(self); });
+    self.datetimeBlockEditViewModel = ko.computed(function () { return new DatetimeBlockEditViewModel(self); });
     self.positionViewModel = ko.computed(function () { return new PositionViewModel(self); });
     self.backgroundPropertiesMode = ko.observable(true);
 
@@ -107,6 +109,7 @@ function masterViewModel(app) {
             {},
             function (data) {
                 data.selected = false;
+                data.text = '';
                 self.blocks.push(data);
             }
         );
@@ -176,6 +179,16 @@ function masterViewModel(app) {
             self.textBlockEditViewModel().italic(block.italic);
             self.textBlockEditViewModel().bold(block.bold);
         };
+        if (block.type === 'datetime') {
+            self.datetimeBlockEditViewModel().backColor(block.backColor);
+            self.datetimeBlockEditViewModel().textColor(block.textColor);
+            self.datetimeBlockEditViewModel().setFont(block.font);
+            self.datetimeBlockEditViewModel().setFontSize(block.fontSize);
+            self.datetimeBlockEditViewModel().setFontIndex(block.fontIndex);
+            self.datetimeBlockEditViewModel().align(block.align.toString());
+            self.datetimeBlockEditViewModel().italic(block.italic);
+            self.datetimeBlockEditViewModel().bold(block.bold);
+        };
         if (block.type === 'table') {
             self.tableBlockEditViewModel().setFont(block.font);
             self.tableBlockEditViewModel().setFontSize(block.fontSize);
@@ -223,6 +236,17 @@ function masterViewModel(app) {
             block.align = self.textBlockEditViewModel().align();
             block.italic = self.textBlockEditViewModel().italic();
             block.bold = self.textBlockEditViewModel().bold();
+        };
+        if (block.type === 'datetime') {
+            self.blocks.remove(block);
+            block.backColor = self.datetimeBlockEditViewModel().backColor();
+            block.textColor = self.datetimeBlockEditViewModel().textColor();
+            block.font = self.datetimeBlockEditViewModel().selectedFonts()[0];
+            block.fontSize = self.datetimeBlockEditViewModel().selectedFontSizes()[0];
+            block.fontIndex = self.datetimeBlockEditViewModel().selectedFontIndexes()[0];
+            block.align = self.datetimeBlockEditViewModel().align();
+            block.italic = self.datetimeBlockEditViewModel().italic();
+            block.bold = self.datetimeBlockEditViewModel().bold();
         };
         if (block.type === 'table') {
             self.blocks.remove(block);
@@ -423,6 +447,7 @@ function masterViewModel(app) {
 
         self.textBlockEditViewModel().initializeControls();
         self.tableBlockEditViewModel().initializeControls();
+        self.datetimeBlockEditViewModel().initializeControls();
     };
 
     initReact = function () {
@@ -598,13 +623,17 @@ function masterViewModel(app) {
     };
 
     var timer = setInterval(function () {
+        updateDatetimeBlocksValues();
+    }, 100);
+
+    updateDatetimeBlocksValues = function () {
         var datetimeblocks = $(".datetimeblock");
         datetimeblocks.each(function (index) {
             var datetimeFormat = this.getAttribute('datetimeformat');
             var datetime = moment().format(datetimeFormat);
             $(this).text(datetime);
         });
-    }, 1000);
+    }
 
     loadBlocks = function () {
         app.request(

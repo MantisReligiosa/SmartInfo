@@ -1,5 +1,5 @@
-﻿using DomainObjects.Blocks;
-using DomainObjects.Blocks.Details;
+﻿using DomainObjects;
+using DomainObjects.Blocks;
 
 namespace Web.Models.Blocks
 {
