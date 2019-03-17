@@ -5,6 +5,7 @@ function masterViewModel(app) {
     self.fonts = ko.observableArray([]);
     self.fontSizes = ko.observableArray([]);
     self.fontIndexes = ko.observableArray([]);
+    self.datetimeformats = ko.observableArray([]);
     self.screenHeight = ko.observable();
     self.screenWidth = ko.observable();
     self.screens = ko.observableArray();
@@ -185,6 +186,7 @@ function masterViewModel(app) {
             self.datetimeBlockEditViewModel().setFont(block.font);
             self.datetimeBlockEditViewModel().setFontSize(block.fontSize);
             self.datetimeBlockEditViewModel().setFontIndex(block.fontIndex);
+            self.datetimeBlockEditViewModel().setFormat(block.format);
             self.datetimeBlockEditViewModel().align(block.align.toString());
             self.datetimeBlockEditViewModel().italic(block.italic);
             self.datetimeBlockEditViewModel().bold(block.bold);
@@ -244,6 +246,7 @@ function masterViewModel(app) {
             block.font = self.datetimeBlockEditViewModel().selectedFonts()[0];
             block.fontSize = self.datetimeBlockEditViewModel().selectedFontSizes()[0];
             block.fontIndex = self.datetimeBlockEditViewModel().selectedFontIndexes()[0];
+            block.format = self.datetimeBlockEditViewModel().selectedFormats()[0];
             block.align = self.datetimeBlockEditViewModel().align();
             block.italic = self.datetimeBlockEditViewModel().italic();
             block.bold = self.datetimeBlockEditViewModel().bold();
@@ -430,6 +433,7 @@ function masterViewModel(app) {
         initializeControls();
         loadFonts()
             .then(function () { return loadResolution(); })
+            .then(function () { return loadDatetimeFormats(); })
             .then(function () { return loadBackground(); })
             .then(function () { return loadBlocks(); });
         initReact();
@@ -645,6 +649,7 @@ function masterViewModel(app) {
                     block.selected = false;
                     if (block.type = 'datetime') {
                         block.text = ''
+                        block.format = (block.format == undefined) ? null : block.format
                     }
                     self.blocks.push(block);
                 });
@@ -721,6 +726,18 @@ function masterViewModel(app) {
                     });
                     data.indexes.forEach(function (entry) {
                         self.fontIndexes.push(entry);
+                    });
+                    resolve();
+                });
+            });
+    }
+
+    loadDatetimeFormats = function () {
+        return new Promise(
+            function (resolve, reject) {
+                app.request("POST", "/api/datetimeformats", {}, function (data) {
+                    data.forEach(function (entry) {
+                        self.datetimeformats.push(entry);
                     });
                     resolve();
                 });

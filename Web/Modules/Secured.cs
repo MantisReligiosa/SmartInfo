@@ -42,8 +42,22 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка загрузки шрифтов", ex);
+                    var exception = new Exception("Ошибка загрузки шрифтов", ex);
+                    logger.Error(exception);
+                    throw exception;
+                }
+            };
+            Post["/api/datetimeformats"] = parameters =>
+            {
+                try
+                {
+                    return Response.AsJson(systemController.GetDatetimeFormats());
+                }
+                catch (Exception ex)
+                {
+                    var exception = new Exception("Ошибка загрузки форматов даты/времени", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/screenResolution"] = parameters =>
@@ -70,8 +84,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка загрузки информации о экранах", ex);
+                    var exception = new Exception("Ошибка загрузки информации о экранах", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/setBackground"] = parameters =>
@@ -84,8 +99,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка установки фона", ex);
+                    var exception = new Exception("Ошибка установки фона", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Get["/api/background"] = parameters =>
@@ -96,8 +112,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка загрузки фона", ex);
+                    var exception = new Exception("Ошибка загрузки фона", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/addTextBlock"] = parameters =>
@@ -110,8 +127,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка добавления текстового блока", ex);
+                    var exception = new Exception("Ошибка добавления текстового блока", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/addTableBlock"] = parameters =>
@@ -124,8 +142,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка добавления таблицы", ex);
+                    var exception = new Exception("Ошибка добавления таблицы", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/addPictureBlock"] = parameters =>
@@ -138,8 +157,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка добавления картинки", ex);
+                    var exception = new Exception("Ошибка добавления картинки", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/addDateTimeBlock"] = parameters =>
@@ -152,8 +172,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка добавления блока даты/времени", ex);
+                    var exception = new Exception("Ошибка добавления блока даты/времени", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Get["/api/blocks"] = parameters =>
@@ -165,8 +186,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка загрузки блоков", ex);
+                    var exception = new Exception("Ошибка загрузки блоков", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/moveAndResize"] = parameters =>
@@ -179,8 +201,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка изменения размеров и положения блока", ex);
+                    var exception = new Exception("Ошибка изменения размеров и положения блока", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/saveBlock"] = parameters =>
@@ -201,8 +224,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка сохранения блоков", ex);
+                    var exception = new Exception("Ошибка сохранения блоков", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/deleteBlock"] = parameters =>
@@ -215,9 +239,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-
-                    logger.Error(ex);
-                    throw new Exception("Ошибка удаления блоков", ex);
+                    var exception = new Exception("Ошибка удаления блоков", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/copyBlock"] = parameters =>
@@ -237,8 +261,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка копирования блоков", ex);
+                    var exception = new Exception("Ошибка копирования блоков", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/startShow"] = parameters =>
@@ -250,8 +275,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка запуска презентации", ex);
+                    var exception = new Exception("Ошибка запуска полноэкранного режима", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/stopShow"] = parameters =>
@@ -264,8 +290,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка остановки презентации", ex);
+                    var exception = new Exception("Ошибка остановки полноэкранного режима", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/parseCSV"] = parameters =>
@@ -301,8 +328,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка чтения csv", ex);
+                    var exception = new Exception("Ошибка чтения csv", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Get["/api/downloadConfig"] = parameters =>
@@ -323,8 +351,10 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка выгрузки конфигурации", ex);
+                    var exception = new Exception("Ошибка выгрузки конфигурации", ex);
+                    logger.Error(exception);
+                    throw exception;
+
                 }
             };
             Post["/api/uploadConfig"] = parameters =>
@@ -357,8 +387,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка загрузки конфигурации", ex);
+                    var exception = new Exception("Ошибка загрузки конфигурации", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
         }

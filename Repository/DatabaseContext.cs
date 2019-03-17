@@ -21,7 +21,7 @@ namespace Repository
         public DbSet<Parameter> Parameters { get; set; }
         public DbSet<Display> Displays { get; set; }
         public DbSet<DisplayBlock> DisplayBlocks { get; set; }
-        public DbSet<DateTimeFormatDetails> DateTimeFormatDetails { get; set; }
+        public DbSet<DateTimeFormat> DateTimeFormats { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -17,6 +17,8 @@
         "hideMethod": "fadeOut"
     };
 
+    moment.locale('ru');
+
     $(document).ready(function () {
         ko.bindingHandlers.htmlBound = {
             init: function () {

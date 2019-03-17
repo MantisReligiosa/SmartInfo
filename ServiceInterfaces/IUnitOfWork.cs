@@ -12,7 +12,7 @@ namespace ServiceInterfaces
         IRepository<Display> Displays { get; }
         IRepository<DisplayBlock> DisplayBlocks { get; }
         IRepository<TableBlockCellDetails> TableBlockCellDetails { get; }
-        IRepository<DateTimeFormatDetails> DateTimeFormatDetails { get; }
+        IRepository<DateTimeFormat> DateTimeFormats { get; }
 
         int Complete();
         Task<int> CompleteAsync();

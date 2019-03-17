@@ -13,6 +13,6 @@ namespace Web.Models.Blocks
         public Align Align { get; set; }
         public bool Italic { get; set; }
         public bool Bold { get; set; }
-        public DateTimeFormatDetails Format { get; set; }
+        public DateTimeFormat Format { get; set; }
     }
 }

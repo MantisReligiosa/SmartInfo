@@ -3,7 +3,8 @@
 
 	self.textColor = ko.observable();
 	self.backColor = ko.observable();
-	self.selectedFonts = ko.observableArray([""]);
+    self.selectedFonts = ko.observableArray([""]);
+    self.selectedFormats = ko.observableArray([""]);
     self.selectedFontSizes = ko.observableArray([""]);
     self.selectedFontIndexes = ko.observableArray([""]);
     self.align = ko.observable(0);
@@ -13,7 +14,12 @@
 	self.setFont = function (font) {
 		self.selectedFonts.removeAll();
 		self.selectedFonts.push(font);
-	};
+    };
+
+    self.setFormat = function (format) {
+        self.selectedFormats.removeAll();
+        self.selectedFormats.push(format);
+    };
 
 	self.setFontSize = function (fontSize) {
 	    self.selectedFontSizes.removeAll();
@@ -26,7 +32,6 @@
     };
 
     self.initializeControls = function () {
-        debugger;
         $('#datetimeBlockBackgroundCP').colorpicker({
             format: "rgba"
         });

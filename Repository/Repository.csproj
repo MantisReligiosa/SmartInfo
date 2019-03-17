@@ -83,6 +83,10 @@
     <Compile Include="Migrations\201903161021344_DateTimeBlockDetails.Designer.cs">
       <DependentUpon>201903161021344_DateTimeBlockDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903171705139_DatetimeFormat.cs" />
+    <Compile Include="Migrations\201903171705139_DatetimeFormat.Designer.cs">
+      <DependentUpon>201903171705139_DatetimeFormat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueuedTasks\GuidTask.cs" />
@@ -123,6 +127,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903161021344_DateTimeBlockDetails.resx">
       <DependentUpon>201903161021344_DateTimeBlockDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903171705139_DatetimeFormat.resx">
+      <DependentUpon>201903171705139_DatetimeFormat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

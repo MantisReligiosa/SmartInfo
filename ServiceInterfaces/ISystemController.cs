@@ -13,6 +13,6 @@ namespace ServiceInterfaces
         IEnumerable<string> GetFonts();
         IEnumerable<double> GetFontHeightIndex();
         string GetVersion();
-        IEnumerable<DateTimeFormatDetails> GetDatetimeFormats();
+        IEnumerable<DateTimeFormat> GetDatetimeFormats();
     }
 }

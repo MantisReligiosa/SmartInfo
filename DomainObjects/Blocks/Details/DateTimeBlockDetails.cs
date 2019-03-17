@@ -10,7 +10,7 @@
         public bool Italic { get; set; }
         public bool Bold { get; set; }
         public double FontIndex { get; set; }
-        public DateTimeFormatDetails Format { get; set; }
+        public DateTimeFormat Format { get; set; }
 
         public DateTimeBlockDetails() { }
 

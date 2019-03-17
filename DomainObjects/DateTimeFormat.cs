@@ -1,6 +1,6 @@
 ﻿namespace DomainObjects
 {
-    public class DateTimeFormatDetails : Identity
+    public class DateTimeFormat : Identity
     {
         public string Denomination { get; set; }
         public string ShowtimeFormat { get; set; }

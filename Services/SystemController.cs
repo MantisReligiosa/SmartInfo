@@ -126,9 +126,9 @@ namespace Services
             return $"v{responce.Major}.{responce.Minor}.{responce.Build}";
         }
 
-        public IEnumerable<DateTimeFormatDetails> GetDatetimeFormats()
+        public IEnumerable<DateTimeFormat> GetDatetimeFormats()
         {
-            return _unitOfWork.DateTimeFormatDetails.GetAll();
+            return _unitOfWork.DateTimeFormats.GetAll();
         }
     }
 }

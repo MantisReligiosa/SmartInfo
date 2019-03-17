@@ -13,6 +13,15 @@
     <select class="form-control fontSizePicker d-inline" data-bind="options: $parent.fontIndexes, selectedOptions:selectedFontIndexes"></select>
 </div>
 
+<div class="form-group">
+    <label class="d-inline">Формат</label>
+    <select class="form-control fontPicker d-inline" id="sel1" data-bind="selectedOptions:selectedFormats">
+        <!-- ko foreach: $parent.datetimeformats()-->
+        <option data-bind="text:$data.denomination, value:$data"></option>
+        <!-- /ko-->
+    </select>
+</div>
+
 @*<div class="form-group">
     <div id="textBlockText" class="input-group">
         <div class="input-group-prepend">
