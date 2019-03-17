@@ -42,8 +42,22 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка загрузки шрифтов", ex);
+                    var exception = new Exception("Ошибка загрузки шрифтов", ex);
+                    logger.Error(exception);
+                    throw exception;
+                }
+            };
+            Post["/api/datetimeformats"] = parameters =>
+            {
+                try
+                {
+                    return Response.AsJson(systemController.GetDatetimeFormats());
+                }
+                catch (Exception ex)
+                {
+                    var exception = new Exception("Ошибка загрузки форматов даты/времени", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/screenResolution"] = parameters =>
@@ -70,8 +84,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка загрузки информации о экранах", ex);
+                    var exception = new Exception("Ошибка загрузки информации о экранах", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/setBackground"] = parameters =>
@@ -84,8 +99,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка установки фона", ex);
+                    var exception = new Exception("Ошибка установки фона", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Get["/api/background"] = parameters =>
@@ -96,8 +112,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка загрузки фона", ex);
+                    var exception = new Exception("Ошибка загрузки фона", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/addTextBlock"] = parameters =>
@@ -110,8 +127,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка добавления текстового блока", ex);
+                    var exception = new Exception("Ошибка добавления текстового блока", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/addTableBlock"] = parameters =>
@@ -124,8 +142,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка добавления таблицы", ex);
+                    var exception = new Exception("Ошибка добавления таблицы", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/addPictureBlock"] = parameters =>
@@ -138,8 +157,24 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка добавления картинки", ex);
+                    var exception = new Exception("Ошибка добавления картинки", ex);
+                    logger.Error(exception);
+                    throw exception;
+                }
+            };
+            Post["/api/addDateTimeBlock"] = parameters =>
+            {
+                try
+                {
+                    var dateTimeBlock = blockController.AddDateTimeBlock();
+                    var block = _mapper.Map<DateTimeBlockDto>(dateTimeBlock);
+                    return Response.AsJson(block);
+                }
+                catch (Exception ex)
+                {
+                    var exception = new Exception("Ошибка добавления блока даты/времени", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Get["/api/blocks"] = parameters =>
@@ -151,8 +186,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка загрузки блоков", ex);
+                    var exception = new Exception("Ошибка загрузки блоков", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/moveAndResize"] = parameters =>
@@ -165,40 +201,32 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка изменения размеров и положения блока", ex);
+                    var exception = new Exception("Ошибка изменения размеров и положения блока", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/saveBlock"] = parameters =>
             {
+                var savers = new Dictionary<string, Action>()
+                {
+                    { "text", () => SaveBlock<TextBlock, TextBlockDto>(b => blockController.SaveTextBlock(b)) },
+                    { "table", () => SaveBlock<TableBlock, TableBlockDto>(b => blockController.SaveTableBlock(b)) },
+                    { "picture", () => SaveBlock<PictureBlock, PictureBlockDto>(b => blockController.SavePictureBlock(b)) },
+                    { "datetime", () => SaveBlock<DateTimeBlock, DateTimeBlockDto>(b => blockController.SaveDateTimeBlock(b)) }
+                };
+
                 try
                 {
                     var data = this.Bind<BlockDto>();
-                    if (data.Type.Equals("text", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        var b = this.Bind<TextBlockDto>();
-                        var block = _mapper.Map<TextBlock>(b);
-                        blockController.SaveTextBlock(block);
-                    }
-                    else if (data.Type.Equals("table", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        var b = this.Bind<TableBlockDto>();
-                        var block = _mapper.Map<TableBlock>(b);
-                        blockController.SaveTableBlock(block);
-                    }
-                    else if (data.Type.Equals("picture", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        var b = this.Bind<PictureBlockDto>();
-                        var block = _mapper.Map<PictureBlock>(b);
-                        blockController.SavePictureBlock(block);
-                    }
-
+                    savers.First(kvp => kvp.Key.Equals(data.Type, StringComparison.InvariantCultureIgnoreCase)).Value.Invoke();
                     return Response.AsJson(true);
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка сохранения блоков", ex);
+                    var exception = new Exception("Ошибка сохранения блоков", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/deleteBlock"] = parameters =>
@@ -211,41 +239,31 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-
-                    logger.Error(ex);
-                    throw new Exception("Ошибка удаления блоков", ex);
+                    var exception = new Exception("Ошибка удаления блоков", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/copyBlock"] = parameters =>
             {
+                var copiers = new Dictionary<string, Func<object>>
+                {
+                    { "text" , () => CopyBlock<TextBlock, TextBlockDto>(b => blockController.CopyTextBlock(b)) },
+                    { "table" , () => CopyBlock<TableBlock, TableBlockDto>(b => blockController.CopyTableBlock(b)) },
+                    { "picture" , () => CopyBlock<PictureBlock, PictureBlockDto>(b => blockController.CopyPictureBlock(b)) },
+                    { "datetime" , () => CopyBlock<DateTimeBlock, DateTimeBlockDto>(b => blockController.CopyDateTimeBlock(b)) }
+                };
+
                 try
                 {
                     var data = this.Bind<BlockDto>();
-                    if (data.Type.Equals("text", System.StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        var b = this.Bind<TextBlockDto>();
-                        var block = _mapper.Map<TextBlock>(b);
-                        return _mapper.Map<TextBlockDto>(blockController.CopyTextBlock(block));
-                    }
-                    else if (data.Type.Equals("table", System.StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        var b = this.Bind<TableBlockDto>();
-                        var block = _mapper.Map<TableBlock>(b);
-                        return _mapper.Map<TableBlockDto>(blockController.CopyTableBlock(block));
-                    }
-                    else if (data.Type.Equals("picture", System.StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        var b = this.Bind<PictureBlockDto>();
-                        var block = _mapper.Map<PictureBlock>(b);
-                        return _mapper.Map<PictureBlockDto>(blockController.CopyPictureBlock(block));
-                    }
-
-                    return Response.AsJson(true);
+                    return copiers.First(kvp => kvp.Key.Equals(data.Type, StringComparison.InvariantCultureIgnoreCase)).Value.Invoke();
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка копирования блоков", ex);
+                    var exception = new Exception("Ошибка копирования блоков", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/startShow"] = parameters =>
@@ -257,8 +275,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка запуска презентации", ex);
+                    var exception = new Exception("Ошибка запуска полноэкранного режима", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/stopShow"] = parameters =>
@@ -271,8 +290,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка остановки презентации", ex);
+                    var exception = new Exception("Ошибка остановки полноэкранного режима", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Post["/api/parseCSV"] = parameters =>
@@ -308,8 +328,9 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка чтения csv", ex);
+                    var exception = new Exception("Ошибка чтения csv", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
             Get["/api/downloadConfig"] = parameters =>
@@ -330,8 +351,10 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка выгрузки конфигурации", ex);
+                    var exception = new Exception("Ошибка выгрузки конфигурации", ex);
+                    logger.Error(exception);
+                    throw exception;
+
                 }
             };
             Post["/api/uploadConfig"] = parameters =>
@@ -364,10 +387,29 @@ namespace Web.Modules
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
-                    throw new Exception("Ошибка загрузки конфигурации", ex);
+                    var exception = new Exception("Ошибка загрузки конфигурации", ex);
+                    logger.Error(exception);
+                    throw exception;
                 }
             };
+        }
+
+        private void SaveBlock<TBlock, TBlockDto>(Action<TBlock> saveAction)
+            where TBlock : DisplayBlock
+            where TBlockDto : BlockDto
+        {
+            var b = this.Bind<TBlockDto>();
+            var block = _mapper.Map<TBlock>(b);
+            saveAction.Invoke(block);
+        }
+
+        private TBlockDto CopyBlock<TBlock, TBlockDto>(Func<TBlock, TBlock> copyFunction)
+            where TBlock : DisplayBlock
+            where TBlockDto : BlockDto
+        {
+            var b = this.Bind<TBlockDto>();
+            var block = _mapper.Map<TBlock>(b);
+            return _mapper.Map<TBlockDto>(copyFunction(block));
         }
 
         private IEnumerable<BlockDto> GetBlocks(IBlockController blockController)
@@ -387,6 +429,11 @@ namespace Web.Modules
                 if (b is PictureBlock pictureBlock)
                 {
                     var block = _mapper.Map<PictureBlockDto>(pictureBlock);
+                    return block;
+                }
+                if (b is DateTimeBlock dateTimeBlock)
+                {
+                    var block = _mapper.Map<DateTimeBlockDto>(dateTimeBlock);
                     return block;
                 }
                 return new BlockDto

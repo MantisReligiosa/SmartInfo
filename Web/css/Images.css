@@ -131,6 +131,10 @@
     background: url('../Images/displays_off_large.png') no-repeat center center;
 }
 
+.displays-off {
+    background: url('../Images/displays_off.png') no-repeat center center;
+}
+
 .displays-refesh {
     background: url('../Images/displays_refresh.png') no-repeat center center;
 }

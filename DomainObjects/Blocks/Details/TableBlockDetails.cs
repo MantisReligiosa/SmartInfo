@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace DomainObjects.Blocks.Details
 {
-    public class TableBlockDetails : BlockDetails
+    public class TableBlockDetails: Identity, ICopyable<TableBlockDetails>
     {
         public string FontName { get; set; }
         public int FontSize { get; set; }
@@ -18,14 +18,19 @@ namespace DomainObjects.Blocks.Details
         public TableBlockDetails(TableBlockDetails source)
         {
 
-            HeaderDetails = new TableBlockRowDetails(source.HeaderDetails);
-            EvenRowDetails = new TableBlockRowDetails(source.EvenRowDetails);
-            OddRowDetails = new TableBlockRowDetails(source.OddRowDetails);
+            CopyFrom(source);
+        }
+
+        public void CopyFrom(TableBlockDetails source)
+        {
+            HeaderDetails.CopyFrom(source.HeaderDetails);
+            EvenRowDetails.CopyFrom(source.EvenRowDetails);
+            OddRowDetails.CopyFrom(source.OddRowDetails);
             FontName = source.FontName;
             FontSize = source.FontSize;
             FontIndex = source.FontIndex;
             Cells = new List<TableBlockCellDetails>();
-            foreach(var cell in source.Cells)
+            foreach (var cell in source.Cells)
             {
                 Cells.Add(new TableBlockCellDetails(cell));
             }

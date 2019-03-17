@@ -5,10 +5,12 @@ function masterViewModel(app) {
     self.fonts = ko.observableArray([]);
     self.fontSizes = ko.observableArray([]);
     self.fontIndexes = ko.observableArray([]);
+    self.datetimeformats = ko.observableArray([]);
     self.screenHeight = ko.observable();
     self.screenWidth = ko.observable();
     self.screens = ko.observableArray();
     self.blocks = ko.observableArray();
+
     self.selectedBlock = ko.observable();
     self.gridSteps = ko.observableArray([5, 10, 20, 25, 50]);
     self.selectedGridSteps = ko.observableArray([5]);
@@ -41,6 +43,7 @@ function masterViewModel(app) {
     self.textBlockEditViewModel = ko.computed(function () { return new TextBlockEditViewModel(self); });
     self.tableBlockEditViewModel = ko.computed(function () { return new TableBlockEditViewModel(self); });
     self.pictureBlockEditViewModel = ko.computed(function () { return new PictureBlockEditViewModel(self); });
+    self.datetimeBlockEditViewModel = ko.computed(function () { return new DatetimeBlockEditViewModel(self); });
     self.positionViewModel = ko.computed(function () { return new PositionViewModel(self); });
     self.backgroundPropertiesMode = ko.observable(true);
 
@@ -95,6 +98,19 @@ function masterViewModel(app) {
             {},
             function (data) {
                 data.selected = false;
+                self.blocks.push(data);
+            }
+        );
+    }
+
+    self.addDateTimeBlock = function () {
+        app.request(
+            "POST",
+            "api/addDateTimeBlock",
+            {},
+            function (data) {
+                data.selected = false;
+                data.text = '';
                 self.blocks.push(data);
             }
         );
@@ -164,6 +180,17 @@ function masterViewModel(app) {
             self.textBlockEditViewModel().italic(block.italic);
             self.textBlockEditViewModel().bold(block.bold);
         };
+        if (block.type === 'datetime') {
+            self.datetimeBlockEditViewModel().backColor(block.backColor);
+            self.datetimeBlockEditViewModel().textColor(block.textColor);
+            self.datetimeBlockEditViewModel().setFont(block.font);
+            self.datetimeBlockEditViewModel().setFontSize(block.fontSize);
+            self.datetimeBlockEditViewModel().setFontIndex(block.fontIndex);
+            self.datetimeBlockEditViewModel().setFormat(block.format);
+            self.datetimeBlockEditViewModel().align(block.align.toString());
+            self.datetimeBlockEditViewModel().italic(block.italic);
+            self.datetimeBlockEditViewModel().bold(block.bold);
+        };
         if (block.type === 'table') {
             self.tableBlockEditViewModel().setFont(block.font);
             self.tableBlockEditViewModel().setFontSize(block.fontSize);
@@ -211,6 +238,18 @@ function masterViewModel(app) {
             block.align = self.textBlockEditViewModel().align();
             block.italic = self.textBlockEditViewModel().italic();
             block.bold = self.textBlockEditViewModel().bold();
+        };
+        if (block.type === 'datetime') {
+            self.blocks.remove(block);
+            block.backColor = self.datetimeBlockEditViewModel().backColor();
+            block.textColor = self.datetimeBlockEditViewModel().textColor();
+            block.font = self.datetimeBlockEditViewModel().selectedFonts()[0];
+            block.fontSize = self.datetimeBlockEditViewModel().selectedFontSizes()[0];
+            block.fontIndex = self.datetimeBlockEditViewModel().selectedFontIndexes()[0];
+            block.format = self.datetimeBlockEditViewModel().selectedFormats()[0];
+            block.align = self.datetimeBlockEditViewModel().align();
+            block.italic = self.datetimeBlockEditViewModel().italic();
+            block.bold = self.datetimeBlockEditViewModel().bold();
         };
         if (block.type === 'table') {
             self.blocks.remove(block);
@@ -394,6 +433,7 @@ function masterViewModel(app) {
         initializeControls();
         loadFonts()
             .then(function () { return loadResolution(); })
+            .then(function () { return loadDatetimeFormats(); })
             .then(function () { return loadBackground(); })
             .then(function () { return loadBlocks(); });
         initReact();
@@ -411,6 +451,7 @@ function masterViewModel(app) {
 
         self.textBlockEditViewModel().initializeControls();
         self.tableBlockEditViewModel().initializeControls();
+        self.datetimeBlockEditViewModel().initializeControls();
     };
 
     initReact = function () {
@@ -487,38 +528,74 @@ function masterViewModel(app) {
         var block = self.blocks.remove(function (block) { return block.id === id; })[0];
         var w = +target.getAttribute('data-w');
         var h = +target.getAttribute('data-h');
-        if (w > 0) {
-            if (self.gridEnabled()) {
-                w = adjustToStep(w);
-            }
-            block.width = w;
+        if (w == 0) {
+            w = block.width;
         }
-        if (h > 0) {
-            if (self.gridEnabled) {
-                h = adjustToStep(h);
-            }
-            block.height = h;
+        if (h == 0) {
+            h = block.height;
         }
-        var dataX = target.getAttribute('data-x');
+        if (self.gridEnabled()) {
+            w = adjustToStep(w);
+            h = adjustToStep(h);
+        }
+
         var x = +target.getAttribute('data-x') + block.left;
         var y = +target.getAttribute('data-y') + block.top;
+        var screen = self.screens().find(function (screen) {
+            return pointInScreen(screen, x, y)
+                && pointInScreen(screen, x + w, y)
+                && pointInScreen(screen, x, y + h)
+                && pointInScreen(screen, x + w, y + h);
+        });
 
-        if (self.gridEnabled()) {
-            var screen = self.screens().find(function (screen) {
-                return screen.left <= x && screen.left + screen.width >= x && screen.top <= y && screen.top + screen.height >= y;
+        var isInScreens = (screen != null);
+        if (!isInScreens) {
+            var screenLeft = self.screens().find(function (screen) {
+                return pointInScreen(screen, x, y)
+                    && pointInScreen(screen, x, y + h);
             });
-            var deltaX = x - screen.left;
-            var deltaY = y - screen.top;
-            x = screen.left + adjustToStep(deltaX);
-            y = screen.top + adjustToStep(deltaY);
-        };
+            var screenRight = self.screens().find(function (screen) {
+                return pointInScreen(screen, x + w, y)
+                    && pointInScreen(screen, x + w, y + h);
+            });
+            isInScreens = (screenLeft != null) && (screenRight != null);
+            screen = screenLeft;
+        }
 
-        block.left = x;
-        block.top = y;
+        if (!isInScreens) {
+            var screenTop = self.screens().find(function (screen) {
+                return pointInScreen(screen, x, y)
+                    && pointInScreen(screen, x + w, y);
+            });
+            var screenBottom = self.screens().find(function (screen) {
+                return pointInScreen(screen, x, y + h)
+                    && pointInScreen(screen, x + w, y + h);
+            });
+            isInScreens = (screenTop != null) && (screenBottom != null);
+            screen = screenTop;
+        }
+
+        if (isInScreens) {
+            if (self.gridEnabled()) {
+
+                var deltaX = x - screen.left;
+                var deltaY = y - screen.top;
+                x = screen.left + adjustToStep(deltaX);
+                y = screen.top + adjustToStep(deltaY);
+            };
+            block.width = w;
+            block.height = h;
+            block.left = x;
+            block.top = y;
+        }
         self.blocks.push(block);
         selectBlock(block);
         resizeAndMoveBlock(block);
     };
+
+    pointInScreen = function (screen, x, y) {
+        return screen.left <= x && screen.left + screen.width >= x && screen.top <= y && screen.top + screen.height >= y;
+    }
 
     resizeAndMoveBlock = function (block) {
         app.request(
@@ -549,6 +626,19 @@ function masterViewModel(app) {
         );
     };
 
+    var timer = setInterval(function () {
+        updateDatetimeBlocksValues();
+    }, 100);
+
+    updateDatetimeBlocksValues = function () {
+        var datetimeblocks = $(".datetimeblock");
+        datetimeblocks.each(function (index) {
+            var datetimeFormat = this.getAttribute('datetimeformat');
+            var datetime = moment().format(datetimeFormat);
+            $(this).text(datetime);
+        });
+    }
+
     loadBlocks = function () {
         app.request(
             "GET",
@@ -557,6 +647,10 @@ function masterViewModel(app) {
             function (data) {
                 data.forEach(function (block) {
                     block.selected = false;
+                    if (block.type = 'datetime') {
+                        block.text = ''
+                        block.format = (block.format == undefined) ? null : block.format
+                    }
                     self.blocks.push(block);
                 });
 
@@ -632,6 +726,18 @@ function masterViewModel(app) {
                     });
                     data.indexes.forEach(function (entry) {
                         self.fontIndexes.push(entry);
+                    });
+                    resolve();
+                });
+            });
+    }
+
+    loadDatetimeFormats = function () {
+        return new Promise(
+            function (resolve, reject) {
+                app.request("POST", "/api/datetimeformats", {}, function (data) {
+                    data.forEach(function (entry) {
+                        self.datetimeformats.push(entry);
                     });
                     resolve();
                 });

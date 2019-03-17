@@ -180,6 +180,9 @@
     <Content Include="Images\border.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\border1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\color_large.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -295,6 +298,9 @@
     <Content Include="Script\app\tableBlockEdit.viewmodel.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Script\app\datetimeBlockEdit.viewmodel.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Script\app\_run.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -339,6 +345,7 @@
     <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Models\Blocks\Binders\FromBodyJsonBinder.cs" />
     <Compile Include="Models\Blocks\BlockDto.cs" />
+    <Compile Include="Models\Blocks\DateTimeBlockDto.cs" />
     <Compile Include="Models\Blocks\PictureBlockDto.cs" />
     <Compile Include="Models\Blocks\RowDto.cs" />
     <Compile Include="Models\Blocks\RowStyleDto.cs" />
@@ -359,6 +366,7 @@
     <Compile Include="Modules\Public.cs" />
     <Compile Include="Modules\Secured.cs" />
     <Compile Include="Profiles\AutoMapperConfig.cs" />
+    <Compile Include="Profiles\DateTimeBlockProfile.cs" />
     <Compile Include="Profiles\TableBlockProfile.cs" />
     <Compile Include="Profiles\PictureBlockProfile.cs" />
     <Compile Include="Profiles\TextBlockProfile.cs" />
@@ -410,6 +418,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Home\PictureBlockProperties.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\DatetimeBlockProperties.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Web.Debug.config">

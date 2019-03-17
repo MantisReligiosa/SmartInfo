@@ -29,7 +29,7 @@
                             <div class="ribbon-horizontal-button-text">Изображение</div>
                         </div>
                     </button>
-                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: addDateTimeBlock">
                         <div class="ribbon-horizontal-button-content">
                             <div class="block-datetime ribbon-small-icon"></div>
                             <div class="ribbon-horizontal-button-text">Дата/время</div>
@@ -99,7 +99,6 @@
                     </div>
                 </button>
                 <div class="ribbon-clip">
-
                     <div class="ribbon-row">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="exampleCheck1" data-bind="checked: gridEnabled">
@@ -124,7 +123,6 @@
                             </div>
                         </button>
                     </div>
-
                 </div>
             </div>
             <div class="panel-footer ribbon-group-title">
@@ -143,13 +141,19 @@
                         <div>Пуск</div>
                     </div>
                 </button>
-                <button class="btn btn-sm btn-light navbar-btn ribbon-element" style="width: 50px;" data-bind="click: stopShow">
-                    <div class="ribbon-vertical-button-content">
-                        <div class="displays-off-large ribbon-large-icon"></div>
-                        <div>Стоп</div>
-                    </div>
-                </button>
-                @*<div class="ribbon-clip">
+                @*<button class="btn btn-sm btn-light navbar-btn ribbon-element" style="width: 50px;" data-bind="click: stopShow">
+                        <div class="ribbon-vertical-button-content">
+                            <div class="displays-off-large ribbon-large-icon"></div>
+                            <div>Стоп</div>
+                        </div>
+                    </button>
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: resetDisplays">
+                        <div class="ribbon-vertical-button-content">
+                            <div class="system-large ribbon-large-icon"></div>
+                            <div>Обновить</div>
+                        </div>
+                    </button>*@
+                <div class="ribbon-clip">
                     <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: stopShow">
                         <div class="ribbon-horizontal-button-content">
                             <div class="displays-off ribbon-small-icon"></div>
@@ -162,13 +166,13 @@
                             <div class="ribbon-horizontal-button-text">Обновить</div>
                         </div>
                     </button>
-                    <button class="btn btn-sm btn-light navbar-btn ribbon-element">
-            <div class="ribbon-horizontal-button-content">
-                <div class="displays-test ribbon-small-icon"></div>
-                <div class="ribbon-horizontal-button-text">Тест</div>
-            </div>
-        </button>
-            </div>*@
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element" style="visibility:hidden">
+                        <div class="ribbon-horizontal-button-content">
+                            <div class="displays-test ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Тест</div>
+                        </div>
+                    </button>
+                </div>
             </div>
             <div class="panel-footer ribbon-group-title">
                 <label>
