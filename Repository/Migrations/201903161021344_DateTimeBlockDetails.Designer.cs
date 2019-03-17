@@ -7,13 +7,13 @@ namespace Repository.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class DisplayBlocks : IMigrationMetadata
+    public sealed partial class DateTimeBlockDetails : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DisplayBlocks));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(DateTimeBlockDetails));
         
         string IMigrationMetadata.Id
         {
-            get { return "201812021749577_DisplayBlocks"; }
+            get { return "201903161021344_DateTimeBlockDetails"; }
         }
         
         string IMigrationMetadata.Source

@@ -99,12 +99,10 @@ namespace Services
             };
         }
 
-
         public IEnumerable<int> GetFontSizes() => new List<int>
         {
             15, 30, 50, 75, 100, 125, 150, 200
         };
-
 
         public IEnumerable<double> GetFontHeightIndex() => new List<double>
         {
@@ -126,6 +124,11 @@ namespace Services
             var responce = broker.GetResponce(new GetVersionRequest()) as GetVersionResponce;
 
             return $"v{responce.Major}.{responce.Minor}.{responce.Build}";
+        }
+
+        public IEnumerable<DateTimeFormat> GetDatetimeFormats()
+        {
+            return _unitOfWork.DateTimeFormats.GetAll();
         }
     }
 }

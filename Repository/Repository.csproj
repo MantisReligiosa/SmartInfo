@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\DateTimeDetailsConfiguration.cs" />
     <Compile Include="Configurations\PictureBlockDetailsConfiguration.cs" />
     <Compile Include="Configurations\TableBlockCellDetailsConfiguration.cs" />
     <Compile Include="Configurations\TableBlockDetailsConfiguration.cs" />
@@ -78,33 +79,13 @@
     <Compile Include="Migrations\201812021749577_DisplayBlocks.Designer.cs">
       <DependentUpon>201812021749577_DisplayBlocks.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812021922076_ParametersOverview.cs" />
-    <Compile Include="Migrations\201812021922076_ParametersOverview.Designer.cs">
-      <DependentUpon>201812021922076_ParametersOverview.cs</DependentUpon>
+    <Compile Include="Migrations\201903161021344_DateTimeBlockDetails.cs" />
+    <Compile Include="Migrations\201903161021344_DateTimeBlockDetails.Designer.cs">
+      <DependentUpon>201903161021344_DateTimeBlockDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812130541575_DisplayBlocksDetails.cs" />
-    <Compile Include="Migrations\201812130541575_DisplayBlocksDetails.Designer.cs">
-      <DependentUpon>201812130541575_DisplayBlocksDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812261631594_TextBlockDetails.cs" />
-    <Compile Include="Migrations\201812261631594_TextBlockDetails.Designer.cs">
-      <DependentUpon>201812261631594_TextBlockDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901011632128_TableBlockDetails.cs" />
-    <Compile Include="Migrations\201901011632128_TableBlockDetails.Designer.cs">
-      <DependentUpon>201901011632128_TableBlockDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901120437051_ZIndex.cs" />
-    <Compile Include="Migrations\201901120437051_ZIndex.Designer.cs">
-      <DependentUpon>201901120437051_ZIndex.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901120807598_PictureBlockDetails.cs" />
-    <Compile Include="Migrations\201901120807598_PictureBlockDetails.Designer.cs">
-      <DependentUpon>201901120807598_PictureBlockDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901141724230_fontIndex.cs" />
-    <Compile Include="Migrations\201901141724230_fontIndex.Designer.cs">
-      <DependentUpon>201901141724230_fontIndex.cs</DependentUpon>
+    <Compile Include="Migrations\201903171705139_DatetimeFormat.cs" />
+    <Compile Include="Migrations\201903171705139_DatetimeFormat.Designer.cs">
+      <DependentUpon>201903171705139_DatetimeFormat.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,26 +125,11 @@
     <EmbeddedResource Include="Migrations\201812021749577_DisplayBlocks.resx">
       <DependentUpon>201812021749577_DisplayBlocks.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812021922076_ParametersOverview.resx">
-      <DependentUpon>201812021922076_ParametersOverview.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903161021344_DateTimeBlockDetails.resx">
+      <DependentUpon>201903161021344_DateTimeBlockDetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812130541575_DisplayBlocksDetails.resx">
-      <DependentUpon>201812130541575_DisplayBlocksDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812261631594_TextBlockDetails.resx">
-      <DependentUpon>201812261631594_TextBlockDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901011632128_TableBlockDetails.resx">
-      <DependentUpon>201901011632128_TableBlockDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901120437051_ZIndex.resx">
-      <DependentUpon>201901120437051_ZIndex.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901120807598_PictureBlockDetails.resx">
-      <DependentUpon>201901120807598_PictureBlockDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901141724230_fontIndex.resx">
-      <DependentUpon>201901141724230_fontIndex.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903171705139_DatetimeFormat.resx">
+      <DependentUpon>201903171705139_DatetimeFormat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

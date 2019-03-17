@@ -53,7 +53,6 @@ namespace Services
                 Width = 200,
                 Details = new TextBlockDetails
                 {
-                    //Text = "Текст",
                     BackColor = "#ffffff",
                     TextColor = "#000000",
                     FontName = _systemController.GetFonts().First(),
@@ -103,27 +102,7 @@ namespace Services
                         Bold = false,
                         Italic = true,
                     },
-                    Cells = new List<TableBlockCellDetails>
-                    {
-                        /*
-                        new TableBlockCellDetails{Row=0, Column=0, Value = "Header1"},
-                        new TableBlockCellDetails{Row=0, Column=1, Value = "Header2"},
-                        new TableBlockCellDetails{Row=0, Column=2, Value = "Header3"},
-                        new TableBlockCellDetails{Row=0, Column=3, Value = "Header4"},
-                        new TableBlockCellDetails{Row=1, Column=0, Value = "Cell11"},
-                        new TableBlockCellDetails{Row=1, Column=1, Value = "Cell12"},
-                        new TableBlockCellDetails{Row=1, Column=2, Value = "Cell13"},
-                        new TableBlockCellDetails{Row=1, Column=3, Value = "Cell14"},
-                        new TableBlockCellDetails{Row=2, Column=0, Value = "Cell21"},
-                        new TableBlockCellDetails{Row=2, Column=1, Value = "Cell22"},
-                        new TableBlockCellDetails{Row=2, Column=2, Value = "Cell23"},
-                        new TableBlockCellDetails{Row=2, Column=3, Value = "Cell24"},
-                        new TableBlockCellDetails{Row=3, Column=0, Value = "Cell31"},
-                        new TableBlockCellDetails{Row=3, Column=1, Value = "Cell32"},
-                        new TableBlockCellDetails{Row=3, Column=2, Value = "Cell33"},
-                        new TableBlockCellDetails{Row=3, Column=3, Value = "Cell34"}
-                        */
-                    },
+                    Cells = new List<TableBlockCellDetails>(),
                 }
             }) as TableBlock;
             _unitOfWork.Complete();
@@ -138,16 +117,33 @@ namespace Services
                 Width = 50,
                 Details = new PictureBlockDetails()
             }) as PictureBlock;
-            /*
-            using (var stream = new MemoryStream())
-            {
-                Resources.DefImage.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                block.Details.Base64Image = Convert.ToBase64String(stream.ToArray());
-            }
-            */
             _unitOfWork.Complete();
             return block;
         }
+
+        public DateTimeBlock AddDateTimeBlock()
+        {
+            var block = _unitOfWork.DisplayBlocks.Create(new DateTimeBlock
+            {
+                Height = 50,
+                Width = 50,
+                Details = new DateTimeBlockDetails
+                {
+                    BackColor = "#ffffff",
+                    TextColor = "#000000",
+                    FontName = _systemController.GetFonts().First(),
+                    FontSize = _systemController.GetFontSizes().First(),
+                    //Format = _systemController.GetDatetimeFormats().First(),
+                    FontIndex = 1.5,
+                    Align = Align.Left,
+                    Bold = false,
+                    Italic = false
+                }
+            }) as DateTimeBlock;
+            _unitOfWork.Complete();
+            return block;
+        }
+
 
         public void SaveTextBlock(TextBlock textBlock)
         {
@@ -160,7 +156,6 @@ namespace Services
                 block.CopyFrom(textBlock);
                 _unitOfWork.DisplayBlocks.Update(block);
             }
-            //_unitOfWork.Complete();
         }
 
         public void SaveTableBlock(TableBlock tableBlock)
@@ -204,7 +199,6 @@ namespace Services
                 }
                 _unitOfWork.DisplayBlocks.Update(block);
             }
-            //_unitOfWork.Complete();
         }
 
         public void SavePictureBlock(PictureBlock pictureBlock)
@@ -218,27 +212,47 @@ namespace Services
                 block.CopyFrom(pictureBlock);
                 _unitOfWork.DisplayBlocks.Update(block);
             }
-            //_unitOfWork.Complete();
+        }
+
+        public void SaveDateTimeBlock(DateTimeBlock dateTimeBlock)
+        {
+            if (dateTimeBlock.Details.Format!=null)
+            {
+                var format = _unitOfWork.DateTimeFormats.Get(dateTimeBlock.Details.Format.Id);
+                dateTimeBlock.Details.Format = format;
+            }
+            if (!(_unitOfWork.DisplayBlocks.Get(dateTimeBlock.Id) is DateTimeBlock block))
+            {
+                _unitOfWork.DisplayBlocks.Create(dateTimeBlock);
+            }
+            else
+            {
+                block.CopyFrom(dateTimeBlock);
+                _unitOfWork.DisplayBlocks.Update(block);
+            }
         }
 
         public TextBlock CopyTextBlock(TextBlock source)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new TextBlock(source)) as TextBlock;
-            //_unitOfWork.Complete();
             return block;
         }
 
         public TableBlock CopyTableBlock(TableBlock source)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new TableBlock(source)) as TableBlock;
-            //_unitOfWork.Complete();
             return block;
         }
 
         public PictureBlock CopyPictureBlock(PictureBlock source)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new PictureBlock(source)) as PictureBlock;
-            //_unitOfWork.Complete();
+            return block;
+        }
+
+        public DateTimeBlock CopyDateTimeBlock(DateTimeBlock source)
+        {
+            var block = _unitOfWork.DisplayBlocks.Create(new DateTimeBlock(source)) as DateTimeBlock;
             return block;
         }
 
@@ -251,14 +265,12 @@ namespace Services
         public void DeleteBlock(Guid id)
         {
             _unitOfWork.DisplayBlocks.Delete(id);
-           // _unitOfWork.Complete();
         }
 
         public void Cleanup()
         {
             var blocks = _unitOfWork.DisplayBlocks.GetAll();
             _unitOfWork.DisplayBlocks.DeleteRange(blocks);
-            //_unitOfWork.Complete();
         }
 
         public void MoveAndResizeBlock(Guid id, int height, int width, int left, int top)
