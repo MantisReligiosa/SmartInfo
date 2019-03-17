@@ -85,6 +85,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Blocks\Builders\DateTimeBlockBuilder.cs" />
+    <Compile Include="TimerManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blocks\AbstractBuilder.cs" />

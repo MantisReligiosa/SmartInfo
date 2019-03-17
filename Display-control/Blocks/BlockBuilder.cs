@@ -12,7 +12,8 @@ namespace Display_control.Blocks
         {
             {typeof(TextBlock), new TextBlockBuilder() },
             {typeof(TableBlock), new TableBlockBuilder() },
-            {typeof(PictureBlock), new PictureBlockBuilder() }
+            {typeof(PictureBlock), new PictureBlockBuilder() },
+            {typeof(DateTimeBlock), new DateTimeBlockBuilder() }
         };
 
         public UIElement BuildElement(DisplayBlock displayBlock)
