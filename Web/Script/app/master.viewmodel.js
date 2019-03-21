@@ -16,6 +16,8 @@ function masterViewModel(app) {
     self.selectedGridSteps = ko.observableArray([5]);
     self.gridEnabled = ko.observable(true);
 
+    self.isPanelExpanded = ko.observable(true);
+
 
     self.zoomStep = ko.observable(5);
     self.scales = ko.observableArray([
@@ -114,6 +116,14 @@ function masterViewModel(app) {
                 self.blocks.push(data);
             }
         );
+    }
+
+    self.collapsePanel = function () {
+        self.isPanelExpanded(false);
+    }
+
+    self.expandPanel = function () {
+        self.isPanelExpanded(true);
     }
 
     self.showPosition = function () {

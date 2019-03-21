@@ -6,10 +6,10 @@
 	display: flex; margin-left:15px; margin-right:20px">
     <div style="flex: 1 1 auto;" class="leftPanel">
         <div style="text-align:right">
-            <button class="btn btn-sm ribbon-element arrow-left"></button>
-            <button class="btn btn-sm ribbon-element arrow-right"></button>
+            <button class="btn btn-sm ribbon-element arrow-left" data-bind="style:{display:isPanelExpanded()?'initial':'none'}, click:collapsePanel"></button>
+            <button class="btn btn-sm ribbon-element arrow-right" data-bind="style:{display:!isPanelExpanded()?'initial':'none'}, click:expandPanel"></button>
         </div>
-        <div>
+        <div class="panel-content" data-bind="style:{display:isPanelExpanded()?'block':'none'}">
             <label>123</label>
         </div>
     </div>
