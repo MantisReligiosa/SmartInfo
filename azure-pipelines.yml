@@ -23,12 +23,12 @@ steps:
 
 - script: |
     npm install
-    #grunt --gruntfile Gruntfile.js
+    grunt --gruntfile web/Gruntfile.js
   displayName: 'npm install'
 
-- task: Grunt@0
-  inputs:
-    gruntFile: 'web/gruntfile.js' 
+#- task: Grunt@0
+  #inputs:
+    #gruntFile: 'web/gruntfile.js' 
     #targets: # Optional
     #arguments: # Optional
     #workingDirectory: # Optional
