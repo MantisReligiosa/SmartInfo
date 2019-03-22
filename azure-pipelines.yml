@@ -28,7 +28,7 @@ steps:
 
 - task: Grunt@0
   inputs:
-    gruntFile: 'gruntfile.js' 
+    gruntFile: '$(solution)/gruntfile.js' 
     #targets: # Optional
     #arguments: # Optional
     #workingDirectory: # Optional
