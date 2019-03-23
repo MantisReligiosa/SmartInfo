@@ -21,10 +21,15 @@ steps:
     versionSpec: '8.x'
   displayName: 'Install Node.js'
 
-- script: |
-    npm install
-    grunt --gruntfile web/Gruntfile.js
-  displayName: 'npm install and run grunt'
+#- script: |
+#    npm install
+#    grunt --gruntfile web/Gruntfile.js
+#  displayName: 'npm install and run grunt'
+
+- task: Npm@1
+  inputs:
+  command: 'install'
+  workingDir: 'web'
 
 #- task: Grunt@0
   #inputs:
