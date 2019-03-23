@@ -131,7 +131,7 @@ Task("UpdateVersion")
 
 RunTarget("ReCreatePublishDir");
 
-RunTarget("UpdateVersion");
+//RunTarget("UpdateVersion");
 
 RunTarget("Build");
 
