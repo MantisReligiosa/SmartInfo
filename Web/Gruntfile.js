@@ -19,7 +19,8 @@ module.exports = function (grunt) {
                     'node_modules/toastr/build/toastr.min.js',
                     'node_modules/interact.js/dist/interact.min.js',
                     'node_modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
-                    'node_modules/moment/min/moment-with-locales.min.js'
+                    'node_modules/moment/min/moment-with-locales.min.js',
+                    'node_modules/bootstrap-treeview/dist/bootstrap-treeview.min.js'
                 ],
                 dest: 'Script/Vendor/vendor.js'
             },
@@ -27,7 +28,8 @@ module.exports = function (grunt) {
                 src: [
                     'node_modules/bootstrap/dist/css/bootstrap.css',
                     'node_modules/toastr/build/toastr.min.css',
-                    'node_modules/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css'
+                    'node_modules/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css',
+                    'node_modules/bootstrap-treeview/dist/bootstrap-treeview.min.css'
                 ],
                 dest: 'css/vendor.css'
             }

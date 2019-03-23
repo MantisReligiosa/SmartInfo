@@ -18,7 +18,6 @@ function masterViewModel(app) {
 
     self.isPanelExpanded = ko.observable(true);
 
-
     self.zoomStep = ko.observable(5);
     self.scales = ko.observableArray([
         { value: 10, label: "10%" },
@@ -662,8 +661,12 @@ function masterViewModel(app) {
                         block.format = (block.format == undefined) ? null : block.format
                     }
                     self.blocks.push(block);
+                    treenodes.push(
+                        {
+                            text: block.type
+                        });
                 });
-
+                //$('#blocksTree').treeview({ data: treenodes});
             }
         );
     }

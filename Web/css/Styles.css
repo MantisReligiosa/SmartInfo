@@ -95,8 +95,8 @@ div.tab-content {
     background-color: #fbfbfc;
 }
 
-.ribbon-element{
-    min-width:25px;
+.ribbon-element {
+    min-width: 25px;
 }
 
 .ribbon-toolbar > .ribbon-element {
@@ -191,8 +191,8 @@ input[type=number] {
 }
 
 .workspace {
-    margin-left:5px !important;
-    padding-left:0 !important;
+    margin-left: 5px !important;
+    padding-left: 0 !important;
     flex: 1 1 auto;
     overflow-y: scroll;
     position: relative;
@@ -287,4 +287,14 @@ input[type=number] {
     right: 15px;
     margin-top: 10px;
     margin-right: 25px;
+}
+
+.panel-content {
+    height: 100%;
+    width: 100%;
+}
+
+.blocksTree {
+    height: 100%;
+    width: 100px;
 }
