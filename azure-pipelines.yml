@@ -29,11 +29,11 @@ steps:
 - task: Npm@1
   inputs:
     command: 'install'
-    workingDir: 'web'
+    workingDir: 'Web'
 
 - task: Grunt@0
   inputs:
-    gruntFile: 'web/gruntfile.js' 
+    gruntFile: 'Web/gruntfile.js' 
     #targets: 'all'
     #arguments: # Optional
     #workingDirectory: # Optional
