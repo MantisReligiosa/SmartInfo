@@ -28,8 +28,8 @@ steps:
 
 - task: Npm@1
   inputs:
-  command: 'install'
-  workingDir: 'web'
+    command: 'install'
+    workingDir: 'web'
 
 - task: Grunt@0
   inputs:
