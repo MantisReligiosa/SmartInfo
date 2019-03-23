@@ -78,5 +78,5 @@ steps:
 
 - task: PublishPipelineArtifact@0
   inputs:
-    artifactName: 'relese'
+    artifactName: 'release'
     targetPath: '_publish'
