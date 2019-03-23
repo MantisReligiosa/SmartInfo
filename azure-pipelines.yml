@@ -34,7 +34,7 @@ steps:
 - task: Grunt@0
   inputs:
     gruntFile: 'Web/gruntfile.js' 
-    targets: 'all'
+    targets: all
     #arguments: # Optional
     #workingDirectory: # Optional
     #gruntCli: 'node_modules/grunt-cli/bin/grunt' 
