@@ -75,3 +75,8 @@ steps:
     #ignoreLASTEXITCODE: false # Optional
     #pwsh: false # Optional
     #workingDirectory: # Optional
+
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'relese'
+    targetPath: '_publish'
