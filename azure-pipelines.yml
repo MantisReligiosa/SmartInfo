@@ -31,9 +31,9 @@ steps:
   command: 'install'
   workingDir: 'web'
 
-#- task: Grunt@0
-  #inputs:
-    #gruntFile: 'web/gruntfile.js' 
+- task: Grunt@0
+  inputs:
+    gruntFile: 'web/gruntfile.js' 
     #targets: 'all'
     #arguments: # Optional
     #workingDirectory: # Optional
