@@ -16,7 +16,7 @@
     "interact.js": "1.2.8",
     "bootstrap": "4.1.0",
     "bootstrap-colorpicker": "3.0.3",
-    "bootstrap-treeview": "1.2.0",
+    "jstree": "3.3.7",
     "moment": "2.24.0"
   }
 }
