@@ -681,7 +681,11 @@ function masterViewModel(app) {
                                     'Child 2'
                                 ]
                             }
-                        ]
+                        ],
+                        "themes": {
+                            //"stripes": true,
+                            "dots": true
+                        },
                     }
                 });
             }

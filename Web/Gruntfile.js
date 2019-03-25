@@ -1,4 +1,4 @@
-/// <binding BeforeBuild='all' />
+/// <binding BeforeBuild='all' ProjectOpened='all' />
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
     grunt.initConfig({
@@ -28,12 +28,28 @@ module.exports = function (grunt) {
                 src: [
                     'node_modules/bootstrap/dist/css/bootstrap.css',
                     'node_modules/toastr/build/toastr.min.css',
-                    'node_modules/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css'
+                    'node_modules/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css',
+                    'node_modules/jstree/dist/themes/default/style.min.css'
                 ],
                 dest: 'css/vendor.css'
             }
-        }
+        },
+        copy: {
+            main: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: [
+                            'node_modules/jstree/dist/themes/default/*.png',
+                            'node_modules/jstree/dist/themes/default/*.gif'
+                        ],
+                        dest: 'assets/',
+                        filter: 'isFile'
+                    },
+                ],
+            },
+        },
     });
-
-    grunt.registerTask("all", ['clean', 'concat']);
+    grunt.registerTask("all", ['clean', 'concat', 'copy']);
 };

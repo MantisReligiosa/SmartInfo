@@ -84,6 +84,7 @@ div.tab-content {
     border-radius: .25rem;
     border-color: #bbb;
     background-color: #fbfbfc;
+    padding-bottom: 25px;
     /*margin-left:15px;*/
 }
 
@@ -292,6 +293,8 @@ input[type=number] {
 .panel-content {
     height: 100%;
     width: 100%;
+    overflow-x: scroll;
+    overflow-y: scroll;
 }
 
 .blocksTree {

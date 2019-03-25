@@ -139,9 +139,12 @@ namespace Web
 
         protected override void ConfigureConventions(NancyConventions nancyConventions)
         {
-            base.ConfigureConventions(nancyConventions);
+            //base.ConfigureConventions(nancyConventions);
+            nancyConventions.StaticContentsConventions.Clear();
             nancyConventions.StaticContentsConventions.Add(
-               StaticContentConventionBuilder.AddDirectory("Images", @"Images"));
+               StaticContentConventionBuilder.AddDirectory("Images", "Images"));
+            nancyConventions.StaticContentsConventions.Add(
+               StaticContentConventionBuilder.AddDirectory("css", "assets"));
         }
     }
 }
