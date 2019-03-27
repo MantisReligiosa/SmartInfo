@@ -76,6 +76,7 @@ function masterViewModel(app) {
             function (data) {
                 data.selected = false;
                 self.blocks.push(data);
+                $('#blocksTree').jstree().create_node(null, getNode(data));
             }
         );
     };
@@ -88,6 +89,7 @@ function masterViewModel(app) {
             function (data) {
                 data.selected = false;
                 self.blocks.push(data);
+                $('#blocksTree').jstree().create_node(null, getNode(data));
             }
         );
     }
@@ -100,6 +102,7 @@ function masterViewModel(app) {
             function (data) {
                 data.selected = false;
                 self.blocks.push(data);
+                $('#blocksTree').jstree().create_node(null, getNode(data));
             }
         );
     }
@@ -113,6 +116,7 @@ function masterViewModel(app) {
                 data.selected = false;
                 data.text = '';
                 self.blocks.push(data);
+                $('#blocksTree').jstree().create_node(null, getNode(data));
             }
         );
     }
@@ -639,6 +643,8 @@ function masterViewModel(app) {
         updateDatetimeBlocksValues();
     }, 100);
 
+    var treenodes = [];
+
     updateDatetimeBlocksValues = function () {
         var datetimeblocks = $(".datetimeblock");
         datetimeblocks.each(function (index) {
@@ -656,40 +662,28 @@ function masterViewModel(app) {
             function (data) {
                 data.forEach(function (block) {
                     block.selected = false;
-                    if (block.type = 'datetime') {
+                    if (block.type == 'datetime') {
                         block.text = ''
                         block.format = (block.format == undefined) ? null : block.format
                     }
                     self.blocks.push(block);
-                    treenodes.push(
-                        {
-                            text: block.type
-                        });
+                    treenodes.push(getNode(block));
                 });
                 $('#blocksTree').jstree({
                     'core': {
-                        'data': [
-                            'Simple root node',
-                            {
-                                'text': 'Root node 2',
-                                'state': {
-                                    'opened': true,
-                                    'selected': true
-                                },
-                                'children': [
-                                    { 'text': 'Child 1' },
-                                    'Child 2'
-                                ]
-                            }
-                        ],
+                        'check_callback': true,
+                        'data': treenodes,
                         "themes": {
-                            //"stripes": true,
                             "dots": true
                         },
                     }
                 });
-            }
-        );
+                $('#blocksTree').jstree().redraw(true);
+            });
+    }
+
+    getNode = function (block) {
+        return block.type;
     }
 
     loadResolution = function () {
