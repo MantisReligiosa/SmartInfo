@@ -300,4 +300,7 @@ input[type=number] {
 .blocksTree {
     height: 100%;
     width: 100px;
+    border-top-color: black;
+    border-top-style: dotted;
+    border-top-width: 1px;
 }

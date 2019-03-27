@@ -430,6 +430,13 @@ function masterViewModel(app) {
         self.blocks.push(bind);
         self.selectedBlock(bind);
         initializeControls();
+
+        var id = bind.id;
+        var nodeToSelect = treenodes.filter(function (index) {
+            return index.id == id;
+        })[0];
+        $('#blocksTree').jstree().select_node(nodeToSelect);
+
     };
 
     unselectBlocks = function () {
@@ -440,6 +447,7 @@ function masterViewModel(app) {
         });
         self.selectedBlock(null);
         initializeControls();
+        $('#blocksTree').jstree().deselect_all();
     }
 
     $(document).ready(function () {
@@ -669,7 +677,21 @@ function masterViewModel(app) {
                     self.blocks.push(block);
                     treenodes.push(getNode(block));
                 });
-                $('#blocksTree').jstree({
+                $('#blocksTree')
+                    .on('select_node.jstree', function (e, data) {
+                        var node = data.node;
+                        if (node.parent == '#') {
+                            var nodeId = node.id;
+                            var selectedBlock = self.selectedBlock();
+                            if (selectedBlock != null && selectedBlock.id == nodeId)
+                                return;
+                            var blockToSelect = self.blocks().filter(function (index) {
+                                return index.id == nodeId;
+                            })[0];
+                            selectBlock(blockToSelect);
+                        }
+                    })
+                    .jstree({
                     'core': {
                         'check_callback': true,
                         'data': treenodes,
@@ -683,7 +705,22 @@ function masterViewModel(app) {
     }
 
     getNode = function (block) {
-        return block.type;
+        var node = {};
+        node["text"] = block.type + ' id:' + block.id;
+        node["id"] = block.id;
+        if (block.type == "text") {
+            node["icon"] = "Images/block_text.png";
+        }
+        else if (block.type == "datetime") {
+            node["icon"] = "Images/block_calendar.png";
+        }
+        else if (block.type == "table") {
+            node["icon"] = "Images/block_table.png";
+        }
+        else if (block.type == "picture") {
+            node["icon"] = "Images/block_image.png";
+        }
+        return node;
     }
 
     loadResolution = function () {
