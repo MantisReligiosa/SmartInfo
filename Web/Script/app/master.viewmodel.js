@@ -107,6 +107,19 @@ function masterViewModel(app) {
         );
     }
 
+    self.addMetaBlock = function () {
+        app.request(
+            "POST",
+            "api/addMetaBlock",
+            {},
+            function (data) {
+                data.selected = false;
+                self.blocks.push(data);
+                $('#blocksTree').jstree().create_node(null, getNode(data));
+            }
+        );
+    }
+
     self.addDateTimeBlock = function () {
         app.request(
             "POST",
