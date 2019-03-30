@@ -319,15 +319,8 @@ function masterViewModel(app) {
             "/api/saveBlock",
             block,
             function (data) {
-                //var nodeToRename = treenodes.filter(function (index) {
-                //    return index.id == block.id;
-                //})[0];
-                //nodeToRename["text"] = block.caption;
-
                 var node = $('#blocksTree').jstree('get_selected');
                 $('#blocksTree').jstree(true).set_text(node, block.caption);
-
-
                 self.blocks.push(block);
             }
         );
@@ -769,7 +762,7 @@ function masterViewModel(app) {
         return new Promise(
             function (resolve, reject) {
                 app.request(
-                    "POST",
+                    "GET",
                     "/api/screenResolution",
                     {
                         refreshData: false
@@ -824,7 +817,7 @@ function masterViewModel(app) {
     loadFonts = function () {
         return new Promise(
             function (resolve, reject) {
-                app.request("POST", "/api/fonts", {}, function (data) {
+                app.request("GET", "/api/fonts", {}, function (data) {
                     data.fonts.forEach(function (entry) {
                         self.fonts.push(entry);
                     });
@@ -842,7 +835,7 @@ function masterViewModel(app) {
     loadDatetimeFormats = function () {
         return new Promise(
             function (resolve, reject) {
-                app.request("POST", "/api/datetimeformats", {}, function (data) {
+                app.request("GET", "/api/datetimeformats", {}, function (data) {
                     data.forEach(function (entry) {
                         self.datetimeformats.push(entry);
                     });

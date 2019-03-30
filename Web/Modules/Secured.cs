@@ -30,9 +30,9 @@ namespace Web.Modules
 
             Get["/master"] = parameters => View["Views/Home/Master.cshtml"];
             Get["/"] = parameters => View["Views/Home/Master.cshtml"];
-            Post["/api/fonts"] = GetFonts(systemController, logger);
-            Post["/api/datetimeformats"] = GetDatetimeFormats(systemController, logger);
-            Post["/api/screenResolution"] = GetScreenResolution(systemController, logger);
+            Get["/api/fonts"] = GetFonts(systemController, logger);
+            Get["/api/datetimeformats"] = GetDatetimeFormats(systemController, logger);
+            Get["/api/screenResolution"] = GetScreenResolution(systemController, logger);
             Post["/api/setBackground"] = SetBackground(blockController, logger);
             Get["/api/background"] = GetBackground(blockController, logger);
             Post["/api/addTextBlock"] = AddTextBlock(blockController, logger);
