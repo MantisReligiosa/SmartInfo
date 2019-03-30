@@ -100,6 +100,10 @@
     <Compile Include="Migrations\201903300927416_DisplayBlocksToMetaFrames.Designer.cs">
       <DependentUpon>201903300927416_DisplayBlocksToMetaFrames.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903301330090_MetablockFrameParams.cs" />
+    <Compile Include="Migrations\201903301330090_MetablockFrameParams.Designer.cs">
+      <DependentUpon>201903301330090_MetablockFrameParams.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueuedTasks\GuidTask.cs" />
@@ -152,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903300927416_DisplayBlocksToMetaFrames.resx">
       <DependentUpon>201903300927416_DisplayBlocksToMetaFrames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903301330090_MetablockFrameParams.resx">
+      <DependentUpon>201903301330090_MetablockFrameParams.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

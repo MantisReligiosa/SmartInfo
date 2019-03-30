@@ -9,6 +9,8 @@ namespace Web.Modules
         public OperationModule(IOperationController operationController)
             : base()
         {
+            _operationController = operationController;
+
             Post["/api/startShow"] = Wrap(StartShow, "Ошибка запуска полноэкранного режима");
             Post["/api/stopShow"] = Wrap(StopShow, "Ошибка остановки полноэкранного режима");
         }

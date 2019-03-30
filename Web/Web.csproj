@@ -271,6 +271,9 @@
     <Content Include="Images\metablock.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\metablock_frame.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\metablock_large.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -361,6 +364,7 @@
     <Compile Include="Models\Blocks\Binders\FromBodyJsonBinder.cs" />
     <Compile Include="Models\Blocks\BlockDto.cs" />
     <Compile Include="Models\Blocks\DateTimeBlockDto.cs" />
+    <Compile Include="Models\Blocks\MetablockFrameDto.cs" />
     <Compile Include="Models\Blocks\PictureBlockDto.cs" />
     <Compile Include="Models\Blocks\RowDto.cs" />
     <Compile Include="Models\Blocks\RowStyleDto.cs" />

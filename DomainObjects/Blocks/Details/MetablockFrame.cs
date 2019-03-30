@@ -6,6 +6,10 @@ namespace DomainObjects.Blocks.Details
     {
         public ICollection<DisplayBlock> Blocks { get; set; }
 
+        public int Index { get; set; }
+
+        public int Duration { get; set; }
+
         public MetablockFrame() { }
 
         public MetablockFrame(MetablockFrame source)
@@ -15,6 +19,8 @@ namespace DomainObjects.Blocks.Details
 
         public void CopyFrom(MetablockFrame source)
         {
+            Index = source.Index;
+            Duration = source.Duration;
         }
     }
 }

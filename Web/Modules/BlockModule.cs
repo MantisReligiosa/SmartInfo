@@ -259,6 +259,11 @@ namespace Web.Modules
                     var block = _mapper.Map<DateTimeBlockDto>(dateTimeBlock);
                     return block;
                 }
+                if (b is MetaBlock metaBlock)
+                {
+                    var block = _mapper.Map<MetaBlockDto>(metaBlock);
+                    return block;
+                }
                 return new BlockDto
                 {
                     Height = b.Height,

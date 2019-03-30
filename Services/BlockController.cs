@@ -157,7 +157,25 @@ namespace Services
                 Width = 50,
                 Details = new MetaBlockDetails
                 {
-
+                    Frames = new List<MetablockFrame>
+                    {
+                        new MetablockFrame
+                        {
+                            Index = 1,
+                            Duration = 5,
+                            Blocks=new List<DisplayBlock>
+                            {
+                            }
+                        },
+                        new MetablockFrame
+                        {
+                            Index = 2,
+                            Duration = 5,
+                            Blocks=new List<DisplayBlock>
+                            {
+                            }
+                        }
+                    }
                 }
             }) as MetaBlock;
             _unitOfWork.Complete();

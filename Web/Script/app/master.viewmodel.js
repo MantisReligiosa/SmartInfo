@@ -755,7 +755,25 @@ function masterViewModel(app) {
         else if (block.type == "picture") {
             node["icon"] = "Images/block_image.png";
         }
+        else if (block.type == "meta") {
+            node["icon"] = "Images/metablock.png"
+            node["children"] = getMetaFrames(block);
+        }
         return node;
+    }
+
+    getMetaFrames = function (metaBlock) {
+        nodes = [];
+        metaBlock.frames.sort(function (a, b) { return a.index - b.index }).forEach(function (frame) {
+            var node = {};
+            node["text"] = "frame" + frame.index;
+            node["id"] = frame.id;
+            node["parent"] = metaBlock.id;
+            node["icon"] = "Images/metablock_frame.png";
+            nodes.push(node);
+        });
+        debugger;
+        return nodes;
     }
 
     loadResolution = function () {
