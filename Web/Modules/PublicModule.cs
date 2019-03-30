@@ -6,9 +6,9 @@ using Web.Models;
 
 namespace Web.Modules
 {
-    public class Public : NancyModule
+    public class PublicModule : NancyModule
     {
-        public Public(ISystemController systemController, IAccountController accountController)
+        public PublicModule(ISystemController systemController, IAccountController accountController)
         {
             Get["/login"] = parameters =>
             {

@@ -379,8 +379,12 @@
     <Compile Include="Models\DatabaseUser.cs" />
     <Compile Include="Models\FontInfo.cs" />
     <Compile Include="Models\ScreenResolutionRequest.cs" />
-    <Compile Include="Modules\Public.cs" />
-    <Compile Include="Modules\Secured.cs" />
+    <Compile Include="Modules\OperationModule.cs" />
+    <Compile Include="Modules\WrappedNancyModule.cs" />
+    <Compile Include="Modules\PublicModule.cs" />
+    <Compile Include="Modules\SystemModule.cs" />
+    <Compile Include="Modules\BlockModule.cs" />
+    <Compile Include="Modules\ViewModule.cs" />
     <Compile Include="Profiles\AutoMapperConfig.cs" />
     <Compile Include="Profiles\DateTimeBlockProfile.cs" />
     <Compile Include="Profiles\MetaBlockProfile.cs" />

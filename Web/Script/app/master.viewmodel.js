@@ -762,7 +762,7 @@ function masterViewModel(app) {
         return new Promise(
             function (resolve, reject) {
                 app.request(
-                    "GET",
+                    "POST",
                     "/api/screenResolution",
                     {
                         refreshData: false

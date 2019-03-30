@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DomainObjects;
 using DomainObjects.Blocks;
 using Nancy;
 using Nancy.ModelBinding;
@@ -15,37 +14,23 @@ using Web.Profiles;
 
 namespace Web.Modules
 {
-    public class Secured : NancyModule
+    public class BlockModule : WrappedNancyModule
     {
-        private IMapper _mapper = AutoMapperConfig.Mapper;
-        private readonly ISystemController _systemController;
         private readonly IBlockController _blockController;
-        private readonly IOperationController _operationController;
         private readonly ISerializationController _serializationController;
-        private readonly ILogger _logger;
 
         private readonly Dictionary<string, Action> _savers;
         private readonly Dictionary<string, Func<object>> _copiers;
 
-        public Secured(
-            ISystemController systemController,
+        public BlockModule(
             IBlockController blockController,
-            IOperationController operationController,
             ISerializationController serializationController
             )
+            :base()
         {
-            this.RequiresAuthentication();
-            _logger = LogManager.GetCurrentClassLogger();
-            _systemController = systemController;
             _blockController = blockController;
-            _operationController = operationController;
             _serializationController = serializationController;
 
-            Get["/master"] = parameters => View["Views/Home/Master.cshtml"];
-            Get["/"] = parameters => View["Views/Home/Master.cshtml"];
-            Get["/api/fonts"] = Wrap(GetFonts, "Ошибка загрузки шрифтов");
-            Get["/api/datetimeformats"] = Wrap(GetDatetimeFormats, "Ошибка загрузки форматов даты/времени");
-            Get["/api/screenResolution"] = Wrap(GetScreenInfo, "Ошибка загрузки информации о экранах");
             Post["/api/setBackground"] = Wrap(SetBackground, "Ошибка установки фона");
             Get["/api/background"] = Wrap(GetBackground, "Ошибка загрузки фона");
             Post["/api/addTextBlock"] = Wrap(AddTextBlock, "Ошибка добавления текстового блока");
@@ -58,8 +43,6 @@ namespace Web.Modules
             Post["/api/saveBlock"] = Wrap(SaveBlock, "Ошибка сохранения блоков");
             Post["/api/deleteBlock"] = Wrap(DeleteBlock, "Ошибка удаления блоков");
             Post["/api/copyBlock"] = Wrap(CopyBlock, "Ошибка копирования блоков");
-            Post["/api/startShow"] = Wrap(StartShow, "Ошибка запуска полноэкранного режима");
-            Post["/api/stopShow"] = Wrap(StopShow, "Ошибка остановки полноэкранного режима");
             Post["/api/parseCSV"] = Wrap(ParseCSV, "Ошибка чтения csv");
             Get["/api/downloadConfig"] = DownloadConfig(blockController, serializationController, _logger);
             Post["/api/uploadConfig"] = Wrap(UploadConfig, "Ошибка загрузки конфигурации");
@@ -164,16 +147,6 @@ namespace Web.Modules
             return result;
         }
 
-        private void StopShow()
-        {
-            _operationController.StopShow();
-        }
-
-        private void StartShow()
-        {
-            _operationController.StartShow();
-        }
-
         private object CopyBlock()
         {
             var data = this.Bind<BlockDto>();
@@ -244,42 +217,6 @@ namespace Web.Modules
             _blockController.SetBackground(data.Color);
         }
 
-        private ScreenInfo GetScreenInfo()
-        {
-            var data = this.Bind<ScreenResolutionRequest>();
-            ScreenInfo screenInfo;
-            if (!data.RefreshData)
-            {
-                screenInfo = _systemController.GetDatabaseScreenInfo();
-                if (screenInfo == null)
-                {
-                    screenInfo = _systemController.GetSystemScreenInfo();
-                    _systemController.SetDatabaseScreenInfo(screenInfo);
-                }
-            }
-            else
-            {
-                screenInfo = _systemController.GetSystemScreenInfo();
-                _systemController.SetDatabaseScreenInfo(screenInfo);
-            }
-            return screenInfo;
-        }
-
-        private IEnumerable<DateTimeFormat> GetDatetimeFormats()
-        {
-            return _systemController.GetDatetimeFormats();
-        }
-
-        private FontInfo GetFonts()
-        {
-            return new FontInfo
-            {
-                Fonts = _systemController.GetFonts(),
-                Sizes = _systemController.GetFontSizes(),
-                Indexes = _systemController.GetFontHeightIndex()
-            };
-        }
-
         private void SaveBlock<TBlock, TBlockDto>(Action<TBlock> saveAction)
             where TBlock : DisplayBlock
             where TBlockDto : BlockDto
@@ -332,33 +269,6 @@ namespace Web.Modules
                 };
             });
             return blocks;
-        }
-
-        private Func<dynamic, dynamic> Wrap<TResponceModel>(Func<TResponceModel> func, string errorMsg)
-        {
-            try
-            {
-                return parameters =>
-                {
-                    return Response.AsJson(func.Invoke());
-                };
-            }
-            catch (Exception ex)
-            {
-                var exception = new Exception(errorMsg, ex);
-                _logger.Error(exception);
-                throw exception;
-            }
-        }
-
-        private Func<dynamic, dynamic> Wrap(Action action, string errorMsg)
-        {
-            return Wrap(() =>
-            {
-                action.Invoke();
-                return true;
-            },
-            errorMsg);
         }
     }
 }
