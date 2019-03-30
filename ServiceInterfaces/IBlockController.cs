@@ -14,6 +14,7 @@ namespace ServiceInterfaces
         TableBlock AddTableBlock();
         PictureBlock AddPictureBlock();
         DateTimeBlock AddDateTimeBlock();
+        MetaBlock AddMetaBlock();
         TextBlock CopyTextBlock(TextBlock block);
         TableBlock CopyTableBlock(TableBlock block);
         PictureBlock CopyPictureBlock(PictureBlock block);

@@ -26,12 +26,12 @@ namespace Services
             _unitOfWork = unitOfWorkFactory.Create();
         }
 
-        public Videopanel GetDatabaseScreenInfo()
+        public ScreenInfo GetDatabaseScreenInfo()
         {
             var widthParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenWidth>())).FirstOrDefault();
             var heightParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenHeight>())).FirstOrDefault();
             if (widthParameter != null && heightParameter != null && _unitOfWork.Displays.Count(d => true) > 0)
-                return new Videopanel
+                return new ScreenInfo
                 {
                     Height = Convert.ToInt32(heightParameter.Value),
                     Width = Convert.ToInt32(widthParameter.Value),
@@ -40,7 +40,7 @@ namespace Services
             return null;
         }
 
-        public void SetDatabaseScreenInfo(Videopanel screenInfo)
+        public void SetDatabaseScreenInfo(ScreenInfo screenInfo)
         {
             var widthParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenWidth>())).FirstOrDefault();
             var heightParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenHeight>())).FirstOrDefault();
@@ -74,7 +74,7 @@ namespace Services
             _unitOfWork.Complete();
         }
 
-        public Videopanel GetSystemScreenInfo()
+        public ScreenInfo GetSystemScreenInfo()
         {
             var broker = Broker.GetBroker();
             var responce = broker.GetResponce(new GetScreenSizeRequest()) as GetScreenSizeResponce;
@@ -91,7 +91,7 @@ namespace Services
                 });
             }
 
-            return new Videopanel
+            return new ScreenInfo
             {
                 Height = responce.Height,
                 Width = responce.Width,

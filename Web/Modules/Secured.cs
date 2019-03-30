@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DomainObjects;
 using DomainObjects.Blocks;
 using Nancy;
 using Nancy.ModelBinding;
@@ -17,6 +18,14 @@ namespace Web.Modules
     public class Secured : NancyModule
     {
         private IMapper _mapper = AutoMapperConfig.Mapper;
+        private readonly ISystemController _systemController;
+        private readonly IBlockController _blockController;
+        private readonly IOperationController _operationController;
+        private readonly ISerializationController _serializationController;
+        private readonly ILogger _logger;
+
+        private readonly Dictionary<string, Action> _savers;
+        private readonly Dictionary<string, Func<object>> _copiers;
 
         public Secured(
             ISystemController systemController,
@@ -26,71 +35,78 @@ namespace Web.Modules
             )
         {
             this.RequiresAuthentication();
-            var logger = LogManager.GetCurrentClassLogger();
+            _logger = LogManager.GetCurrentClassLogger();
+            _systemController = systemController;
+            _blockController = blockController;
+            _operationController = operationController;
+            _serializationController = serializationController;
 
             Get["/master"] = parameters => View["Views/Home/Master.cshtml"];
             Get["/"] = parameters => View["Views/Home/Master.cshtml"];
-            Get["/api/fonts"] = GetFonts(systemController, logger);
-            Get["/api/datetimeformats"] = GetDatetimeFormats(systemController, logger);
-            Get["/api/screenResolution"] = GetScreenResolution(systemController, logger);
-            Post["/api/setBackground"] = SetBackground(blockController, logger);
-            Get["/api/background"] = GetBackground(blockController, logger);
-            Post["/api/addTextBlock"] = AddTextBlock(blockController, logger);
-            Post["/api/addTableBlock"] = AddTableBlock(blockController, logger);
-            Post["/api/addPictureBlock"] = AddPictureBlock(blockController, logger);
-            Post["/api/addDateTimeBlock"] = AddDatetimeBlock(blockController, logger);
-            Get["/api/blocks"] = GetBlocks(blockController, logger);
-            Post["/api/moveAndResize"] = MoveAndResize(blockController, logger);
-            Post["/api/saveBlock"] = SaveBlock(blockController, logger);
-            Post["/api/deleteBlock"] = DeleteBlock(blockController, logger);
-            Post["/api/copyBlock"] = CopyBlock(blockController, logger);
-            Post["/api/startShow"] = StartShow(operationController, logger);
-            Post["/api/stopShow"] = StopShow(operationController, logger);
-            Post["/api/parseCSV"] = ParseCSV(logger);
-            Get["/api/downloadConfig"] = DownloadConfig(blockController, serializationController, logger);
-            Post["/api/uploadConfig"] = UploadConfig(blockController, serializationController, logger);
-        }
+            Get["/api/fonts"] = Wrap(GetFonts, "Ошибка загрузки шрифтов");
+            Get["/api/datetimeformats"] = Wrap(GetDatetimeFormats, "Ошибка загрузки форматов даты/времени");
+            Get["/api/screenResolution"] = Wrap(GetScreenInfo, "Ошибка загрузки информации о экранах");
+            Post["/api/setBackground"] = Wrap(SetBackground, "Ошибка установки фона");
+            Get["/api/background"] = Wrap(GetBackground, "Ошибка загрузки фона");
+            Post["/api/addTextBlock"] = Wrap(AddTextBlock, "Ошибка добавления текстового блока");
+            Post["/api/addTableBlock"] = Wrap(AddTableBlock, "Ошибка добавления таблицы");
+            Post["/api/addPictureBlock"] = Wrap(AddPictureBlock, "Ошибка добавления картинки");
+            Post["/api/addDateTimeBlock"] = Wrap(AddDatetimeBlock, "Ошибка добавления блока даты/времени");
+            Post["api/addMetaBlock"] = Wrap(AddMetaBlock, "Ошибка добавления метаблока");
+            Get["/api/blocks"] = Wrap(GetBlocks, "Ошибка загрузки блоков");
+            Post["/api/moveAndResize"] = Wrap(MoveAndResize, "Ошибка изменения размеров и положения блока");
+            Post["/api/saveBlock"] = Wrap(SaveBlock, "Ошибка сохранения блоков");
+            Post["/api/deleteBlock"] = Wrap(DeleteBlock, "Ошибка удаления блоков");
+            Post["/api/copyBlock"] = Wrap(CopyBlock, "Ошибка копирования блоков");
+            Post["/api/startShow"] = Wrap(StartShow, "Ошибка запуска полноэкранного режима");
+            Post["/api/stopShow"] = Wrap(StopShow, "Ошибка остановки полноэкранного режима");
+            Post["/api/parseCSV"] = Wrap(ParseCSV, "Ошибка чтения csv");
+            Get["/api/downloadConfig"] = DownloadConfig(blockController, serializationController, _logger);
+            Post["/api/uploadConfig"] = Wrap(UploadConfig, "Ошибка загрузки конфигурации");
 
-        private Func<dynamic, dynamic> UploadConfig(IBlockController blockController, ISerializationController serializationController, Logger logger)
-        {
-            return parameters =>
+            _savers = new Dictionary<string, Action>()
             {
-                try
-                {
-                    var data = this.Bind<ConfigDataDto>();
-                    var configDto = serializationController.Deserialize<ConfigDto>(data.Text);
-                    blockController.SetBackground(configDto.Background);
-                    blockController.Cleanup();
-                    foreach (var b in configDto.Blocks)
-                    {
-                        if (b is TextBlockDto textBlock)
-                        {
-                            var block = _mapper.Map<TextBlock>(textBlock);
-                            blockController.SaveTextBlock(block);
-                        }
-                        if (b is TableBlockDto tableBlock)
-                        {
-                            var block = _mapper.Map<TableBlock>(tableBlock);
-                            blockController.SaveTableBlock(block);
-                        }
-                        if (b is PictureBlockDto pictureBlock)
-                        {
-                            var block = _mapper.Map<PictureBlock>(pictureBlock);
-                            blockController.SavePictureBlock(block);
-                        }
-                    }
-                    return Response.AsJson(true);
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка загрузки конфигурации", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
+                { "text", () => SaveBlock<TextBlock, TextBlockDto>(b => blockController.SaveTextBlock(b)) },
+                { "table", () => SaveBlock<TableBlock, TableBlockDto>(b => blockController.SaveTableBlock(b)) },
+                { "picture", () => SaveBlock<PictureBlock, PictureBlockDto>(b => blockController.SavePictureBlock(b)) },
+                { "datetime", () => SaveBlock<DateTimeBlock, DateTimeBlockDto>(b => blockController.SaveDateTimeBlock(b)) }
+            };
+            _copiers = new Dictionary<string, Func<object>>
+            {
+                { "text" , () => CopyBlock<TextBlock, TextBlockDto>(b => blockController.CopyTextBlock(b)) },
+                { "table" , () => CopyBlock<TableBlock, TableBlockDto>(b => blockController.CopyTableBlock(b)) },
+                { "picture" , () => CopyBlock<PictureBlock, PictureBlockDto>(b => blockController.CopyPictureBlock(b)) },
+                { "datetime" , () => CopyBlock<DateTimeBlock, DateTimeBlockDto>(b => blockController.CopyDateTimeBlock(b)) }
             };
         }
 
-        private Func<dynamic, dynamic> DownloadConfig(IBlockController blockController, ISerializationController serializationController, Logger logger)
+        private void UploadConfig()
+        {
+            var data = this.Bind<ConfigDataDto>();
+            var configDto = _serializationController.Deserialize<ConfigDto>(data.Text);
+            _blockController.SetBackground(configDto.Background);
+            _blockController.Cleanup();
+            foreach (var b in configDto.Blocks)
+            {
+                if (b is TextBlockDto textBlock)
+                {
+                    var block = _mapper.Map<TextBlock>(textBlock);
+                    _blockController.SaveTextBlock(block);
+                }
+                if (b is TableBlockDto tableBlock)
+                {
+                    var block = _mapper.Map<TableBlock>(tableBlock);
+                    _blockController.SaveTableBlock(block);
+                }
+                if (b is PictureBlockDto pictureBlock)
+                {
+                    var block = _mapper.Map<PictureBlock>(pictureBlock);
+                    _blockController.SavePictureBlock(block);
+                }
+            }
+        }
+
+        private Func<dynamic, dynamic> DownloadConfig(IBlockController blockController, ISerializationController serializationController, ILogger logger)
         {
             return parameters =>
             {
@@ -102,7 +118,7 @@ namespace Web.Modules
                         Contents = (stream) => serializationController.SerializeXML(new ConfigDto
                         {
                             Background = blockController.GetBackground(),
-                            Blocks = GetBlocks(blockController).ToList()
+                            Blocks = GetBlocks().ToList()
                         }).CopyTo(stream)
                     };
                     response.Headers.Add("Content-Disposition", "attachment; filename=config.xml");
@@ -118,375 +134,149 @@ namespace Web.Modules
             };
         }
 
-        private Func<dynamic, dynamic> ParseCSV(Logger logger)
+        private CsvTableDto ParseCSV()
         {
-            return parameters =>
-            {
-                try
-                {
-                    var linesSeparator = new char[] { '\r', '\n' };
-                    var itemSeparator = ',';
+            var linesSeparator = new char[] { '\r', '\n' };
+            var itemSeparator = ',';
 
-                    var data = this.Bind<CsvDataDto>();
-                    var lines = data.Text.Split(linesSeparator, StringSplitOptions.RemoveEmptyEntries);
-                    var result = new CsvTableDto();
-                    result.Header.AddRange(lines.First().Split(itemSeparator));
-                    var rowIndex = 0;
-                    foreach (var line in lines.Skip(1))
+            var data = this.Bind<CsvDataDto>();
+            var lines = data.Text.Split(linesSeparator, StringSplitOptions.RemoveEmptyEntries);
+            var result = new CsvTableDto();
+            result.Header.AddRange(lines.First().Split(itemSeparator));
+            var rowIndex = 0;
+            foreach (var line in lines.Skip(1))
+            {
+                var cells = line.Split(itemSeparator);
+                var delta = cells.Length - result.Header.Count;
+                if (delta > 0)
+                    for (int i = 0; i < delta; i++)
                     {
-                        var cells = line.Split(itemSeparator);
-                        var delta = cells.Length - result.Header.Count;
-                        if (delta > 0)
-                            for (int i = 0; i < delta; i++)
-                            {
-                                result.Header.Add(string.Empty);
-                            }
-                        result.Rows.Add(new RowDto
-                        {
-                            Index = rowIndex,
-                            Cells = cells
-                        });
-                        rowIndex++;
+                        result.Header.Add(string.Empty);
                     }
-
-                    return Response.AsJson(result);
-                }
-                catch (Exception ex)
+                result.Rows.Add(new RowDto
                 {
-                    var exception = new Exception("Ошибка чтения csv", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+                    Index = rowIndex,
+                    Cells = cells
+                });
+                rowIndex++;
+            }
+
+            return result;
         }
 
-        private Func<dynamic, dynamic> StopShow(IOperationController operationController, Logger logger)
+        private void StopShow()
         {
-            return parameters =>
-            {
-                try
-                {
-                    operationController.StopShow();
-                    return Response.AsJson(true);
-
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка остановки полноэкранного режима", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            _operationController.StopShow();
         }
 
-        private Func<dynamic, dynamic> StartShow(IOperationController operationController, Logger logger)
+        private void StartShow()
         {
-            return parameters =>
-            {
-                try
-                {
-                    operationController.StartShow();
-                    return Response.AsJson(true);
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка запуска полноэкранного режима", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            _operationController.StartShow();
         }
 
-        private Func<dynamic, dynamic> CopyBlock(IBlockController blockController, Logger logger)
+        private object CopyBlock()
         {
-            return parameters =>
-            {
-                var copiers = new Dictionary<string, Func<object>>
-                {
-                    { "text" , () => CopyBlock<TextBlock, TextBlockDto>(b => blockController.CopyTextBlock(b)) },
-                    { "table" , () => CopyBlock<TableBlock, TableBlockDto>(b => blockController.CopyTableBlock(b)) },
-                    { "picture" , () => CopyBlock<PictureBlock, PictureBlockDto>(b => blockController.CopyPictureBlock(b)) },
-                    { "datetime" , () => CopyBlock<DateTimeBlock, DateTimeBlockDto>(b => blockController.CopyDateTimeBlock(b)) }
-                };
-
-                try
-                {
-                    var data = this.Bind<BlockDto>();
-                    return copiers.First(kvp => kvp.Key.Equals(data.Type, StringComparison.InvariantCultureIgnoreCase)).Value.Invoke();
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка копирования блоков", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            var data = this.Bind<BlockDto>();
+            return _copiers.First(kvp => kvp.Key.Equals(data.Type, StringComparison.InvariantCultureIgnoreCase)).Value.Invoke();
         }
 
-        private Func<dynamic, dynamic> DeleteBlock(IBlockController blockController, Logger logger)
+        private void DeleteBlock()
         {
-            return parameters =>
-            {
-                try
-                {
-                    var data = this.Bind<BlockDto>();
-                    blockController.DeleteBlock(data.Id);
-                    return Response.AsJson(true);
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка удаления блоков", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            var data = this.Bind<BlockDto>();
+            _blockController.DeleteBlock(data.Id);
         }
 
-        private Func<dynamic, dynamic> SaveBlock(IBlockController blockController, Logger logger)
+        private void SaveBlock()
         {
-            return parameters =>
-            {
-                var savers = new Dictionary<string, Action>()
-                {
-                    { "text", () => SaveBlock<TextBlock, TextBlockDto>(b => blockController.SaveTextBlock(b)) },
-                    { "table", () => SaveBlock<TableBlock, TableBlockDto>(b => blockController.SaveTableBlock(b)) },
-                    { "picture", () => SaveBlock<PictureBlock, PictureBlockDto>(b => blockController.SavePictureBlock(b)) },
-                    { "datetime", () => SaveBlock<DateTimeBlock, DateTimeBlockDto>(b => blockController.SaveDateTimeBlock(b)) }
-                };
-
-                try
-                {
-                    var data = this.Bind<BlockDto>();
-                    savers.First(kvp => kvp.Key.Equals(data.Type, StringComparison.InvariantCultureIgnoreCase)).Value.Invoke();
-                    return Response.AsJson(true);
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка сохранения блоков", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            var data = this.Bind<BlockDto>();
+            _savers.First(kvp => kvp.Key.Equals(data.Type, StringComparison.InvariantCultureIgnoreCase)).Value.Invoke();
         }
 
-        private Func<dynamic, dynamic> MoveAndResize(IBlockController blockController, Logger logger)
+        private void MoveAndResize()
         {
-            return parameters =>
-            {
-                try
-                {
-                    var block = this.Bind<SizeAndPositionDto>();
-                    blockController.MoveAndResizeBlock(block.Id, block.Height, block.Width, block.Left, block.Top);
-                    return Response.AsJson(true);
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка изменения размеров и положения блока", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            var block = this.Bind<SizeAndPositionDto>();
+            _blockController.MoveAndResizeBlock(block.Id, block.Height, block.Width, block.Left, block.Top);
         }
 
-        private Func<dynamic, dynamic> GetBlocks(IBlockController blockController, Logger logger)
+        private MetaBlockDto AddMetaBlock()
         {
-            return parameters =>
-            {
-                try
-                {
-                    var blocks = GetBlocks(blockController);
-                    return Response.AsJson(blocks);
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка загрузки блоков", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            var metablock = _blockController.AddMetaBlock();
+            var block = _mapper.Map<MetaBlockDto>(metablock);
+            return block;
         }
 
-        private Func<dynamic, dynamic> AddDatetimeBlock(IBlockController blockController, Logger logger)
+        private DateTimeBlockDto AddDatetimeBlock()
         {
-            return parameters =>
-            {
-                try
-                {
-                    var dateTimeBlock = blockController.AddDateTimeBlock();
-                    var block = _mapper.Map<DateTimeBlockDto>(dateTimeBlock);
-                    return Response.AsJson(block);
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка добавления блока даты/времени", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            var dateTimeBlock = _blockController.AddDateTimeBlock();
+            var block = _mapper.Map<DateTimeBlockDto>(dateTimeBlock);
+            return block;
         }
 
-        private Func<dynamic, dynamic> AddPictureBlock(IBlockController blockController, Logger logger)
+        private PictureBlockDto AddPictureBlock()
         {
-            return parameters =>
-            {
-                try
-                {
-                    var pictureBlock = blockController.AddPictureBlock();
-                    var block = _mapper.Map<PictureBlockDto>(pictureBlock);
-                    return Response.AsJson(block);
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка добавления картинки", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            var pictureBlock = _blockController.AddPictureBlock();
+            var block = _mapper.Map<PictureBlockDto>(pictureBlock);
+            return block;
         }
 
-        private Func<dynamic, dynamic> AddTableBlock(IBlockController blockController, Logger logger)
+        private TableBlockDto AddTableBlock()
         {
-            return parameters =>
-            {
-                try
-                {
-                    var tableBlock = blockController.AddTableBlock();
-                    var block = _mapper.Map<TableBlockDto>(tableBlock);
-                    return Response.AsJson(block);
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка добавления таблицы", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            var tableBlock = _blockController.AddTableBlock();
+            var block = _mapper.Map<TableBlockDto>(tableBlock);
+            return block;
         }
 
-        private Func<dynamic, dynamic> AddTextBlock(IBlockController blockController, Logger logger)
+        private TextBlockDto AddTextBlock()
         {
-            return parameters =>
-            {
-                try
-                {
-                    var textBlock = blockController.AddTextBlock();
-                    var block = _mapper.Map<TextBlockDto>(textBlock);
-                    return Response.AsJson(block);
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка добавления текстового блока", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            var textBlock = _blockController.AddTextBlock();
+            var block = _mapper.Map<TextBlockDto>(textBlock);
+            return block;
         }
 
-        private Func<dynamic, dynamic> GetBackground(IBlockController blockController, Logger logger)
+        private string GetBackground()
         {
-            return parameters =>
-            {
-                try
-                {
-                    return Response.AsJson(blockController.GetBackground());
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка загрузки фона", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            return _blockController.GetBackground();
         }
 
-        private Func<dynamic, dynamic> SetBackground(IBlockController blockController, Logger logger)
+        private void SetBackground()
         {
-            return parameters =>
-            {
-                try
-                {
-                    var data = this.Bind<ScreenBackgroundRequest>();
-                    blockController.SetBackground(data.Color);
-                    return Response.AsJson(true);
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка установки фона", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            var data = this.Bind<ScreenBackgroundRequest>();
+            _blockController.SetBackground(data.Color);
         }
 
-        private Func<dynamic, dynamic> GetScreenResolution(ISystemController systemController, Logger logger)
+        private ScreenInfo GetScreenInfo()
         {
-            return parameters =>
+            var data = this.Bind<ScreenResolutionRequest>();
+            ScreenInfo screenInfo;
+            if (!data.RefreshData)
             {
-                try
+                screenInfo = _systemController.GetDatabaseScreenInfo();
+                if (screenInfo == null)
                 {
-                    var data = this.Bind<ScreenResolutionRequest>();
-                    if (!data.RefreshData)
-                    {
-                        var screenInfo = systemController.GetDatabaseScreenInfo();
-                        if (screenInfo == null)
-                        {
-                            screenInfo = systemController.GetSystemScreenInfo();
-                            systemController.SetDatabaseScreenInfo(screenInfo);
-                        }
-                        return Response.AsJson(screenInfo);
-                    }
-                    else
-                    {
-                        var screenInfo = systemController.GetSystemScreenInfo();
-                        systemController.SetDatabaseScreenInfo(screenInfo);
-                        return Response.AsJson(screenInfo);
-                    }
+                    screenInfo = _systemController.GetSystemScreenInfo();
+                    _systemController.SetDatabaseScreenInfo(screenInfo);
                 }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка загрузки информации о экранах", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            }
+            else
+            {
+                screenInfo = _systemController.GetSystemScreenInfo();
+                _systemController.SetDatabaseScreenInfo(screenInfo);
+            }
+            return screenInfo;
         }
 
-        private Func<dynamic, dynamic> GetDatetimeFormats(ISystemController systemController, Logger logger)
+        private IEnumerable<DateTimeFormat> GetDatetimeFormats()
         {
-            return parameters =>
-            {
-                try
-                {
-                    return Response.AsJson(systemController.GetDatetimeFormats());
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка загрузки форматов даты/времени", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
-            };
+            return _systemController.GetDatetimeFormats();
         }
 
-        private Func<dynamic, dynamic> GetFonts(ISystemController systemController, Logger logger)
+        private FontInfo GetFonts()
         {
-            return parameters =>
+            return new FontInfo
             {
-                try
-                {
-                    return Response.AsJson(new FontInfo
-                    {
-                        Fonts = systemController.GetFonts(),
-                        Sizes = systemController.GetFontSizes(),
-                        Indexes = systemController.GetFontHeightIndex()
-                    });
-                }
-                catch (Exception ex)
-                {
-                    var exception = new Exception("Ошибка загрузки шрифтов", ex);
-                    logger.Error(exception);
-                    throw exception;
-                }
+                Fonts = _systemController.GetFonts(),
+                Sizes = _systemController.GetFontSizes(),
+                Indexes = _systemController.GetFontHeightIndex()
             };
         }
 
@@ -508,9 +298,9 @@ namespace Web.Modules
             return _mapper.Map<TBlockDto>(copyFunction(block));
         }
 
-        private IEnumerable<BlockDto> GetBlocks(IBlockController blockController)
+        private IEnumerable<BlockDto> GetBlocks()
         {
-            var blocks = blockController.GetBlocks().Select(b =>
+            var blocks = _blockController.GetBlocks().Select(b =>
             {
                 if (b is TextBlock textBlock)
                 {
@@ -542,6 +332,33 @@ namespace Web.Modules
                 };
             });
             return blocks;
+        }
+
+        private Func<dynamic, dynamic> Wrap<TResponceModel>(Func<TResponceModel> func, string errorMsg)
+        {
+            try
+            {
+                return parameters =>
+                {
+                    return Response.AsJson(func.Invoke());
+                };
+            }
+            catch (Exception ex)
+            {
+                var exception = new Exception(errorMsg, ex);
+                _logger.Error(exception);
+                throw exception;
+            }
+        }
+
+        private Func<dynamic, dynamic> Wrap(Action action, string errorMsg)
+        {
+            return Wrap(() =>
+            {
+                action.Invoke();
+                return true;
+            },
+            errorMsg);
         }
     }
 }

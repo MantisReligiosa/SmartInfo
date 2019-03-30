@@ -148,6 +148,21 @@ namespace Services
             return block;
         }
 
+        public MetaBlock AddMetaBlock()
+        {
+            var block = _unitOfWork.DisplayBlocks.Create(new MetaBlock
+            {
+                Caption = "MetaBlock",
+                Height = 50,
+                Width = 50,
+                Details = new MetaBlockDetails
+                {
+
+                }
+            }) as MetaBlock;
+            _unitOfWork.Complete();
+            return block;
+        }
 
         public void SaveTextBlock(TextBlock textBlock)
         {
@@ -220,7 +235,7 @@ namespace Services
 
         public void SaveDateTimeBlock(DateTimeBlock dateTimeBlock)
         {
-            if (dateTimeBlock.Details.Format!=null)
+            if (dateTimeBlock.Details.Format != null)
             {
                 var format = _unitOfWork.DateTimeFormats.Get(dateTimeBlock.Details.Format.Id);
                 dateTimeBlock.Details.Format = format;

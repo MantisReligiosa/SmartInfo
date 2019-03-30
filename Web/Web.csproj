@@ -372,6 +372,7 @@
     <Compile Include="Models\CreditsRequest.cs" />
     <Compile Include="Models\CsvDataDto.cs" />
     <Compile Include="Models\CsvTableDto.cs" />
+    <Compile Include="Models\MetaBlockDto.cs" />
     <Compile Include="Models\SaveBlockRequest.cs" />
     <Compile Include="Models\ScreenBackgroundRequest.cs" />
     <Compile Include="Models\ScreenResolutionResponce.cs" />
@@ -382,6 +383,7 @@
     <Compile Include="Modules\Secured.cs" />
     <Compile Include="Profiles\AutoMapperConfig.cs" />
     <Compile Include="Profiles\DateTimeBlockProfile.cs" />
+    <Compile Include="Profiles\MetaBlockProfile.cs" />
     <Compile Include="Profiles\TableBlockProfile.cs" />
     <Compile Include="Profiles\PictureBlockProfile.cs" />
     <Compile Include="Profiles\TextBlockProfile.cs" />

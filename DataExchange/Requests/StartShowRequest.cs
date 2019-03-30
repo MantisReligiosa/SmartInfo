@@ -8,6 +8,6 @@ namespace DataExchange.Requests
     {
         public string Background { get; set; }
         public IEnumerable<DisplayBlock> Blocks { get; set; }
-        public Videopanel Screens { get; set; }
+        public ScreenInfo Screens { get; set; }
     }
 }
