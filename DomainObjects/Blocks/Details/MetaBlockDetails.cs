@@ -1,7 +1,11 @@
-﻿namespace DomainObjects.Blocks.Details
+﻿using System.Collections.Generic;
+
+namespace DomainObjects.Blocks.Details
 {
     public class MetaBlockDetails : Identity, ICopyable<MetaBlockDetails>
     {
+        public ICollection<MetablockFrame> Frames { get; set; }
+
         public MetaBlockDetails() { }
 
         public MetaBlockDetails(MetaBlockDetails source)

@@ -1,4 +1,7 @@
-﻿namespace DomainObjects.Blocks
+﻿using DomainObjects.Blocks.Details;
+using System;
+
+namespace DomainObjects.Blocks
 {
     public abstract class DisplayBlock : Identity
     {
@@ -15,6 +18,8 @@
         public int Width { get; set; }
         public int ZIndex { get; set; }
         public string Caption { get; set; }
+        public Guid MetablockFrameId { get; set; }
+        public MetablockFrame MetablockFrame { get; set; }
 
         public void CopyFrom(DisplayBlock source)
         {

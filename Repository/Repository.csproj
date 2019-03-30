@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations\DateTimeDetailsConfiguration.cs" />
+    <Compile Include="Configurations\MetablockFrameConfiguration.cs" />
     <Compile Include="Configurations\PictureBlockDetailsConfiguration.cs" />
     <Compile Include="Configurations\TableBlockCellDetailsConfiguration.cs" />
     <Compile Include="Configurations\TableBlockDetailsConfiguration.cs" />
@@ -90,6 +91,14 @@
     <Compile Include="Migrations\201903291627557_BlockCaption.cs" />
     <Compile Include="Migrations\201903291627557_BlockCaption.Designer.cs">
       <DependentUpon>201903291627557_BlockCaption.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903300917179_MetablockDetails.cs" />
+    <Compile Include="Migrations\201903300917179_MetablockDetails.Designer.cs">
+      <DependentUpon>201903300917179_MetablockDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903300927416_DisplayBlocksToMetaFrames.cs" />
+    <Compile Include="Migrations\201903300927416_DisplayBlocksToMetaFrames.Designer.cs">
+      <DependentUpon>201903300927416_DisplayBlocksToMetaFrames.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,6 +146,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903291627557_BlockCaption.resx">
       <DependentUpon>201903291627557_BlockCaption.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903300917179_MetablockDetails.resx">
+      <DependentUpon>201903300917179_MetablockDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903300927416_DisplayBlocksToMetaFrames.resx">
+      <DependentUpon>201903300927416_DisplayBlocksToMetaFrames.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

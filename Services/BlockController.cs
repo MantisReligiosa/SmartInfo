@@ -277,7 +277,7 @@ namespace Services
 
         public IEnumerable<DisplayBlock> GetBlocks()
         {
-            var result = _unitOfWork.DisplayBlocks.GetAll();
+            var result = _unitOfWork.DisplayBlocks.GetAll().Where(b => b.MetablockFrameId == null);
             return result;
         }
 

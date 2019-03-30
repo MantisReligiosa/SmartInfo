@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blocks\Details\MetaBlockDetails.cs" />
+    <Compile Include="Blocks\Details\MetablockFrame.cs" />
     <Compile Include="Blocks\MetaBlock.cs" />
     <Compile Include="Blocks\DateTimeBlock.cs" />
     <Compile Include="Blocks\Details\DateTimeBlockDetails.cs" />

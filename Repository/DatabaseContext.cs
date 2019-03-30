@@ -32,6 +32,7 @@ namespace Repository
             modelBuilder.Configurations.Add(new TableBlockDetailsConfiguration());
             modelBuilder.Configurations.Add(new TableBlockCellDetailsConfiguration());
             modelBuilder.Configurations.Add(new TableBlockRowDetailsConfiguration());
+            modelBuilder.Configurations.Add(new MetablockFrameConfiguration());
         }
     }
 }
