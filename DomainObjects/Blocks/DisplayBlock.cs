@@ -14,6 +14,7 @@
         public int Height { get; set; }
         public int Width { get; set; }
         public int ZIndex { get; set; }
+        public string Caption { get; set; }
 
         public void CopyFrom(DisplayBlock source)
         {
@@ -22,6 +23,7 @@
             ZIndex = source.ZIndex;
             Left = source.Left;
             Top = source.Top;
+            Caption = source.Caption;
             CopyDetails(source);
         }
 

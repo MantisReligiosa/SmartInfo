@@ -1,7 +1,8 @@
 ﻿function TextBlockEditViewModel(master) {
 	var self = this;
 
-	self.textColor = ko.observable();
+    self.caption = ko.observable();
+    self.textColor = ko.observable();
 	self.backColor = ko.observable();
 	self.selectedFonts = ko.observableArray([""]);
     self.selectedFontSizes = ko.observableArray([""]);

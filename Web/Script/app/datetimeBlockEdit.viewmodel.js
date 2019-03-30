@@ -1,7 +1,8 @@
 ﻿function DatetimeBlockEditViewModel(master) {
 	var self = this;
 
-	self.textColor = ko.observable();
+    self.caption = ko.observable();
+    self.textColor = ko.observable();
 	self.backColor = ko.observable();
     self.selectedFonts = ko.observableArray([""]);
     self.selectedFormats = ko.observableArray([""]);

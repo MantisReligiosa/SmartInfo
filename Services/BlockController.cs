@@ -49,6 +49,7 @@ namespace Services
         {
             var block = _unitOfWork.DisplayBlocks.Create(new TextBlock
             {
+                Caption = $"TextBlock",
                 Height = 50,
                 Width = 200,
                 Details = new TextBlockDetails
@@ -71,6 +72,7 @@ namespace Services
         {
             var block = _unitOfWork.DisplayBlocks.Create(new TableBlock
             {
+                Caption = "TableBlock",
                 Height = 200,
                 Width = 200,
                 Details = new TableBlockDetails
@@ -113,6 +115,7 @@ namespace Services
         {
             var block = _unitOfWork.DisplayBlocks.Create(new PictureBlock
             {
+                Caption = "PictureBlock",
                 Height = 50,
                 Width = 50,
                 Details = new PictureBlockDetails()
@@ -125,6 +128,7 @@ namespace Services
         {
             var block = _unitOfWork.DisplayBlocks.Create(new DateTimeBlock
             {
+                Caption = "DateTimeBlock",
                 Height = 50,
                 Width = 50,
                 Details = new DateTimeBlockDetails

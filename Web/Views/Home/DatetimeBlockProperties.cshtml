@@ -1,4 +1,13 @@
 ﻿<div class="form-group">
+    <div id="textBlockText" class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Имя</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Имя блока" data-bind="value:caption" />
+    </div>
+</div>
+
+<div class="form-group">
     <label class="d-inline">Шрифт</label>
     <select class="form-control fontPicker d-inline" id="sel1" data-bind="selectedOptions:selectedFonts">
         <!-- ko foreach: $parent.fonts()-->
@@ -12,7 +21,6 @@
     <label class="d-inline">Интервал</label>
     <select class="form-control fontSizePicker d-inline" data-bind="options: $parent.fontIndexes, selectedOptions:selectedFontIndexes"></select>
 </div>
-
 <div class="form-group">
     <label class="d-inline">Формат</label>
     <select class="form-control fontPicker d-inline" id="sel1" data-bind="selectedOptions:selectedFormats">
@@ -21,15 +29,6 @@
         <!-- /ko-->
     </select>
 </div>
-
-@*<div class="form-group">
-    <div id="textBlockText" class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Текст</span>
-        </div>
-        <input type="text" class="form-control" placeholder="Текст в блоке" data-bind="value:text" />
-    </div>
-</div>*@
 
 <div class="form-group">
     <div class="accordion accordion-properties" id="accordionExample">

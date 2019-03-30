@@ -76,7 +76,9 @@ function masterViewModel(app) {
             function (data) {
                 data.selected = false;
                 self.blocks.push(data);
-                $('#blocksTree').jstree().create_node(null, getNode(data));
+                var node = getNode(block)
+                treenodes.push(node);
+                $('#blocksTree').jstree().create_node(null, node);
             }
         );
     };
@@ -89,7 +91,9 @@ function masterViewModel(app) {
             function (data) {
                 data.selected = false;
                 self.blocks.push(data);
-                $('#blocksTree').jstree().create_node(null, getNode(data));
+                var node = getNode(block)
+                treenodes.push(node);
+                $('#blocksTree').jstree().create_node(null, node);
             }
         );
     }
@@ -102,7 +106,9 @@ function masterViewModel(app) {
             function (data) {
                 data.selected = false;
                 self.blocks.push(data);
-                $('#blocksTree').jstree().create_node(null, getNode(data));
+                var node = getNode(block)
+                treenodes.push(node);
+                $('#blocksTree').jstree().create_node(null, node);
             }
         );
     }
@@ -115,7 +121,9 @@ function masterViewModel(app) {
             function (data) {
                 data.selected = false;
                 self.blocks.push(data);
-                $('#blocksTree').jstree().create_node(null, getNode(data));
+                var node = getNode(block)
+                treenodes.push(node);
+                $('#blocksTree').jstree().create_node(null, node);
             }
         );
     }
@@ -129,7 +137,9 @@ function masterViewModel(app) {
                 data.selected = false;
                 data.text = '';
                 self.blocks.push(data);
-                $('#blocksTree').jstree().create_node(null, getNode(data));
+                var node = getNode(block)
+                treenodes.push(node);
+                $('#blocksTree').jstree().create_node(null, node);
             }
         );
     }
@@ -196,6 +206,7 @@ function masterViewModel(app) {
             .modal({ backdrop: 'static', keyboard: false })
             .modal("show");
         if (block.type === 'text') {
+            self.textBlockEditViewModel().caption(block.caption);
             self.textBlockEditViewModel().backColor(block.backColor);
             self.textBlockEditViewModel().textColor(block.textColor);
             self.textBlockEditViewModel().setFont(block.font);
@@ -207,6 +218,7 @@ function masterViewModel(app) {
             self.textBlockEditViewModel().bold(block.bold);
         };
         if (block.type === 'datetime') {
+            self.datetimeBlockEditViewModel().caption(block.caption);
             self.datetimeBlockEditViewModel().backColor(block.backColor);
             self.datetimeBlockEditViewModel().textColor(block.textColor);
             self.datetimeBlockEditViewModel().setFont(block.font);
@@ -218,6 +230,7 @@ function masterViewModel(app) {
             self.datetimeBlockEditViewModel().bold(block.bold);
         };
         if (block.type === 'table') {
+            self.tableBlockEditViewModel().caption(block.caption);
             self.tableBlockEditViewModel().setFont(block.font);
             self.tableBlockEditViewModel().setFontSize(block.fontSize);
             self.tableBlockEditViewModel().setFontIndex(block.fontIndex);
@@ -234,6 +247,7 @@ function masterViewModel(app) {
             self.tableBlockEditViewModel().header(block.header);
         };
         if (block.type === 'picture') {
+            self.pictureBlockEditViewModel().caption(block.caption);
             self.pictureBlockEditViewModel().base64Image(block.base64Src);
         };
 
@@ -255,6 +269,7 @@ function masterViewModel(app) {
         }
         if (block.type === 'text') {
             self.blocks.remove(block);
+            block.caption = self.textBlockEditViewModel().caption();
             block.backColor = self.textBlockEditViewModel().backColor();
             block.textColor = self.textBlockEditViewModel().textColor();
             block.font = self.textBlockEditViewModel().selectedFonts()[0];
@@ -267,6 +282,7 @@ function masterViewModel(app) {
         };
         if (block.type === 'datetime') {
             self.blocks.remove(block);
+            block.caption = self.datetimeBlockEditViewModel().caption();
             block.backColor = self.datetimeBlockEditViewModel().backColor();
             block.textColor = self.datetimeBlockEditViewModel().textColor();
             block.font = self.datetimeBlockEditViewModel().selectedFonts()[0];
@@ -279,6 +295,7 @@ function masterViewModel(app) {
         };
         if (block.type === 'table') {
             self.blocks.remove(block);
+            block.caption = self.tableBlockEditViewModel().caption();
             block.font = self.tableBlockEditViewModel().selectedFonts()[0];
             block.fontSize = self.tableBlockEditViewModel().selectedFontSizes()[0];
             block.fontIndex = self.tableBlockEditViewModel().selectedFontIndexes()[0];
@@ -294,6 +311,7 @@ function masterViewModel(app) {
         }
         if (block.type === 'picture') {
             self.blocks.remove(block);
+            block.caption = self.pictureBlockEditViewModel().caption();
             block.base64Src = self.pictureBlockEditViewModel().base64Image();
         }
         app.request(
@@ -301,6 +319,15 @@ function masterViewModel(app) {
             "/api/saveBlock",
             block,
             function (data) {
+                //var nodeToRename = treenodes.filter(function (index) {
+                //    return index.id == block.id;
+                //})[0];
+                //nodeToRename["text"] = block.caption;
+
+                var node = $('#blocksTree').jstree('get_selected');
+                $('#blocksTree').jstree(true).set_text(node, block.caption);
+
+
                 self.blocks.push(block);
             }
         );
@@ -656,7 +683,9 @@ function masterViewModel(app) {
             "POST",
             "/api/saveBlock",
             block,
-            function (data) { }
+            function (data)
+            {
+            }
         );
     };
 
@@ -719,7 +748,7 @@ function masterViewModel(app) {
 
     getNode = function (block) {
         var node = {};
-        node["text"] = block.type + ' id:' + block.id;
+        node["text"] = block.caption;
         node["id"] = block.id;
         if (block.type == "text") {
             node["icon"] = "Images/block_text.png";
