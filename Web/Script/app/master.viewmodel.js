@@ -76,9 +76,9 @@ function masterViewModel(app) {
             function (data) {
                 data.selected = false;
                 self.blocks.push(data);
-                var node = getNode(block)
+                var node = getNode(data)
                 treenodes.push(node);
-                $('#blocksTree').jstree().create_node(null, node);
+                $('#blocksTree').jstree(true).create_node(null, node);
             }
         );
     };
@@ -91,9 +91,9 @@ function masterViewModel(app) {
             function (data) {
                 data.selected = false;
                 self.blocks.push(data);
-                var node = getNode(block)
+                var node = getNode(data)
                 treenodes.push(node);
-                $('#blocksTree').jstree().create_node(null, node);
+                $('#blocksTree').jstree(true).create_node(null, node);
             }
         );
     }
@@ -106,9 +106,9 @@ function masterViewModel(app) {
             function (data) {
                 data.selected = false;
                 self.blocks.push(data);
-                var node = getNode(block)
+                var node = getNode(data)
                 treenodes.push(node);
-                $('#blocksTree').jstree().create_node(null, node);
+                $('#blocksTree').jstree(true).create_node(null, node);
             }
         );
     }
@@ -121,9 +121,9 @@ function masterViewModel(app) {
             function (data) {
                 data.selected = false;
                 self.blocks.push(data);
-                var node = getNode(block)
+                var node = getNode(data)
                 treenodes.push(node);
-                $('#blocksTree').jstree().create_node(null, node);
+                $('#blocksTree').jstree(true).create_node(null, node);
             }
         );
     }
@@ -137,9 +137,9 @@ function masterViewModel(app) {
                 data.selected = false;
                 data.text = '';
                 self.blocks.push(data);
-                var node = getNode(block)
+                var node = getNode(data)
                 treenodes.push(node);
-                $('#blocksTree').jstree().create_node(null, node);
+                $('#blocksTree').jstree(true).create_node(null, node);
             }
         );
     }
