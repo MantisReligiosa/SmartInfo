@@ -195,7 +195,6 @@ function masterViewModel(app) {
             .modal("show");
     }
 
-
     self.showProperties = function () {
         var block = self.selectedBlock();
         if (block == null) {
@@ -378,6 +377,8 @@ function masterViewModel(app) {
             "/api/deleteBlock",
             block,
             function (data) {
+                var node = $('#blocksTree').jstree('get_selected');
+                $('#blocksTree').jstree(true).delete_node(node);
                 self.blocks.remove(block);
                 self.selectedBlock(null);
             }
@@ -676,8 +677,7 @@ function masterViewModel(app) {
             "POST",
             "/api/saveBlock",
             block,
-            function (data)
-            {
+            function (data) {
             }
         );
     };
