@@ -724,17 +724,32 @@ function masterViewModel(app) {
                                 return index.id == nodeId;
                             })[0];
                             selectBlock(blockToSelect);
+                            return;
+                        }
+                        var type = node.original.type;
+                        if (type == "frame") {
+                            var metablock = self.blocks().filter(function (block) {
+                                return block.id == node.parent;
+                            })[0];
+                            metablock.frames.forEach(function (frame) {
+                                frame.checked = frame.id == node.id;
+                                var frameNode = $('#blocksTree').jstree(true).get_node(frame.id);
+                                $('#blocksTree').jstree(true).set_icon(frameNode, frame.checked ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png");
+                            });
+                            var metaNode = $('#blocksTree').jstree(true).get_node(metablock.id);
+                            $('#blocksTree').jstree(true).deselect_all();
+                            $('#blocksTree').jstree(true).select_node(metaNode);
                         }
                     })
                     .jstree({
-                    'core': {
-                        'check_callback': true,
-                        'data': treenodes,
-                        "themes": {
-                            "dots": true
-                        },
-                    }
-                });
+                        'core': {
+                            'check_callback': true,
+                            'data': treenodes,
+                            "themes": {
+                                "dots": true
+                            },
+                        }
+                    });
                 $('#blocksTree').jstree().redraw(true);
             });
     }
@@ -743,6 +758,7 @@ function masterViewModel(app) {
         var node = {};
         node["text"] = block.caption;
         node["id"] = block.id;
+        node["type"] = block.type;
         if (block.type == "text") {
             node["icon"] = "Images/block_text.png";
         }
@@ -766,13 +782,14 @@ function masterViewModel(app) {
         nodes = [];
         metaBlock.frames.sort(function (a, b) { return a.index - b.index }).forEach(function (frame) {
             var node = {};
+            frame.checked = frame.index == 1;
+            node["type"] = "frame";
             node["text"] = "frame" + frame.index;
             node["id"] = frame.id;
             node["parent"] = metaBlock.id;
-            node["icon"] = "Images/metablock_frame.png";
+            node["icon"] = frame.checked ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png";
             nodes.push(node);
         });
-        debugger;
         return nodes;
     }
 
