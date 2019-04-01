@@ -186,6 +186,11 @@
                     @Html.Partial("Home/DatetimeBlockProperties")
                     <!-- /ko-->
                     <!-- /ko-->
+                    <!-- ko if: !backgroundPropertiesMode() && selectedBlock() != null && selectedBlock().type == "meta"-->
+                    <!-- ko with: metaBlockEditViewModel()-->
+                    @Html.Partial("Home/MetaBlockProperties")
+                    <!-- /ko-->
+                    <!-- /ko-->
                 </div>
             </div>
             <div class="modal-footer">

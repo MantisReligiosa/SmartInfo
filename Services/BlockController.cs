@@ -323,5 +323,14 @@ namespace Services
             block.Top = top;
             _unitOfWork.Complete();
         }
+
+        public MetaBlock CopyMetabLock(MetaBlock block)
+        {
+            return null;
+        }
+
+        public void SaveMetabLock(MetaBlock b)
+        {
+        }
     }
 }

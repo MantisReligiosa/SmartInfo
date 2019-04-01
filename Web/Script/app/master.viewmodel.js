@@ -45,6 +45,7 @@ function masterViewModel(app) {
     self.tableBlockEditViewModel = ko.computed(function () { return new TableBlockEditViewModel(self); });
     self.pictureBlockEditViewModel = ko.computed(function () { return new PictureBlockEditViewModel(self); });
     self.datetimeBlockEditViewModel = ko.computed(function () { return new DatetimeBlockEditViewModel(self); });
+    self.metaBlockEditViewModel = ko.computed(function () { return new MetaBlockEditViewModel(self); });
     self.positionViewModel = ko.computed(function () { return new PositionViewModel(self); });
     self.backgroundPropertiesMode = ko.observable(true);
 
@@ -249,6 +250,13 @@ function masterViewModel(app) {
             self.pictureBlockEditViewModel().caption(block.caption);
             self.pictureBlockEditViewModel().base64Image(block.base64Src);
         };
+        if (block.type == 'meta') {
+            self.metaBlockEditViewModel().caption(block.caption);
+            block.frames.forEach(function (frame) {
+                frame.selected = false;
+            });
+            self.metaBlockEditViewModel().metaFrames(block.frames);
+        }
 
     };
 
@@ -740,8 +748,8 @@ function masterViewModel(app) {
                             $('#blocksTree').jstree(true).deselect_all();
                             $('#blocksTree').jstree(true).select_node(metaNode);
                         }
-                    })
-                    .jstree({
+                    });
+                $('#blocksTree').jstree({
                         'core': {
                             'check_callback': true,
                             'data': treenodes,
@@ -784,7 +792,7 @@ function masterViewModel(app) {
             var node = {};
             frame.checked = frame.index == 1;
             node["type"] = "frame";
-            node["text"] = "frame" + frame.index;
+            node["text"] = "Frame" + frame.index;
             node["id"] = frame.id;
             node["parent"] = metaBlock.id;
             node["icon"] = frame.checked ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png";

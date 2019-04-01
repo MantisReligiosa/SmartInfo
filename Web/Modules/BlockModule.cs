@@ -2,7 +2,6 @@
 using DomainObjects.Blocks;
 using Nancy;
 using Nancy.ModelBinding;
-using Nancy.Security;
 using NLog;
 using ServiceInterfaces;
 using System;
@@ -10,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Web.Models;
 using Web.Models.Blocks;
-using Web.Profiles;
 
 namespace Web.Modules
 {
@@ -26,7 +24,7 @@ namespace Web.Modules
             IBlockController blockController,
             ISerializationController serializationController
             )
-            :base()
+            : base()
         {
             _blockController = blockController;
             _serializationController = serializationController;
@@ -52,14 +50,16 @@ namespace Web.Modules
                 { "text", () => SaveBlock<TextBlock, TextBlockDto>(b => blockController.SaveTextBlock(b)) },
                 { "table", () => SaveBlock<TableBlock, TableBlockDto>(b => blockController.SaveTableBlock(b)) },
                 { "picture", () => SaveBlock<PictureBlock, PictureBlockDto>(b => blockController.SavePictureBlock(b)) },
-                { "datetime", () => SaveBlock<DateTimeBlock, DateTimeBlockDto>(b => blockController.SaveDateTimeBlock(b)) }
+                { "datetime", () => SaveBlock<DateTimeBlock, DateTimeBlockDto>(b => blockController.SaveDateTimeBlock(b)) },
+                { "meta", () => SaveBlock<MetaBlock, MetaBlockDto>(b => blockController.SaveMetabLock(b)) }
             };
             _copiers = new Dictionary<string, Func<object>>
             {
                 { "text" , () => CopyBlock<TextBlock, TextBlockDto>(b => blockController.CopyTextBlock(b)) },
                 { "table" , () => CopyBlock<TableBlock, TableBlockDto>(b => blockController.CopyTableBlock(b)) },
                 { "picture" , () => CopyBlock<PictureBlock, PictureBlockDto>(b => blockController.CopyPictureBlock(b)) },
-                { "datetime" , () => CopyBlock<DateTimeBlock, DateTimeBlockDto>(b => blockController.CopyDateTimeBlock(b)) }
+                { "datetime" , () => CopyBlock<DateTimeBlock, DateTimeBlockDto>(b => blockController.CopyDateTimeBlock(b)) },
+                { "meta", () => CopyBlock<MetaBlock, MetaBlockDto>(b => blockController.CopyMetabLock(b)) }
             };
         }
 
