@@ -252,6 +252,7 @@ function masterViewModel(app) {
         };
         if (block.type == 'meta') {
             self.metaBlockEditViewModel().caption(block.caption);
+            self.metaBlockEditViewModel().id(block.id);
             block.frames.forEach(function (frame) {
                 frame.selected = false;
             });
@@ -321,14 +322,23 @@ function masterViewModel(app) {
             block.caption = self.pictureBlockEditViewModel().caption();
             block.base64Src = self.pictureBlockEditViewModel().base64Image();
         }
+        if (block.type === 'meta') {
+            self.blocks.remove(block);
+            block.caption = self.metaBlockEditViewModel().caption();
+            block.frames = self.metaBlockEditViewModel().metaFrames();
+        }
         app.request(
             "POST",
             "/api/saveBlock",
             block,
             function (data) {
                 var node = $('#blocksTree').jstree('get_selected');
-                $('#blocksTree').jstree(true).set_text(node, block.caption);
+                $('#blocksTree').jstree(true).delete_node(node);
                 self.blocks.push(block);
+
+                var node = getNode(data)
+                treenodes.push(node);
+                $('#blocksTree').jstree(true).create_node(null, node);
             }
         );
     };
