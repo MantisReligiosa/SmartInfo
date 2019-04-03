@@ -180,28 +180,32 @@ namespace Web.Modules
 
         private DateTimeBlockDto AddDatetimeBlock()
         {
-            var dateTimeBlock = _blockController.AddDateTimeBlock();
+            var addBlockParams = this.Bind<AddBlockParamsDto>();
+            var dateTimeBlock = _blockController.AddDateTimeBlock(addBlockParams.FrameId);
             var block = _mapper.Map<DateTimeBlockDto>(dateTimeBlock);
             return block;
         }
 
         private PictureBlockDto AddPictureBlock()
         {
-            var pictureBlock = _blockController.AddPictureBlock();
+            var addBlockParams = this.Bind<AddBlockParamsDto>();
+            var pictureBlock = _blockController.AddPictureBlock(addBlockParams.FrameId);
             var block = _mapper.Map<PictureBlockDto>(pictureBlock);
             return block;
         }
 
         private TableBlockDto AddTableBlock()
         {
-            var tableBlock = _blockController.AddTableBlock();
+            var addBlockParams = this.Bind<AddBlockParamsDto>();
+            var tableBlock = _blockController.AddTableBlock(addBlockParams.FrameId);
             var block = _mapper.Map<TableBlockDto>(tableBlock);
             return block;
         }
 
         private TextBlockDto AddTextBlock()
         {
-            var textBlock = _blockController.AddTextBlock();
+            var addBlockParams = this.Bind<AddBlockParamsDto>();
+            var textBlock = _blockController.AddTextBlock(addBlockParams.FrameId);
             var block = _mapper.Map<TextBlockDto>(textBlock);
             return block;
         }

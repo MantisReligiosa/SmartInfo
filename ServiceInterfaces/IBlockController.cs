@@ -10,10 +10,10 @@ namespace ServiceInterfaces
         string GetBackground();
 
 
-        TextBlock AddTextBlock();
-        TableBlock AddTableBlock();
-        PictureBlock AddPictureBlock();
-        DateTimeBlock AddDateTimeBlock();
+        TextBlock AddTextBlock(Guid? frameId);
+        TableBlock AddTableBlock(Guid? frameId);
+        PictureBlock AddPictureBlock(Guid? frameId);
+        DateTimeBlock AddDateTimeBlock(Guid? frameId);
         MetaBlock AddMetaBlock();
         TextBlock CopyTextBlock(TextBlock block);
         TableBlock CopyTableBlock(TableBlock block);

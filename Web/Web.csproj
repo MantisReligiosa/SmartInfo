@@ -366,6 +366,7 @@
     <Compile Include="Bundles\MasterJsBundle.cs" />
     <Compile Include="Bundles\VendorJsBundles.cs" />
     <Compile Include="CustomStatusCode.cs" />
+    <Compile Include="Models\AddBlockParamsDto.cs" />
     <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Models\Blocks\Binders\FromBodyJsonBinder.cs" />
     <Compile Include="Models\Blocks\BlockDto.cs" />

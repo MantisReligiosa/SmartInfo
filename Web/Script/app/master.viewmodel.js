@@ -100,7 +100,6 @@ function masterViewModel(app) {
             frameId = self.selectedBlock().frames.filter(function (frame) {
                 return frame.checked
             })[0].id;
-            debugger;
         };
         app.request(
             "POST",
@@ -112,9 +111,10 @@ function masterViewModel(app) {
                     blockProcessing(data);
                 }
                 self.blocks.push(data);
+                debugger;
                 var node = getNode(data)
                 treenodes.push(node);
-                $('#blocksTree').jstree(true).create_node(null, node);
+                $('#blocksTree').jstree(true).create_node(frameId, node);
             }
         );
     }

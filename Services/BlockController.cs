@@ -45,13 +45,14 @@ namespace Services
             return backgroundColor?.Value ?? string.Empty;
         }
 
-        public TextBlock AddTextBlock()
+        public TextBlock AddTextBlock(Guid? frameId)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new TextBlock
             {
                 Caption = $"TextBlock",
                 Height = 50,
                 Width = 200,
+                MetablockFrameId = frameId,
                 Details = new TextBlockDetails
                 {
                     BackColor = "#ffffff",
@@ -68,13 +69,14 @@ namespace Services
             return block;
         }
 
-        public TableBlock AddTableBlock()
+        public TableBlock AddTableBlock(Guid? frameId)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new TableBlock
             {
                 Caption = "TableBlock",
                 Height = 200,
                 Width = 200,
+                MetablockFrameId = frameId,
                 Details = new TableBlockDetails
                 {
                     FontName = _systemController.GetFonts().First(),
@@ -111,26 +113,28 @@ namespace Services
             return block;
         }
 
-        public PictureBlock AddPictureBlock()
+        public PictureBlock AddPictureBlock(Guid? frameId)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new PictureBlock
             {
                 Caption = "PictureBlock",
                 Height = 50,
                 Width = 50,
+                MetablockFrameId = frameId,
                 Details = new PictureBlockDetails()
             }) as PictureBlock;
             _unitOfWork.Complete();
             return block;
         }
 
-        public DateTimeBlock AddDateTimeBlock()
+        public DateTimeBlock AddDateTimeBlock(Guid? frameId)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new DateTimeBlock
             {
                 Caption = "DateTimeBlock",
                 Height = 50,
                 Width = 50,
+                MetablockFrameId = frameId,
                 Details = new DateTimeBlockDetails
                 {
                     BackColor = "#ffffff",
