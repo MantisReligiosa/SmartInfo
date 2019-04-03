@@ -21,11 +21,11 @@ namespace ServiceInterfaces
         DateTimeBlock CopyDateTimeBlock(DateTimeBlock block);
         MetaBlock CopyMetabLock(MetaBlock block);
         IEnumerable<DisplayBlock> GetBlocks();
-        void SaveTextBlock(TextBlock textBlock);
-        void SaveTableBlock(TableBlock block);
-        void SavePictureBlock(PictureBlock block);
-        void SaveDateTimeBlock(DateTimeBlock block);
-        void SaveMetabLock(MetaBlock b);
+        TextBlock SaveTextBlock(TextBlock textBlock);
+        TableBlock SaveTableBlock(TableBlock block);
+        PictureBlock SavePictureBlock(PictureBlock block);
+        DateTimeBlock SaveDateTimeBlock(DateTimeBlock block);
+        MetaBlock SaveMetabLock(MetaBlock b);
         void DeleteBlock(Guid id);
         void Cleanup();
         void MoveAndResizeBlock(Guid id, int height, int width, int left, int top);

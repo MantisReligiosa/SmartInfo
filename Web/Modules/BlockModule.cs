@@ -17,7 +17,7 @@ namespace Web.Modules
         private readonly IBlockController _blockController;
         private readonly ISerializationController _serializationController;
 
-        private readonly Dictionary<string, Action> _savers;
+        private readonly Dictionary<string, Func<dynamic>> _savers;
         private readonly Dictionary<string, Func<object>> _copiers;
 
         public BlockModule(
@@ -45,7 +45,7 @@ namespace Web.Modules
             Get["/api/downloadConfig"] = DownloadConfig(blockController, serializationController, _logger);
             Post["/api/uploadConfig"] = Wrap(UploadConfig, "Ошибка загрузки конфигурации");
 
-            _savers = new Dictionary<string, Action>()
+            _savers = new Dictionary<string, Func<dynamic>>()
             {
                 { "text", () => SaveBlock<TextBlock, TextBlockDto>(b => blockController.SaveTextBlock(b)) },
                 { "table", () => SaveBlock<TableBlock, TableBlockDto>(b => blockController.SaveTableBlock(b)) },
@@ -159,10 +159,10 @@ namespace Web.Modules
             _blockController.DeleteBlock(data.Id);
         }
 
-        private void SaveBlock()
+        private dynamic SaveBlock()
         {
             var data = this.Bind<BlockDto>();
-            _savers.First(kvp => kvp.Key.Equals(data.Type, StringComparison.InvariantCultureIgnoreCase)).Value.Invoke();
+            return _savers.First(kvp => kvp.Key.Equals(data.Type, StringComparison.InvariantCultureIgnoreCase)).Value.Invoke();
         }
 
         private void MoveAndResize()
@@ -217,13 +217,13 @@ namespace Web.Modules
             _blockController.SetBackground(data.Color);
         }
 
-        private void SaveBlock<TBlock, TBlockDto>(Action<TBlock> saveAction)
+        private dynamic SaveBlock<TBlock, TBlockDto>(Func<TBlock,dynamic> saveAction)
             where TBlock : DisplayBlock
             where TBlockDto : BlockDto
         {
             var b = this.Bind<TBlockDto>();
             var block = _mapper.Map<TBlock>(b);
-            saveAction.Invoke(block);
+            return saveAction.Invoke(block);
         }
 
         private TBlockDto CopyBlock<TBlock, TBlockDto>(Func<TBlock, TBlock> copyFunction)

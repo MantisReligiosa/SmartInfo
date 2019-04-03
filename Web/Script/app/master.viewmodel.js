@@ -70,42 +70,47 @@ function masterViewModel(app) {
     }
 
     self.addTextBlock = function () {
-        app.request(
-            "POST",
-            "/api/addTextBlock",
-            {},
-            function (data) {
-                data.selected = false;
-                self.blocks.push(data);
-                var node = getNode(data)
-                treenodes.push(node);
-                $('#blocksTree').jstree(true).create_node(null, node);
-            }
-        );
+        addSimpleBlock("/api/addTextBlock", function (data) {
+            data.type = 'text';
+        });
     };
 
     self.addTableBlock = function () {
-        app.request(
-            "POST",
-            "api/addTableBlock",
-            {},
-            function (data) {
-                data.selected = false;
-                self.blocks.push(data);
-                var node = getNode(data)
-                treenodes.push(node);
-                $('#blocksTree').jstree(true).create_node(null, node);
-            }
-        );
-    }
+        addSimpleBlock("api/addTableBlock", function (data) {
+            data.type = 'table';
+        });
+    };
 
     self.addPictureBlock = function () {
+        addSimpleBlock("api/addPictureBlock", function (data) {
+            data.type = 'picture';
+        });
+    }
+
+    self.addDateTimeBlock = function () {
+        addSimpleBlock("api/addDateTimeBlock", function (data) {
+            data.type = 'datetime';
+            data.text = '';
+        });
+    }
+
+    addSimpleBlock = function (apiMethod, blockProcessing) {
+        var frameId = null;
+        if (self.selectedBlock() && self.selectedBlock().type == 'meta') {
+            frameId = self.selectedBlock().frames.filter(function (frame) {
+                return frame.checked
+            })[0].id;
+            debugger;
+        };
         app.request(
             "POST",
-            "api/addPictureBlock",
-            {},
+            apiMethod,
+            { frameId },
             function (data) {
                 data.selected = false;
+                if (blockProcessing != undefined) {
+                    blockProcessing(data);
+                }
                 self.blocks.push(data);
                 var node = getNode(data)
                 treenodes.push(node);
@@ -121,22 +126,6 @@ function masterViewModel(app) {
             {},
             function (data) {
                 data.selected = false;
-                self.blocks.push(data);
-                var node = getNode(data)
-                treenodes.push(node);
-                $('#blocksTree').jstree(true).create_node(null, node);
-            }
-        );
-    }
-
-    self.addDateTimeBlock = function () {
-        app.request(
-            "POST",
-            "api/addDateTimeBlock",
-            {},
-            function (data) {
-                data.selected = false;
-                data.text = '';
                 self.blocks.push(data);
                 var node = getNode(data)
                 treenodes.push(node);
@@ -332,13 +321,18 @@ function masterViewModel(app) {
             "/api/saveBlock",
             block,
             function (data) {
-                var node = $('#blocksTree').jstree('get_selected');
-                $('#blocksTree').jstree(true).delete_node(node);
+                var nodeId = $('#blocksTree').jstree('get_selected')[0];
+                var treenode = treenodes.filter(function (n) {
+                    return n.id == nodeId;
+                })[0];
+                var index = treenodes.indexOf(treenode);
+                treenodes.splice(index, 1);
+                $('#blocksTree').jstree(true).delete_node(nodeId);
                 self.blocks.push(block);
-
-                var node = getNode(data)
-                treenodes.push(node);
-                $('#blocksTree').jstree(true).create_node(null, node);
+                data.type = block.type;
+                var newNode = getNode(data)
+                treenodes.push(newNode);
+                $('#blocksTree').jstree(true).create_node(null, newNode, index);
             }
         );
     };
@@ -395,8 +389,13 @@ function masterViewModel(app) {
             "/api/deleteBlock",
             block,
             function (data) {
-                var node = $('#blocksTree').jstree('get_selected');
-                $('#blocksTree').jstree(true).delete_node(node);
+                var nodeId = $('#blocksTree').jstree('get_selected')[0];
+                $('#blocksTree').jstree(true).delete_node(nodeId);
+                var treenode = treenodes.filter(function (n) {
+                    return n.id == nodeId;
+                })[0];
+                var index = treenodes.indexOf(treenode);
+                treenodes.splice(index, 1);
                 self.blocks.remove(block);
                 self.selectedBlock(null);
             }
@@ -760,14 +759,14 @@ function masterViewModel(app) {
                         }
                     });
                 $('#blocksTree').jstree({
-                        'core': {
-                            'check_callback': true,
-                            'data': treenodes,
-                            "themes": {
-                                "dots": true
-                            },
-                        }
-                    });
+                    'core': {
+                        'check_callback': true,
+                        'data': treenodes,
+                        "themes": {
+                            "dots": true
+                        },
+                    }
+                });
                 $('#blocksTree').jstree().redraw(true);
             });
     }

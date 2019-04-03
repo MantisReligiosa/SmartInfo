@@ -182,24 +182,27 @@ namespace Services
             return block;
         }
 
-        public void SaveTextBlock(TextBlock textBlock)
+        public TextBlock SaveTextBlock(TextBlock textBlock)
         {
             if (!(_unitOfWork.DisplayBlocks.Get(textBlock.Id) is TextBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(textBlock);
+                return textBlock;
             }
             else
             {
                 block.CopyFrom(textBlock);
                 _unitOfWork.DisplayBlocks.Update(block);
+                return block;
             }
         }
 
-        public void SaveTableBlock(TableBlock tableBlock)
+        public TableBlock SaveTableBlock(TableBlock tableBlock)
         {
             if (!(_unitOfWork.DisplayBlocks.Get(tableBlock.Id) is TableBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(tableBlock);
+                return tableBlock;
             }
             else
             {
@@ -235,23 +238,26 @@ namespace Services
                     }
                 }
                 _unitOfWork.DisplayBlocks.Update(block);
+                return block;
             }
         }
 
-        public void SavePictureBlock(PictureBlock pictureBlock)
+        public PictureBlock SavePictureBlock(PictureBlock pictureBlock)
         {
             if (!(_unitOfWork.DisplayBlocks.Get(pictureBlock.Id) is PictureBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(pictureBlock);
+                return pictureBlock;
             }
             else
             {
                 block.CopyFrom(pictureBlock);
                 _unitOfWork.DisplayBlocks.Update(block);
+                return block;
             }
         }
 
-        public void SaveDateTimeBlock(DateTimeBlock dateTimeBlock)
+        public DateTimeBlock SaveDateTimeBlock(DateTimeBlock dateTimeBlock)
         {
             if (dateTimeBlock.Details.Format != null)
             {
@@ -261,11 +267,13 @@ namespace Services
             if (!(_unitOfWork.DisplayBlocks.Get(dateTimeBlock.Id) is DateTimeBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(dateTimeBlock);
+                return dateTimeBlock;
             }
             else
             {
                 block.CopyFrom(dateTimeBlock);
                 _unitOfWork.DisplayBlocks.Update(block);
+                return block;
             }
         }
 
@@ -329,8 +337,9 @@ namespace Services
             return null;
         }
 
-        public void SaveMetabLock(MetaBlock b)
+        public MetaBlock SaveMetabLock(MetaBlock b)
         {
+            return null;
         }
     }
 }
