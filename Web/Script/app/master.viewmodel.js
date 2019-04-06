@@ -1,4 +1,4 @@
-function masterViewModel(app) {
+﻿function masterViewModel(app) {
     var self = this,
         clipboard;
 
@@ -110,8 +110,9 @@ function masterViewModel(app) {
                 if (blockProcessing != undefined) {
                     blockProcessing(data);
                 }
-                self.blocks.push(data);
-                debugger;
+                if (frameId == null) {
+                    self.blocks.push(data);
+                };
                 var node = getNode(data)
                 treenodes.push(node);
                 $('#blocksTree').jstree(true).create_node(frameId, node);
@@ -478,6 +479,7 @@ function masterViewModel(app) {
         unselectBlocks();
         self.selectedBlock.selected = false;
         bind.selected = true;
+        debugger;
         self.blocks.push(bind);
         self.selectedBlock(bind);
         initializeControls();
@@ -732,7 +734,14 @@ function masterViewModel(app) {
                 $('#blocksTree')
                     .on('select_node.jstree', function (e, data) {
                         var node = data.node;
-                        if (node.parent == '#') {
+                        var type = node.original.type;
+                        if (type == "frame") {
+                            setFrameNodeChecked(node.parent, node.id);
+                            var metaNode = $('#blocksTree').jstree(true).get_node(node.parent);
+                            $('#blocksTree').jstree(true).deselect_all();
+                            $('#blocksTree').jstree(true).select_node(metaNode);
+                        }
+                        else {
                             var nodeId = node.id;
                             var selectedBlock = self.selectedBlock();
                             if (selectedBlock != null && selectedBlock.id == nodeId)
@@ -740,23 +749,29 @@ function masterViewModel(app) {
                             var blockToSelect = self.blocks().filter(function (index) {
                                 return index.id == nodeId;
                             })[0];
-                            selectBlock(blockToSelect);
+                            if (blockToSelect == null) {
+                                //Ищем по всем метаблокам
+                                blockToSelect = self
+                                    .blocks().filter(function (block) {
+                                        return block.type == 'meta' && block.frames.some(function (frame) {
+                                            return frame.id == node.parent;
+                                        })
+                                    })[0]
+                                    .frames.filter(function (frame) {
+                                        return frame.id == node.parent;
+                                    })[0]
+                                    .blocks.filter(function (block) {
+                                        return block.id == node.id;
+                                    })[0];
+
+                                //ToDo: Отработать выделение в дизайнере
+                            }
+                            else {
+                                selectBlock(blockToSelect);
+                            }
                             return;
                         }
-                        var type = node.original.type;
-                        if (type == "frame") {
-                            var metablock = self.blocks().filter(function (block) {
-                                return block.id == node.parent;
-                            })[0];
-                            metablock.frames.forEach(function (frame) {
-                                frame.checked = frame.id == node.id;
-                                var frameNode = $('#blocksTree').jstree(true).get_node(frame.id);
-                                $('#blocksTree').jstree(true).set_icon(frameNode, frame.checked ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png");
-                            });
-                            var metaNode = $('#blocksTree').jstree(true).get_node(metablock.id);
-                            $('#blocksTree').jstree(true).deselect_all();
-                            $('#blocksTree').jstree(true).select_node(metaNode);
-                        }
+
                     });
                 $('#blocksTree').jstree({
                     'core': {
@@ -769,6 +784,17 @@ function masterViewModel(app) {
                 });
                 $('#blocksTree').jstree().redraw(true);
             });
+    }
+
+    setFrameNodeChecked = function (metablockId, frameId) {
+        var metablock = self.blocks().filter(function (block) {
+            return block.id == metablockId;
+        })[0];
+        metablock.frames.forEach(function (frame) {
+            frame.checked = frame.id == frameId;
+            var frameNode = $('#blocksTree').jstree(true).get_node(frame.id);
+            $('#blocksTree').jstree(true).set_icon(frameNode, frame.checked ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png");
+        });
     }
 
     getNode = function (block) {
@@ -801,11 +827,18 @@ function masterViewModel(app) {
             var node = {};
             frame.checked = frame.index == 1;
             node["type"] = "frame";
-            node["text"] = "Frame" + frame.index;
+            node["text"] = "Кадр" + frame.index;
             node["id"] = frame.id;
             node["parent"] = metaBlock.id;
             node["icon"] = frame.checked ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png";
             nodes.push(node);
+            childs = [];
+            frame.blocks.forEach(function (block) {
+                var nodeBlock = getNode(block);
+                nodeBlock["parent"] = frame.id;
+                childs.push(nodeBlock);
+            });
+            node["children"] = childs;
         });
         return nodes;
     }

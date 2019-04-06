@@ -12,11 +12,15 @@ namespace Web.Profiles
             CreateMap<MetaBlock, MetaBlockDto>()
                 .ForMember(b => b.Type, opt => opt.MapFrom(b => "meta"))
                 .ForMember(b => b.Caption, opt => opt.MapFrom(b => string.IsNullOrEmpty(b.Caption) ? "meta" : b.Caption))
-                .ForMember(b => b.Frames, opt => opt.MapFrom( b=> b.Details.Frames));
+                .ForMember(b => b.Frames, opt => opt.MapFrom(b => b.Details.Frames));
 
             CreateMap<MetaBlockDto, MetaBlock>();
 
-            CreateMap<MetablockFrame, MetablockFrameDto>();
+            CreateMap<MetablockFrame, MetablockFrameDto>()
+                .ForMember(b => b.Blocks, opt => opt.Ignore());
+
+            CreateMap<MetablockFrameDto, MetablockFrame>()
+                .ForMember(b => b.Blocks, opt => opt.Ignore());
         }
     }
 }
