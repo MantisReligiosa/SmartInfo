@@ -479,7 +479,6 @@
         unselectBlocks();
         self.selectedBlock.selected = false;
         bind.selected = true;
-        debugger;
         self.blocks.push(bind);
         self.selectedBlock(bind);
         initializeControls();

@@ -440,22 +440,40 @@
     <Content Include="Views\Home\_Menu.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Home\ScreenProperties.cshtml">
+    <Content Include="Views\Home\Properties\_ScreenProperties.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Home\TextBlockProperties.cshtml">
+    <Content Include="Views\Home\Properties\_TextBlockProperties.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Home\TableBlockProperties.cshtml">
+    <Content Include="Views\Home\Properties\_TableBlockProperties.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Home\PictureBlockProperties.cshtml">
+    <Content Include="Views\Home\Properties\_PictureBlockProperties.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Home\DatetimeBlockProperties.cshtml">
+    <Content Include="Views\Home\Properties\_DatetimeBlockProperties.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Home\MetaBlockProperties.cshtml">
+    <Content Include="Views\Home\Properties\_MetaBlockProperties.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Blocks\_Block.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Blocks\Renders\_TextBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Blocks\Renders\_DatetimeBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Blocks\Renders\_PictureBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Blocks\Renders\_TableBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Blocks\Renders\_MetaBlock.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Web.Debug.config">

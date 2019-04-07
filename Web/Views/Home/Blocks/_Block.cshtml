@@ -1,0 +1,21 @@
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+
+<div class="displayBlock resize-drag"
+     data-bind="attr:{id:id}, click:selectBlock, style: {'width':width, 'height':height,'left':left, 'top':top, 'overflow':'hidden', 'z-index':zIndex}, css:{selected: selected}">
+
+    <!-- ko if: type == "text"-->
+    @Html.Partial("Home/Blocks/Renders/_TextBlock")
+    <!-- /ko-->
+    <!-- ko if: type == "datetime"-->
+    @Html.Partial("Home/Blocks/Renders/_DatetimeBlock")
+    <!-- /ko-->
+    <!-- ko if: type == "picture"-->
+    @Html.Partial("Home/Blocks/Renders/_PictureBlock")
+    <!-- /ko-->
+    <!-- ko if: type == "table"-->
+    @Html.Partial("Home/Blocks/Renders/_TableBlock")
+    <!-- /ko-->
+    <!-- ko if: type == "meta"-->
+    @Html.Partial("Home/Blocks/Renders/_MetaBlock")
+    <!-- /ko-->
+</div>
