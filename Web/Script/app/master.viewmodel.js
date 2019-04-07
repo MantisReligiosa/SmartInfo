@@ -525,6 +525,58 @@
         self.textBlockEditViewModel().initializeControls();
         self.tableBlockEditViewModel().initializeControls();
         self.datetimeBlockEditViewModel().initializeControls();
+
+        $('#blocksTree')
+            .on('select_node.jstree', function (e, data) {
+                var node = data.node;
+                var type = node.original.type;
+                if (type == "frame") {
+                    setFrameNodeChecked(node.parent, node.id);
+                    var metaNode = $('#blocksTree').jstree(true).get_node(node.parent);
+                    $('#blocksTree').jstree(true).deselect_all();
+                    $('#blocksTree').jstree(true).select_node(metaNode);
+                }
+                else {
+                    var nodeId = node.id;
+                    var selectedBlock = self.selectedBlock();
+                    if (selectedBlock != null && selectedBlock.id == nodeId)
+                        return;
+                    var blockToSelect = self.blocks().filter(function (index) {
+                        return index.id == nodeId;
+                    })[0];
+                    if (blockToSelect == null) {
+                        //Ищем по всем метаблокам
+                        blockToSelect = self
+                            .blocks().filter(function (block) {
+                                return block.type == 'meta' && block.frames.some(function (frame) {
+                                    return frame.id == node.parent;
+                                })
+                            })[0]
+                            .frames.filter(function (frame) {
+                                return frame.id == node.parent;
+                            })[0]
+                            .blocks.filter(function (block) {
+                                return block.id == node.id;
+                            })[0];
+
+                        //ToDo: Отработать выделение в дизайнере
+                    }
+                    else {
+                        selectBlock(blockToSelect);
+                    }
+                    return;
+                }
+
+            });
+        $('#blocksTree').jstree({
+            'core': {
+                'check_callback': true,
+                'data': treenodes,
+                "themes": {
+                    "dots": true
+                },
+            }
+        });
     };
 
     initReact = function () {
@@ -728,60 +780,10 @@
                         block.format = (block.format == undefined) ? null : block.format
                     }
                     self.blocks.push(block);
-                    treenodes.push(getNode(block));
+                    var node = getNode(block);
+                    treenodes.push(node);
+                    $('#blocksTree').jstree(true).create_node(null, node);
                 });
-                $('#blocksTree')
-                    .on('select_node.jstree', function (e, data) {
-                        var node = data.node;
-                        var type = node.original.type;
-                        if (type == "frame") {
-                            setFrameNodeChecked(node.parent, node.id);
-                            var metaNode = $('#blocksTree').jstree(true).get_node(node.parent);
-                            $('#blocksTree').jstree(true).deselect_all();
-                            $('#blocksTree').jstree(true).select_node(metaNode);
-                        }
-                        else {
-                            var nodeId = node.id;
-                            var selectedBlock = self.selectedBlock();
-                            if (selectedBlock != null && selectedBlock.id == nodeId)
-                                return;
-                            var blockToSelect = self.blocks().filter(function (index) {
-                                return index.id == nodeId;
-                            })[0];
-                            if (blockToSelect == null) {
-                                //Ищем по всем метаблокам
-                                blockToSelect = self
-                                    .blocks().filter(function (block) {
-                                        return block.type == 'meta' && block.frames.some(function (frame) {
-                                            return frame.id == node.parent;
-                                        })
-                                    })[0]
-                                    .frames.filter(function (frame) {
-                                        return frame.id == node.parent;
-                                    })[0]
-                                    .blocks.filter(function (block) {
-                                        return block.id == node.id;
-                                    })[0];
-
-                                //ToDo: Отработать выделение в дизайнере
-                            }
-                            else {
-                                selectBlock(blockToSelect);
-                            }
-                            return;
-                        }
-
-                    });
-                $('#blocksTree').jstree({
-                    'core': {
-                        'check_callback': true,
-                        'data': treenodes,
-                        "themes": {
-                            "dots": true
-                        },
-                    }
-                });
-                $('#blocksTree').jstree().redraw(true);
             });
     }
 
