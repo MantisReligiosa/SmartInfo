@@ -1,1 +1,10 @@
-﻿<label>META</label>
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+
+<!-- ko foreach: frames-->
+<!-- ko if: $data.checked-->
+<!-- ko foreach: $data.blocks-->
+<label data-bind="text: type"></label>
+@*@Html.Partial("Home/Blocks/_Block")*@
+<!-- /ko-->
+<!-- /ko-->
+<!-- /ko-->

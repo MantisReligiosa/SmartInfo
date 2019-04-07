@@ -95,12 +95,13 @@
     }
 
     addSimpleBlock = function (apiMethod, blockProcessing) {
-        var frameId = null;
+        var frame = null;
         if (self.selectedBlock() && self.selectedBlock().type == 'meta') {
-            frameId = self.selectedBlock().frames.filter(function (frame) {
-                return frame.checked
-            })[0].id;
+            frame = self.selectedBlock().frames().filter(function (f) {
+                return f.checked();
+            })[0];
         };
+        var frameId = frame == null ? null : frame.id;
         app.request(
             "POST",
             apiMethod,
@@ -112,7 +113,10 @@
                 }
                 if (frameId == null) {
                     self.blocks.push(data);
-                };
+                }
+                else {
+                    frame.blocks.push(data);
+                }
                 var node = getNode(data)
                 treenodes.push(node);
                 $('#blocksTree').jstree(true).create_node(frameId, node);
@@ -243,10 +247,10 @@
         if (block.type == 'meta') {
             self.metaBlockEditViewModel().caption(block.caption);
             self.metaBlockEditViewModel().id(block.id);
-            block.frames.forEach(function (frame) {
+            block.frames().forEach(function (frame) {
                 frame.selected = false;
             });
-            self.metaBlockEditViewModel().metaFrames(block.frames);
+            self.metaBlockEditViewModel().metaFrames(block.frames());
         }
 
     };
@@ -315,7 +319,7 @@
         if (block.type === 'meta') {
             self.blocks.remove(block);
             block.caption = self.metaBlockEditViewModel().caption();
-            block.frames = self.metaBlockEditViewModel().metaFrames();
+            block.frames(self.metaBlockEditViewModel().metaFrames());
         }
         app.request(
             "POST",
@@ -546,19 +550,22 @@
                     })[0];
                     if (blockToSelect == null) {
                         //Ищем по всем метаблокам
-                        blockToSelect = self
-                            .blocks().filter(function (block) {
-                                return block.type == 'meta' && block.frames.some(function (frame) {
-                                    return frame.id == node.parent;
-                                })
-                            })[0]
-                            .frames.filter(function (frame) {
+                        var metablock =
+                            self
+                                .blocks().filter(function (block) {
+                                    return block.type == 'meta' && block.frames().some(function (frame) {
+                                        return frame.id == node.parent;
+                                    })
+                                })[0];
+                        var frame = metablock
+                            .frames().filter(function (frame) {
                                 return frame.id == node.parent;
-                            })[0]
-                            .blocks.filter(function (block) {
+                            })[0];
+                        blockToSelect = frame
+                            .blocks().filter(function (block) {
                                 return block.id == node.id;
                             })[0];
-
+                        setFrameNodeChecked(metablock.id, frame.id);
                         //ToDo: Отработать выделение в дизайнере
                     }
                     else {
@@ -779,6 +786,20 @@
                         block.text = ''
                         block.format = (block.format == undefined) ? null : block.format
                     }
+                    if (block.type == 'meta') {
+                        var tempFrames = [];
+                        block.frames.forEach(function (frame) {
+                            var tempBlocks = [];
+                            frame.checked = ko.observable(frame.index == 1);
+                            frame.blocks.forEach(function (block) {
+                                block.selected = false;
+                                tempBlocks.push(block);
+                            })
+                            frame.blocks = ko.observableArray(tempBlocks);
+                            tempFrames.push(frame);
+                        });
+                        block.frames = ko.observableArray(tempFrames);
+                    }
                     self.blocks.push(block);
                     var node = getNode(block);
                     treenodes.push(node);
@@ -791,10 +812,10 @@
         var metablock = self.blocks().filter(function (block) {
             return block.id == metablockId;
         })[0];
-        metablock.frames.forEach(function (frame) {
-            frame.checked = frame.id == frameId;
+        metablock.frames().forEach(function (frame) {
+            frame.checked(frame.id == frameId);
             var frameNode = $('#blocksTree').jstree(true).get_node(frame.id);
-            $('#blocksTree').jstree(true).set_icon(frameNode, frame.checked ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png");
+            $('#blocksTree').jstree(true).set_icon(frameNode, frame.checked() ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png");
         });
     }
 
@@ -824,17 +845,16 @@
 
     getMetaFrames = function (metaBlock) {
         nodes = [];
-        metaBlock.frames.sort(function (a, b) { return a.index - b.index }).forEach(function (frame) {
+        metaBlock.frames().sort(function (a, b) { return a.index - b.index }).forEach(function (frame) {
             var node = {};
-            frame.checked = frame.index == 1;
             node["type"] = "frame";
             node["text"] = "Кадр" + frame.index;
             node["id"] = frame.id;
             node["parent"] = metaBlock.id;
-            node["icon"] = frame.checked ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png";
+            node["icon"] = frame.checked() ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png";
             nodes.push(node);
             childs = [];
-            frame.blocks.forEach(function (block) {
+            frame.blocks().forEach(function (block) {
                 var nodeBlock = getNode(block);
                 nodeBlock["parent"] = frame.id;
                 childs.push(nodeBlock);

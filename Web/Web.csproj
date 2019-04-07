@@ -383,7 +383,7 @@
     <Compile Include="Models\CreditsRequest.cs" />
     <Compile Include="Models\CsvDataDto.cs" />
     <Compile Include="Models\CsvTableDto.cs" />
-    <Compile Include="Models\MetaBlockDto.cs" />
+    <Compile Include="Models\Blocks\MetaBlockDto.cs" />
     <Compile Include="Models\SaveBlockRequest.cs" />
     <Compile Include="Models\ScreenBackgroundRequest.cs" />
     <Compile Include="Models\ScreenResolutionResponce.cs" />
