@@ -1,4 +1,5 @@
 ﻿@using Nancy.Bundle
+@using Web.Models
 @inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
 <!-- ko with: master-->
 @Html.Partial("Views/Home/_Menu.cshtml")
@@ -47,7 +48,7 @@
                 <div class="display bordered" data-bind="click:unselectBlocks, style: {'width':width, 'height':height,'left':left, 'top':top, 'background': $parent.background}"></div>
                 <!-- /ko-->
                 <!-- ko foreach: blocks-->
-                @Html.Partial("Home/Blocks/_Block")
+                @Html.Partial("Home/Blocks/_Block", new BlockRenderModel { AllowMetaBlock = true })
                 <!-- /ko-->
             </div>
         </div>

@@ -1,4 +1,4 @@
-﻿function masterViewModel(app) {
+function masterViewModel(app) {
     var self = this,
         clipboard;
 
@@ -107,7 +107,7 @@
             apiMethod,
             { frameId },
             function (data) {
-                data.selected = false;
+                data.selected = ko.observable(false);
                 if (blockProcessing != undefined) {
                     blockProcessing(data);
                 }
@@ -130,7 +130,7 @@
             "api/addMetaBlock",
             {},
             function (data) {
-                data.selected = false;
+                data.selected = ko.observable(false);
                 self.blocks.push(data);
                 var node = getNode(data)
                 treenodes.push(node);
@@ -364,7 +364,7 @@
             "/api/copyBlock",
             clipboard,
             function (data) {
-                data.selected = true;
+                data.selected = ko.observable(true);
                 self.selectedBlock(data);
                 self.blocks.push(data);
                 if (!isCopying) {
@@ -376,9 +376,7 @@
                     );
                 }
                 else {
-                    self.blocks.remove(clipboard);
-                    clipboard.selected = false;
-                    self.blocks.push(clipboard);
+                    clipboard.selected(false);
                 }
             }
         );
@@ -479,28 +477,48 @@
     }
 
     selectBlock = function (bind) {
-        self.blocks.remove(bind);
+        var block = self.blocks().filter(function (b) {
+            return b.id == bind.id;
+        })[0];
+        if (!block) {
+            self.blocks().filter(function (block) { return block.type == 'meta' })
+                .forEach(function (metablock) {
+                    metablock.frames().forEach(function (frame) {
+                        frame.blocks().forEach(function (frameBlock) {
+                            if (bind.id == frameBlock.id) {
+                                block = frameBlock
+                            }
+                        })
+                    });
+                });
+        }
         unselectBlocks();
-        self.selectedBlock.selected = false;
-        bind.selected = true;
-        self.blocks.push(bind);
-        self.selectedBlock(bind);
+        var selectedBlock = self.selectedBlock();
+        if (selectedBlock) {
+            selectedBlock.selected(false);
+        }
+        block.selected(true);
+        self.selectedBlock(block);
         initializeControls();
 
-        var id = bind.id;
-        var nodeToSelect = treenodes.filter(function (index) {
-            return index.id == id;
-        })[0];
+        var nodeToSelect = $('#blocksTree').jstree(true).get_node(bind.id);
         $('#blocksTree').jstree().select_node(nodeToSelect);
-
     };
 
     unselectBlocks = function () {
-        var blocks = self.blocks.remove(function (block) { return block.selected; });
-        blocks.forEach(function (block) {
-            block.selected = false;
-            self.blocks.push(block);
+        self.blocks().filter(function (block) { return block.selected(); }).forEach(function (block) {
+            block.selected(false);
         });
+
+        self.blocks().filter(function (block) { return block.type == 'meta' })
+            .forEach(function (metablock) {
+                metablock.frames().forEach(function (frame) {
+                    frame.blocks().forEach(function (frameBlock) {
+                        frameBlock.selected(false);
+                    })
+                });
+            });
+
         self.selectedBlock(null);
         initializeControls();
         $('#blocksTree').jstree().deselect_all();
@@ -565,8 +583,11 @@
                             .blocks().filter(function (block) {
                                 return block.id == node.id;
                             })[0];
+                        unselectBlocks();
+                        blockToSelect.selected(true);
+                        self.selectedBlock(blockToSelect);
                         setFrameNodeChecked(metablock.id, frame.id);
-                        //ToDo: Отработать выделение в дизайнере
+                        
                     }
                     else {
                         selectBlock(blockToSelect);
@@ -781,7 +802,7 @@
             {},
             function (data) {
                 data.forEach(function (block) {
-                    block.selected = false;
+                    block.selected = ko.observable(false);
                     if (block.type == 'datetime') {
                         block.text = ''
                         block.format = (block.format == undefined) ? null : block.format
@@ -792,7 +813,7 @@
                             var tempBlocks = [];
                             frame.checked = ko.observable(frame.index == 1);
                             frame.blocks.forEach(function (block) {
-                                block.selected = false;
+                                block.selected = ko.observable(false);
                                 tempBlocks.push(block);
                             })
                             frame.blocks = ko.observableArray(tempBlocks);

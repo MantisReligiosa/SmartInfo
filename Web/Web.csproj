@@ -368,6 +368,7 @@
     <Compile Include="CustomStatusCode.cs" />
     <Compile Include="Models\AddBlockParamsDto.cs" />
     <Compile Include="Models\AuthenticatedUser.cs" />
+    <Compile Include="Models\BlockRenderModel.cs" />
     <Compile Include="Models\Blocks\Binders\FromBodyJsonBinder.cs" />
     <Compile Include="Models\Blocks\BlockDto.cs" />
     <Compile Include="Models\Blocks\DateTimeBlockDto.cs" />
