@@ -46,11 +46,11 @@ namespace Web.Modules
 
             _savers = new Dictionary<string, Func<dynamic>>()
             {
-                { "text", () => SaveBlock<TextBlock, TextBlockDto>(b => blockController.SaveTextBlock(b)) },
-                { "table", () => SaveBlock<TableBlock, TableBlockDto>(b => blockController.SaveTableBlock(b)) },
-                { "picture", () => SaveBlock<PictureBlock, PictureBlockDto>(b => blockController.SavePictureBlock(b)) },
-                { "datetime", () => SaveBlock<DateTimeBlock, DateTimeBlockDto>(b => blockController.SaveDateTimeBlock(b)) },
-                { "meta", () => SaveBlock<MetaBlock, MetaBlockDto>(b => blockController.SaveMetabLock(b)) }
+                { "text", () => SaveBlock<TextBlock, TextBlockDto>(b => _mapper.Map<TextBlockDto>(blockController.SaveTextBlock(b))) },
+                { "table", () => SaveBlock<TableBlock, TableBlockDto>(b => _mapper.Map<TableBlockDto>(blockController.SaveTableBlock(b))) },
+                { "picture", () => SaveBlock<PictureBlock, PictureBlockDto>(b => _mapper.Map<PictureBlockDto>(blockController.SavePictureBlock(b))) },
+                { "datetime", () => SaveBlock<DateTimeBlock, DateTimeBlockDto>(b => _mapper.Map<DateTimeBlockDto>(blockController.SaveDateTimeBlock(b))) },
+                { "meta", () => SaveBlock<MetaBlock, MetaBlockDto>(b => _mapper.Map<MetaBlockDto>(blockController.SaveMetabLock(b))) }
             };
             _copiers = new Dictionary<string, Func<object>>
             {
