@@ -29,6 +29,7 @@ namespace DomainObjects.Blocks
             Left = source.Left;
             Top = source.Top;
             Caption = source.Caption;
+            MetablockFrameId = source.MetablockFrameId;
             CopyDetails(source);
         }
 

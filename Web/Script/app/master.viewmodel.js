@@ -396,7 +396,25 @@ function masterViewModel(app) {
     self.cut = function () {
         isCopying = false;
         clipboard = self.selectedBlock();
-        self.blocks.remove(clipboard);
+        var frameId = clipboard.metablockFrameId;
+        if (frameId == null) {
+            self.blocks.remove(clipboard);
+        }
+        else {
+            var metablock =
+                self
+                    .blocks().filter(function (b) {
+                        return b.type == 'meta' && b.frames().some(function (f) {
+                            return f.id == clipboard.metablockFrameId;
+                        })
+                    })[0];
+            var frame = metablock
+                .frames().filter(function (f) {
+                    return f.id == clipboard.metablockFrameId;
+                })[0];
+
+            frame.blocks.remove(clipboard);
+        }
     };
 
     self.paste = function () {
@@ -408,15 +426,39 @@ function masterViewModel(app) {
             "/api/copyBlock",
             clipboard,
             function (data) {
+                var frameId = data.metablockFrameId;
+
                 data.selected = ko.observable(true);
                 self.selectedBlock(data);
-                self.blocks.push(data);
+                if (frameId == null) {
+                    self.blocks.push(data);
+                    treenodes.push(node);
+                }
+                else {
+                    var metablock =
+                        self
+                            .blocks().filter(function (b) {
+                                return b.type == 'meta' && b.frames().some(function (f) {
+                                    return f.id == data.metablockFrameId;
+                                })
+                            })[0];
+                    var frame = metablock
+                        .frames().filter(function (f) {
+                            return f.id == data.metablockFrameId;
+                        })[0];
+
+                    frame.blocks.push(data);
+                }
+                var node = getNode(data);
+                $('#blocksTree').jstree(true).create_node(frameId, node);
                 if (!isCopying) {
                     app.request(
                         "POST",
                         "/api/deleteBlock",
                         clipboard,
-                        function (data) { }
+                        function (data) {
+                            $('#blocksTree').jstree(true).delete_node(clipboard.id);
+                        }
                     );
                 }
                 else {
