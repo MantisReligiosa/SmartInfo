@@ -167,7 +167,9 @@ function masterViewModel(app) {
             return
         }
         $('#position').modal("hide");
-        self.blocks.remove(block);
+        if (block.metablockFrameId == null) {
+            self.blocks.remove(block);
+        }
         block.top = +self.positionViewModel().top();
         block.left = +self.positionViewModel().left();
         block.width = +self.positionViewModel().width();
@@ -178,7 +180,26 @@ function masterViewModel(app) {
             "/api/saveBlock",
             block,
             function (data) {
-                self.blocks.push(block);
+                if (block.metablockFrameId == null) {
+                    self.blocks.push(block);
+                }
+                else {
+                    var metablock =
+                        self
+                            .blocks().filter(function (b) {
+                                return b.type == 'meta' && b.frames().some(function (f) {
+                                    return f.id == block.metablockFrameId;
+                                })
+                            })[0];
+                    var frame = metablock
+                        .frames().filter(function (f) {
+                            return f.id == block.metablockFrameId;
+                        })[0];
+
+                    var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
+                    frame.blocks.remove(existBlock);
+                    frame.blocks.push(block); 
+                }
             }
         );
     }
