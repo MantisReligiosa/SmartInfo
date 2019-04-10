@@ -198,7 +198,7 @@ function masterViewModel(app) {
 
                     var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
                     frame.blocks.remove(existBlock);
-                    frame.blocks.push(block); 
+                    frame.blocks.push(block);
                 }
             }
         );
@@ -436,14 +436,32 @@ function masterViewModel(app) {
             "/api/deleteBlock",
             block,
             function (data) {
-                var nodeId = $('#blocksTree').jstree('get_selected')[0];
+                var nodeId = self.selectedBlock().id;
                 $('#blocksTree').jstree(true).delete_node(nodeId);
                 var treenode = treenodes.filter(function (n) {
                     return n.id == nodeId;
                 })[0];
                 var index = treenodes.indexOf(treenode);
                 treenodes.splice(index, 1);
-                self.blocks.remove(block);
+                if (block.metablockFrameId == null) {
+                    self.blocks.remove(block);
+                }
+                else {
+                    var metablock =
+                        self
+                            .blocks().filter(function (b) {
+                                return b.type == 'meta' && b.frames().some(function (f) {
+                                    return f.id == block.metablockFrameId;
+                                })
+                            })[0];
+                    var frame = metablock
+                        .frames().filter(function (f) {
+                            return f.id == block.metablockFrameId;
+                        })[0];
+
+                    var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
+                    frame.blocks.remove(existBlock);
+                }
                 self.selectedBlock(null);
             }
         );
