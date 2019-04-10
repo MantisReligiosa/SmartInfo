@@ -487,14 +487,25 @@ function masterViewModel(app) {
             return;
         }
         var block = self.selectedBlock();
-        self.blocks.remove(block);
+        if (block.metablockFrameId == null) {
+            self.blocks.remove(block);
+        }
         block.zIndex++;
         app.request(
             "POST",
             "/api/saveBlock",
             block,
             function (data) {
-                self.blocks.push(block);
+                if (block.metablockFrameId == null) {
+                    self.blocks.push(block);
+                }
+                else {
+                    var frame = findFrame(block.metablockFrameId);
+
+                    var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
+                    frame.blocks.remove(existBlock);
+                    frame.blocks.push(block);
+                }
             }
         );
     };
@@ -508,14 +519,25 @@ function masterViewModel(app) {
             app.infoMsg("z-index is minimal");
             return;
         }
-        self.blocks.remove(block);
+        if (block.metablockFrameId == null) {
+            self.blocks.remove(block);
+        }
         block.zIndex--;
         app.request(
             "POST",
             "/api/saveBlock",
             block,
             function (data) {
-                self.blocks.push(block);
+                if (block.metablockFrameId == null) {
+                    self.blocks.push(block);
+                }
+                else {
+                    var frame = findFrame(block.metablockFrameId);
+
+                    var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
+                    frame.blocks.remove(existBlock);
+                    frame.blocks.push(block);
+                }
             }
         );
 
