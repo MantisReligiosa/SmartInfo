@@ -184,17 +184,7 @@ function masterViewModel(app) {
                     self.blocks.push(block);
                 }
                 else {
-                    var metablock =
-                        self
-                            .blocks().filter(function (b) {
-                                return b.type == 'meta' && b.frames().some(function (f) {
-                                    return f.id == block.metablockFrameId;
-                                })
-                            })[0];
-                    var frame = metablock
-                        .frames().filter(function (f) {
-                            return f.id == block.metablockFrameId;
-                        })[0];
+                    var frame = findFrame(block.metablockFrameId);
 
                     var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
                     frame.blocks.remove(existBlock);
@@ -202,6 +192,31 @@ function masterViewModel(app) {
                 }
             }
         );
+    }
+
+    getMetablockByFrameId = function (frameId) {
+        var metablock =
+            self
+                .blocks().filter(function (b) {
+                    return b.type == 'meta' && b.frames().some(function (f) {
+                        return f.id == frameId;
+                    })
+                })[0];
+        return metablock;
+    }
+
+    getMetablockFrame = function (metablock, frameId) {
+        var frame = metablock
+            .frames().filter(function (f) {
+                return f.id == frameId;
+            })[0];
+        return frame;
+    }
+
+    findFrame = function (frameId) {
+        var metablock = getMetablockByFrameId(frameId);
+        var frame = getMetablockFrame(metablock, frameId);
+        return frame;
     }
 
     self.showBackgroundProperties = function () {
@@ -357,17 +372,7 @@ function masterViewModel(app) {
                     self.blocks.push(block);
                 }
                 else {
-                    var metablock =
-                        self
-                            .blocks().filter(function (b) {
-                                return b.type == 'meta' && b.frames().some(function (f) {
-                                    return f.id == block.metablockFrameId;
-                                })
-                            })[0];
-                    var frame = metablock
-                        .frames().filter(function (f) {
-                            return f.id == block.metablockFrameId;
-                        })[0];
+                    var frame = findFrame(block.metablockFrameId);
 
                     var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
                     frame.blocks.remove(existBlock);
@@ -401,18 +406,7 @@ function masterViewModel(app) {
             self.blocks.remove(clipboard);
         }
         else {
-            var metablock =
-                self
-                    .blocks().filter(function (b) {
-                        return b.type == 'meta' && b.frames().some(function (f) {
-                            return f.id == clipboard.metablockFrameId;
-                        })
-                    })[0];
-            var frame = metablock
-                .frames().filter(function (f) {
-                    return f.id == clipboard.metablockFrameId;
-                })[0];
-
+            var frame = findFrame(clipboard.metablockFrameId);
             frame.blocks.remove(clipboard);
         }
     };
@@ -435,17 +429,7 @@ function masterViewModel(app) {
                     treenodes.push(node);
                 }
                 else {
-                    var metablock =
-                        self
-                            .blocks().filter(function (b) {
-                                return b.type == 'meta' && b.frames().some(function (f) {
-                                    return f.id == data.metablockFrameId;
-                                })
-                            })[0];
-                    var frame = metablock
-                        .frames().filter(function (f) {
-                            return f.id == data.metablockFrameId;
-                        })[0];
+                    var frame = findFrame(data.metablockFrameId);
 
                     frame.blocks.push(data);
                 }
@@ -489,18 +473,7 @@ function masterViewModel(app) {
                     self.blocks.remove(block);
                 }
                 else {
-                    var metablock =
-                        self
-                            .blocks().filter(function (b) {
-                                return b.type == 'meta' && b.frames().some(function (f) {
-                                    return f.id == block.metablockFrameId;
-                                })
-                            })[0];
-                    var frame = metablock
-                        .frames().filter(function (f) {
-                            return f.id == block.metablockFrameId;
-                        })[0];
-
+                    var frame = findFrame(block.metablockFrameId);
                     var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
                     frame.blocks.remove(existBlock);
                 }
@@ -672,17 +645,8 @@ function masterViewModel(app) {
                     })[0];
                     if (blockToSelect == null) {
                         //Ищем по всем метаблокам
-                        var metablock =
-                            self
-                                .blocks().filter(function (block) {
-                                    return block.type == 'meta' && block.frames().some(function (frame) {
-                                        return frame.id == node.parent;
-                                    })
-                                })[0];
-                        var frame = metablock
-                            .frames().filter(function (frame) {
-                                return frame.id == node.parent;
-                            })[0];
+                        var metablock = getMetablockByFrameId(node.parent);
+                        var frame = getMetablockFrame(metablock, node.parent);
                         blockToSelect = frame
                             .blocks().filter(function (block) {
                                 return block.id == node.id;
