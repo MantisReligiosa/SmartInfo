@@ -43,6 +43,7 @@
             success: successHandler,
             error: function (xhr, ajaxOptions, thrownError) {
                 toastr.error(thrownError);
+                console.error(xhr, ajaxOptions, thrownError);
             }
         });
     }
