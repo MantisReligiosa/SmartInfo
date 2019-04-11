@@ -195,13 +195,12 @@ function masterViewModel(app) {
     }
 
     getMetablockByFrameId = function (frameId) {
-        var metablock =
-            self
-                .blocks().filter(function (b) {
-                    return b.type == 'meta' && b.frames().some(function (f) {
-                        return f.id == frameId;
-                    })
-                })[0];
+        var metablock = self
+            .blocks().filter(function (b) {
+                return b.type == 'meta' && b.frames().some(function (f) {
+                    return f.id == frameId;
+                })
+            })[0];
         return metablock;
     }
 
@@ -578,10 +577,7 @@ function masterViewModel(app) {
     selectBlock = function (bind) {
         var block = self.blocks().filter(function (b) {
             return b.id == bind.id;
-        })[0];
-        if (!block) {
-            block = getBlockFromMetablock(bind.id);
-        }
+        })[0] || getBlockFromMetablock(bind.id);
         unselectBlocks();
         var selectedBlock = self.selectedBlock();
         if (selectedBlock) {
@@ -774,18 +770,10 @@ function masterViewModel(app) {
     applyResizeMove = function (event) {
         var target = event.target;
         var id = target.getAttribute('id');
-        var block = self.blocks.remove(function (block) { return block.id === id; })[0];
-        if (block == null) {
-            block = getBlockFromMetablock(id);
-        }
-        var w = +target.getAttribute('data-w');
-        var h = +target.getAttribute('data-h');
-        if (w == 0) {
-            w = block.width;
-        }
-        if (h == 0) {
-            h = block.height;
-        }
+        var block = self.blocks.remove(function (block) { return block.id === id; })[0] || getBlockFromMetablock(id);
+        var w = +target.getAttribute('data-w') || block.width;
+        var h = +target.getAttribute('data-h') || block.height;
+
         if (self.gridEnabled()) {
             w = adjustToStep(w);
             h = adjustToStep(h);
