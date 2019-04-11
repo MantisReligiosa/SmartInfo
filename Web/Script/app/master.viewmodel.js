@@ -580,16 +580,7 @@ function masterViewModel(app) {
             return b.id == bind.id;
         })[0];
         if (!block) {
-            self.blocks().filter(function (block) { return block.type == 'meta' })
-                .forEach(function (metablock) {
-                    metablock.frames().forEach(function (frame) {
-                        frame.blocks().forEach(function (frameBlock) {
-                            if (bind.id == frameBlock.id) {
-                                block = frameBlock
-                            }
-                        })
-                    });
-                });
+            block = getBlockFromMetablock(bind.id);
         }
         unselectBlocks();
         var selectedBlock = self.selectedBlock();
@@ -765,10 +756,28 @@ function masterViewModel(app) {
         target.setAttribute('data-y', y);
     };
 
+    getBlockFromMetablock = function (id) {
+        var block = null;
+        self.blocks().filter(function (block) { return block.type == 'meta' })
+            .forEach(function (metablock) {
+                metablock.frames().forEach(function (frame) {
+                    frame.blocks().forEach(function (frameBlock) {
+                        if (id == frameBlock.id) {
+                            block = frameBlock
+                        }
+                    })
+                });
+            });
+        return block;
+    }
+
     applyResizeMove = function (event) {
         var target = event.target;
         var id = target.getAttribute('id');
         var block = self.blocks.remove(function (block) { return block.id === id; })[0];
+        if (block == null) {
+            block = getBlockFromMetablock(id);
+        }
         var w = +target.getAttribute('data-w');
         var h = +target.getAttribute('data-h');
         if (w == 0) {
@@ -784,60 +793,90 @@ function masterViewModel(app) {
 
         var x = +target.getAttribute('data-x') + block.left;
         var y = +target.getAttribute('data-y') + block.top;
-        var screen = self.screens().find(function (screen) {
-            return pointInScreen(screen, x, y)
-                && pointInScreen(screen, x + w, y)
-                && pointInScreen(screen, x, y + h)
-                && pointInScreen(screen, x + w, y + h);
-        });
 
-        var isInScreens = (screen != null);
-        if (!isInScreens) {
-            var screenLeft = self.screens().find(function (screen) {
-                return pointInScreen(screen, x, y)
-                    && pointInScreen(screen, x, y + h);
+
+        if (block.metablockFrameId == null) {
+            var screen = self.screens().find(function (screen) {
+                return pointInRectangle(screen, x, y)
+                    && pointInRectangle(screen, x + w, y)
+                    && pointInRectangle(screen, x, y + h)
+                    && pointInRectangle(screen, x + w, y + h);
             });
-            var screenRight = self.screens().find(function (screen) {
-                return pointInScreen(screen, x + w, y)
-                    && pointInScreen(screen, x + w, y + h);
-            });
-            isInScreens = (screenLeft != null) && (screenRight != null);
-            screen = screenLeft;
+
+            var isInScreens = (screen != null);
+            if (!isInScreens) {
+                var screenLeft = self.screens().find(function (screen) {
+                    return pointInRectangle(screen, x, y)
+                        && pointInRectangle(screen, x, y + h);
+                });
+                var screenRight = self.screens().find(function (screen) {
+                    return pointInRectangle(screen, x + w, y)
+                        && pointInRectangle(screen, x + w, y + h);
+                });
+                isInScreens = (screenLeft != null) && (screenRight != null);
+                screen = screenLeft;
+            }
+
+            if (!isInScreens) {
+                var screenTop = self.screens().find(function (screen) {
+                    return pointInRectangle(screen, x, y)
+                        && pointInRectangle(screen, x + w, y);
+                });
+                var screenBottom = self.screens().find(function (screen) {
+                    return pointInRectangle(screen, x, y + h)
+                        && pointInRectangle(screen, x + w, y + h);
+                });
+                isInScreens = (screenTop != null) && (screenBottom != null);
+                screen = screenTop;
+            }
+
+            if (isInScreens) {
+                if (self.gridEnabled()) {
+
+                    var deltaX = x - screen.left;
+                    var deltaY = y - screen.top;
+                    x = screen.left + adjustToStep(deltaX);
+                    y = screen.top + adjustToStep(deltaY);
+                };
+                block.width = w;
+                block.height = h;
+                block.left = x;
+                block.top = y;
+            }
+            self.blocks.push(block);
         }
-
-        if (!isInScreens) {
-            var screenTop = self.screens().find(function (screen) {
-                return pointInScreen(screen, x, y)
-                    && pointInScreen(screen, x + w, y);
-            });
-            var screenBottom = self.screens().find(function (screen) {
-                return pointInScreen(screen, x, y + h)
-                    && pointInScreen(screen, x + w, y + h);
-            });
-            isInScreens = (screenTop != null) && (screenBottom != null);
-            screen = screenTop;
-        }
-
-        if (isInScreens) {
-            if (self.gridEnabled()) {
-
-                var deltaX = x - screen.left;
-                var deltaY = y - screen.top;
-                x = screen.left + adjustToStep(deltaX);
-                y = screen.top + adjustToStep(deltaY);
+        else {
+            var metablock = getMetablockByFrameId(block.metablockFrameId);
+            var rectangle = {
+                left: 0,
+                top: 0,
+                width: metablock.width,
+                height: metablock.height
             };
-            block.width = w;
-            block.height = h;
-            block.left = x;
-            block.top = y;
+            if (self.gridEnabled()) {
+                x = adjustToStep(x);
+                y = adjustToStep(y);
+            };
+            var inMetablock = pointInRectangle(rectangle, x, y) && pointInRectangle(rectangle, x + w, y) && pointInRectangle(rectangle, x, y + h) && pointInRectangle(rectangle, x + w, y + h);
+            if (inMetablock) {
+                block.width = w;
+                block.height = h;
+                block.left = x;
+                block.top = y;
+            }
+            var frame = findFrame(block.metablockFrameId);
+
+            var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
+            frame.blocks.remove(existBlock);
+            frame.blocks.push(block);
+
         }
-        self.blocks.push(block);
         selectBlock(block);
         resizeAndMoveBlock(block);
     };
 
-    pointInScreen = function (screen, x, y) {
-        return screen.left <= x && screen.left + screen.width >= x && screen.top <= y && screen.top + screen.height >= y;
+    pointInRectangle = function (rectangle, x, y) {
+        return rectangle.left <= x && rectangle.left + rectangle.width >= x && rectangle.top <= y && rectangle.top + rectangle.height >= y;
     }
 
     resizeAndMoveBlock = function (block) {
