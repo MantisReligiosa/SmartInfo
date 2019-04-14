@@ -21,6 +21,18 @@ namespace DomainObjects.Blocks.Details
 
         public void CopyFrom(TableBlockDetails source)
         {
+            if (HeaderDetails == null)
+            {
+                HeaderDetails = new TableBlockRowDetails();
+            }
+            if (EvenRowDetails == null)
+            {
+                EvenRowDetails = new TableBlockRowDetails();
+            }
+            if (OddRowDetails == null)
+            {
+                OddRowDetails = new TableBlockRowDetails();
+            }
             HeaderDetails.CopyFrom(source.HeaderDetails);
             EvenRowDetails.CopyFrom(source.EvenRowDetails);
             OddRowDetails.CopyFrom(source.OddRowDetails);
