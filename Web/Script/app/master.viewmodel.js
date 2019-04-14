@@ -427,6 +427,7 @@ function masterViewModel(app) {
 
                 data.selected = ko.observable(true);
                 self.selectedBlock(data);
+                var node = getNode(data);
                 if (frameId == null) {
                     self.blocks.push(data);
                     treenodes.push(node);
@@ -436,7 +437,6 @@ function masterViewModel(app) {
 
                     frame.blocks.push(data);
                 }
-                var node = getNode(data);
                 $('#blocksTree').jstree(true).create_node(frameId, node);
                 if (!isCopying) {
                     app.request(
@@ -466,12 +466,12 @@ function masterViewModel(app) {
             block,
             function (data) {
                 var nodeId = self.selectedBlock().id;
-                $('#blocksTree').jstree(true).delete_node(nodeId);
                 var treenode = treenodes.filter(function (n) {
-                    return n.id == nodeId;
+                    return (n.id == nodeId);
                 })[0];
                 var index = treenodes.indexOf(treenode);
                 treenodes.splice(index, 1);
+                $('#blocksTree').jstree(true).delete_node(nodeId);
                 if (block.metablockFrameId == null) {
                     self.blocks.remove(block);
                 }
