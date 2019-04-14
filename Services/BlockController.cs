@@ -301,6 +301,11 @@ namespace Services
 
         public DateTimeBlock CopyDateTimeBlock(DateTimeBlock source)
         {
+            if (source.Details.Format != null)
+            {
+                var format = _unitOfWork.DateTimeFormats.Get(source.Details.Format.Id);
+                source.Details.Format = format;
+            }
             var block = _unitOfWork.DisplayBlocks.Create(new DateTimeBlock(source)) as DateTimeBlock;
             return block;
         }

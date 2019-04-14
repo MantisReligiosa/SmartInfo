@@ -419,6 +419,10 @@ function masterViewModel(app) {
             "/api/copyBlock",
             clipboard,
             function (data) {
+                if (data.type == 'datetime') {
+                    data.text = '';
+                }
+
                 var frameId = data.metablockFrameId;
 
                 data.selected = ko.observable(true);
