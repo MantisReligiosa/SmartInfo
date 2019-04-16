@@ -33,6 +33,8 @@ namespace DomainObjects.Blocks
             CopyDetails(source);
         }
 
+        internal abstract DisplayBlock Clone();
+
         internal abstract void CopyDetails(DisplayBlock source);
     }
 

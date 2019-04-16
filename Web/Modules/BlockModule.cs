@@ -242,51 +242,9 @@ namespace Web.Modules
         {
             var blocks = _blockController.GetBlocks().Select(b =>
             {
-                return MapBlock(b);
+                return _mapper.Map(b, b.GetType(), typeof(BlockDto)) as BlockDto;
             });
             return blocks;
-        }
-
-        private BlockDto MapBlock(DisplayBlock b)
-        {
-            if (b is TextBlock textBlock)
-            {
-                var block = _mapper.Map<TextBlockDto>(textBlock);
-                return block;
-            }
-            if (b is TableBlock tableBlock)
-            {
-                var block = _mapper.Map<TableBlockDto>(tableBlock);
-                return block;
-            }
-            if (b is PictureBlock pictureBlock)
-            {
-                var block = _mapper.Map<PictureBlockDto>(pictureBlock);
-                return block;
-            }
-            if (b is DateTimeBlock dateTimeBlock)
-            {
-                var block = _mapper.Map<DateTimeBlockDto>(dateTimeBlock);
-                return block;
-            }
-            if (b is MetaBlock metaBlock)
-            {
-                var block = _mapper.Map<MetaBlockDto>(metaBlock);
-                foreach (var frameDto in block.Frames)
-                {
-                    var frame = metaBlock.Details.Frames.FirstOrDefault(f => f.Id.Equals(frameDto.Id));
-                    frameDto.Blocks = new List<BlockDto>(frame.Blocks.Select(f => MapBlock(f)));
-                }
-                return block;
-            }
-            return new BlockDto
-            {
-                Height = b.Height,
-                Id = b.Id,
-                Left = b.Left,
-                Top = b.Top,
-                Width = b.Width
-            };
         }
     }
 }

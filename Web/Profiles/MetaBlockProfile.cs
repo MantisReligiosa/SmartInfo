@@ -14,13 +14,12 @@ namespace Web.Profiles
                 .ForMember(b => b.Caption, opt => opt.MapFrom(b => string.IsNullOrEmpty(b.Caption) ? "meta" : b.Caption))
                 .ForMember(b => b.Frames, opt => opt.MapFrom(b => b.Details.Frames));
 
-            CreateMap<MetaBlockDto, MetaBlock>();
+            CreateMap<MetaBlockDto, MetaBlock>()
+                .ForPath(b => b.Details.Frames, opt => opt.MapFrom(b => b.Frames));
 
-            CreateMap<MetablockFrame, MetablockFrameDto>()
-                .ForMember(b => b.Blocks, opt => opt.Ignore());
+            CreateMap<MetablockFrame, MetablockFrameDto>();
 
-            CreateMap<MetablockFrameDto, MetablockFrame>()
-                .ForMember(b => b.Blocks, opt => opt.Ignore());
+            CreateMap<MetablockFrameDto, MetablockFrame>();
         }
     }
 }

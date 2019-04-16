@@ -378,6 +378,9 @@ function masterViewModel(app) {
                     frame.blocks.push(block);
                 }
                 data.type = block.type;
+                if (data.type == 'meta') {
+                    makeMetablockObservableArrays(data);
+                }
                 var newNode = getNode(data);
                 if (block.metablockFrameId != null) {
                     newNode["parent"] = block.metablockFrameId;
@@ -421,6 +424,9 @@ function masterViewModel(app) {
             function (data) {
                 if (data.type == 'datetime') {
                     data.text = '';
+                }
+                if (data.type == 'meta') {
+                    makeMetablockObservableArrays(data);
                 }
 
                 var frameId = data.metablockFrameId;
@@ -929,18 +935,7 @@ function masterViewModel(app) {
                         block.format = (block.format == undefined) ? null : block.format
                     }
                     if (block.type == 'meta') {
-                        var tempFrames = [];
-                        block.frames.forEach(function (frame) {
-                            var tempBlocks = [];
-                            frame.checked = ko.observable(frame.index == 1);
-                            frame.blocks.forEach(function (block) {
-                                block.selected = ko.observable(false);
-                                tempBlocks.push(block);
-                            })
-                            frame.blocks = ko.observableArray(tempBlocks);
-                            tempFrames.push(frame);
-                        });
-                        block.frames = ko.observableArray(tempFrames);
+                        makeMetablockObservableArrays(block);
                     }
                     self.blocks.push(block);
                     var node = getNode(block);
@@ -948,6 +943,21 @@ function masterViewModel(app) {
                     $('#blocksTree').jstree(true).create_node(null, node);
                 });
             });
+    }
+
+    makeMetablockObservableArrays = function (block) {
+        var tempFrames = [];
+        block.frames.forEach(function (frame) {
+            var tempBlocks = [];
+            frame.checked = ko.observable(frame.index == 1);
+            frame.blocks.forEach(function (block) {
+                block.selected = ko.observable(false);
+                tempBlocks.push(block);
+            })
+            frame.blocks = ko.observableArray(tempBlocks);
+            tempFrames.push(frame);
+        });
+        block.frames = ko.observableArray(tempFrames);
     }
 
     setFrameNodeChecked = function (metablockId, frameId) {

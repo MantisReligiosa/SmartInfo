@@ -15,6 +15,11 @@ namespace DomainObjects.Blocks.Details
 
         public void CopyFrom(MetaBlockDetails source)
         {
+            Frames = new List<MetablockFrame>();
+            foreach(var frame in source.Frames)
+            {
+                Frames.Add(new MetablockFrame(frame));
+            }
         }
     }
 }

@@ -21,6 +21,13 @@ namespace DomainObjects.Blocks.Details
         {
             Index = source.Index;
             Duration = source.Duration;
+            Blocks = new List<DisplayBlock>();
+            foreach(var block in source.Blocks)
+            {
+                var clonedBlock = block.Clone();
+                clonedBlock.MetablockFrameId = Id;
+                Blocks.Add(clonedBlock);
+            }
         }
     }
 }

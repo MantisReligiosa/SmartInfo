@@ -371,6 +371,8 @@
     <Compile Include="Models\BlockRenderModel.cs" />
     <Compile Include="Models\Blocks\Binders\FromBodyJsonBinder.cs" />
     <Compile Include="Models\Blocks\BlockDto.cs" />
+    <Compile Include="Models\Blocks\Converter\BaseSpecifiedConcreteClassConverter.cs" />
+    <Compile Include="Models\Blocks\Converter\BlockConverter.cs" />
     <Compile Include="Models\Blocks\DateTimeBlockDto.cs" />
     <Compile Include="Models\Blocks\MetablockFrameDto.cs" />
     <Compile Include="Models\Blocks\PictureBlockDto.cs" />
@@ -399,6 +401,7 @@
     <Compile Include="Modules\ViewModule.cs" />
     <Compile Include="Profiles\AutoMapperConfig.cs" />
     <Compile Include="Profiles\DateTimeBlockProfile.cs" />
+    <Compile Include="Profiles\DisplayBlockProfile.cs" />
     <Compile Include="Profiles\MetaBlockProfile.cs" />
     <Compile Include="Profiles\TableBlockProfile.cs" />
     <Compile Include="Profiles\PictureBlockProfile.cs" />
