@@ -103,7 +103,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Blocks\Builders\DateTimeBlockBuilder.cs" />
-    <Compile Include="TimerManager.cs" />
+    <Compile Include="Blocks\Builders\MetaBlockBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blocks\AbstractBuilder.cs" />
