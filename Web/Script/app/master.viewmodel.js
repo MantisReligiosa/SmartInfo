@@ -41,6 +41,19 @@ function masterViewModel(app) {
         return self.zoomValue() / 100;
     });
 
+    self.screenOffsetTop = ko.computed(function () {
+        return -Math.min.apply(Math,self.screens().map(function (screen) {
+            return screen.top;
+        }));
+    });
+
+    self.screenOffsetLeft = ko.computed(function () {
+        return -Math.min.apply(Math, self.screens().map(function (screen) {
+            return screen.left;
+        }));
+    });
+
+
     self.textBlockEditViewModel = ko.computed(function () { return new TextBlockEditViewModel(self); });
     self.tableBlockEditViewModel = ko.computed(function () { return new TableBlockEditViewModel(self); });
     self.pictureBlockEditViewModel = ko.computed(function () { return new PictureBlockEditViewModel(self); });
