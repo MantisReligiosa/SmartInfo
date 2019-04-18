@@ -16,7 +16,8 @@ namespace Web.Profiles
                 .ForMember(b => b.Font, opt => opt.MapFrom(b => b.Details.FontName))
                 .ForMember(b => b.FontSize, opt => opt.MapFrom(b => b.Details.FontSize))
                 .ForMember(b => b.FontIndex, opt => opt.MapFrom(b => b.Details.FontIndex))
-                .ForMember(b => b.Format, opt => opt.MapFrom(b => b.Details.Format));
+                .ForMember(b => b.Format, opt => opt.MapFrom(b => b.Details.Format))
+                .ForMember(b => b.Caption, opt => opt.MapFrom(b => string.IsNullOrEmpty(b.Caption) ? "datetime" : b.Caption));
 
             CreateMap<DateTimeBlockDto, DateTimeBlock>()
                 .ForMember(b => b.Details, opt => opt.MapFrom(b => new DateTimeBlockDetails

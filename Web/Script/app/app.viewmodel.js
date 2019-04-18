@@ -19,7 +19,7 @@
         $.ajax({
             method: method,
             url: url,
-            data: JSON.stringify(data),
+            data: JSON.stringify(ko.toJS(data)),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             headers: {
@@ -43,6 +43,7 @@
             success: successHandler,
             error: function (xhr, ajaxOptions, thrownError) {
                 toastr.error(thrownError);
+                console.error(xhr, ajaxOptions, thrownError);
             }
         });
     }

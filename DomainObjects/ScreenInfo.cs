@@ -1,6 +1,6 @@
 ﻿namespace DomainObjects
 {
-    public class Videopanel
+    public class ScreenInfo
     {
         public int Height { get; set; }
         public int Width { get; set; }

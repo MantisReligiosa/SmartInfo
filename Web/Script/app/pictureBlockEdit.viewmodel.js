@@ -1,6 +1,7 @@
 ﻿function PictureBlockEditViewModel(master) {
     var self = this;
 
+    self.caption = ko.observable();
     self.base64Image = ko.observable();
 
     self.openFileDialog = function () {

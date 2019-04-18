@@ -27,5 +27,10 @@ namespace DomainObjects.Blocks
             }
             Details.CopyFrom(sourceDetails);
         }
+
+        internal override DisplayBlock Clone()
+        {
+            return new TextBlock(this);
+        }
     }
 }

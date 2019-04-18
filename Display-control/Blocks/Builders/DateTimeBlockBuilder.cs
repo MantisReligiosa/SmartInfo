@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -9,6 +10,8 @@ namespace Display_control.Blocks.Builders
 {
     public class DateTimeBlockBuilder : AbstractBuilder
     {
+        private static Timer _timer;
+
         public override UIElement BuildElement(DisplayBlock.DisplayBlock displayBlock)
         {
             var datetimeBlock = displayBlock as DisplayBlock.DateTimeBlock;
@@ -26,15 +29,22 @@ namespace Display_control.Blocks.Builders
                                                 datetimeBlock.Details.Align == DisplayBlock.Align.Center ? TextAlignment.Center :
                                                 datetimeBlock.Details.Align == DisplayBlock.Align.Right ? TextAlignment.Right : TextAlignment.Left
             };
-            var dispatcher = Dispatcher.CurrentDispatcher;
             if (datetimeBlock.Details.Format != null)
             {
-                var timerManager = new TimerManager();
-                timerManager.Subscribe(() =>
+                if (_timer == null)
                 {
-                    dispatcher.Invoke(()=>
+                    _timer = new Timer
+                    {
+                        AutoReset = true,
+                        Interval = 500,
+                        Enabled = true
+                    };
+                }
+                _timer.Elapsed += (obj, args) =>
+                {
+                    _dispatcher.Invoke(() =>
                     label.Text = DateTime.Now.ToString(datetimeBlock.Details.Format.ShowtimeFormat));
-                });
+                };
             }
             if (ColorConverter.TryToParseRGB(datetimeBlock.Details.BackColor, out string colorHex))
             {

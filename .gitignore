@@ -340,3 +340,9 @@ tools/
 *.msi
 
 Web/package-lock\.json
+
+Web/assets/32px\.png
+
+Web/assets/40px\.png
+
+Web/assets/throbber\.gif

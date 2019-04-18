@@ -10,19 +10,22 @@ namespace ServiceInterfaces
         string GetBackground();
 
 
-        TextBlock AddTextBlock();
-        TableBlock AddTableBlock();
-        PictureBlock AddPictureBlock();
-        DateTimeBlock AddDateTimeBlock();
+        TextBlock AddTextBlock(Guid? frameId);
+        TableBlock AddTableBlock(Guid? frameId);
+        PictureBlock AddPictureBlock(Guid? frameId);
+        DateTimeBlock AddDateTimeBlock(Guid? frameId);
+        MetaBlock AddMetaBlock();
         TextBlock CopyTextBlock(TextBlock block);
         TableBlock CopyTableBlock(TableBlock block);
         PictureBlock CopyPictureBlock(PictureBlock block);
         DateTimeBlock CopyDateTimeBlock(DateTimeBlock block);
+        MetaBlock CopyMetabLock(MetaBlock block);
         IEnumerable<DisplayBlock> GetBlocks();
-        void SaveTextBlock(TextBlock textBlock);
-        void SaveTableBlock(TableBlock block);
-        void SavePictureBlock(PictureBlock block);
-        void SaveDateTimeBlock(DateTimeBlock block);
+        TextBlock SaveTextBlock(TextBlock textBlock);
+        TableBlock SaveTableBlock(TableBlock block);
+        PictureBlock SavePictureBlock(PictureBlock block);
+        DateTimeBlock SaveDateTimeBlock(DateTimeBlock block);
+        MetaBlock SaveMetabLock(MetaBlock b);
         void DeleteBlock(Guid id);
         void Cleanup();
         void MoveAndResizeBlock(Guid id, int height, int width, int left, int top);

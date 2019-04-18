@@ -79,12 +79,25 @@ div.tab-content {
     margin-bottom: 3px;
 }
 
+.leftPanel {
+    border: 1px solid;
+    border-radius: .25rem;
+    border-color: #bbb;
+    background-color: #fbfbfc;
+    padding-bottom: 25px;
+    /*margin-left:15px;*/
+}
+
 .ribbon-element, .tableBtn {
     padding: 1px;
     margin: 1px;
     min-height: 25px;
     border-color: #bbb;
     background-color: #fbfbfc;
+}
+
+.ribbon-element {
+    min-width: 25px;
 }
 
 .ribbon-toolbar > .ribbon-element {
@@ -179,10 +192,13 @@ input[type=number] {
 }
 
 .workspace {
+    margin-left: 5px !important;
+    padding-left: 0 !important;
     flex: 1 1 auto;
     overflow-y: scroll;
     position: relative;
-    width: calc(100wv - 30px);
+    width: 100%;
+    height: 100%;
 }
 
 .display {
@@ -271,5 +287,20 @@ input[type=number] {
     position: fixed;
     right: 15px;
     margin-top: 10px;
-    margin-right: 10px;
+    margin-right: 25px;
+}
+
+.panel-content {
+    height: 100%;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+.blocksTree {
+    height: 100%;
+    width: 100px;
+    border-top-color: black;
+    border-top-style: dotted;
+    border-top-width: 1px;
 }

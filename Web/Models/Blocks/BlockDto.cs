@@ -11,5 +11,7 @@ namespace Web.Models.Blocks
         public string Type { get; set; }
         public Guid Id { get; set; }
         public int ZIndex { get; set; }
+        public string Caption { get; set; }
+        public Guid? MetablockFrameId { get; set; }
     }
 }

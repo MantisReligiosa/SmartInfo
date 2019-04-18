@@ -1,0 +1,17 @@
+﻿<!-- ko if: (format == null) -->
+<span class="block-icon block-datetime" data-bind="style:{'z-index': zIndex+1}"></span>
+<!-- /ko-->
+<!-- ko if: (format != null) -->
+<label class="datetimeblock blockContent"
+       data-bind="text: text, style: {
+                    'background-color' : backColor,
+                    'color' : textColor,
+                    'font-size' : fontSize + 'px',
+                    'font-family' :font,
+                    'line-height': fontIndex,
+                    'text-align' : align==0 ? 'left' : align==1 ? 'center' : 'right',
+                    'font-weight': bold ? 'bold' : '',
+                    'font-style': italic ? 'italic' : '',
+                    'position': 'fixed'}, attr:{'datetimeformat':format.designtimeFormat}">
+</label>
+<!-- /ko-->

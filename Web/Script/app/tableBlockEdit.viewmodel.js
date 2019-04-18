@@ -3,6 +3,7 @@
 
     self.rowTypes = ['header', 'odd', 'even'];
 
+    self.caption = ko.observable();
     self.selectedFonts = ko.observableArray([""]);
     self.selectedFontSizes = ko.observableArray([""]);
     self.selectedFontIndexes = ko.observableArray([""]);

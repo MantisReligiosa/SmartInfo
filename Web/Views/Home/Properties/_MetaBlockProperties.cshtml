@@ -1,0 +1,30 @@
+﻿<div class="form-group">
+    <div id="textBlockText" class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Имя</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Имя блока" data-bind="value:caption" />
+    </div>
+</div>
+<div class="form-group">
+    <!--ko foreach: metaFrames-->
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <div class="input-group-text">
+                <input type="checkbox" aria-label="Checkbox for following text input" data-bind="checked: selected">
+            </div>
+            <span class="input-group-text" id="basic-addon1" data-bind="text:'Кадр'+index"></span>
+            <span class="input-group-text" id="basic-addon2">Длительность:</span>
+        </div>
+        <input type="number" class="form-control" placeholder="Длительность, сек" data-bind="value:duration" />
+    </div>
+    <!--/ko-->
+</div>
+<div class="form-group row">
+    <div class="input-group col-md-5">
+        <button class="btn btn-danger" data-bind="click: deleteFrames">Удалить выбранные</button>
+    </div>
+    <div class="input-group col-md-5">
+        <button class="btn btn-success" data-bind="click: addFrame">Добавить кадр</button>
+    </div>
+</div>
