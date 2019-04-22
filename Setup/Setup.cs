@@ -40,6 +40,7 @@ namespace Setup
             var project = new ManagedProject(Constants.CommonInstallationName,
                 new Dir(Constants.InstallationDirectory,
                     new DirFiles(Path.Combine(Constants.PublishFolder, "*.*")),
+                    new Dir("assets", new DirFiles(Path.Combine(Constants.PublishFolder, "assets", "*.*"))),
                     new Dir("css", new DirFiles(Path.Combine(Constants.PublishFolder, "css", "*.*"))),
                     new Dir("Images", new DirFiles(Path.Combine(Constants.PublishFolder, "Images", "*.*"))),
                     new Dir("Script",
