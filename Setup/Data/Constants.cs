@@ -20,5 +20,7 @@
         public const string ConfigFileSource = "web.config";
 
         internal static string[] DependentAssemblies => new string[] { };
+
+        public static object LogPrefix => "*** ";
     }
 }
