@@ -1,4 +1,4 @@
-﻿using Microsoft.Deployment.WindowsInstaller;
+using Microsoft.Deployment.WindowsInstaller;
 using Setup.CustomDialogs;
 using Setup.Data;
 using Setup.Interfaces;
@@ -124,7 +124,7 @@ namespace Setup
                 SetConsoleTitle("migrate.exe");
                 _sqlManager.CreateDatabase(connectionString);
                 var processToStart = Path.Combine(e.InstallDir, "migrate.exe");
-                _sqlManager.ApplyMigrations(processToStart);
+                _sqlManager.ApplyMigrations(processToStart, connectionString);
 
             }
             catch (Exception ex)

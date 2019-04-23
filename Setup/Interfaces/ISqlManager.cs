@@ -7,7 +7,7 @@ namespace Setup.Interfaces
     {
         event EventHandler<LogEventArgs> LogRecieved;
 
-        void ApplyMigrations(string installDir);
+        void ApplyMigrations(string installDir, string connectionString);
 
         void ValidateConnectionString(string connectionString);
 

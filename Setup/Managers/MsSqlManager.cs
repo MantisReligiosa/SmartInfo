@@ -103,10 +103,10 @@ namespace Setup.Managers
             }
         }
 
-        public void ApplyMigrations(string processToStart)
+        public void ApplyMigrations(string processToStart, string connectionString)
         {
 
-            var parameters = $"Repository.dll /startupConfigurationFile=\"web.dll.config\" /verbose";
+            var parameters = $"Repository.dll /connectionString=\"{connectionString}\" /connectionProviderName=\"System.Data.SqlClient\" /verbose";
 
             var processManager = new ProcessManager();
 

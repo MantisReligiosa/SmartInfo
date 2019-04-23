@@ -11,13 +11,13 @@
 
         public static string ExecFile => $"{ProductName}.exe";
 
-        public static string CommonInstallationName => $"{Manufacturer} {ProductName}";
+        public static string CommonInstallationName => $"{ProductName}";
 
         public static string InstallationDirectory => $@"%ProgramFiles%\{Manufacturer}\{ProductName}";
 
         public static string ProgramMenuDirectory => $@"%ProgramMenu%\{Manufacturer}\{ProductName}";
 
-        public const string ConfigFileSource = "web.config";
+        public static string ConfigFileSource => $"{ProductName}.exe.config";
 
         internal static string[] DependentAssemblies => new string[] { };
 
