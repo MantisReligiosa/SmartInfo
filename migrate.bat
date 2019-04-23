@@ -1,1 +1,1 @@
-start "Migrate Display-Control" migrate.exe Repository.dll /connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=Display-control;Integrated Security=True;Max Pool Size=32767;" /connectionProviderName="System.Data.SqlClient"
+start "Migrate Display-Control" migrate.exe Repository.dll /startupConfigurationFile=\"Display-control.exe.config\" /verbose"

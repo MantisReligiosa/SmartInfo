@@ -1,4 +1,4 @@
-﻿using Microsoft.Deployment.WindowsInstaller;
+using Microsoft.Deployment.WindowsInstaller;
 using Setup.CustomDialogs;
 using Setup.Data;
 using Setup.Interfaces;
@@ -6,6 +6,8 @@ using Setup.Managers;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using WixSharp;
 using WixSharp.Forms;
 using static WixSharp.SetupEventArgs;
@@ -38,6 +40,7 @@ namespace Setup
             var project = new ManagedProject(Constants.CommonInstallationName,
                 new Dir(Constants.InstallationDirectory,
                     new DirFiles(Path.Combine(Constants.PublishFolder, "*.*")),
+                    new Dir("assets", new DirFiles(Path.Combine(Constants.PublishFolder, "assets", "*.*"))),
                     new Dir("css", new DirFiles(Path.Combine(Constants.PublishFolder, "css", "*.*"))),
                     new Dir("Images", new DirFiles(Path.Combine(Constants.PublishFolder, "Images", "*.*"))),
                     new Dir("Script",
@@ -76,26 +79,52 @@ namespace Setup
             Compiler.BuildMsi(project);
         }
 
+        [DllImport("kernel32.dll")]
+        private static extern bool AllocConsole();
+
+        [DllImport("kernel32.dll")]
+        private static extern bool SetConsoleTitle(string title);
+
         private static void Project_UIInitialized(SetupEventArgs e)
         {
+            e.Session.Log($"{Constants.LogPrefix}{MethodBase.GetCurrentMethod().Name}");
+
             e.Data[Properties.ConnectionString.PropertyName] = Properties.ConnectionString.DefaultValue;
             e.Session[Properties.ConnectionString.PropertyName] = Properties.ConnectionString.DefaultValue;
         }
 
         private static void Project_AfterInstall(SetupEventArgs e)
         {
+            e.Session.Log($"{Constants.LogPrefix}{MethodBase.GetCurrentMethod().Name}");
             if (e.IsUpgrading)
                 return;
 
             if (e.IsUninstalling)
                 return;
 
+            var installDir = e.Session.Property(Parameters.InstallationDirectoryParameter);
             var connectionString = e.Data[Properties.ConnectionString.PropertyName];
+            e.Session.Log($"{Constants.LogPrefix}{nameof(installDir)}='{installDir}'");
+            e.Session.Log($"{Constants.LogPrefix}{nameof(connectionString)}='{connectionString}'");
             try
             {
+                ConfigurationManager.CorrectConfigurationFiles(
+                        new ConfigurationFilesContext
+                        {
+                            InstallDir = installDir,
+                            ConnectionString = connectionString
+                        });
+
+                _sqlManager.LogRecieved += (sender, logEventArgs) =>
+                {
+                    Console.WriteLine(logEventArgs.Log);
+                    e.Session.Log(logEventArgs.Log);
+                };
+                AllocConsole();
+                SetConsoleTitle("migrate.exe");
                 _sqlManager.CreateDatabase(connectionString);
                 var processToStart = Path.Combine(e.InstallDir, "migrate.exe");
-                _sqlManager.ApplyMigrations(processToStart);
+                _sqlManager.ApplyMigrations(processToStart, connectionString);
 
             }
             catch (Exception ex)
