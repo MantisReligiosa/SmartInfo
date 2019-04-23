@@ -25,7 +25,7 @@ Task("RunUnitTests")
 {
 	XUnit2("./Testing/bin/Release/Testing.dll");
 	XUnit2("./Devices/PixelBoardDeviceTesting/bin/Release/PixelBoardDeviceTesting.dll");
-	/XUnit2("./Devices/SevenSegmentTesting/bin/Release/SevenSegmentTesting.dll");
+	XUnit2("./Devices/SevenSegmentTesting/bin/Release/SevenSegmentTesting.dll");
 });
 
 Task("CopyMigrate")
