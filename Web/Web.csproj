@@ -429,7 +429,7 @@
     <Content Include="Views\Home\Master.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Views\Codes\404.cshtml">
+    <None Include="Views\Codes\Oops.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Views\Shared\_ErrorLayout.cshtml">

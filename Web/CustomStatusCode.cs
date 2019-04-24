@@ -53,9 +53,13 @@ namespace Web
         {
             try
             {
-                var response = viewRenderer.RenderView(context, "/Codes/" + (int)statusCode + ".cshtml");
-                response.StatusCode = statusCode;
-                context.Response = response;
+                var code = (int)statusCode;
+                if (code == 404 || code == 500)
+                {
+                    var response = viewRenderer.RenderView(context, "/Codes/Oops.cshtml");
+                    response.StatusCode = statusCode;
+                    context.Response = response;
+                }
             }
             catch (Exception)
             {
