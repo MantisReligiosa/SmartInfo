@@ -5,8 +5,6 @@ var publishDir = "_publish";
 
 var packagesDir = "./packages";
 
-var version = "";
-
 Task("Build")
 .Does(() =>
 {
@@ -25,7 +23,7 @@ Task("RunUnitTests")
 {
 	XUnit2("./Testing/bin/Release/Testing.dll");
 	XUnit2("./Devices/PixelBoardDeviceTesting/bin/Release/PixelBoardDeviceTesting.dll");
-	/XUnit2("./Devices/SevenSegmentTesting/bin/Release/SevenSegmentTesting.dll");
+	XUnit2("./Devices/SevenSegmentTesting/bin/Release/SevenSegmentTesting.dll");
 });
 
 Task("CopyMigrate")
@@ -89,7 +87,7 @@ private void CopyBase(string sourceDir, string targetDir)
 Task("ZipDisplayControl")
 .Does(() =>
 {
-	Zip($"./{publishDir}/Display-control", $"./{publishDir}/Display_control_v{version}.zip");
+	Zip($"./{publishDir}/Display-control", $"./{publishDir}/Display_control.zip");
 });
 
 Task("ZipKeygen")
@@ -103,7 +101,7 @@ Task("BuildSetup")
 {
 	MSBuild("./Setup/Setup.csproj", new MSBuildSettings());
 	var file = File("./Setup/Display-control.msi");
-	MoveFile(file, $"./{publishDir}/Display_control_v{version}.msi");
+	MoveFile(file, $"./{publishDir}/Display_control.msi");
 });
 
 Task("GetVersionInfo")
@@ -118,12 +116,12 @@ Task("GetVersionInfo")
 	Information($"Major {major}");
 	Information($"Minor {minor}");
 	Information($"Build {build}");
-	version = $"{major}.{minor}.{build}";
+	//version = $"{major}.{minor}.{build}";
 });
 
 RunTarget("ReCreatePublishDir");
 
-RunTarget("GetVersionInfo");
+//RunTarget("GetVersionInfo");
 
 RunTarget("Build");
 
