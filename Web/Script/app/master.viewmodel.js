@@ -701,7 +701,8 @@ function masterViewModel(app) {
                 'check_callback': true,
                 'data': treenodes,
                 "themes": {
-                    "dots": true
+                    "dots": true,
+                    "name": "proton"
                 },
             }
         });

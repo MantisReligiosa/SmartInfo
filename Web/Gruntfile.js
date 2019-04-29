@@ -29,6 +29,7 @@ module.exports = function (grunt) {
                     'node_modules/bootstrap/dist/css/bootstrap.css',
                     'node_modules/toastr/build/toastr.min.css',
                     'node_modules/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css',
+                    'node_modules/jstree-bootstrap-theme/dist/themes/proton/style.min.css',
                     'node_modules/jstree/dist/themes/default/style.min.css'
                 ],
                 dest: 'css/vendor.css'
