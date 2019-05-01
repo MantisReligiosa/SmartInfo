@@ -390,6 +390,7 @@ function masterViewModel(app) {
                     var frame = findFrame(block.metablockFrameId);
 
                     var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
+                    index = frame.blocks().indexOf(existBlock);
                     frame.blocks.remove(existBlock);
                     frame.blocks.push(block);
                 }
