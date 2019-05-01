@@ -143,6 +143,7 @@ function masterViewModel(app) {
             {},
             function (data) {
                 data.selected = ko.observable(false);
+                makeMetablockObservableArrays(data);
                 self.blocks.push(data);
                 var node = getNode(data)
                 treenodes.push(node);
