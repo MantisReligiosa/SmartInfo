@@ -42,7 +42,7 @@ function masterViewModel(app) {
     });
 
     self.screenOffsetTop = ko.computed(function () {
-        return -Math.min.apply(Math,self.screens().map(function (screen) {
+        return -Math.min.apply(Math, self.screens().map(function (screen) {
             return screen.top;
         }));
     });
@@ -52,7 +52,6 @@ function masterViewModel(app) {
             return screen.left;
         }));
     });
-
 
     self.textBlockEditViewModel = ko.computed(function () { return new TextBlockEditViewModel(self); });
     self.tableBlockEditViewModel = ko.computed(function () { return new TableBlockEditViewModel(self); });
@@ -238,6 +237,8 @@ function masterViewModel(app) {
             .modal("show");
     }
 
+    var metaBlockIsOpened;
+
     self.showProperties = function () {
         var block = self.selectedBlock();
         if (block == null) {
@@ -293,6 +294,9 @@ function masterViewModel(app) {
             self.pictureBlockEditViewModel().base64Image(block.base64Src);
         };
         if (block.type == 'meta') {
+            var nodeId = $('#blocksTree').jstree(true).get_node(block.id);
+            metaBlockIsOpened = $('#blocksTree').jstree(true).is_open(nodeId);
+
             self.metaBlockEditViewModel().caption(block.caption);
             self.metaBlockEditViewModel().id(block.id);
             block.frames().forEach(function (frame) {
@@ -300,7 +304,6 @@ function masterViewModel(app) {
             });
             self.metaBlockEditViewModel().metaFrames(block.frames());
         }
-
     };
 
     self.applyProperties = function () {
@@ -395,6 +398,9 @@ function masterViewModel(app) {
                     makeMetablockObservableArrays(data);
                 }
                 var newNode = getNode(data);
+                if (data.type == 'meta') {
+                    newNode["state"] = { opened: metaBlockIsOpened }
+                }
                 if (block.metablockFrameId != null) {
                     newNode["parent"] = block.metablockFrameId;
                 }
