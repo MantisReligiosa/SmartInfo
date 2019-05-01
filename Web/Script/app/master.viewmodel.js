@@ -399,7 +399,7 @@ function masterViewModel(app) {
                     newNode["parent"] = block.metablockFrameId;
                 }
                 else {
-                    treenodes.push(newNode);
+                    treenodes.splice(index, 0, newNode);
                 }
                 $('#blocksTree').jstree(true).create_node(block.metablockFrameId, newNode, index);
             }
