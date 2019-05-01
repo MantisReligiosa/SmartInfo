@@ -40,6 +40,7 @@ namespace Web
             container.Register<ISerializationController, SerializationController>();
 
             CustomStatusCode.AddCode(404);
+            CustomStatusCode.AddCode(500);
 
             pipelines.OnError += (ctx, ex) =>
             {

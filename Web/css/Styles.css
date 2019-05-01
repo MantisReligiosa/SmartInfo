@@ -304,3 +304,7 @@ input[type=number] {
     border-top-style: dotted;
     border-top-width: 1px;
 }
+
+.jstree-proton {
+    font-family: unset !important;
+}
