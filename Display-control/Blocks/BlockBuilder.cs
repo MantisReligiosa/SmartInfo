@@ -21,7 +21,14 @@ namespace Display_control.Blocks
         {
             if (_builders.TryGetValue(displayBlock.GetType(), out AbstractBuilder builder))
             {
-                return builder.BuildElement(displayBlock);
+                try
+                {
+                    return builder.BuildElement(displayBlock);
+                }
+                catch
+                {
+                    return null;
+                }
             }
             return null;
         }
