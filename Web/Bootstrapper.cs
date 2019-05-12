@@ -44,7 +44,8 @@ namespace Web
 
             pipelines.OnError += (ctx, ex) =>
             {
-                return null;
+                var context = ctx as NancyContext;
+                return new Response { StatusCode = HttpStatusCode.InternalServerError };
             };
 
             var config = container.Resolve<IConfiguration>();
