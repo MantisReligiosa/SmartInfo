@@ -80,8 +80,8 @@ namespace Repository.Migrations
             {
                 Id = new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1),
                 Denomination = "ฤฤ.ฬฬ.รรรร",
-                DesigntimeFormat = "dd.MM.yyyy",
-                ShowtimeFormat = "dd.MM.YYYY",
+                DesigntimeFormat = "DD.MM.YYYY",
+                ShowtimeFormat = "dd.MM.yyyy",
                 IsDateFormat = true
             });
 
