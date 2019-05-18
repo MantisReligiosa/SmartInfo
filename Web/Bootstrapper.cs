@@ -1,4 +1,4 @@
-using DataExchange;
+﻿using DataExchange;
 using DataExchange.DTO;
 using DataExchange.Requests;
 using DataExchange.Responces;
@@ -8,6 +8,7 @@ using Nancy.Bootstrapper;
 using Nancy.Bundle;
 using Nancy.Conventions;
 using Nancy.TinyIoc;
+using NLog;
 using Repository;
 using ServiceInterfaces;
 using Services;
@@ -18,6 +19,7 @@ namespace Web
 {
     public class Bootstrapper : DefaultNancyBootstrapper
     {
+        private readonly Logger _log = LogManager.GetLogger("WebApp");
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
             //var config = container.Resolve<IConfigSettings>();
@@ -38,13 +40,16 @@ namespace Web
             container.Register<IBlockController, BlockController>();
             container.Register<IOperationController, OperationController>();
             container.Register<ISerializationController, SerializationController>();
+            container.Register<ILogger>(_log);
 
             CustomStatusCode.AddCode(404);
             CustomStatusCode.AddCode(500);
 
             pipelines.OnError += (ctx, ex) =>
             {
-                return null;
+                var context = ctx as NancyContext;
+                _log.Error(ex, "Ошибка pipelines");
+                return new Response { StatusCode = HttpStatusCode.InternalServerError };
             };
 
             var config = container.Resolve<IConfiguration>();
