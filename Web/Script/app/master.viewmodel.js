@@ -233,6 +233,7 @@ function masterViewModel(app) {
 
     self.showBackgroundProperties = function () {
         self.backgroundPropertiesMode(true);
+        initializeControls();
         $("#properties")
             .modal({ backdrop: 'static', keyboard: false })
             .modal("show");
