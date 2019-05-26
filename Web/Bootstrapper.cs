@@ -22,6 +22,7 @@ namespace Web
         private readonly Logger _log = LogManager.GetLogger("WebApp");
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
+            _log.Trace("Application starting");
             //var config = container.Resolve<IConfigSettings>();
 
             container.AttachNancyBundle<BundleConfig>(cfg =>
@@ -128,10 +129,12 @@ namespace Web
                     };
                 });
             }
+            _log.Trace("Application started");
         }
 
         protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)
         {
+            _log.Trace(">>> " + context.Request.Url.ToString());
             base.RequestStartup(container, pipelines, context);
 
             var formsAuthConfiguration = new FormsAuthenticationConfiguration
