@@ -88,14 +88,11 @@ namespace Repository.Repositories
 
         public override void DeleteRange(IEnumerable<TEntity> list)
         {
-            foreach (var item in list)
-            {
-                GetCache().Remove(item);
-            }
             var task = new ItemsTask((i) =>
             {
                 base.DeleteRange(i.Select(t => t as TEntity));
                 Context.SaveChanges();
+                GetCache().Clear();
             }, list);
             GetTaskQueue().Enqueue(task);
         }

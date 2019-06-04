@@ -43,6 +43,7 @@ namespace Web.Modules
             Post["/api/parseCSV"] = Wrap(ParseCSV, "Ошибка чтения csv");
             Get["/api/downloadConfig"] = DownloadConfig(blockController, serializationController, _logger);
             Post["/api/uploadConfig"] = Wrap(UploadConfig, "Ошибка загрузки конфигурации");
+            Post["/api/cleanup"] = Wrap(Cleanup, "Ошибка удаления блоков");
 
             _savers = new Dictionary<string, Func<dynamic>>()
             {
@@ -60,6 +61,11 @@ namespace Web.Modules
                 { "datetime" , () => CopyBlock<DateTimeBlock, DateTimeBlockDto>(b => blockController.CopyDateTimeBlock(b)) },
                 { "meta", () => CopyBlock<MetaBlock, MetaBlockDto>(b => blockController.CopyMetabLock(b)) }
             };
+        }
+
+        private void Cleanup()
+        {
+            _blockController.Cleanup();
         }
 
         private void UploadConfig()
