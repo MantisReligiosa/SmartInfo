@@ -37,6 +37,7 @@
     };
 
     self.initializeControls = function () {
+
         self.rowTypes.forEach(function (rowType) {
             $('#tableBlock' + capitalize(rowType) + 'BackgroundCP').colorpicker({ format: "rgba" });
             $('#tableBlock' + capitalize(rowType) + 'TextColorCP').colorpicker({ format: "rgba" });
@@ -45,6 +46,10 @@
 
     self.openFileDialog = function () {
         $('#inputFile').on('change', function (e) {
+            var tmp = $('#inputFile').val();
+            if (tmp == "") {
+                return;
+            }
             var file = this.files[0];
             var reader = new FileReader();
 
@@ -71,6 +76,7 @@
                 if (encoding == "1") {
                     reader.readAsText(file/*, 'CP1251'*/);
                 }
+            $('#inputFile').val("");
         }).click();
     }
 
