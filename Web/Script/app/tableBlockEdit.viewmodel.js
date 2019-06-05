@@ -8,6 +8,7 @@
     self.selectedFontSizes = ko.observableArray([""]);
     self.selectedFontIndexes = ko.observableArray([""]);
     self.filePath = ko.observable();
+    self.encoding = ko.observable(0);
 
     self.rows = ko.observableArray();
     self.header = ko.observableArray();
@@ -53,7 +54,7 @@
                     app.request(
                         "POST",
                         "/api/parseCSV",
-                        {text:text},
+                        { text: text },
                         function (data) {
                             self.header.removeAll();
                             self.header(data.header);
@@ -63,8 +64,13 @@
                     );
                 };
             })(file);
-
-            reader.readAsText(file/*, 'CP1251'*/);
+            var encoding = self.encoding();
+            if (encoding == "0") {
+                reader.readAsText(file, 'CP1251');
+            } else
+                if (encoding == "1") {
+                    reader.readAsText(file/*, 'CP1251'*/);
+                }
         }).click();
     }
 
