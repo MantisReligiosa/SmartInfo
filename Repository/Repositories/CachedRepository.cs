@@ -21,6 +21,8 @@ namespace Repository.Repositories
 
         private static Task _taskExecutor;
 
+        private static Mutex mut = new Mutex();
+
         public CachedRepository(DatabaseContext context)
             : base(context)
         {
@@ -34,7 +36,9 @@ namespace Repository.Repositories
                         if (!taskQueue.IsEmpty)
                         {
                             taskQueue.TryDequeue(out IQueuedTask task);
+                            mut.WaitOne();
                             task.Execute();
+                            mut.ReleaseMutex();
                         }
                         else
                         {
