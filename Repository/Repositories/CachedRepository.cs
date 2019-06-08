@@ -37,7 +37,15 @@ namespace Repository.Repositories
                         {
                             taskQueue.TryDequeue(out IQueuedTask task);
                             mut.WaitOne();
-                            task.Execute();
+                            try
+                            {
+                                task.Execute();
+                            }
+                            catch
+                            {
+                                _cache = null;
+                                throw;
+                            }
                             mut.ReleaseMutex();
                         }
                         else
@@ -55,7 +63,7 @@ namespace Repository.Repositories
             GetCache().Add(item);
             var task = new ItemTask((i) =>
             {
-                var result=base.Create(i as TEntity);
+                var result = base.Create(i as TEntity);
                 Context.SaveChanges();
                 return result;
             }, item);
