@@ -20,7 +20,7 @@ namespace Setup
 
         private static void Main(string[] args)
         {
-            var path = System.IO.Path.Combine(Constants.PublishFolder, Constants.ExecFile);
+            var path = Path.Combine(Constants.PublishFolder, Constants.ExecFile);
             Debug.Write(path.ToString());
             AssemblyManager.GetAssemblyInfo(path, out Guid guid, out Version version);
 
@@ -37,25 +37,42 @@ namespace Setup
                 .Add(Dialogs.Progress)
                 .Add(Dialogs.Exit);
 
+            const string scriptFolder = "Script";
+            const string viewsFolder = "Views";
+            const string assetsFolder = "assets";
+            const string cssFolder = "css";
+            const string imagesFolder = "Images";
+            const string appFolder = "app";
+            const string vendorFolder = "Vendor";
+            const string codesFolder = "Codes";
+            const string homeFolder = "Home";
+            const string blocksFolder = "Blocks";
+            const string rendersFolder = "Renders";
+            const string propertiesFolder = "Properties";
+            const string sharedFolder = "Shared";
+            const string anyFilesMask = "*.*";
             var project = new ManagedProject(Constants.CommonInstallationName,
-                new Dir(Constants.InstallationDirectory,
-                    new DirFiles(Path.Combine(Constants.PublishFolder, "*.*")),
-                    new Dir("assets", new DirFiles(Path.Combine(Constants.PublishFolder, "assets", "*.*"))),
-                    new Dir("css", new DirFiles(Path.Combine(Constants.PublishFolder, "css", "*.*"))),
-                    new Dir("Images", new DirFiles(Path.Combine(Constants.PublishFolder, "Images", "*.*"))),
-                    new Dir("Script",
-                        new Dir("app", new DirFiles(Path.Combine(Constants.PublishFolder, "Script", "app", "*.*"))),
-                        new Dir("Vendor", new DirFiles(Path.Combine(Constants.PublishFolder, "Script", "Vendor", "*.*")))),
-                    new Dir("Views", new DirFiles(Path.Combine(Constants.PublishFolder, "Views", "*.*")),
-                        new Dir("Codes", new DirFiles(Path.Combine(Constants.PublishFolder, "Views", "Codes", "*.*"))),
-                        new Dir("Home", new DirFiles(Path.Combine(Constants.PublishFolder, "Views", "Home", "*.*"))),
-                        new Dir("Shared", new DirFiles(Path.Combine(Constants.PublishFolder, "Views", "Shared", "*.*"))))
-                    ),
-                new Dir(Constants.ProgramMenuDirectory,
-                        new ExeFileShortcut($"Uninstall {Constants.ProductName}", "[System64Folder]msiexec.exe", "/x [ProductCode]"),
-                        new ExeFileShortcut(Constants.ProductName, "[INSTALLDIR]Display-control.exe", arguments: "")),
-                new Dir(@"%Desktop%",
-                        new ExeFileShortcut(Constants.ExecFile, $"[INSTALLDIR]{Constants.ExecFile}", arguments: "")))
+                    new Dir(Constants.InstallationDirectory,
+                        new DirFiles(Path.Combine(Constants.PublishFolder, anyFilesMask)),
+                        new Dir(assetsFolder, new DirFiles(Path.Combine(Constants.PublishFolder, assetsFolder, anyFilesMask))),
+                        new Dir(cssFolder, new DirFiles(Path.Combine(Constants.PublishFolder, cssFolder, anyFilesMask))),
+                        new Dir(imagesFolder, new DirFiles(Path.Combine(Constants.PublishFolder, imagesFolder, anyFilesMask))),
+                        new Dir(scriptFolder,
+                            new Dir(appFolder, new DirFiles(Path.Combine(Constants.PublishFolder, scriptFolder, appFolder, anyFilesMask))),
+                            new Dir(vendorFolder, new DirFiles(Path.Combine(Constants.PublishFolder, scriptFolder, vendorFolder, anyFilesMask)))),
+                        new Dir(viewsFolder, new DirFiles(Path.Combine(Constants.PublishFolder, viewsFolder, anyFilesMask)),
+                            new Dir(codesFolder, new DirFiles(Path.Combine(Constants.PublishFolder, viewsFolder, codesFolder, anyFilesMask))),
+                            new Dir(homeFolder, new DirFiles(Path.Combine(Constants.PublishFolder, viewsFolder, homeFolder, anyFilesMask)),
+                                new Dir(blocksFolder, new DirFiles(Path.Combine(Constants.PublishFolder, viewsFolder, homeFolder, blocksFolder, anyFilesMask)),
+                                    new Dir(rendersFolder, new DirFiles(Path.Combine(Constants.PublishFolder, viewsFolder, homeFolder, blocksFolder, rendersFolder, anyFilesMask)))),
+                                new Dir(propertiesFolder, new DirFiles(Path.Combine(Constants.PublishFolder, viewsFolder, homeFolder, propertiesFolder, anyFilesMask)))),
+                            new Dir(sharedFolder, new DirFiles(Path.Combine(Constants.PublishFolder, viewsFolder, sharedFolder, anyFilesMask))))
+                        ),
+                    new Dir(Constants.ProgramMenuDirectory,
+                            new ExeFileShortcut($"Uninstall {Constants.ProductName}", "[System64Folder]msiexec.exe", "/x [ProductCode]"),
+                            new ExeFileShortcut(Constants.ProductName, $"[INSTALLDIR]{Constants.ExecFile}", arguments: "")),
+                    new Dir(@"%Desktop%",
+                            new ExeFileShortcut(Constants.ExecFile, $"[INSTALLDIR]{Constants.ExecFile}", arguments: "")))
             {
                 GUID = guid,
                 Description = Constants.CommonInstallationName,
@@ -72,7 +89,7 @@ namespace Setup
             };
             project.ControlPanelInfo.Manufacturer = Constants.Manufacturer;
             project.DefaultRefAssemblies.AddRange(
-                AssemblyManager.GetAssemblyPathsCollection(System.IO.Path.GetDirectoryName(
+                AssemblyManager.GetAssemblyPathsCollection(Path.GetDirectoryName(
                     System.Reflection.Assembly.GetExecutingAssembly().Location)));
             project.AfterInstall += Project_AfterInstall;
             project.UIInitialized += Project_UIInitialized;

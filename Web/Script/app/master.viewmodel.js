@@ -42,7 +42,7 @@ function masterViewModel(app) {
     });
 
     self.screenOffsetTop = ko.computed(function () {
-        return -Math.min.apply(Math,self.screens().map(function (screen) {
+        return -Math.min.apply(Math, self.screens().map(function (screen) {
             return screen.top;
         }));
     });
@@ -52,7 +52,6 @@ function masterViewModel(app) {
             return screen.left;
         }));
     });
-
 
     self.textBlockEditViewModel = ko.computed(function () { return new TextBlockEditViewModel(self); });
     self.tableBlockEditViewModel = ko.computed(function () { return new TableBlockEditViewModel(self); });
@@ -144,6 +143,7 @@ function masterViewModel(app) {
             {},
             function (data) {
                 data.selected = ko.observable(false);
+                makeMetablockObservableArrays(data);
                 self.blocks.push(data);
                 var node = getNode(data)
                 treenodes.push(node);
@@ -233,10 +233,13 @@ function masterViewModel(app) {
 
     self.showBackgroundProperties = function () {
         self.backgroundPropertiesMode(true);
+        initializeControls();
         $("#properties")
             .modal({ backdrop: 'static', keyboard: false })
             .modal("show");
     }
+
+    var metaBlockIsOpened;
 
     self.showProperties = function () {
         var block = self.selectedBlock();
@@ -244,9 +247,7 @@ function masterViewModel(app) {
             return;
         };
         self.backgroundPropertiesMode(false);
-        $("#properties")
-            .modal({ backdrop: 'static', keyboard: false })
-            .modal("show");
+        initializeControls();
         if (block.type === 'text') {
             self.textBlockEditViewModel().caption(block.caption);
             self.textBlockEditViewModel().backColor(block.backColor);
@@ -293,6 +294,9 @@ function masterViewModel(app) {
             self.pictureBlockEditViewModel().base64Image(block.base64Src);
         };
         if (block.type == 'meta') {
+            var nodeId = $('#blocksTree').jstree(true).get_node(block.id);
+            metaBlockIsOpened = $('#blocksTree').jstree(true).is_open(nodeId);
+
             self.metaBlockEditViewModel().caption(block.caption);
             self.metaBlockEditViewModel().id(block.id);
             block.frames().forEach(function (frame) {
@@ -300,7 +304,9 @@ function masterViewModel(app) {
             });
             self.metaBlockEditViewModel().metaFrames(block.frames());
         }
-
+        $("#properties")
+            .modal({ backdrop: 'static', keyboard: false })
+            .modal("show");
     };
 
     self.applyProperties = function () {
@@ -387,6 +393,7 @@ function masterViewModel(app) {
                     var frame = findFrame(block.metablockFrameId);
 
                     var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
+                    index = frame.blocks().indexOf(existBlock);
                     frame.blocks.remove(existBlock);
                     frame.blocks.push(block);
                 }
@@ -395,11 +402,14 @@ function masterViewModel(app) {
                     makeMetablockObservableArrays(data);
                 }
                 var newNode = getNode(data);
+                if (data.type == 'meta') {
+                    newNode["state"] = { opened: metaBlockIsOpened }
+                }
                 if (block.metablockFrameId != null) {
                     newNode["parent"] = block.metablockFrameId;
                 }
                 else {
-                    treenodes.push(newNode);
+                    treenodes.splice(index, 0, newNode);
                 }
                 $('#blocksTree').jstree(true).create_node(block.metablockFrameId, newNode, index);
             }
@@ -565,6 +575,20 @@ function masterViewModel(app) {
 
     };
 
+    self.cleanup = function () {
+        app.request(
+            "POST",
+            "/api/cleanup",
+            null,
+            function (data) {
+                self.blocks.removeAll();
+                $('#blocksTree').jstree(true).delete_node(treenodes);
+                treenodes = [];
+                self.selectedBlock(null);
+            }
+        );
+    }
+
     self.downloadConfig = function () {
         window.location = "/api/downloadConfig";
     }
@@ -701,7 +725,8 @@ function masterViewModel(app) {
                 'check_callback': true,
                 'data': treenodes,
                 "themes": {
-                    "dots": true
+                    "dots": true,
+                    "name": "proton"
                 },
             }
         });

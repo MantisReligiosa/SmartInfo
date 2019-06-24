@@ -99,10 +99,14 @@ namespace Services
             };
         }
 
-        public IEnumerable<int> GetFontSizes() => new List<int>
+        public IEnumerable<int> GetFontSizes()
         {
-            15, 30, 50, 75, 100, 125, 150, 200
-        };
+            yield return 15;
+            for (int i = 20; i <= 200; i += 10)
+            {
+                yield return i;
+            }
+        }
 
         public IEnumerable<double> GetFontHeightIndex() => new List<double>
         {

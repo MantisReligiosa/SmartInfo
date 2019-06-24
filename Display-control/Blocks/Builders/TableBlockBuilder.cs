@@ -43,13 +43,13 @@ namespace Display_control.Blocks.Builders
             {
                 oddTrigger.Setters.Add(style);
             }
-            oddTrigger.Setters.Add(new Setter(FrameworkElement.HeightProperty, (double)rowHeight));
+            oddTrigger.Setters.Add(new Setter(FrameworkElement.HeightProperty, rowHeight));
 
             foreach (var style in GetRowStyleSetters(tableBlock.Details.EvenRowDetails, tableBlock.Details.FontSize, tableBlock.Details.FontName))
             {
                 evenTrigger.Setters.Add(style);
             }
-            evenTrigger.Setters.Add(new Setter(FrameworkElement.HeightProperty, (double)rowHeight));
+            evenTrigger.Setters.Add(new Setter(FrameworkElement.HeightProperty, rowHeight));
 
             var dataGrid = new DataGrid
             {
@@ -64,31 +64,33 @@ namespace Display_control.Blocks.Builders
                 ColumnHeaderStyle = headerStyle,
                 RowStyle = rowStyle
             };
-            var columnCount = tableBlock.Details.Cells.Max(c => c.Column) + 1;
-            var header = rows.FirstOrDefault().OrderBy(c => c.Column).ToArray();
-            for (int i = 0; i < columnCount; i++)
+            if (tableBlock.Details.Cells.Any())
             {
-                var name = $"Column{i}";
-                dataGrid.Columns.Add(new DataGridTextColumn
-                {
-                    Header = header[i].Value,
-                    Binding = new Binding(name),
-                    Width = new DataGridLength(1, DataGridLengthUnitType.Star)
-                });
-            }
-            foreach (var row in rows.Skip(1))
-            {
-                dynamic tableRow = new ExpandoObject();
-                var i = 0;
-                foreach (var cell in row.OrderBy(c => c.Column))
+                var columnCount = tableBlock.Details.Cells.Max(c => c.Column) + 1;
+                var header = rows.FirstOrDefault().OrderBy(c => c.Column).ToArray();
+                for (int i = 0; i < columnCount; i++)
                 {
                     var name = $"Column{i}";
-                    ((IDictionary<string, object>)tableRow)[name] = cell.Value;
-                    i++;
+                    dataGrid.Columns.Add(new DataGridTextColumn
+                    {
+                        Header = header[i].Value,
+                        Binding = new Binding(name),
+                        Width = new DataGridLength(1, DataGridLengthUnitType.Star)
+                    });
                 }
-                dataGrid.Items.Add(tableRow);
+                foreach (var row in rows.Skip(1))
+                {
+                    dynamic tableRow = new ExpandoObject();
+                    var i = 0;
+                    foreach (var cell in row.OrderBy(c => c.Column))
+                    {
+                        var name = $"Column{i}";
+                        ((IDictionary<string, object>)tableRow)[name] = cell.Value;
+                        i++;
+                    }
+                    dataGrid.Items.Add(tableRow);
+                }
             }
-
             Canvas.SetTop(dataGrid, tableBlock.Top);
             Canvas.SetLeft(dataGrid, tableBlock.Left);
             Panel.SetZIndex(dataGrid, tableBlock.ZIndex);

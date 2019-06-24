@@ -14,14 +14,16 @@ namespace Display_control.Blocks.Builders
         {
             var pictureBlock = displayBlock as DisplayBlock.PictureBlock;
             var bitmap = new Media.Imaging.BitmapImage();
-            using (var ms = new MemoryStream(Convert.FromBase64String(pictureBlock.Details.Base64Image)))
+            if (pictureBlock.Details.Base64Image != null)
             {
-                bitmap.BeginInit();
-                bitmap.CacheOption = Media.Imaging.BitmapCacheOption.OnLoad; // here
-                bitmap.StreamSource = ms;
-                bitmap.EndInit();
+                using (var ms = new MemoryStream(Convert.FromBase64String(pictureBlock.Details.Base64Image)))
+                {
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = Media.Imaging.BitmapCacheOption.OnLoad; // here
+                    bitmap.StreamSource = ms;
+                    bitmap.EndInit();
+                }
             }
-
             var image = new Image
             {
                 Height = pictureBlock.Height,
