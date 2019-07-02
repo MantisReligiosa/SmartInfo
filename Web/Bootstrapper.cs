@@ -2,6 +2,7 @@
 using DataExchange.DTO;
 using DataExchange.Requests;
 using DataExchange.Responces;
+using Infrastructure.TableProviders;
 using Nancy;
 using Nancy.Authentication.Forms;
 using Nancy.Bootstrapper;
@@ -12,6 +13,8 @@ using NLog;
 using Repository;
 using ServiceInterfaces;
 using Services;
+using System;
+using System.Collections.Generic;
 using Web.Bundles;
 using Web.Bundles.Web.Bundles;
 
@@ -42,6 +45,12 @@ namespace Web
             container.Register<IOperationController, OperationController>();
             container.Register<ISerializationController, SerializationController>();
             container.Register<ILogger>(_log);
+
+            container.RegisterMultiple<ITableProvider>(new List<Type>
+            {
+                typeof(CsvTableProvider),
+                typeof(ExcelTableProvider)
+            });
 
             CustomStatusCode.AddCode(404);
             CustomStatusCode.AddCode(500);

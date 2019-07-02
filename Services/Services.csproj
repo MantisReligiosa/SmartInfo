@@ -90,5 +90,6 @@
   <ItemGroup>
     <None Include="Resources\24115 - linuxdcpp.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

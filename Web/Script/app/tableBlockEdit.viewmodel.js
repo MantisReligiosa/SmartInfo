@@ -9,6 +9,14 @@
     self.selectedFontIndexes = ko.observableArray([""]);
     self.filePath = ko.observable();
     self.encoding = ko.observable(0);
+    self.format = ko.observable(0);
+    //self.accept = ko.computed(function () {
+    //    if (self.format() == 0)
+    //        return ".csv";
+    //    if (self.format() == 1)
+    //        return ".xls,.xlsx,.csv";
+    //    return "";
+    //});
 
     self.rows = ko.observableArray();
     self.header = ko.observableArray();
@@ -55,11 +63,15 @@
 
             reader.onload = (function (theFile) {
                 return function (e) {
-                    var text = e.target.result;
                     app.request(
                         "POST",
-                        "/api/parseCSV",
-                        { text: text },
+                        "/api/parseTable",
+                        {
+                            context: btoa(
+                                new Uint8Array(e.target.result)
+                                    .reduce((data, byte) => data + String.fromCharCode(byte), '')),
+                            extension: "xls"
+                        },
                         function (data) {
                             self.header.removeAll();
                             self.header(data.header);
@@ -70,12 +82,14 @@
                 };
             })(file);
             var encoding = self.encoding();
+            var encodingFormat = '';
             if (encoding == "0") {
-                reader.readAsText(file, 'CP1251');
+                encodingFormat = 'CP1251'
             } else
                 if (encoding == "1") {
-                    reader.readAsText(file/*, 'CP1251'*/);
+                    encodingFormat = 'utf8'
                 }
+            reader.readAsArrayBuffer(file);
             $('#inputFile').val("");
         }).click();
     }

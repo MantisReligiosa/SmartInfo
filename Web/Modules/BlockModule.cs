@@ -15,18 +15,21 @@ namespace Web.Modules
     {
         private readonly IBlockController _blockController;
         private readonly ISerializationController _serializationController;
+        private readonly IEnumerable<ITableProvider> _tableProviders;
 
         private readonly Dictionary<string, Func<dynamic>> _savers;
         private readonly Dictionary<string, Func<object>> _copiers;
 
         public BlockModule(
             IBlockController blockController,
-            ISerializationController serializationController
+            ISerializationController serializationController,
+            IEnumerable<ITableProvider> tableProviders
             )
             : base()
         {
             _blockController = blockController;
             _serializationController = serializationController;
+            _tableProviders = tableProviders;
 
             Post["/api/setBackground"] = Wrap(SetBackground, "Ошибка установки фона");
             Get["/api/background"] = Wrap(GetBackground, "Ошибка загрузки фона");
@@ -40,7 +43,8 @@ namespace Web.Modules
             Post["/api/saveBlock"] = Wrap(SaveBlock, "Ошибка сохранения блоков");
             Post["/api/deleteBlock"] = Wrap(DeleteBlock, "Ошибка удаления блоков");
             Post["/api/copyBlock"] = Wrap(CopyBlock, "Ошибка копирования блоков");
-            Post["/api/parseCSV"] = Wrap(ParseCSV, "Ошибка чтения csv");
+            Post["/api/parseTable"] = Wrap(ParseTable, "Ошибка чтения таблицы");
+            //Post["/api/parseExcel"] = Wrap(ParseExcel, "Ошибка чтения Excel");
             Get["/api/downloadConfig"] = DownloadConfig(blockController, serializationController, _logger);
             Post["/api/uploadConfig"] = Wrap(UploadConfig, "Ошибка загрузки конфигурации");
             Post["/api/cleanup"] = Wrap(Cleanup, "Ошибка удаления блоков");
@@ -130,14 +134,40 @@ namespace Web.Modules
             };
         }
 
-        private CsvTableDto ParseCSV()
+        private ParsedTableDto ParseTable()
+        {
+            var bindedData = this.Bind<TableDataDto>();
+            var tableController = _tableProviders.FirstOrDefault(c => string.Equals(c.Extension, bindedData.Extension, StringComparison.InvariantCultureIgnoreCase));
+            tableController.LoadData(bindedData.Context);
+            var result = new ParsedTableDto();
+            result.Header.AddRange(tableController.Header);
+            var rowIndex = 0;
+            foreach (var cells in tableController.Rows)
+            {
+                var delta = cells.Count() - result.Header.Count;
+                if (delta > 0)
+                    for (int i = 0; i < delta; i++)
+                    {
+                        result.Header.Add(string.Empty);
+                    }
+                result.Rows.Add(new RowDto
+                {
+                    Index = rowIndex,
+                    Cells = cells.ToArray()
+                });
+                rowIndex++;
+            }
+            return result;
+        }
+        /*
+        private ParsedTableDto ParseCSV()
         {
             var linesSeparator = new char[] { '\r', '\n' };
             var itemSeparator = ',';
 
-            var data = this.Bind<CsvDataDto>();
+            var data = this.Bind<TableDataDto>();
             var lines = data.Text.Split(linesSeparator, StringSplitOptions.RemoveEmptyEntries);
-            var result = new CsvTableDto();
+            var result = new ParsedTableDto();
             result.Header.AddRange(lines.First().Split(itemSeparator));
             var rowIndex = 0;
             foreach (var line in lines.Skip(1))
@@ -159,6 +189,7 @@ namespace Web.Modules
 
             return result;
         }
+        */
 
         private object CopyBlock()
         {
