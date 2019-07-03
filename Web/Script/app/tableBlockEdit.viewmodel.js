@@ -10,13 +10,13 @@
     self.filePath = ko.observable();
     self.encoding = ko.observable(0);
     self.format = ko.observable(0);
-    //self.accept = ko.computed(function () {
-    //    if (self.format() == 0)
-    //        return ".csv";
-    //    if (self.format() == 1)
-    //        return ".xls,.xlsx,.csv";
-    //    return "";
-    //});
+    self.accept = ko.computed(function () {
+        if (self.format() == 0)
+            return ".csv";
+        if (self.format() == 1)
+            return ".xls,.xlsx";
+        return "";
+    });
 
     self.rows = ko.observableArray();
     self.header = ko.observableArray();
@@ -63,6 +63,12 @@
 
             reader.onload = (function (theFile) {
                 return function (e) {
+                    var extension = '';
+                    if (self.format() == 0)
+                        extension = "csv";
+                    if (self.format() == 1)
+                        extension = "xls";
+
                     app.request(
                         "POST",
                         "/api/parseTable",
@@ -70,7 +76,7 @@
                             context: btoa(
                                 new Uint8Array(e.target.result)
                                     .reduce((data, byte) => data + String.fromCharCode(byte), '')),
-                            extension: "xls"
+                            extension: extension
                         },
                         function (data) {
                             self.header.removeAll();
@@ -81,14 +87,14 @@
                     );
                 };
             })(file);
-            var encoding = self.encoding();
-            var encodingFormat = '';
-            if (encoding == "0") {
-                encodingFormat = 'CP1251'
-            } else
-                if (encoding == "1") {
-                    encodingFormat = 'utf8'
-                }
+            //var encoding = self.encoding();
+            //var encodingFormat = '';
+            //if (encoding == "0") {
+            //    encodingFormat = 'CP1251'
+            //} else
+            //    if (encoding == "1") {
+            //        encodingFormat = 'utf8'
+            //    }
             reader.readAsArrayBuffer(file);
             $('#inputFile').val("");
         }).click();

@@ -46,11 +46,7 @@ namespace Web
             container.Register<ISerializationController, SerializationController>();
             container.Register<ILogger>(_log);
 
-            container.RegisterMultiple<ITableProvider>(new List<Type>
-            {
-                typeof(CsvTableProvider),
-                typeof(ExcelTableProvider)
-            });
+            container.Register<IExcelTableProvider, ExcelTableProvider>();
 
             CustomStatusCode.AddCode(404);
             CustomStatusCode.AddCode(500);

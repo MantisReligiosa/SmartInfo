@@ -15,7 +15,7 @@ namespace Web.Modules
     {
         private readonly IBlockController _blockController;
         private readonly ISerializationController _serializationController;
-        private readonly IEnumerable<ITableProvider> _tableProviders;
+        private readonly IExcelTableProvider _tableProvider;
 
         private readonly Dictionary<string, Func<dynamic>> _savers;
         private readonly Dictionary<string, Func<object>> _copiers;
@@ -23,13 +23,13 @@ namespace Web.Modules
         public BlockModule(
             IBlockController blockController,
             ISerializationController serializationController,
-            IEnumerable<ITableProvider> tableProviders
+            IExcelTableProvider tableProvider
             )
             : base()
         {
             _blockController = blockController;
             _serializationController = serializationController;
-            _tableProviders = tableProviders;
+            _tableProvider = tableProvider;
 
             Post["/api/setBackground"] = Wrap(SetBackground, "Ошибка установки фона");
             Get["/api/background"] = Wrap(GetBackground, "Ошибка загрузки фона");
@@ -137,12 +137,16 @@ namespace Web.Modules
         private ParsedTableDto ParseTable()
         {
             var bindedData = this.Bind<TableDataDto>();
-            var tableController = _tableProviders.FirstOrDefault(c => string.Equals(c.Extension, bindedData.Extension, StringComparison.InvariantCultureIgnoreCase));
-            tableController.LoadData(bindedData.Context);
+            TableType tableType = TableType.Unknown;
+            if (bindedData.Extension.Equals("csv", StringComparison.InvariantCultureIgnoreCase))
+                tableType = TableType.CSV;
+            else if (bindedData.Extension.Equals("xls", StringComparison.InvariantCultureIgnoreCase))
+                tableType = TableType.Excel;
+            _tableProvider.LoadData(bindedData.Context, tableType);
             var result = new ParsedTableDto();
-            result.Header.AddRange(tableController.Header);
+            result.Header.AddRange(_tableProvider.Header);
             var rowIndex = 0;
-            foreach (var cells in tableController.Rows)
+            foreach (var cells in _tableProvider.Rows)
             {
                 var delta = cells.Count() - result.Header.Count;
                 if (delta > 0)

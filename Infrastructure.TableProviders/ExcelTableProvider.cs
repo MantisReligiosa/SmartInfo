@@ -7,18 +7,25 @@ using System.Linq;
 
 namespace Infrastructure.TableProviders
 {
-    public class ExcelTableProvider : ITableProvider
+    public class ExcelTableProvider : IExcelTableProvider
     {
-        public string Extension => "xls";
-
         public IEnumerable<string> Header { get; private set; }
 
         public IEnumerable<IEnumerable<string>> Rows { get; private set; }
 
-        public void LoadData(object context)
+        private readonly Dictionary<TableType, Func<Stream, IExcelDataReader>> _readers = new Dictionary<TableType, Func<Stream, IExcelDataReader>>
+        {
+            {TableType.CSV, (s) => ExcelReaderFactory.CreateCsvReader(s,new ExcelReaderConfiguration
+            {
+                FallbackEncoding=System.Text.Encoding.GetEncoding(1251)
+            }) },
+            {TableType.Excel, (s) => ExcelReaderFactory.CreateReader(s) }
+        };
+
+        public void LoadData(object context, TableType tableType)
         {
             using (var stream = new MemoryStream(Convert.FromBase64String(context as string)))
-            using (var reader = ExcelReaderFactory.CreateReader(stream))
+            using (var reader = _readers[tableType].Invoke(stream))
             {
                 var result = reader.AsDataSet();
                 var workSheet = result.Tables[0];
