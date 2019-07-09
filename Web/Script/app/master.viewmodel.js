@@ -735,7 +735,7 @@ function masterViewModel(app) {
     initReact = function () {
         interact('.resize-drag')
             .draggable({
-                inertia: true,
+                inertia: false,
                 restrict: {
                     restriction: '.workspace',
                     endOnly: true,
