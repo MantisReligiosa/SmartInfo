@@ -17,7 +17,7 @@ namespace Web.Modules
         private readonly ISerializationController _serializationController;
         private readonly IExcelTableProvider _tableProvider;
 
-        private readonly Dictionary<string, Func<dynamic>> _savers;
+        private readonly Dictionary<string, Func<BlockDto, dynamic>> _savers;
         private readonly Dictionary<string, Func<object>> _copiers;
 
         public BlockModule(
@@ -49,13 +49,13 @@ namespace Web.Modules
             Post["/api/uploadConfig"] = Wrap(UploadConfig, "Ошибка загрузки конфигурации");
             Post["/api/cleanup"] = Wrap(Cleanup, "Ошибка удаления блоков");
 
-            _savers = new Dictionary<string, Func<dynamic>>()
+            _savers = new Dictionary<string, Func<BlockDto,dynamic>>()
             {
-                { "text", () => SaveBlock<TextBlock, TextBlockDto>(b => _mapper.Map<TextBlockDto>(blockController.SaveTextBlock(b))) },
-                { "table", () => SaveBlock<TableBlock, TableBlockDto>(b => _mapper.Map<TableBlockDto>(blockController.SaveTableBlock(b))) },
-                { "picture", () => SaveBlock<PictureBlock, PictureBlockDto>(b => _mapper.Map<PictureBlockDto>(blockController.SavePictureBlock(b))) },
-                { "datetime", () => SaveBlock<DateTimeBlock, DateTimeBlockDto>(b => _mapper.Map<DateTimeBlockDto>(blockController.SaveDateTimeBlock(b))) },
-                { "meta", () => SaveBlock<MetaBlock, MetaBlockDto>(b => _mapper.Map<MetaBlockDto>(blockController.SaveMetabLock(b))) }
+                { "text", (dto) => SaveBlock<TextBlock, TextBlockDto>(dto, b => _mapper.Map<TextBlockDto>(blockController.SaveTextBlock(b))) },
+                { "table", (dto) => SaveBlock<TableBlock, TableBlockDto>(dto, b => _mapper.Map<TableBlockDto>(blockController.SaveTableBlock(b))) },
+                { "picture", (dto) => SaveBlock<PictureBlock, PictureBlockDto>(dto, b => _mapper.Map<PictureBlockDto>(blockController.SavePictureBlock(b))) },
+                { "datetime", (dto) => SaveBlock<DateTimeBlock, DateTimeBlockDto>(dto, b => _mapper.Map<DateTimeBlockDto>(blockController.SaveDateTimeBlock(b))) },
+                { "meta", (dto) => SaveBlock<MetaBlock, MetaBlockDto>(dto,b => _mapper.Map<MetaBlockDto>(blockController.SaveMetabLock(b))) }
             };
             _copiers = new Dictionary<string, Func<object>>
             {
@@ -209,8 +209,11 @@ namespace Web.Modules
 
         private dynamic SaveBlock()
         {
-            var data = this.Bind<BlockDto>();
-            return _savers.First(kvp => kvp.Key.Equals(data.Type, StringComparison.InvariantCultureIgnoreCase)).Value.Invoke();
+            var data = this.Bind<BlockDto>(new BindingConfig
+            {
+                IgnoreErrors = true
+            });
+            return _savers.First(kvp => kvp.Key.Equals(data.Type, StringComparison.InvariantCultureIgnoreCase)).Value.Invoke(data);
         }
 
         private void MoveAndResize()
@@ -269,11 +272,11 @@ namespace Web.Modules
             _blockController.SetBackground(data.Color);
         }
 
-        private dynamic SaveBlock<TBlock, TBlockDto>(Func<TBlock, dynamic> saveAction)
+        private dynamic SaveBlock<TBlock, TBlockDto>(BlockDto dto, Func<TBlock, dynamic> saveAction)
             where TBlock : DisplayBlock
             where TBlockDto : BlockDto
         {
-            var b = this.Bind<TBlockDto>();
+            var b = dto as TBlockDto;
             var block = _mapper.Map<TBlock>(b);
             return saveAction.Invoke(block);
         }

@@ -26,7 +26,8 @@ namespace Web
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
             _log.Trace("Application starting");
-            //var config = container.Resolve<IConfigSettings>();
+
+            Nancy.Json.JsonSettings.MaxJsonLength = int.MaxValue;
 
             container.AttachNancyBundle<BundleConfig>(cfg =>
             {
