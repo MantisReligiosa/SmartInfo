@@ -167,17 +167,13 @@ namespace Services
                         {
                             Index = 1,
                             Duration = 5,
-                            Blocks=new List<DisplayBlock>
-                            {
-                            }
+                            Blocks = new List<DisplayBlock>()
                         },
                         new MetablockFrame
                         {
                             Index = 2,
                             Duration = 5,
-                            Blocks=new List<DisplayBlock>
-                            {
-                            }
+                            Blocks = new List<DisplayBlock>()
                         }
                     }
                 }

@@ -11,9 +11,9 @@ namespace Display_control.Blocks.Builders
 {
     public class MetaBlockBuilder : AbstractBuilder
     {
-        private List<UIElement> _blocks = new List<UIElement>();
+        private readonly List<UIElement> _blocks = new List<UIElement>();
         private SortedList<int, MetablockFrame> _sortedFrames = new SortedList<int, MetablockFrame>();
-        private int _currentPosition = 0;
+        private int _currentFrameIndex = int.MinValue;
 
         public override UIElement BuildElement(DisplayBlock displayBlock)
         {
@@ -28,45 +28,68 @@ namespace Display_control.Blocks.Builders
 
             foreach (var frame in metablock.Details.Frames)
                 _sortedFrames.Add(frame.Index, frame);
-            var firstFrameKvp = _sortedFrames.First();
-            var firstFrame = firstFrameKvp.Value;
-
-            foreach (var block in metablock.Details.Frames.SelectMany(f => f.Blocks))
-            {
-                var element = blockBuilder.BuildElement(block);
-                if (element != null)
-                {
-                    element.Uid = block.MetablockFrameId.ToString();
-                    _blocks.Add(element);
-                    canvas.Children.Add(element);
-                }
-            }
-
-            SetFrameVisibility(firstFrame.Id);
 
             var timer = new Timer
             {
                 AutoReset = true,
-                Interval = firstFrame.Duration * 1000,
+                Interval = 0,
                 Enabled = true
             };
 
             timer.Elapsed += (o, args) =>
             {
-                _currentPosition++;
-                if (_currentPosition == _sortedFrames.Count)
+                var frameToShow = GetAllowedFrames().Where(f => f.Index > _currentFrameIndex).FirstOrDefault();
+                if (frameToShow == null)
                 {
-                    _currentPosition = 0;
+                    _currentFrameIndex = int.MinValue;
+                    frameToShow = GetAllowedFrames().Where(f => f.Index > _currentFrameIndex).FirstOrDefault();
                 }
-                var frame = _sortedFrames.ElementAt(_currentPosition).Value;
-                SetFrameVisibility(frame.Id);
-                timer.Interval = frame.Duration * 1000;
+                if (frameToShow == null)
+                {
+                    timer.Interval = 1000;
+                    HideAllFrames();
+                }
+                else
+                {
+                    SetFrameVisibility(frameToShow.Id);
+                    _currentFrameIndex = frameToShow.Index;
+                    timer.Interval = frameToShow.Duration * 1000;
+                }
+
             };
 
             Canvas.SetTop(canvas, metablock.Top);
             Canvas.SetLeft(canvas, metablock.Left);
             Panel.SetZIndex(canvas, metablock.ZIndex);
             return canvas;
+        }
+
+        private void HideAllFrames()
+        {
+            _dispatcher.Invoke(() =>
+            {
+                foreach (var block in _blocks)
+                {
+                    block.Visibility = Visibility.Collapsed;
+                }
+            });
+        }
+
+        private IEnumerable<MetablockFrame> GetAllowedFrames()
+        {
+            var dateTime = DateTime.Now;
+            var dayOfWeek = dateTime.DayOfWeek;
+            return _sortedFrames.Values.Where(f =>
+                (f.UseInTimeInerval && f.UseFromTime.HasValue && f.UseToTime.HasValue && (f.UseFromTime.Value.TimeOfDay <= dateTime.TimeOfDay) && (dateTime.TimeOfDay <= f.UseToTime.Value.TimeOfDay))
+                || (f.UseInDate && f.DateToUse.HasValue && f.DateToUse.Value.Date.Equals(dateTime.Date))
+                || (f.UseInDayOfWeek &&
+                    ((f.UseInMon && dayOfWeek.Equals(DayOfWeek.Monday))
+                    || (f.UseInTue && dayOfWeek.Equals(DayOfWeek.Tuesday))
+                    || (f.UseInWed && dayOfWeek.Equals(DayOfWeek.Wednesday))
+                    || (f.UseInThu && dayOfWeek.Equals(DayOfWeek.Thursday))
+                    || (f.UseInFri && dayOfWeek.Equals(DayOfWeek.Friday))
+                    || (f.UseInSat && dayOfWeek.Equals(DayOfWeek.Saturday))
+                    || (f.UseInSun && dayOfWeek.Equals(DayOfWeek.Sunday)))));
         }
 
         private void SetFrameVisibility(Guid frameId)
