@@ -1,30 +1,56 @@
-﻿<div class="form-group">
-    <div id="textBlockText" class="input-group">
+﻿<div class="row">
+    <div id="textBlockText" class="input-group col-md-12">
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1">Имя</span>
         </div>
         <input type="text" class="form-control" placeholder="Имя блока" data-bind="value:caption" />
     </div>
 </div>
-<div class="form-group">
-    <!--ko foreach: metaFrames-->
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <div class="input-group-text">
-                <input type="checkbox" aria-label="Checkbox for following text input" data-bind="checked: selected">
+<div class="row">
+    <div class="col-md-5" style="overflow-y:scroll; height: 360px">
+        <!--ko foreach: metaFrames-->
+        <div class="btn-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="checkbox" aria-label="Checkbox for following text input" data-bind="checked: selected">
+                    <a href="#" data-bind="text:'Представление'+index, click: $parent.selectFrame"></a>
+                </div>
             </div>
-            <span class="input-group-text" id="basic-addon1" data-bind="text:'Представление'+index"></span>
-            <span class="input-group-text" id="basic-addon2">Длительность:</span>
+            @*<div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">Длительность:</span>
+                    <input type="number" class="form-control numerical-input" placeholder="Длительность, сек" data-bind="value:duration" />
+                </div>*@
         </div>
-        <input type="number" class="form-control" placeholder="Длительность, сек" data-bind="value:duration" />
+        <!--/ko-->
     </div>
-    <!--/ko-->
+    <div class="col-md-7">
+        <span>Управление представлением</span>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon2">Длительность:</span>
+            </div>
+            <input type="number" class="form-control" />
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="useInDayOfWeek">
+            <label class="form-check-label" for="useInDayOfWeek">День недели</label>
+        </div>
+        <select id="daysOfWeek" multiple="multiple">
+            <option value="mon">Понедельник</option>
+            <option value="tue">Вторник</option>
+            <option value="wed">Среда</option>
+            <option value="thu">Четверг</option>
+            <option value="fri">Пятница</option>
+            <option value="sat">Суббота</option>
+            <option value="sun">Воскресенье</option>
+        </select>
+    </div>
 </div>
-<div class="form-group row">
-    <div class="input-group col-md-5">
-        <button class="btn btn-danger" data-bind="click: deleteFrames">Удалить выбранные</button>
+<div class="row">
+    <div class="input-group col-md-6">
+        <button class="btn btn-danger" style="width:inherit" data-bind="click: deleteFrames">Удалить выбранные</button>
     </div>
-    <div class="input-group col-md-5">
-        <button class="btn btn-success" data-bind="click: addFrame">Добавить представление</button>
+    <div class="input-group col-md-6">
+        <button class="btn btn-success" style="width:inherit" data-bind="click: addFrame">Добавить представление</button>
     </div>
 </div>

@@ -180,6 +180,7 @@ div.tab-content {
 
 input[type=number] {
     background: #fff;
+    width: 50px !important;
 }
 
 .nav-tabs, .tab-content {
@@ -307,4 +308,8 @@ input[type=number] {
 
 .jstree-proton {
     font-family: unset !important;
+}
+
+.multiselect-container > li > a > label {
+    padding: 3px 20px 3px 10px !important;
 }

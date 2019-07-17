@@ -6,8 +6,9 @@
     "grunt": "1.0.3",
     "load-grunt-tasks": "4.0.0",
     "grunt-contrib-clean": "2.0.0",
-    "grunt-contrib-concat": "1.0.1",
-    "grunt-contrib-copy": "1.0.0"
+    "grunt-contrib-copy": "1.0.0",
+    "grunt-contrib-uglify": "4.0.1",
+    "grunt-contrib-cssmin": "3.0.0"
   },
   "dependencies": {
     "jquery": "3.3.1",
@@ -19,6 +20,7 @@
     "bootstrap-colorpicker": "3.0.3",
     "jstree": "3.3.7",
     "jstree-bootstrap-theme": "1.0.1",
+    "bootstrap-multiselect": "0.9.13",
     "moment": "2.24.0"
   }
 }
