@@ -9,17 +9,9 @@
 <div class="row">
     <div class="col-md-5" style="overflow-y:scroll; height: 360px">
         <!--ko foreach: metaFrames-->
-        <div class="btn-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text">
-                    <input type="checkbox" aria-label="Checkbox for following text input" data-bind="checked: selected">
-                    <a href="#" data-bind="text:'Представление'+index, click: $parent.selectFrame"></a>
-                </div>
-            </div>
-            @*<div class="input-group-append">
-                    <span class="input-group-text" id="basic-addon2">Длительность:</span>
-                    <input type="number" class="form-control numerical-input" placeholder="Длительность, сек" data-bind="value:duration" />
-                </div>*@
+        <div data-bind="class: 'form-check framelist', css: {frameSelected: index==6 }">
+            <input type="checkbox" aria-label="Checkbox for following text input" data-bind="checked: selected">
+            <a href="#" data-bind="text:'Представление'+index, click: $parent.selectFrame"></a>
         </div>
         <!--/ko-->
     </div>
@@ -32,8 +24,28 @@
             <input type="number" class="form-control" />
         </div>
         <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="useInTimeInerval">
+            <label class="form-check-label" for="useInTimeInerval">Определенное время</label>
+        </div>
+        <div class="form-group">
+            <div class='input-group date'>
+                <div class="input-group-prepend">
+                    <span class="input-group-text">С:</span>
+                </div>
+                <input id="timeIntervalFrom" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class='input-group date'>
+                <div class="input-group-prepend">
+                    <span class="input-group-text">По:</span>
+                </div>
+                <input id="timeIntervalTo" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-check">
             <input type="checkbox" class="form-check-input" id="useInDayOfWeek">
-            <label class="form-check-label" for="useInDayOfWeek">День недели</label>
+            <label class="form-check-label" for="useInDayOfWeek">Определенные дни недели</label>
         </div>
         <select id="daysOfWeek" multiple="multiple">
             <option value="mon">Понедельник</option>
@@ -44,6 +56,15 @@
             <option value="sat">Суббота</option>
             <option value="sun">Воскресенье</option>
         </select>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="useInDate">
+            <label class="form-check-label" for="useInTimeInerval">Определенная дата</label>
+        </div>
+        <div class="form-group">
+            <div class='input-group date'>
+                <input id="dateToUse" type="text" class="form-control">
+            </div>
+        </div>
     </div>
 </div>
 <div class="row">

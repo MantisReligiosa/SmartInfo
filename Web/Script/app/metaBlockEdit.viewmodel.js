@@ -9,13 +9,45 @@
 
     self.initializeControls = function () {
         var daysOfWeekPicker = $('#daysOfWeek');
-        if (!daysOfWeekPicker.length || isDialogInitialized) {
+        var timeIntervalFrom = $('#timeIntervalFrom');
+        var timeIntervalTo = $('#timeIntervalTo');
+        var dateToUse = $('#dateToUse');
+        if (
+            !daysOfWeekPicker.length ||
+            !timeIntervalFrom.length ||
+            !timeIntervalTo.length ||
+            !dateToUse.length ||
+            isDialogInitialized) {
             return;
         }
         isDialogInitialized = true;
-        $('#daysOfWeek').multiselect({
+        daysOfWeekPicker.multiselect({
             onChange: function (element, checked) {
             }
+        });
+        
+        timeIntervalFrom.datetimepicker({
+            onShow: function (ct) {
+                this.setOptions({
+                    maxTime: jQuery('#timeIntervalTo').val() ? jQuery('#timeIntervalTo').val() : false
+                })
+            },
+            datepicker: false,
+            format: 'H:i'
+        });
+
+        timeIntervalTo.datetimepicker({
+            onShow: function (ct) {
+                this.setOptions({
+                    minTime: jQuery('#timeIntervalFrom').val() ? jQuery('#timeIntervalFrom').val() : false
+                })
+            },
+            datepicker: false,
+            format: 'H:i'
+        });
+
+        dateToUse.datetimepicker({
+            timepicker: false,
         });
     }
 

@@ -192,6 +192,10 @@ input[type=number] {
     flex: 0 1 auto;
 }
 
+.form-check {
+    display:inline-block !important;
+}
+
 .workspace {
     margin-left: 5px !important;
     padding-left: 0 !important;
@@ -312,4 +316,13 @@ input[type=number] {
 
 .multiselect-container > li > a > label {
     padding: 3px 20px 3px 10px !important;
+}
+
+.framelist{
+    padding-left:0 !important;
+    width: inherit;
+}
+
+.frameSelected {
+    background: #bbb;
 }

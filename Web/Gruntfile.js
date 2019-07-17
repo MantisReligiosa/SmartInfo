@@ -17,7 +17,8 @@ module.exports = function (grunt) {
                             'node_modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
                             'node_modules/bootstrap-multiselect/dist/js/bootstrap-multiselect.js',
                             'node_modules/moment/min/moment-with-locales.min.js',
-                            'node_modules/jstree/dist/jstree.min.js'
+                            'node_modules/jstree/dist/jstree.min.js',
+                            'node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js'
                         ]
                 }
             }
@@ -35,6 +36,8 @@ module.exports = function (grunt) {
                         'node_modules/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css',
                         'node_modules/bootstrap-multiselect/dist/css/bootstrap-multiselect.css',
                         'node_modules/jstree-bootstrap-theme/dist/themes/proton/style.min.css',
+                        'node_modules/jquery-datetimepicker/jquery.datetimepicker.css',
+                        'node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.min.css'
                         //'node_modules/jstree/dist/themes/default/style.min.css'
                     ]
                 }

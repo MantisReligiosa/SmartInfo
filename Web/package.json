@@ -21,6 +21,7 @@
     "jstree": "3.3.7",
     "jstree-bootstrap-theme": "1.0.1",
     "bootstrap-multiselect": "0.9.13",
-    "moment": "2.24.0"
+    "moment": "2.24.0",
+    "jquery-datetimepicker": "2.5.21"
   }
 }
