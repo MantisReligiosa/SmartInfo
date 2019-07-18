@@ -12,7 +12,7 @@ namespace BusinessLogickTests
         [InlineData(1, 2)]
         [InlineData(2, 3)]
         [InlineData(3, 1)]
-        public void TestIndexes(int currentIndex, int expectedNextIndex)
+        public void TestNoConditions(int currentIndex, int expectedNextIndex)
         {
             var helper = new MetablockScheduler
             {
@@ -111,6 +111,24 @@ namespace BusinessLogickTests
             };
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 7, 10, 0, 0), currentIndex);
             Assert.Equal(expectedNextIndex, nextFrame.Index);
+        }
+
+        [Fact]
+        public void TestNull()
+        {
+            var helper = new MetablockScheduler
+            {
+                Frames = new List<MetablockFrame>
+                {
+                    new MetablockFrame{Index = 1, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 2, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 3, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 4, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 18, 0, 0), UseToTime = new DateTime(1, 1, 1, 22, 0, 0)},
+                    new MetablockFrame{Index = 5, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                }
+            };
+            var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 1, 10, 0, 0), 1);
+            Assert.Null(nextFrame);
         }
     }
 }
