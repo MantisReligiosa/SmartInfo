@@ -1,5 +1,6 @@
 ﻿using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
+using Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,12 @@ namespace Display_control.Blocks.Builders
         private readonly List<UIElement> _blocks = new List<UIElement>();
         private SortedList<int, MetablockFrame> _sortedFrames = new SortedList<int, MetablockFrame>();
         private int _currentFrameIndex = int.MinValue;
+        private MetablockScheduler _metablockScheduler;
+
+        public MetaBlockBuilder(MetablockScheduler metablockScheduler)
+        {
+            _metablockScheduler = metablockScheduler;
+        }
 
         public override UIElement BuildElement(DisplayBlock displayBlock)
         {
@@ -29,6 +36,8 @@ namespace Display_control.Blocks.Builders
             foreach (var frame in metablock.Details.Frames)
                 _sortedFrames.Add(frame.Index, frame);
 
+            _metablockScheduler.Frames = _sortedFrames.Values.ToList();
+
             var timer = new Timer
             {
                 AutoReset = true,
@@ -38,14 +47,11 @@ namespace Display_control.Blocks.Builders
 
             timer.Elapsed += (o, args) =>
             {
-                var frameToShow = GetAllowedFrames().Where(f => f.Index > _currentFrameIndex).FirstOrDefault();
+                var currentDateTime = DateTime.Now;
+                var frameToShow = _metablockScheduler.GetNextFrame(currentDateTime, _currentFrameIndex);
                 if (frameToShow == null)
                 {
                     _currentFrameIndex = int.MinValue;
-                    frameToShow = GetAllowedFrames().Where(f => f.Index > _currentFrameIndex).FirstOrDefault();
-                }
-                if (frameToShow == null)
-                {
                     timer.Interval = 1000;
                     HideAllFrames();
                 }
@@ -73,23 +79,6 @@ namespace Display_control.Blocks.Builders
                     block.Visibility = Visibility.Collapsed;
                 }
             });
-        }
-
-        private IEnumerable<MetablockFrame> GetAllowedFrames()
-        {
-            var dateTime = DateTime.Now;
-            var dayOfWeek = dateTime.DayOfWeek;
-            return _sortedFrames.Values.Where(f =>
-                (f.UseInTimeInerval && f.UseFromTime.HasValue && f.UseToTime.HasValue && (f.UseFromTime.Value.TimeOfDay <= dateTime.TimeOfDay) && (dateTime.TimeOfDay <= f.UseToTime.Value.TimeOfDay))
-                || (f.UseInDate && f.DateToUse.HasValue && f.DateToUse.Value.Date.Equals(dateTime.Date))
-                || (f.UseInDayOfWeek &&
-                    ((f.UseInMon && dayOfWeek.Equals(DayOfWeek.Monday))
-                    || (f.UseInTue && dayOfWeek.Equals(DayOfWeek.Tuesday))
-                    || (f.UseInWed && dayOfWeek.Equals(DayOfWeek.Wednesday))
-                    || (f.UseInThu && dayOfWeek.Equals(DayOfWeek.Thursday))
-                    || (f.UseInFri && dayOfWeek.Equals(DayOfWeek.Friday))
-                    || (f.UseInSat && dayOfWeek.Equals(DayOfWeek.Saturday))
-                    || (f.UseInSun && dayOfWeek.Equals(DayOfWeek.Sunday)))));
         }
 
         private void SetFrameVisibility(Guid frameId)

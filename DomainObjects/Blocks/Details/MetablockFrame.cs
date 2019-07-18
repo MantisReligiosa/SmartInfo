@@ -54,7 +54,6 @@ namespace DomainObjects.Blocks.Details
 
         public MetablockFrame()
         {
-            UseInDayOfWeek = UseInMon = UseInTue = UseInWed = UseInThu = UseInFri = UseInSat = UseInSun = true;
         }
 
         public MetablockFrame(MetablockFrame source)
