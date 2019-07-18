@@ -15,7 +15,7 @@
     "knockout": "3.5.0-rc2",
     "popper.js": "1.14.3",
     "toastr": "2.1.4",
-    "interact.js": "1.2.8",
+    "interactjs": "1.5.3",
     "bootstrap": "4.1.0",
     "bootstrap-colorpicker": "3.0.3",
     "jstree": "3.3.7",

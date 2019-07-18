@@ -13,7 +13,7 @@ module.exports = function (grunt) {
                             'node_modules/popper.js/dist/umd/popper.js',
                             'node_modules/bootstrap/dist/js/bootstrap.js',
                             'node_modules/toastr/build/toastr.min.js',
-                            'node_modules/interact.js/dist/interact.min.js',
+                            'node_modules/interactjs/dist/interact.min.js',
                             'node_modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
                             'node_modules/bootstrap-multiselect/dist/js/bootstrap-multiselect.js',
                             'node_modules/moment/min/moment-with-locales.min.js',
