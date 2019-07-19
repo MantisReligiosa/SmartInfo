@@ -4,6 +4,35 @@
     self.id = ko.observable();
     self.caption = ko.observable();
     self.metaFrames = ko.observableArray();
+    self.metaFrames.subscribe(function (frames) {
+        if (self.currentFrame.Index() == null) {
+            self.selectFrame(frames[0]);
+        }
+    });
+    self.currentFrame = {
+        Index: ko.observable(),
+        Duration: ko.observable(),
+
+        UseInTimeInerval: ko.observable(false),
+        UseFromTime: ko.observable(),
+        UseToTime: ko.observable(),
+
+        UseInDayOfWeek: ko.observable(false),
+        UseInMon: ko.observable(),
+        UseInTue: ko.observable(),
+        UseInWed: ko.observable(),
+        UseInThu: ko.observable(),
+        UseInFri: ko.observable(),
+        UseInSat: ko.observable(),
+        UseInSun: ko.observable(),
+         
+        UseInDate: ko.observable(false),
+        DateToUse: ko.observable()
+    };
+
+    self.currentFrame.UseInDayOfWeek.subscribe(function (enabled) {
+        $('#daysOfWeek').multiselect(enabled ? 'enable' : 'disable');
+    });
 
     var isDialogInitialized = false;
 
@@ -21,11 +50,13 @@
             return;
         }
         isDialogInitialized = true;
+
         daysOfWeekPicker.multiselect({
             onChange: function (element, checked) {
             }
         });
-        
+        daysOfWeekPicker.multiselect('disable');
+
         timeIntervalFrom.datetimepicker({
             onShow: function (ct) {
                 this.setOptions({
@@ -76,7 +107,15 @@
         self.metaFrames.push(frame);
     }
 
-    self.selectFrame = function (f) {
-
+    self.selectFrame = function (frame) {
+        var tmp = self.currentFrame.Index();
+        if (self.currentFrame.Index() !== undefined) {
+            // сохраняем текущий фрейм
+            debugger;
+        }
+        self.currentFrame.Index(frame.index);
+        self.currentFrame.Duration(frame.duration);
+        self.currentFrame.UseInTimeInerval(frame.useInTimeInterval == null ? false : frame.useInTimeInterval);
+        debugger;
     }
 }

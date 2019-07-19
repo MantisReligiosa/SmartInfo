@@ -9,22 +9,22 @@
 <div class="row">
     <div class="col-md-5" style="overflow-y:scroll; height: 360px">
         <!--ko foreach: metaFrames-->
-        <div data-bind="class: 'form-check framelist', css: {frameSelected: index==6 }">
+        <div data-bind="class: 'form-check framelist', css: {frameSelected: index==$parent.currentFrame.Index() }">
             <input type="checkbox" aria-label="Checkbox for following text input" data-bind="checked: selected">
-            <a href="#" data-bind="text:'Представление'+index, click: $parent.selectFrame"></a>
+            <a href="#" data-bind="text:'Представление '+index, click: $parent.selectFrame"></a>
         </div>
         <!--/ko-->
     </div>
     <div class="col-md-7">
-        <span>Управление представлением</span>
+        <span data-bind="text: 'Управление представлением ' + currentFrame.Index()"></span>
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon2">Длительность:</span>
             </div>
-            <input type="number" class="form-control" />
+            <input type="number" class="form-control" data-bind="value: currentFrame.Duration" />
         </div>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="useInTimeInerval">
+            <input type="checkbox" class="form-check-input" id="useInTimeInerval" data-bind="checked: currentFrame.UseInTimeInerval">
             <label class="form-check-label" for="useInTimeInerval">Определенное время</label>
         </div>
         <div class="form-group">
@@ -32,7 +32,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">С:</span>
                 </div>
-                <input id="timeIntervalFrom" type="text" class="form-control">
+                <input id="timeIntervalFrom" type="text" class="form-control" data-bind="enable: currentFrame.UseInTimeInerval">
             </div>
         </div>
         <div class="form-group">
@@ -40,11 +40,11 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">По:</span>
                 </div>
-                <input id="timeIntervalTo" type="text" class="form-control">
+                <input id="timeIntervalTo" type="text" class="form-control" data-bind="enable: currentFrame.UseInTimeInerval">
             </div>
         </div>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="useInDayOfWeek">
+            <input type="checkbox" class="form-check-input" id="useInDayOfWeek" data-bind="checked: currentFrame.UseInDayOfWeek">
             <label class="form-check-label" for="useInDayOfWeek">Определенные дни недели</label>
         </div>
         <select id="daysOfWeek" multiple="multiple">
@@ -57,12 +57,12 @@
             <option value="sun">Воскресенье</option>
         </select>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="useInDate">
+            <input type="checkbox" class="form-check-input" id="useInDate" data-bind="checked: currentFrame.UseInDate">
             <label class="form-check-label" for="useInTimeInerval">Определенная дата</label>
         </div>
         <div class="form-group">
             <div class='input-group date'>
-                <input id="dateToUse" type="text" class="form-control">
+                <input id="dateToUse" type="text" class="form-control" data-bind="enable: currentFrame.UseInDate">
             </div>
         </div>
     </div>
