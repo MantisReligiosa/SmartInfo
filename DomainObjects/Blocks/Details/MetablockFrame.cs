@@ -11,7 +11,7 @@ namespace DomainObjects.Blocks.Details
 
         public int Duration { get; set; }
 
-        public bool UseInTimeInerval { get; set; }
+        public bool UseInTimeInterval { get; set; }
 
         public DateTime? UseFromTime { get; set; }
 
@@ -66,7 +66,7 @@ namespace DomainObjects.Blocks.Details
             Index = source.Index;
             Duration = source.Duration;
 
-            UseInTimeInerval = source.UseInTimeInerval;
+            UseInTimeInterval = source.UseInTimeInterval;
             UseFromTime = source.UseFromTime;
             UseToTime = source.UseToTime;
 

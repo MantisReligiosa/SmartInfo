@@ -13,7 +13,7 @@ namespace Helpers
         {
             var dayOfWeek = dateTime.DayOfWeek;
             var frames = Frames
-                .Where(f => f.UseInTimeInerval ? f.UseFromTime.HasValue 
+                .Where(f => f.UseInTimeInterval ? f.UseFromTime.HasValue 
                             && f.UseToTime.HasValue 
                             && (f.UseFromTime.Value.TimeOfDay <= dateTime.TimeOfDay) 
                             && (dateTime.TimeOfDay <= f.UseToTime.Value.TimeOfDay) : true)
