@@ -38,10 +38,10 @@ namespace BusinessLogickTests
             {
                 Frames = new List<MetablockFrame>
                 {
-                    new MetablockFrame{Index = 1, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 10, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 2, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 10, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 3, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 19, 0, 0), UseToTime = new DateTime(1, 1, 1, 23, 0, 0)},
-                    new MetablockFrame{Index = 4, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 10, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)}
+                    new MetablockFrame{Index = 1, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 10, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 2, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 10, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 3, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 19, 0, 0), UseToTime = new DateTime(1, 1, 1, 23, 0, 0)},
+                    new MetablockFrame{Index = 4, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 10, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)}
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 1, 11, 0, 0), currentIndex);
@@ -102,11 +102,11 @@ namespace BusinessLogickTests
             {
                 Frames = new List<MetablockFrame>
                 {
-                    new MetablockFrame{Index = 1, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 2, UseInDayOfWeek = true, UseInWed = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 3, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 4, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 18, 0, 0), UseToTime = new DateTime(1, 1, 1, 22, 0, 0)},
-                    new MetablockFrame{Index = 5, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 1, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 2, UseInDayOfWeek = true, UseInWed = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 3, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 4, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 18, 0, 0), UseToTime = new DateTime(1, 1, 1, 22, 0, 0)},
+                    new MetablockFrame{Index = 5, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 7, 10, 0, 0), currentIndex);
@@ -120,11 +120,11 @@ namespace BusinessLogickTests
             {
                 Frames = new List<MetablockFrame>
                 {
-                    new MetablockFrame{Index = 1, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 2, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 3, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 4, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 18, 0, 0), UseToTime = new DateTime(1, 1, 1, 22, 0, 0)},
-                    new MetablockFrame{Index = 5, UseInDayOfWeek = true, UseInSun = true, UseInTimeInerval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 1, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 2, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 3, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 4, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 18, 0, 0), UseToTime = new DateTime(1, 1, 1, 22, 0, 0)},
+                    new MetablockFrame{Index = 5, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 1, 10, 0, 0), 1);
