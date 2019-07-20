@@ -9,7 +9,7 @@ namespace Web.Models.Blocks
         public List<BlockDto> Blocks { get; set; }
         public int Index { get; set; }
         public int Duration { get; set; }
-        public bool UseInTimeInerval { get; set; }
+        public bool UseInTimeInterval { get; set; }
         public DateTime? UseFromTime { get; set; }
         public DateTime? UseToTime { get; set; }
         public bool UseInDayOfWeek { get; set; }

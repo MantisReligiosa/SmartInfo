@@ -25,14 +25,76 @@
         UseInFri: ko.observable(),
         UseInSat: ko.observable(),
         UseInSun: ko.observable(),
-         
+
         UseInDate: ko.observable(false),
         DateToUse: ko.observable()
     };
+    self.currentFrame.UseInDayOfWeek.subscribe(function (value) {
+        if (value) {
+            self.currentFrame.UseInDate(false);
+        }
+    });
+    self.currentFrame.UseInDate.subscribe(function (value) {
+        if (value) {
+            self.currentFrame.UseInDayOfWeek(false);
+        }
+    });
 
     self.currentFrame.UseInDayOfWeek.subscribe(function (enabled) {
         $('#daysOfWeek').multiselect(enabled ? 'enable' : 'disable');
     });
+
+    self.daysOfWeek = [
+        {
+            name: 'mon',
+            caption: 'Понедельник',
+            setState: function (checked) {
+                self.currentFrame.UseInMon(checked);
+            }
+        },
+        {
+            name: 'tue',
+            caption: 'Вторник',
+            setState: function (checked) {
+                self.currentFrame.UseInTue(checked);
+            }
+        },
+        {
+            name: 'wed',
+            caption: 'Среда',
+            setState: function (checked) {
+                self.currentFrame.UseInWed(checked);
+            }
+        },
+        {
+            name: 'thu',
+            caption: 'Четверг',
+            setState: function (checked) {
+                self.currentFrame.UseInThu(checked);
+            }
+        },
+        {
+            name: 'fri',
+            caption: 'Пятница',
+            setState: function (checked) {
+                self.currentFrame.UseInFri(checked);
+            }
+        },
+        {
+            name: 'sat',
+            caption: 'Суббота',
+            setState: function (checked) {
+                self.currentFrame.UseInSat(checked);
+            }
+        },
+        {
+            name: 'sun',
+            caption: 'Воскресенье',
+            setState: function (checked) {
+                self.currentFrame.UseInSun(checked);
+            }
+        }
+    ];
 
     var isDialogInitialized = false;
 
@@ -53,6 +115,10 @@
 
         daysOfWeekPicker.multiselect({
             onChange: function (element, checked) {
+                var dayOfWeek = self.daysOfWeek.find(function (dayOfWeek) {
+                    return dayOfWeek.name === element[0].value;
+                });
+                dayOfWeek.setState(checked);
             }
         });
         daysOfWeekPicker.multiselect('disable');
@@ -108,14 +174,27 @@
     }
 
     self.selectFrame = function (frame) {
-        var tmp = self.currentFrame.Index();
         if (self.currentFrame.Index() !== undefined) {
             // сохраняем текущий фрейм
             debugger;
         }
         self.currentFrame.Index(frame.index);
         self.currentFrame.Duration(frame.duration);
-        self.currentFrame.UseInTimeInerval(frame.useInTimeInterval == null ? false : frame.useInTimeInterval);
-        debugger;
+        self.currentFrame.UseInTimeInerval(frame.useInTimeInterval);
+        self.currentFrame.UseFromTime(frame.useFromTime);
+        self.currentFrame.UseToTime(frame.useToTime);
+        self.currentFrame.UseInDayOfWeek(frame.useInDayOfWeek);
+        self.daysOfWeek.forEach(function (dayOfWeek) {
+            var name = dayOfWeek.name;
+            var capitalizedName = name.charAt(0).toUpperCase() + name.slice(1)
+            var frameValue = frame['useIn' + capitalizedName];
+            var observableValue = self.currentFrame['UseIn' + capitalizedName];
+            observableValue(frameValue);
+            if (frameValue) {
+                $('#daysOfWeek').multiselect('select', name, false);
+            }
+        });
+        self.currentFrame.UseInDate(frame.useInDate);
+        self.currentFrame.DateToUse(frame.dateToUse);
     }
 }
