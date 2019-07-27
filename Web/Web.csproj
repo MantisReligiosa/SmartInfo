@@ -384,6 +384,7 @@
     <Compile Include="Models\ConfigDataDto.cs" />
     <Compile Include="Models\ConfigDto.cs" />
     <Compile Include="Models\CreditsRequest.cs" />
+    <Compile Include="Models\ErrorResponce.cs" />
     <Compile Include="Models\TableDataDto.cs" />
     <Compile Include="Models\ParsedTableDto.cs" />
     <Compile Include="Models\Blocks\MetaBlockDto.cs" />

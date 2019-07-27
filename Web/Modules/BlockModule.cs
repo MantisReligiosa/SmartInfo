@@ -1,4 +1,4 @@
-﻿using DomainObjects.Blocks;
+using DomainObjects.Blocks;
 using Nancy;
 using Nancy.ModelBinding;
 using NLog;

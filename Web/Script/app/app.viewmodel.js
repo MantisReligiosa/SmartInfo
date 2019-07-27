@@ -25,7 +25,15 @@
             headers: {
                 'Accept': 'application/json'
             },
-            success: successHandler,
+            success:
+                function (data) {
+                    if (data.errorMessage != undefined) {
+                        toastr.error(data.errorMessage);
+                    }
+                    else {
+                        successHandler(data);
+                    }
+                },
             error: function (xhr, ajaxOptions, thrownError) {
                 if (xhr.status === 406) {
                     location.reload(true);
