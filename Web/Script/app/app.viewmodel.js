@@ -38,8 +38,10 @@
                 if (xhr.status === 406) {
                     location.reload(true);
                 }
-                toastr.error(thrownError);
-                console.error(xhr, ajaxOptions, thrownError);
+                else {
+                    toastr.error(thrownError);
+                    console.error(xhr, ajaxOptions, thrownError);
+                }
             }
         });
     }
