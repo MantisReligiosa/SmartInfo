@@ -401,6 +401,7 @@
     <Compile Include="Modules\BlockModule.cs" />
     <Compile Include="Modules\ViewModule.cs" />
     <Compile Include="Profiles\AutoMapperConfig.cs" />
+    <Compile Include="Profiles\BlockType.cs" />
     <Compile Include="Profiles\DateTimeBlockProfile.cs" />
     <Compile Include="Profiles\DisplayBlockProfile.cs" />
     <Compile Include="Profiles\MetaBlockProfile.cs" />
