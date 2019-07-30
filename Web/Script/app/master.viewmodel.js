@@ -692,13 +692,8 @@ function masterViewModel(app) {
         initializeBackgroundDialog();
     };
 
-    var isBackgroudDialogInitialized = false;
     initializeBackgroundDialog = function () {
         var backgroundCP = $('#backgroundCP');
-        if (!backgroundCP.length || isBackgroudDialogInitialized) {
-            return;
-        }
-        isBackgroudDialogInitialized = true;
         backgroundCP.colorpicker({
             format: "rgba"
         });
