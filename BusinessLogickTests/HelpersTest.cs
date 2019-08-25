@@ -130,5 +130,25 @@ namespace BusinessLogickTests
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 1, 10, 0, 0), 1);
             Assert.Null(nextFrame);
         }
+
+        [Fact]
+        public void TestGoToFirst()
+        {
+            var date = new DateTime(2020, 1, 1);
+            var helper = new MetablockScheduler
+            {
+                Frames = new List<MetablockFrame>
+                {
+                    new MetablockFrame{Index = 1, UseInDate = true, DateToUse = date},
+                    new MetablockFrame{Index = 2, },
+                    new MetablockFrame{Index = 3, UseInDate = true, DateToUse = date},
+                    new MetablockFrame{Index = 4, },
+                    new MetablockFrame{Index = 5, UseInDate = true, DateToUse = date}
+                }
+            };
+
+            var nextFrame = helper.GetNextFrame(date, 5);
+            Assert.Equal(1, nextFrame.Index);
+        }
     }
 }
