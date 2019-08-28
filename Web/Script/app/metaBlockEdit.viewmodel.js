@@ -168,7 +168,8 @@
             selected: false,
             index: index,
             duration: 5,
-            blocks: ko.observableArray()
+            blocks: ko.observableArray(),
+            checked: ko.observable(false)
         };
         self.metaFrames.push(frame);
     }
