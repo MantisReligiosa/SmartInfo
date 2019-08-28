@@ -18,9 +18,9 @@ namespace BusinessLogickTests
             {
                 Frames = new List<MetablockFrame>
                 {
-                    new MetablockFrame{Index = 1},
-                    new MetablockFrame{Index = 2},
-                    new MetablockFrame{Index = 3}
+                    new MetablockFrame{Index = 1, Duration = 1},
+                    new MetablockFrame{Index = 2, Duration = 1},
+                    new MetablockFrame{Index = 3, Duration = 1}
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(), currentIndex);
@@ -38,10 +38,10 @@ namespace BusinessLogickTests
             {
                 Frames = new List<MetablockFrame>
                 {
-                    new MetablockFrame{Index = 1, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 10, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 2, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 10, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 3, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 19, 0, 0), UseToTime = new DateTime(1, 1, 1, 23, 0, 0)},
-                    new MetablockFrame{Index = 4, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 10, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)}
+                    new MetablockFrame{Index = 1, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 10, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 2, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 10, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 3, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 19, 0, 0), UseToTime = new DateTime(1, 1, 1, 23, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 4, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 10, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0), Duration = 1}
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 1, 11, 0, 0), currentIndex);
@@ -59,10 +59,10 @@ namespace BusinessLogickTests
             {
                 Frames = new List<MetablockFrame>
                 {
-                    new MetablockFrame{Index = 1, UseInDate = true, DateToUse = new DateTime(1, 1, 3, 10, 0, 0)},
-                    new MetablockFrame{Index = 2, UseInDate = true, DateToUse = new DateTime(1, 1, 3, 1, 0, 0)},
-                    new MetablockFrame{Index = 3, UseInDate = true, DateToUse = new DateTime(1, 1, 4, 19, 0, 0)},
-                    new MetablockFrame{Index = 4, UseInDate = true, DateToUse = new DateTime(1, 1, 3, 0, 0, 0)}
+                    new MetablockFrame{Index = 1, UseInDate = true, DateToUse = new DateTime(1, 1, 3, 10, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 2, UseInDate = true, DateToUse = new DateTime(1, 1, 3, 1, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 3, UseInDate = true, DateToUse = new DateTime(1, 1, 4, 19, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 4, UseInDate = true, DateToUse = new DateTime(1, 1, 3, 0, 0, 0), Duration = 1}
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 3, 11, 0, 0), currentIndex);
@@ -80,10 +80,10 @@ namespace BusinessLogickTests
             {
                 Frames = new List<MetablockFrame>
                 {
-                    new MetablockFrame{Index = 1, UseInDayOfWeek = true, UseInWed = true},
-                    new MetablockFrame{Index = 2, UseInDayOfWeek = true, UseInWed = true},
-                    new MetablockFrame{Index = 3, UseInDayOfWeek = true, },
-                    new MetablockFrame{Index = 4, UseInDayOfWeek = true, UseInWed = true}
+                    new MetablockFrame{Index = 1, UseInDayOfWeek = true, UseInWed = true, Duration = 1},
+                    new MetablockFrame{Index = 2, UseInDayOfWeek = true, UseInWed = true, Duration = 1},
+                    new MetablockFrame{Index = 3, UseInDayOfWeek = true, Duration = 1 },
+                    new MetablockFrame{Index = 4, UseInDayOfWeek = true, UseInWed = true, Duration = 1}
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 3, 11, 0, 0), currentIndex);
@@ -102,11 +102,11 @@ namespace BusinessLogickTests
             {
                 Frames = new List<MetablockFrame>
                 {
-                    new MetablockFrame{Index = 1, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 2, UseInDayOfWeek = true, UseInWed = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 3, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 4, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 18, 0, 0), UseToTime = new DateTime(1, 1, 1, 22, 0, 0)},
-                    new MetablockFrame{Index = 5, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 1, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 2, UseInDayOfWeek = true, UseInWed = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 3, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 4, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 18, 0, 0), UseToTime = new DateTime(1, 1, 1, 22, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 5, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0), Duration = 1},
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 7, 10, 0, 0), currentIndex);
@@ -120,11 +120,11 @@ namespace BusinessLogickTests
             {
                 Frames = new List<MetablockFrame>
                 {
-                    new MetablockFrame{Index = 1, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 2, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 3, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
-                    new MetablockFrame{Index = 4, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 18, 0, 0), UseToTime = new DateTime(1, 1, 1, 22, 0, 0)},
-                    new MetablockFrame{Index = 5, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0)},
+                    new MetablockFrame{Index = 1, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 2, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 3, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 4, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 18, 0, 0), UseToTime = new DateTime(1, 1, 1, 22, 0, 0), Duration = 1},
+                    new MetablockFrame{Index = 5, UseInDayOfWeek = true, UseInSun = true, UseInTimeInterval = true, UseFromTime = new DateTime(1, 1, 1, 8, 0, 0), UseToTime = new DateTime(1, 1, 1, 12, 0, 0), Duration = 1},
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 1, 10, 0, 0), 1);
@@ -139,11 +139,11 @@ namespace BusinessLogickTests
             {
                 Frames = new List<MetablockFrame>
                 {
-                    new MetablockFrame{Index = 1, UseInDate = true, DateToUse = date},
-                    new MetablockFrame{Index = 2, },
-                    new MetablockFrame{Index = 3, UseInDate = true, DateToUse = date},
-                    new MetablockFrame{Index = 4, },
-                    new MetablockFrame{Index = 5, UseInDate = true, DateToUse = date}
+                    new MetablockFrame{Index = 1, UseInDate = true, DateToUse = date, Duration = 1},
+                    new MetablockFrame{Index = 2, Duration = 1 },
+                    new MetablockFrame{Index = 3, UseInDate = true, DateToUse = date, Duration = 1},
+                    new MetablockFrame{Index = 4, Duration = 1 },
+                    new MetablockFrame{Index = 5, UseInDate = true, DateToUse = date, Duration = 1}
                 }
             };
 
