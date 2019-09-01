@@ -16,8 +16,8 @@ namespace Helpers
                 .Where(f => f.Duration > 0)
                 .Where(f => f.UseInTimeInterval ? f.UseFromTime.HasValue
                             && f.UseToTime.HasValue
-                            && (f.UseFromTime.Value.TimeOfDay <= dateTime.TimeOfDay)
-                            && (dateTime.TimeOfDay <= f.UseToTime.Value.TimeOfDay) : true)
+                            && (f.UseFromTime.Value <= dateTime.TimeOfDay)
+                            && (dateTime.TimeOfDay <= f.UseToTime.Value) : true)
                 .Where(f => f.UseInDate ? f.DateToUse.HasValue
                             && f.DateToUse.Value.Date.Equals(dateTime.Date) : true)
                 .Where(f => f.UseInDayOfWeek ? (f.UseInMon && dayOfWeek.Equals(DayOfWeek.Monday))

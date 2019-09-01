@@ -304,6 +304,12 @@ function masterViewModel(app) {
             self.metaBlockEditViewModel().id(block.id);
             block.frames().forEach(function (frame) {
                 frame.selected = false;
+                if (frame.useFromTime != undefined) {
+                    frame.useFromTime = moment(frame.useFromTime).format("HH:mm");
+                }
+                if (frame.useToTime != undefined) {
+                    frame.useToTime = moment(frame.useToTime).format("HH:mm");
+                }
             });
             self.metaBlockEditViewModel().initializeControls();
             self.metaBlockEditViewModel().metaFrames(block.frames());
@@ -375,6 +381,7 @@ function masterViewModel(app) {
         }
         if (block.type === 'meta') {
             block.caption = self.metaBlockEditViewModel().caption();
+            self.metaBlockEditViewModel().updateSelectedFrame();
             block.frames(self.metaBlockEditViewModel().metaFrames());
         }
         app.request(
