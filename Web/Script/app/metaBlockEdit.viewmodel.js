@@ -145,6 +145,7 @@ function MetaBlockEditViewModel(master) {
 
         dateToUse.datetimepicker({
             timepicker: false,
+            format: 'Y-m-d'
         });
     }
 

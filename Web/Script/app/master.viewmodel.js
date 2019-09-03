@@ -310,6 +310,9 @@ function masterViewModel(app) {
                 if (frame.useToTime != undefined) {
                     frame.useToTime = moment(frame.useToTime).format("HH:mm");
                 }
+                if (frame.dateToUse != undefined) {
+                    frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
+                }
             });
             self.metaBlockEditViewModel().initializeControls();
             self.metaBlockEditViewModel().metaFrames(block.frames());
@@ -383,6 +386,11 @@ function masterViewModel(app) {
             block.caption = self.metaBlockEditViewModel().caption();
             self.metaBlockEditViewModel().updateSelectedFrame();
             block.frames(self.metaBlockEditViewModel().metaFrames());
+            block.frames().forEach(function (frame) {
+                if (frame.dateToUse != undefined) {
+                    frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
+                }
+            });
         }
         app.request(
             "POST",
