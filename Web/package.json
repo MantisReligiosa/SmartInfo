@@ -9,7 +9,7 @@
     "grunt-contrib-concat": "1.0.1"
   },
   "dependencies": {
-    "jquery": "3.3.1",
+    "jquery": "3.4.1",
     "knockout": "3.5.0-rc2",
     "bootstrap": "4.1.0",
     "popper.js": "1.14.3",
