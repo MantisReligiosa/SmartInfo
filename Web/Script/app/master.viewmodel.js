@@ -109,6 +109,7 @@ function masterViewModel(app) {
     }
 
     addSimpleBlock = function (apiMethod, blockProcessing) {
+        self.loading(true);
         var frame = null;
         if (self.selectedBlock() && self.selectedBlock().type == 'meta') {
             frame = self.selectedBlock().frames().filter(function (f) {
@@ -134,6 +135,7 @@ function masterViewModel(app) {
                 var node = getNode(data)
                 treenodes.push(node);
                 $('#blocksTree').jstree(true).create_node(frameId, node);
+                self.loading(false);
             }
         );
     }
