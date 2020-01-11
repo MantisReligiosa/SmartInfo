@@ -213,6 +213,8 @@ input[type=number] {
 
 .displayBlock {
     position: absolute;
+    border: 2px solid;
+    border-color: rgba(0,0,0,.1);
 }
 
 .selected {
@@ -278,8 +280,8 @@ input[type=number] {
 .block-icon {
     display: flex;
     position: absolute;
-    background-size: auto !important;
-    opacity: 0.2;
+    background-size: 24px !important;
+    opacity: 0.6;
     width: -webkit-fill-available;
     height: -webkit-fill-available;
 }
