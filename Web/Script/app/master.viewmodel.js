@@ -2,6 +2,8 @@ function masterViewModel(app) {
     var self = this,
         clipboard;
 
+    self.loading = ko.observable(true);
+
     self.fonts = ko.observableArray([]);
     self.fontSizes = ko.observableArray([]);
     self.fontIndexes = ko.observableArray([]);
@@ -647,7 +649,7 @@ function masterViewModel(app) {
             .on('change', function (e) {
                 var file = this.files[0];
                 var reader = new FileReader();
-
+                self.loading(true);
                 reader.onload = (function (theFile) {
                     return function (e) {
                         var text = e.target.result;
@@ -657,7 +659,8 @@ function masterViewModel(app) {
                             { text: text },
                             function (data) {
                                 loadBackground()
-                                    .then(function () { return loadBlocks(); });
+                                    .then(function () { return loadBlocks(); })
+                                    .then(function () { self.loading(false) });
                             }
                         );
                     };
@@ -710,7 +713,8 @@ function masterViewModel(app) {
             .then(function () { return loadResolution(); })
             .then(function () { return loadDatetimeFormats(); })
             .then(function () { return loadBackground(); })
-            .then(function () { return loadBlocks(); });
+            .then(function () { return loadBlocks(); })
+            .then(function () { self.loading(false); });
         initReact();
     });
 
@@ -1018,37 +1022,41 @@ function masterViewModel(app) {
     }
 
     loadBlocks = function () {
-        app.request(
-            "GET",
-            "/api/blocks",
-            {},
-            function (data) {
-                data.forEach(function (block) {
-                    block.selected = ko.observable(false);
-                    if (block.type == 'datetime') {
-                        block.text = ''
-                        block.format = (block.format == undefined) ? null : block.format
-                    }
-                    if (block.type == 'meta') {
-                        makeMetablockObservableArrays(block);
-                        block.frames().forEach(function (frame) {
-                            frame.selected = false;
-                            if (frame.useFromTime != undefined) {
-                                frame.useFromTime = moment(frame.useFromTime).format("HH:mm");
+        return new Promise(
+            function (resolve, reject) {
+                app.request(
+                    "GET",
+                    "/api/blocks",
+                    {},
+                    function (data) {
+                        data.forEach(function (block) {
+                            block.selected = ko.observable(false);
+                            if (block.type == 'datetime') {
+                                block.text = ''
+                                block.format = (block.format == undefined) ? null : block.format
                             }
-                            if (frame.useToTime != undefined) {
-                                frame.useToTime = moment(frame.useToTime).format("HH:mm");
+                            if (block.type == 'meta') {
+                                makeMetablockObservableArrays(block);
+                                block.frames().forEach(function (frame) {
+                                    frame.selected = false;
+                                    if (frame.useFromTime != undefined) {
+                                        frame.useFromTime = moment(frame.useFromTime).format("HH:mm");
+                                    }
+                                    if (frame.useToTime != undefined) {
+                                        frame.useToTime = moment(frame.useToTime).format("HH:mm");
+                                    }
+                                    if (frame.dateToUse != undefined) {
+                                        frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
+                                    }
+                                });
                             }
-                            if (frame.dateToUse != undefined) {
-                                frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
-                            }
+                            self.blocks.push(block);
+                            var node = getNode(block);
+                            treenodes.push(node);
+                            $('#blocksTree').jstree(true).create_node(null, node);
                         });
-                    }
-                    self.blocks.push(block);
-                    var node = getNode(block);
-                    treenodes.push(node);
-                    $('#blocksTree').jstree(true).create_node(null, node);
-                });
+                        resolve();
+                    });
             });
     }
 
