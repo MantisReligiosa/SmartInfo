@@ -47,6 +47,7 @@ namespace Services
 
         public TextBlock AddTextBlock(Guid? frameId)
         {
+            var zIndex = GetZindex(frameId);
             var block = _unitOfWork.DisplayBlocks.Create(new TextBlock
             {
                 Caption = $"TextBlock",
@@ -63,7 +64,8 @@ namespace Services
                     Align = Align.Left,
                     Bold = false,
                     Italic = false
-                }
+                },
+                ZIndex = zIndex
             }) as TextBlock;
             _unitOfWork.Complete();
             return block;
@@ -71,6 +73,7 @@ namespace Services
 
         public TableBlock AddTableBlock(Guid? frameId)
         {
+            var zIndex = GetZindex(frameId);
             var block = _unitOfWork.DisplayBlocks.Create(new TableBlock
             {
                 Caption = "TableBlock",
@@ -107,7 +110,8 @@ namespace Services
                         Italic = true,
                     },
                     Cells = new List<TableBlockCellDetails>(),
-                }
+                },
+                ZIndex = zIndex
             }) as TableBlock;
             _unitOfWork.Complete();
             return block;
@@ -115,13 +119,15 @@ namespace Services
 
         public PictureBlock AddPictureBlock(Guid? frameId)
         {
+            var zIndex = GetZindex(frameId);
             var block = _unitOfWork.DisplayBlocks.Create(new PictureBlock
             {
                 Caption = "PictureBlock",
                 Height = 50,
                 Width = 50,
                 MetablockFrameId = frameId,
-                Details = new PictureBlockDetails()
+                Details = new PictureBlockDetails(),
+                ZIndex = zIndex
             }) as PictureBlock;
             _unitOfWork.Complete();
             return block;
@@ -129,6 +135,7 @@ namespace Services
 
         public DateTimeBlock AddDateTimeBlock(Guid? frameId)
         {
+            var zIndex = GetZindex(frameId);
             var block = _unitOfWork.DisplayBlocks.Create(new DateTimeBlock
             {
                 Caption = "DateTimeBlock",
@@ -146,7 +153,8 @@ namespace Services
                     Align = Align.Left,
                     Bold = false,
                     Italic = false
-                }
+                },
+                ZIndex = zIndex
             }) as DateTimeBlock;
             _unitOfWork.Complete();
             return block;
@@ -299,7 +307,7 @@ namespace Services
                         dbFrame.UseInTimeInterval = frame.UseInTimeInterval;
                         dbFrame.UseInTue = frame.UseInTue;
                         dbFrame.UseInWed = frame.UseInWed;
-                        
+
                         foreach (var subBlock in frame.Blocks)
                         {
                             var dbBlock = dbFrame.Blocks.FirstOrDefault(b => b.Id.Equals(subBlock.Id));
@@ -420,6 +428,15 @@ namespace Services
         {
             var block = _unitOfWork.DisplayBlocks.Create(new MetaBlock(source)) as MetaBlock;
             return block;
+        }
+
+        private int GetZindex(Guid? frameId)
+        {
+            var blocks = _unitOfWork.DisplayBlocks.Find(b => b.MetablockFrameId == frameId);
+            if (!blocks.Any())
+                return 0;
+            else
+                return blocks.Max(b => b.ZIndex) + 1;
         }
     }
 }
