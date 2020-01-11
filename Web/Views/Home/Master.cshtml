@@ -2,6 +2,13 @@
 @using Web.Models
 @inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
 <!-- ko with: master-->
+
+<!-- ko if: loading()-->
+<div id="preloader">
+    <div id="loader"></div>
+</div>
+<!-- /ko -->
+
 @Html.Partial("Views/Home/_Menu.cshtml")
 <div style=" flex: 1 1 auto;
 	display: flex; margin-left:15px; margin-right:20px">
