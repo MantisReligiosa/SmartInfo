@@ -3,6 +3,7 @@ using Nancy.ModelBinding;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using Web.Models.Blocks.Converter;
 
 namespace Web.Models.Blocks.Binders
 {
@@ -17,7 +18,7 @@ namespace Web.Models.Blocks.Binders
                     sr.BaseStream.Seek(0, SeekOrigin.Begin);
                 }
                 var json = sr.ReadToEnd();
-                var obj =  JsonConvert.DeserializeObject(json, modelType);
+                var obj = JsonConvert.DeserializeObject(json, modelType, new BlockConverter());
                 return obj;
             }
         }

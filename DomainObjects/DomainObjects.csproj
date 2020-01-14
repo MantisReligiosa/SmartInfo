@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blocks\Details\MetaBlockDetails.cs" />
+    <Compile Include="Blocks\Details\MetablockFrame.cs" />
     <Compile Include="Blocks\MetaBlock.cs" />
     <Compile Include="Blocks\DateTimeBlock.cs" />
     <Compile Include="Blocks\Details\DateTimeBlockDetails.cs" />
@@ -63,7 +64,7 @@
     <Compile Include="Parameters\ScreenWidth.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Display.cs" />
-    <Compile Include="Videopanel.cs" />
+    <Compile Include="ScreenInfo.cs" />
     <Compile Include="Specifications\ParameterSpecification.cs" />
     <Compile Include="Specifications\UserSpecification.cs" />
     <Compile Include="User.cs" />

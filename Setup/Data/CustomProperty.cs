@@ -2,11 +2,14 @@
 {
     public class CustomProperty
     {
-        public CustomProperty(string propertyName, string defaultValue)
+        public CustomProperty(string configPropertyName, string propertyName, string defaultValue)
         {
             PropertyName = propertyName;
             DefaultValue = defaultValue;
+            ConfigPropertyName = configPropertyName;
         }
+
+        public string ConfigPropertyName { get; }
 
         public string PropertyName { get; }
 

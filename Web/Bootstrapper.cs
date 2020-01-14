@@ -1,16 +1,20 @@
-using DataExchange;
+﻿using DataExchange;
 using DataExchange.DTO;
 using DataExchange.Requests;
 using DataExchange.Responces;
+using Infrastructure.TableProviders;
 using Nancy;
 using Nancy.Authentication.Forms;
 using Nancy.Bootstrapper;
 using Nancy.Bundle;
 using Nancy.Conventions;
 using Nancy.TinyIoc;
+using NLog;
 using Repository;
 using ServiceInterfaces;
 using Services;
+using System;
+using System.Collections.Generic;
 using Web.Bundles;
 using Web.Bundles.Web.Bundles;
 
@@ -18,9 +22,12 @@ namespace Web
 {
     public class Bootstrapper : DefaultNancyBootstrapper
     {
+        private readonly Logger _log = LogManager.GetLogger("WebApp");
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
-            //var config = container.Resolve<IConfigSettings>();
+            _log.Trace("Application starting");
+
+            Nancy.Json.JsonSettings.MaxJsonLength = int.MaxValue;
 
             container.AttachNancyBundle<BundleConfig>(cfg =>
             {
@@ -38,12 +45,18 @@ namespace Web
             container.Register<IBlockController, BlockController>();
             container.Register<IOperationController, OperationController>();
             container.Register<ISerializationController, SerializationController>();
+            container.Register<ILogger>(_log);
+
+            container.Register<IExcelTableProvider, ExcelTableProvider>();
 
             CustomStatusCode.AddCode(404);
+            CustomStatusCode.AddCode(500);
 
             pipelines.OnError += (ctx, ex) =>
             {
-                return null;
+                var context = ctx as NancyContext;
+                _log.Error(ex, "Ошибка pipelines");
+                return new Response { StatusCode = HttpStatusCode.InternalServerError };
             };
 
             var config = container.Resolve<IConfiguration>();
@@ -122,10 +135,12 @@ namespace Web
                     };
                 });
             }
+            _log.Trace("Application started");
         }
 
         protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)
         {
+            _log.Trace(">>> " + context.Request.Url.ToString());
             base.RequestStartup(container, pipelines, context);
 
             var formsAuthConfiguration = new FormsAuthenticationConfiguration
@@ -139,9 +154,12 @@ namespace Web
 
         protected override void ConfigureConventions(NancyConventions nancyConventions)
         {
-            base.ConfigureConventions(nancyConventions);
+            //base.ConfigureConventions(nancyConventions);
+            nancyConventions.StaticContentsConventions.Clear();
             nancyConventions.StaticContentsConventions.Add(
-               StaticContentConventionBuilder.AddDirectory("Images", @"Images"));
+               StaticContentConventionBuilder.AddDirectory("Images", "Images"));
+            nancyConventions.StaticContentsConventions.Add(
+               StaticContentConventionBuilder.AddDirectory("css", "assets"));
         }
     }
 }

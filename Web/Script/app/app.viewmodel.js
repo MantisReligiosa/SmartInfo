@@ -19,30 +19,29 @@
         $.ajax({
             method: method,
             url: url,
-            data: JSON.stringify(data),
+            data: JSON.stringify(ko.toJS(data)),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             headers: {
                 'Accept': 'application/json'
             },
-            statusCode: {
-
-                401: function () {
-                    debugger;
+            success:
+                function (data) {
+                    if (data.errorMessage != undefined) {
+                        toastr.error(data.errorMessage);
+                    }
+                    else {
+                        successHandler(data);
+                    }
                 },
-                403: function () {
-                    debugger;
-                },
-                404: function () {
-                    debugger;
-                },
-                406: function () {
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status === 406) {
                     location.reload(true);
                 }
-            },
-            success: successHandler,
-            error: function (xhr, ajaxOptions, thrownError) {
-                toastr.error(thrownError);
+                else {
+                    toastr.error(thrownError);
+                    console.error(xhr, ajaxOptions, thrownError);
+                }
             }
         });
     }

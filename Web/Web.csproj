@@ -150,6 +150,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\30px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\throbber.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="css\vendor.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -259,6 +268,18 @@
     <Content Include="Images\access_reset.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\metablock.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\metablock_frame.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\metablock_frame_checked.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\metablock_large.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\sad_hudge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -287,6 +308,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Script\app\master.viewmodel.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Script\app\metaBlockEdit.viewmodel.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Script\app\pictureBlockEdit.viewmodel.js">
@@ -342,10 +366,15 @@
     <Compile Include="Bundles\MasterJsBundle.cs" />
     <Compile Include="Bundles\VendorJsBundles.cs" />
     <Compile Include="CustomStatusCode.cs" />
+    <Compile Include="Models\AddBlockParamsDto.cs" />
     <Compile Include="Models\AuthenticatedUser.cs" />
+    <Compile Include="Models\BlockRenderModel.cs" />
     <Compile Include="Models\Blocks\Binders\FromBodyJsonBinder.cs" />
     <Compile Include="Models\Blocks\BlockDto.cs" />
+    <Compile Include="Models\Blocks\Converter\BaseSpecifiedConcreteClassConverter.cs" />
+    <Compile Include="Models\Blocks\Converter\BlockConverter.cs" />
     <Compile Include="Models\Blocks\DateTimeBlockDto.cs" />
+    <Compile Include="Models\Blocks\MetablockFrameDto.cs" />
     <Compile Include="Models\Blocks\PictureBlockDto.cs" />
     <Compile Include="Models\Blocks\RowDto.cs" />
     <Compile Include="Models\Blocks\RowStyleDto.cs" />
@@ -355,18 +384,27 @@
     <Compile Include="Models\ConfigDataDto.cs" />
     <Compile Include="Models\ConfigDto.cs" />
     <Compile Include="Models\CreditsRequest.cs" />
-    <Compile Include="Models\CsvDataDto.cs" />
-    <Compile Include="Models\CsvTableDto.cs" />
+    <Compile Include="Models\ErrorResponce.cs" />
+    <Compile Include="Models\TableDataDto.cs" />
+    <Compile Include="Models\ParsedTableDto.cs" />
+    <Compile Include="Models\Blocks\MetaBlockDto.cs" />
     <Compile Include="Models\SaveBlockRequest.cs" />
     <Compile Include="Models\ScreenBackgroundRequest.cs" />
     <Compile Include="Models\ScreenResolutionResponce.cs" />
     <Compile Include="Models\DatabaseUser.cs" />
     <Compile Include="Models\FontInfo.cs" />
     <Compile Include="Models\ScreenResolutionRequest.cs" />
-    <Compile Include="Modules\Public.cs" />
-    <Compile Include="Modules\Secured.cs" />
+    <Compile Include="Modules\OperationModule.cs" />
+    <Compile Include="Modules\WrappedNancyModule.cs" />
+    <Compile Include="Modules\PublicModule.cs" />
+    <Compile Include="Modules\SystemModule.cs" />
+    <Compile Include="Modules\BlockModule.cs" />
+    <Compile Include="Modules\ViewModule.cs" />
     <Compile Include="Profiles\AutoMapperConfig.cs" />
+    <Compile Include="Profiles\BlockType.cs" />
     <Compile Include="Profiles\DateTimeBlockProfile.cs" />
+    <Compile Include="Profiles\DisplayBlockProfile.cs" />
+    <Compile Include="Profiles\MetaBlockProfile.cs" />
     <Compile Include="Profiles\TableBlockProfile.cs" />
     <Compile Include="Profiles\PictureBlockProfile.cs" />
     <Compile Include="Profiles\TextBlockProfile.cs" />
@@ -383,6 +421,7 @@
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="package-lock.json" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -393,7 +432,7 @@
     <Content Include="Views\Home\Master.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Views\Codes\404.cshtml">
+    <None Include="Views\Codes\Oops.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Views\Shared\_ErrorLayout.cshtml">
@@ -408,19 +447,40 @@
     <Content Include="Views\Home\_Menu.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Home\ScreenProperties.cshtml">
+    <Content Include="Views\Home\Properties\_ScreenProperties.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Home\TextBlockProperties.cshtml">
+    <Content Include="Views\Home\Properties\_TextBlockProperties.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Home\TableBlockProperties.cshtml">
+    <Content Include="Views\Home\Properties\_TableBlockProperties.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Home\PictureBlockProperties.cshtml">
+    <Content Include="Views\Home\Properties\_PictureBlockProperties.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Home\DatetimeBlockProperties.cshtml">
+    <Content Include="Views\Home\Properties\_DatetimeBlockProperties.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Properties\_MetaBlockProperties.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Blocks\_Block.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Blocks\Renders\_TextBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Blocks\Renders\_DatetimeBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Blocks\Renders\_PictureBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Blocks\Renders\_TableBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\Blocks\Renders\_MetaBlock.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Web.Debug.config">
@@ -438,6 +498,10 @@
     <ProjectReference Include="..\DomainObjects\DomainObjects.csproj">
       <Project>{06F3DAFC-55BB-48C1-9742-C7AED7BD1FF2}</Project>
       <Name>DomainObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.TableProviders\Infrastructure.TableProviders.csproj">
+      <Project>{FB3FF46B-7ED4-4303-9BD7-9A2A8EC91190}</Project>
+      <Name>Infrastructure.TableProviders</Name>
     </ProjectReference>
     <ProjectReference Include="..\Repository\Repository.csproj">
       <Project>{199961cf-22df-418c-8343-a846274b3f49}</Project>

@@ -1,0 +1,6 @@
+﻿<!-- ko if: base64Src == null -->
+<span class="block-icon block-image" data-bind="style:{'z-index': zIndex+1}"></span>
+<!-- /ko-->
+<!-- ko if: base64Src != null -->
+<img data-bind="attr:{src:'data:image/png;base64, '+ $data.base64Src}" />
+<!-- /ko-->

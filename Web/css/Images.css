@@ -186,3 +186,11 @@
 .zoom-out {
     background: url('../Images/zoom_out.png') no-repeat center center;
 }
+
+.metablock-large {
+    background: url('../Images/metablock_large.png') no-repeat center center;
+}
+
+.metablock {
+    background: url('../Images/metablock.png') no-repeat center center;
+}

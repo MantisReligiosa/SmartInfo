@@ -5,9 +5,9 @@ namespace ServiceInterfaces
 {
     public interface ISystemController
     {
-        Videopanel GetDatabaseScreenInfo();
-        Videopanel GetSystemScreenInfo();
-        void SetDatabaseScreenInfo(Videopanel screenInfo);
+        ScreenInfo GetDatabaseScreenInfo();
+        ScreenInfo GetSystemScreenInfo();
+        void SetDatabaseScreenInfo(ScreenInfo screenInfo);
 
         IEnumerable<int> GetFontSizes();
         IEnumerable<string> GetFonts();

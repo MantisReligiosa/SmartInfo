@@ -12,7 +12,7 @@ namespace Web.Profiles
         public TableBlockProfile()
         {
             CreateMap<TableBlock, TableBlockDto>()
-                .ForMember(b => b.Type, opt => opt.MapFrom(b => "table"))
+                .ForMember(b => b.Type, opt => opt.MapFrom(b => BlockType.Table))
                 .ForMember(b => b.Font, opt => opt.MapFrom(b => b.Details.FontName))
                 .ForMember(b => b.FontSize, opt => opt.MapFrom(b => b.Details.FontSize))
                 .ForMember(b => b.FontIndex, opt => opt.MapFrom(b => b.Details.FontIndex))
@@ -26,7 +26,8 @@ namespace Web.Profiles
                     Index = g.Key - b.Details.Cells.Min(cell => cell.Row) - 1,
                     Cells = g.OrderBy(c => c.Column).Select(c => c.Value).ToArray()
                 }
-                ).ToArray()));
+                ).ToArray()))
+                .ForMember(b => b.Caption, opt => opt.MapFrom(b => string.IsNullOrEmpty(b.Caption) ? "table" : b.Caption));
 
             CreateMap<TableBlockDto, TableBlock>()
                 .ForMember(b => b.Details, opt => opt.MapFrom(b => b));

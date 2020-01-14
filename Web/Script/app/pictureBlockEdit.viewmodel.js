@@ -1,10 +1,16 @@
 ﻿function PictureBlockEditViewModel(master) {
     var self = this;
 
+    self.caption = ko.observable();
     self.base64Image = ko.observable();
 
     self.openFileDialog = function () {
         $('#inputPicture').on('change', function (e) {
+            var tmp = $('#inputPicture').val();
+            if (tmp == "") {
+                return;
+            }
+
             var file = this.files[0];
             var reader = new FileReader();
 
@@ -21,6 +27,7 @@
             })(file);
 
             reader.readAsArrayBuffer(file);
+            $('#inputPicture').val("");
         }).click();
     }
 }

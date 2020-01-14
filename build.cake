@@ -21,9 +21,9 @@ Task("Build")
 Task("RunUnitTests")
 .Does(() =>
 {
-	//XUnit2("./Testing/bin/Release/Testing.dll");
-	//XUnit2("./Devices/PixelBoardDeviceTesting/bin/Release/PixelBoardDeviceTesting.dll");
-	///XUnit2("./Devices/SevenSegmentTesting/bin/Release/SevenSegmentTesting.dll");
+	XUnit2("./Testing/bin/Release/Testing.dll");
+	XUnit2("./Devices/PixelBoardDeviceTesting/bin/Release/PixelBoardDeviceTesting.dll");
+	XUnit2("./Devices/SevenSegmentTesting/bin/Release/SevenSegmentTesting.dll");
 });
 
 Task("CopyMigrate")
@@ -57,7 +57,7 @@ Task("CopyDisplayControl")
 	var sourceDir = $"./Display-control/bin/Release";
 	var targetDir = $"{publishDir}/Display-control";
 	CopyBase(sourceDir, targetDir);
-	var subDirs = new string[] {"/css", "/Images", "/Script", "/Views"};
+	var subDirs = new string[] {"/css", "/Images", "/Script", "/Views", "/assets"};
 	foreach (var subDir in subDirs)
 	{
 		CopyDirectory(sourceDir + subDir, targetDir + subDir);
@@ -67,9 +67,9 @@ Task("CopyDisplayControl")
 Task("CopyKeygen")
 .Does(() =>
 {
-	//var sourceDir = $"./Keygen/bin/Release";
-	//var targetDir = $"{publishDir}/Keygen";
-	//CopyBase(sourceDir, targetDir);
+	var sourceDir = $"./Keygen/bin/Release";
+	var targetDir = $"{publishDir}/Keygen";
+	CopyBase(sourceDir, targetDir);
 });
 
 private void CopyBase(string sourceDir, string targetDir)
@@ -87,24 +87,24 @@ private void CopyBase(string sourceDir, string targetDir)
 Task("ZipDisplayControl")
 .Does(() =>
 {
-	Zip($"./{publishDir}/Display-control", $"./{publishDir}/Display-control.zip");
+	Zip($"./{publishDir}/Display-control", $"./{publishDir}/Display_control.zip");
 });
 
 Task("ZipKeygen")
 .Does(() =>
 {
-	//Zip($"./{publishDir}/Keygen", $"./{publishDir}/KaLEDoscope Keygen.zip");
+	Zip($"./{publishDir}/Keygen", $"./{publishDir}/KaLEDoscope Keygen.zip");
 });
 
 Task("BuildSetup")
 .Does(() =>
 {
 	MSBuild("./Setup/Setup.csproj", new MSBuildSettings());
-	var files = GetFiles("./Setup/*.msi");
-	MoveFiles(files, publishDir);
+	var file = File("./Setup/Display-control.msi");
+	MoveFile(file, $"./{publishDir}/Display_control.msi");
 });
 
-Task("UpdateVersion")
+Task("GetVersionInfo")
 .Does(() =>
 {
 	var path = "./Display-control/Properties/AssemblyInfo.cs";
@@ -116,35 +116,25 @@ Task("UpdateVersion")
 	Information($"Major {major}");
 	Information($"Minor {minor}");
 	Information($"Build {build}");
-	build++;
-	var newVersion = $"{major}.{minor}.{build}";
-	Information($"Update version to {newVersion}");
-	CreateAssemblyInfo(path, new AssemblyInfoSettings 
-	{
-    	Version = newVersion,
-    	FileVersion = newVersion,
-    	InformationalVersion = newVersion,
-		Guid = "01C10720-3D90-417C-80AC-5D7841718D12",
-    	Copyright = string.Format("Copyright (c) {0}", DateTime.Now.Year)
-	});
+	//version = $"{major}.{minor}.{build}";
 });
 
 RunTarget("ReCreatePublishDir");
 
-//RunTarget("UpdateVersion");
+//RunTarget("GetVersionInfo");
 
 RunTarget("Build");
 
-RunTarget("RunUnitTests");
+//RunTarget("RunUnitTests");
 
 RunTarget("CopyDisplayControl");
 
 RunTarget("CopyMigrate");
 
-RunTarget("CopyKeygen");
+//RunTarget("CopyKeygen");
 
 RunTarget("BuildSetup");
 
 RunTarget("ZipDisplayControl");
 
-RunTarget("ZipKeygen");
+//RunTarget("ZipKeygen");

@@ -32,6 +32,10 @@ namespace Repository.Repositories
                 .Include(t => t.Details.OddRowDetails)
                 .Include(t => t.Details.HeaderDetails)
                 .ToList());
+            items.AddRange(Context.DisplayBlocks.OfType<MetaBlock>()
+                .Include(t=>t.Details)
+                .Include(t=>t.Details.Frames)
+                .ToList());
 
             GetCache().AddRange(items);
             GetFullyCachedEneities().Add(typeof(DisplayBlock));

@@ -3,10 +3,20 @@
 
     self.rowTypes = ['header', 'odd', 'even'];
 
+    self.caption = ko.observable();
     self.selectedFonts = ko.observableArray([""]);
     self.selectedFontSizes = ko.observableArray([""]);
     self.selectedFontIndexes = ko.observableArray([""]);
     self.filePath = ko.observable();
+    self.encoding = ko.observable(0);
+    self.format = ko.observable(0);
+    self.accept = ko.computed(function () {
+        if (self.format() == 0)
+            return ".csv";
+        if (self.format() == 1)
+            return ".xls,.xlsx";
+        return "";
+    });
 
     self.rows = ko.observableArray();
     self.header = ko.observableArray();
@@ -35,6 +45,7 @@
     };
 
     self.initializeControls = function () {
+
         self.rowTypes.forEach(function (rowType) {
             $('#tableBlock' + capitalize(rowType) + 'BackgroundCP').colorpicker({ format: "rgba" });
             $('#tableBlock' + capitalize(rowType) + 'TextColorCP').colorpicker({ format: "rgba" });
@@ -43,16 +54,30 @@
 
     self.openFileDialog = function () {
         $('#inputFile').on('change', function (e) {
+            var tmp = $('#inputFile').val();
+            if (tmp == "") {
+                return;
+            }
             var file = this.files[0];
             var reader = new FileReader();
 
             reader.onload = (function (theFile) {
                 return function (e) {
-                    var text = e.target.result;
+                    var extension = '';
+                    if (self.format() == 0)
+                        extension = "csv";
+                    if (self.format() == 1)
+                        extension = "xls";
+
                     app.request(
                         "POST",
-                        "/api/parseCSV",
-                        {text:text},
+                        "/api/parseTable",
+                        {
+                            context: btoa(
+                                new Uint8Array(e.target.result)
+                                    .reduce((data, byte) => data + String.fromCharCode(byte), '')),
+                            extension: extension
+                        },
                         function (data) {
                             self.header.removeAll();
                             self.header(data.header);
@@ -62,8 +87,16 @@
                     );
                 };
             })(file);
-
-            reader.readAsText(file/*, 'CP1251'*/);
+            //var encoding = self.encoding();
+            //var encodingFormat = '';
+            //if (encoding == "0") {
+            //    encodingFormat = 'CP1251'
+            //} else
+            //    if (encoding == "1") {
+            //        encodingFormat = 'utf8'
+            //    }
+            reader.readAsArrayBuffer(file);
+            $('#inputFile').val("");
         }).click();
     }
 

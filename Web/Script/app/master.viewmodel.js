@@ -2,6 +2,8 @@ function masterViewModel(app) {
     var self = this,
         clipboard;
 
+    self.loading = ko.observable(true);
+
     self.fonts = ko.observableArray([]);
     self.fontSizes = ko.observableArray([]);
     self.fontIndexes = ko.observableArray([]);
@@ -16,6 +18,7 @@ function masterViewModel(app) {
     self.selectedGridSteps = ko.observableArray([5]);
     self.gridEnabled = ko.observable(true);
 
+    self.isPanelExpanded = ko.observable(true);
 
     self.zoomStep = ko.observable(5);
     self.scales = ko.observableArray([
@@ -40,10 +43,47 @@ function masterViewModel(app) {
         return self.zoomValue() / 100;
     });
 
+    self.screenOffsetTop = ko.computed(function () {
+        return -Math.min.apply(Math, self.screens().map(function (screen) {
+            return screen.top;
+        }));
+    });
+
+    self.screenOffsetLeft = ko.computed(function () {
+        return -Math.min.apply(Math, self.screens().map(function (screen) {
+            return screen.left;
+        }));
+    });
+
+    self.minX = ko.computed(function () {
+        return Math.min.apply(Math, self.screens().map(function (screen) {
+            return screen.left
+        }));
+    });
+
+    self.maxX = ko.computed(function () {
+        return Math.max.apply(Math, self.screens().map(function (screen) {
+            return screen.left + screen.width
+        }));
+    });
+
+    self.minY = ko.computed(function () {
+        return Math.min.apply(Math, self.screens().map(function (screen) {
+            return screen.top
+        }));
+    });
+
+    self.maxY = ko.computed(function () {
+        return Math.max.apply(Math, self.screens().map(function (screen) {
+            return screen.top + screen.height
+        }));
+    });
+
     self.textBlockEditViewModel = ko.computed(function () { return new TextBlockEditViewModel(self); });
     self.tableBlockEditViewModel = ko.computed(function () { return new TableBlockEditViewModel(self); });
     self.pictureBlockEditViewModel = ko.computed(function () { return new PictureBlockEditViewModel(self); });
     self.datetimeBlockEditViewModel = ko.computed(function () { return new DatetimeBlockEditViewModel(self); });
+    self.metaBlockEditViewModel = ko.computed(function () { return new MetaBlockEditViewModel(self); });
     self.positionViewModel = ko.computed(function () { return new PositionViewModel(self); });
     self.backgroundPropertiesMode = ko.observable(true);
 
@@ -68,52 +108,84 @@ function masterViewModel(app) {
     }
 
     self.addTextBlock = function () {
-        app.request(
-            "POST",
-            "/api/addTextBlock",
-            {},
-            function (data) {
-                data.selected = false;
-                self.blocks.push(data);
-            }
-        );
+        addSimpleBlock("/api/addTextBlock", function (data) {
+            data.type = 'text';
+        });
     };
 
     self.addTableBlock = function () {
-        app.request(
-            "POST",
-            "api/addTableBlock",
-            {},
-            function (data) {
-                data.selected = false;
-                self.blocks.push(data);
-            }
-        );
-    }
+        addSimpleBlock("api/addTableBlock", function (data) {
+            data.type = 'table';
+        });
+    };
 
     self.addPictureBlock = function () {
-        app.request(
-            "POST",
-            "api/addPictureBlock",
-            {},
-            function (data) {
-                data.selected = false;
-                self.blocks.push(data);
-            }
-        );
+        addSimpleBlock("api/addPictureBlock", function (data) {
+            data.type = 'picture';
+        });
     }
 
     self.addDateTimeBlock = function () {
+        addSimpleBlock("api/addDateTimeBlock", function (data) {
+            data.type = 'datetime';
+            data.text = '';
+        });
+    }
+
+    addSimpleBlock = function (apiMethod, blockProcessing) {
+        self.loading(true);
+        var frame = null;
+        if (self.selectedBlock() && self.selectedBlock().type == 'meta') {
+            frame = self.selectedBlock().frames().filter(function (f) {
+                return f.checked();
+            })[0];
+        };
+        var frameId = frame == null ? null : frame.id;
         app.request(
             "POST",
-            "api/addDateTimeBlock",
-            {},
+            apiMethod,
+            { frameId },
             function (data) {
-                data.selected = false;
-                data.text = '';
-                self.blocks.push(data);
+                data.selected = ko.observable(false);
+                if (blockProcessing != undefined) {
+                    blockProcessing(data);
+                }
+                if (frameId == null) {
+                    self.blocks.push(data);
+                }
+                else {
+                    frame.blocks.push(data);
+                }
+                var node = getNode(data)
+                treenodes.push(node);
+                $('#blocksTree').jstree(true).create_node(frameId, node);
+                self.loading(false);
             }
         );
+    }
+
+    self.addMetaBlock = function () {
+        app.request(
+            "POST",
+            "api/addMetaBlock",
+            {},
+            function (data) {
+                data.selected = ko.observable(false);
+                makeMetablockObservableArrays(data);
+                self.blocks.push(data);
+                var node = getNode(data)
+                treenodes.push(node);
+                $('#blocksTree').jstree(true).create_node(null, node);
+            }
+        );
+    }
+
+    self.collapsePanel = function () {
+        self.isPanelExpanded(false);
+    }
+
+    self.expandPanel = function () {
+        self.isPanelExpanded(true);
     }
 
     self.showPosition = function () {
@@ -136,7 +208,9 @@ function masterViewModel(app) {
             return
         }
         $('#position').modal("hide");
-        self.blocks.remove(block);
+        if (block.metablockFrameId == null) {
+            self.blocks.remove(block);
+        }
         block.top = +self.positionViewModel().top();
         block.left = +self.positionViewModel().left();
         block.width = +self.positionViewModel().width();
@@ -147,18 +221,53 @@ function masterViewModel(app) {
             "/api/saveBlock",
             block,
             function (data) {
-                self.blocks.push(block);
+                if (block.metablockFrameId == null) {
+                    self.blocks.push(block);
+                }
+                else {
+                    var frame = findFrame(block.metablockFrameId);
+
+                    var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
+                    frame.blocks.remove(existBlock);
+                    frame.blocks.push(block);
+                }
             }
         );
     }
 
+    getMetablockByFrameId = function (frameId) {
+        var metablock = self
+            .blocks().filter(function (b) {
+                return b.type == 'meta' && b.frames().some(function (f) {
+                    return f.id == frameId;
+                })
+            })[0];
+        return metablock;
+    }
+
+    getMetablockFrame = function (metablock, frameId) {
+        var frame = metablock
+            .frames().filter(function (f) {
+                return f.id == frameId;
+            })[0];
+        return frame;
+    }
+
+    findFrame = function (frameId) {
+        var metablock = getMetablockByFrameId(frameId);
+        var frame = getMetablockFrame(metablock, frameId);
+        return frame;
+    }
+
     self.showBackgroundProperties = function () {
         self.backgroundPropertiesMode(true);
+        initializeControls();
         $("#properties")
             .modal({ backdrop: 'static', keyboard: false })
             .modal("show");
     }
 
+    var metaBlockIsOpened;
 
     self.showProperties = function () {
         var block = self.selectedBlock();
@@ -166,10 +275,10 @@ function masterViewModel(app) {
             return;
         };
         self.backgroundPropertiesMode(false);
-        $("#properties")
-            .modal({ backdrop: 'static', keyboard: false })
-            .modal("show");
+        initializeControls();
         if (block.type === 'text') {
+            self.textBlockEditViewModel().initializeControls();
+            self.textBlockEditViewModel().caption(block.caption);
             self.textBlockEditViewModel().backColor(block.backColor);
             self.textBlockEditViewModel().textColor(block.textColor);
             self.textBlockEditViewModel().setFont(block.font);
@@ -181,6 +290,8 @@ function masterViewModel(app) {
             self.textBlockEditViewModel().bold(block.bold);
         };
         if (block.type === 'datetime') {
+            self.datetimeBlockEditViewModel().initializeControls();
+            self.datetimeBlockEditViewModel().caption(block.caption);
             self.datetimeBlockEditViewModel().backColor(block.backColor);
             self.datetimeBlockEditViewModel().textColor(block.textColor);
             self.datetimeBlockEditViewModel().setFont(block.font);
@@ -192,6 +303,8 @@ function masterViewModel(app) {
             self.datetimeBlockEditViewModel().bold(block.bold);
         };
         if (block.type === 'table') {
+            self.tableBlockEditViewModel().initializeControls();
+            self.tableBlockEditViewModel().caption(block.caption);
             self.tableBlockEditViewModel().setFont(block.font);
             self.tableBlockEditViewModel().setFontSize(block.fontSize);
             self.tableBlockEditViewModel().setFontIndex(block.fontIndex);
@@ -208,9 +321,33 @@ function masterViewModel(app) {
             self.tableBlockEditViewModel().header(block.header);
         };
         if (block.type === 'picture') {
+            self.pictureBlockEditViewModel().caption(block.caption);
             self.pictureBlockEditViewModel().base64Image(block.base64Src);
         };
+        if (block.type == 'meta') {
+            var nodeId = $('#blocksTree').jstree(true).get_node(block.id);
+            metaBlockIsOpened = $('#blocksTree').jstree(true).is_open(nodeId);
 
+            self.metaBlockEditViewModel().caption(block.caption);
+            self.metaBlockEditViewModel().id(block.id);
+            block.frames().forEach(function (frame) {
+                frame.selected = false;
+                if (frame.useFromTime != undefined) {
+                    frame.useFromTime = moment(frame.useFromTime).format("HH:mm");
+                }
+                if (frame.useToTime != undefined) {
+                    frame.useToTime = moment(frame.useToTime).format("HH:mm");
+                }
+                if (frame.dateToUse != undefined) {
+                    frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
+                }
+            });
+            self.metaBlockEditViewModel().initializeControls();
+            self.metaBlockEditViewModel().metaFrames(block.frames());
+        }
+        $("#properties")
+            .modal({ backdrop: 'static', keyboard: false })
+            .modal("show");
     };
 
     self.applyProperties = function () {
@@ -227,8 +364,11 @@ function masterViewModel(app) {
             );
             return;
         }
-        if (block.type === 'text') {
+        if (block.metablockFrameId == null) {
             self.blocks.remove(block);
+        }
+        if (block.type === 'text') {
+            block.caption = self.textBlockEditViewModel().caption();
             block.backColor = self.textBlockEditViewModel().backColor();
             block.textColor = self.textBlockEditViewModel().textColor();
             block.font = self.textBlockEditViewModel().selectedFonts()[0];
@@ -240,7 +380,7 @@ function masterViewModel(app) {
             block.bold = self.textBlockEditViewModel().bold();
         };
         if (block.type === 'datetime') {
-            self.blocks.remove(block);
+            block.caption = self.datetimeBlockEditViewModel().caption();
             block.backColor = self.datetimeBlockEditViewModel().backColor();
             block.textColor = self.datetimeBlockEditViewModel().textColor();
             block.font = self.datetimeBlockEditViewModel().selectedFonts()[0];
@@ -252,7 +392,7 @@ function masterViewModel(app) {
             block.bold = self.datetimeBlockEditViewModel().bold();
         };
         if (block.type === 'table') {
-            self.blocks.remove(block);
+            block.caption = self.tableBlockEditViewModel().caption();
             block.font = self.tableBlockEditViewModel().selectedFonts()[0];
             block.fontSize = self.tableBlockEditViewModel().selectedFontSizes()[0];
             block.fontIndex = self.tableBlockEditViewModel().selectedFontIndexes()[0];
@@ -267,15 +407,72 @@ function masterViewModel(app) {
             block.header = self.tableBlockEditViewModel().header();
         }
         if (block.type === 'picture') {
-            self.blocks.remove(block);
+            block.caption = self.pictureBlockEditViewModel().caption();
             block.base64Src = self.pictureBlockEditViewModel().base64Image();
+        }
+        if (block.type === 'meta') {
+            block.caption = self.metaBlockEditViewModel().caption();
+            self.metaBlockEditViewModel().updateSelectedFrame();
+            block.frames(self.metaBlockEditViewModel().metaFrames());
+            block.frames().forEach(function (frame) {
+                if (frame.dateToUse != undefined) {
+                    frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
+                }
+            });
         }
         app.request(
             "POST",
             "/api/saveBlock",
             block,
             function (data) {
-                self.blocks.push(block);
+                var nodeId = $('#blocksTree').jstree(true).get_node(data.id);
+                var index = 0;
+                $('#blocksTree').jstree(true).delete_node(nodeId);
+                if (block.metablockFrameId == null) {
+                    var treenode = treenodes.filter(function (n) {
+                        return n.id == data.id;
+                    })[0];
+                    index = treenodes.indexOf(treenode);
+                    treenodes.splice(index, 1);
+                    self.blocks.push(block);
+                }
+                else {
+                    var frame = findFrame(block.metablockFrameId);
+
+                    var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
+                    index = frame.blocks().indexOf(existBlock);
+                    frame.blocks.remove(existBlock);
+                    frame.blocks.push(block);
+                }
+                data.type = block.type;
+                if (data.type == 'meta') {
+                    makeMetablockObservableArrays(data);
+
+                    var metablock = self.blocks().filter(function (block) {
+                        return block.id == data.id;
+                    })[0];
+                    data.frames().forEach(function (frame) {
+                        var existFrame = metablock.frames().filter(function (f) {
+                            return f.index == frame.index;
+                        })[0];
+                        if (existFrame.id == undefined) {
+                            existFrame.id = frame.id;
+                        }
+                    });
+
+
+                }
+                var newNode = getNode(data);
+                if (data.type == 'meta') {
+                    newNode["state"] = { opened: metaBlockIsOpened }
+                }
+                if (block.metablockFrameId != null) {
+                    newNode["parent"] = block.metablockFrameId;
+                }
+                else {
+                    treenodes.splice(index, 0, newNode);
+                }
+                $('#blocksTree').jstree(true).create_node(block.metablockFrameId, newNode, index);
             }
         );
     };
@@ -290,7 +487,14 @@ function masterViewModel(app) {
     self.cut = function () {
         isCopying = false;
         clipboard = self.selectedBlock();
-        self.blocks.remove(clipboard);
+        var frameId = clipboard.metablockFrameId;
+        if (frameId == null) {
+            self.blocks.remove(clipboard);
+        }
+        else {
+            var frame = findFrame(clipboard.metablockFrameId);
+            frame.blocks.remove(clipboard);
+        }
     };
 
     self.paste = function () {
@@ -302,21 +506,40 @@ function masterViewModel(app) {
             "/api/copyBlock",
             clipboard,
             function (data) {
-                data.selected = true;
+                if (data.type == 'datetime') {
+                    data.text = '';
+                }
+                if (data.type == 'meta') {
+                    makeMetablockObservableArrays(data);
+                }
+
+                var frameId = data.metablockFrameId;
+
+                data.selected = ko.observable(true);
                 self.selectedBlock(data);
-                self.blocks.push(data);
+                var node = getNode(data);
+                if (frameId == null) {
+                    self.blocks.push(data);
+                    treenodes.push(node);
+                }
+                else {
+                    var frame = findFrame(data.metablockFrameId);
+
+                    frame.blocks.push(data);
+                }
+                $('#blocksTree').jstree(true).create_node(frameId, node);
                 if (!isCopying) {
                     app.request(
                         "POST",
                         "/api/deleteBlock",
                         clipboard,
-                        function (data) { }
+                        function (data) {
+                            $('#blocksTree').jstree(true).delete_node(clipboard.id);
+                        }
                     );
                 }
                 else {
-                    self.blocks.remove(clipboard);
-                    clipboard.selected = false;
-                    self.blocks.push(clipboard);
+                    clipboard.selected(false);
                 }
             }
         );
@@ -332,7 +555,21 @@ function masterViewModel(app) {
             "/api/deleteBlock",
             block,
             function (data) {
-                self.blocks.remove(block);
+                var nodeId = self.selectedBlock().id;
+                var treenode = treenodes.filter(function (n) {
+                    return (n.id == nodeId);
+                })[0];
+                var index = treenodes.indexOf(treenode);
+                treenodes.splice(index, 1);
+                $('#blocksTree').jstree(true).delete_node(nodeId);
+                if (block.metablockFrameId == null) {
+                    self.blocks.remove(block);
+                }
+                else {
+                    var frame = findFrame(block.metablockFrameId);
+                    var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
+                    frame.blocks.remove(existBlock);
+                }
                 self.selectedBlock(null);
             }
         );
@@ -343,14 +580,32 @@ function masterViewModel(app) {
             return;
         }
         var block = self.selectedBlock();
-        self.blocks.remove(block);
+        if (block.metablockFrameId == null) {
+            self.blocks.remove(block);
+        }
         block.zIndex++;
+        if (block.type === "meta") {
+            block.frames().forEach(function (frame) {
+                frame.blocks().forEach(function (blockInFrame) {
+                    blockInFrame.zIndex++;
+                });
+            });
+        }
         app.request(
             "POST",
             "/api/saveBlock",
             block,
             function (data) {
-                self.blocks.push(block);
+                if (block.metablockFrameId == null) {
+                    self.blocks.push(block);
+                }
+                else {
+                    var frame = findFrame(block.metablockFrameId);
+
+                    var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
+                    frame.blocks.remove(existBlock);
+                    frame.blocks.push(block);
+                }
             }
         );
     };
@@ -364,18 +619,50 @@ function masterViewModel(app) {
             app.infoMsg("z-index is minimal");
             return;
         }
-        self.blocks.remove(block);
+        if (block.metablockFrameId == null) {
+            self.blocks.remove(block);
+        }
         block.zIndex--;
+        if (block.type === "meta") {
+            block.frames().forEach(function (frame) {
+                frame.blocks().forEach(function (blockInFrame) {
+                    blockInFrame.zIndex--;
+                });
+            });
+        }
         app.request(
             "POST",
             "/api/saveBlock",
             block,
             function (data) {
-                self.blocks.push(block);
+                if (block.metablockFrameId == null) {
+                    self.blocks.push(block);
+                }
+                else {
+                    var frame = findFrame(block.metablockFrameId);
+
+                    var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
+                    frame.blocks.remove(existBlock);
+                    frame.blocks.push(block);
+                }
             }
         );
 
     };
+
+    self.cleanup = function () {
+        app.request(
+            "POST",
+            "/api/cleanup",
+            null,
+            function (data) {
+                self.blocks.removeAll();
+                $('#blocksTree').jstree(true).delete_node(treenodes);
+                treenodes = [];
+                self.selectedBlock(null);
+            }
+        );
+    }
 
     self.downloadConfig = function () {
         window.location = "/api/downloadConfig";
@@ -388,7 +675,7 @@ function masterViewModel(app) {
             .on('change', function (e) {
                 var file = this.files[0];
                 var reader = new FileReader();
-
+                self.loading(true);
                 reader.onload = (function (theFile) {
                     return function (e) {
                         var text = e.target.result;
@@ -398,7 +685,8 @@ function masterViewModel(app) {
                             { text: text },
                             function (data) {
                                 loadBackground()
-                                    .then(function () { return loadBlocks(); });
+                                    .then(function () { return loadBlocks(); })
+                                    .then(function () { self.loading(false) });
                             }
                         );
                     };
@@ -410,23 +698,39 @@ function masterViewModel(app) {
     }
 
     selectBlock = function (bind) {
-        self.blocks.remove(bind);
+        var block = self.blocks().filter(function (b) {
+            return b.id == bind.id;
+        })[0] || getBlockFromMetablock(bind.id);
         unselectBlocks();
-        self.selectedBlock.selected = false;
-        bind.selected = true;
-        self.blocks.push(bind);
-        self.selectedBlock(bind);
+        var selectedBlock = self.selectedBlock();
+        if (selectedBlock) {
+            selectedBlock.selected(false);
+        }
+        block.selected(true);
+        self.selectedBlock(block);
         initializeControls();
+
+        var nodeToSelect = $('#blocksTree').jstree(true).get_node(bind.id);
+        $('#blocksTree').jstree().select_node(nodeToSelect);
     };
 
     unselectBlocks = function () {
-        var blocks = self.blocks.remove(function (block) { return block.selected; });
-        blocks.forEach(function (block) {
-            block.selected = false;
-            self.blocks.push(block);
+        self.blocks().filter(function (block) { return block.selected(); }).forEach(function (block) {
+            block.selected(false);
         });
+
+        self.blocks().filter(function (block) { return block.type == 'meta' })
+            .forEach(function (metablock) {
+                metablock.frames().forEach(function (frame) {
+                    frame.blocks().forEach(function (frameBlock) {
+                        frameBlock.selected(false);
+                    })
+                });
+            });
+
         self.selectedBlock(null);
         initializeControls();
+        $('#blocksTree').jstree().deselect_all();
     }
 
     $(document).ready(function () {
@@ -435,29 +739,90 @@ function masterViewModel(app) {
             .then(function () { return loadResolution(); })
             .then(function () { return loadDatetimeFormats(); })
             .then(function () { return loadBackground(); })
-            .then(function () { return loadBlocks(); });
+            .then(function () { return loadBlocks(); })
+            .then(function () { self.loading(false); });
         initReact();
     });
 
     var backColor;
 
     initializeControls = function () {
-        $('#backgroundCP').colorpicker({
+        initializeTree();
+        initializeBackgroundDialog();
+    };
+
+    initializeBackgroundDialog = function () {
+        var backgroundCP = $('#backgroundCP');
+        backgroundCP.colorpicker({
             format: "rgba"
         });
-        $('#backgroundCP').on('colorpickerChange', function (e) {
+        backgroundCP.on('colorpickerChange', function (e) {
             backColor = e.color.toString();
         });
+    }
 
-        self.textBlockEditViewModel().initializeControls();
-        self.tableBlockEditViewModel().initializeControls();
-        self.datetimeBlockEditViewModel().initializeControls();
-    };
+    var isTreeInitialized = false;
+    initializeTree = function () {
+        var blocktree = $('#blocksTree');
+        if (!blocktree.length || isTreeInitialized) {
+            return;
+        }
+        isTreeInitialized = true;
+        blocktree
+            .on('select_node.jstree', function (e, data) {
+                var node = data.node;
+                var type = node.original.type;
+                if (type == "frame") {
+                    setFrameNodeChecked(node.parent, node.id);
+                    var metaNode = $('#blocksTree').jstree(true).get_node(node.parent);
+                    $('#blocksTree').jstree(true).deselect_all();
+                    $('#blocksTree').jstree(true).select_node(metaNode);
+                }
+                else {
+                    var nodeId = node.id;
+                    var selectedBlock = self.selectedBlock();
+                    if (selectedBlock != null && selectedBlock.id == nodeId)
+                        return;
+                    var blockToSelect = self.blocks().filter(function (index) {
+                        return index.id == nodeId;
+                    })[0];
+                    if (blockToSelect == null) {
+                        //Ищем по всем метаблокам
+                        var metablock = getMetablockByFrameId(node.parent);
+                        var frame = getMetablockFrame(metablock, node.parent);
+                        blockToSelect = frame
+                            .blocks().filter(function (block) {
+                                return block.id == node.id;
+                            })[0];
+                        unselectBlocks();
+                        blockToSelect.selected(true);
+                        self.selectedBlock(blockToSelect);
+                        setFrameNodeChecked(metablock.id, frame.id);
+
+                    }
+                    else {
+                        selectBlock(blockToSelect);
+                    }
+                    return;
+                }
+
+            });
+        blocktree.jstree({
+            'core': {
+                'check_callback': true,
+                'data': treenodes,
+                "themes": {
+                    "dots": true,
+                    "name": "proton"
+                },
+            }
+        });
+    }
 
     initReact = function () {
         interact('.resize-drag')
             .draggable({
-                inertia: true,
+                inertia: false,
                 restrict: {
                     restriction: '.workspace',
                     endOnly: true,
@@ -497,7 +862,7 @@ function masterViewModel(app) {
         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx / scale,
             y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy / scale;
 
-        if (event.rect != null) {
+        if (event.deltaRect != null) {
             x = (parseFloat(target.getAttribute('data-x')) || 0);
             y = (parseFloat(target.getAttribute('data-y')) || 0);
 
@@ -522,18 +887,28 @@ function masterViewModel(app) {
         target.setAttribute('data-y', y);
     };
 
+    getBlockFromMetablock = function (id) {
+        var block = null;
+        self.blocks().filter(function (block) { return block.type == 'meta' })
+            .forEach(function (metablock) {
+                metablock.frames().forEach(function (frame) {
+                    frame.blocks().forEach(function (frameBlock) {
+                        if (id == frameBlock.id) {
+                            block = frameBlock
+                        }
+                    })
+                });
+            });
+        return block;
+    }
+
     applyResizeMove = function (event) {
         var target = event.target;
         var id = target.getAttribute('id');
-        var block = self.blocks.remove(function (block) { return block.id === id; })[0];
-        var w = +target.getAttribute('data-w');
-        var h = +target.getAttribute('data-h');
-        if (w == 0) {
-            w = block.width;
-        }
-        if (h == 0) {
-            h = block.height;
-        }
+        var block = self.blocks.remove(function (block) { return block.id === id; })[0] || getBlockFromMetablock(id);
+        var w = +target.getAttribute('data-w') || block.width;
+        var h = +target.getAttribute('data-h') || block.height;
+
         if (self.gridEnabled()) {
             w = adjustToStep(w);
             h = adjustToStep(h);
@@ -541,60 +916,183 @@ function masterViewModel(app) {
 
         var x = +target.getAttribute('data-x') + block.left;
         var y = +target.getAttribute('data-y') + block.top;
-        var screen = self.screens().find(function (screen) {
-            return pointInScreen(screen, x, y)
-                && pointInScreen(screen, x + w, y)
-                && pointInScreen(screen, x, y + h)
-                && pointInScreen(screen, x + w, y + h);
-        });
 
-        var isInScreens = (screen != null);
-        if (!isInScreens) {
-            var screenLeft = self.screens().find(function (screen) {
-                return pointInScreen(screen, x, y)
-                    && pointInScreen(screen, x, y + h);
+
+        if (block.metablockFrameId == null) {
+            var screen = self.screens().find(function (screen) {
+                return pointInRectangle(screen, x, y)
+                    && pointInRectangle(screen, x + w, y)
+                    && pointInRectangle(screen, x, y + h)
+                    && pointInRectangle(screen, x + w, y + h);
             });
-            var screenRight = self.screens().find(function (screen) {
-                return pointInScreen(screen, x + w, y)
-                    && pointInScreen(screen, x + w, y + h);
-            });
-            isInScreens = (screenLeft != null) && (screenRight != null);
-            screen = screenLeft;
+
+            var isInScreens = (screen != null);
+            if (!isInScreens) {
+                var screenLeft = self.screens().find(function (screen) {
+                    return pointInRectangle(screen, x, y)
+                        && pointInRectangle(screen, x, y + h);
+                });
+                var screenRight = self.screens().find(function (screen) {
+                    return pointInRectangle(screen, x + w, y)
+                        && pointInRectangle(screen, x + w, y + h);
+                });
+                isInScreens = (screenLeft != null) && (screenRight != null);
+                screen = screenLeft;
+            }
+
+            if (!isInScreens) {
+                var screenTop = self.screens().find(function (screen) {
+                    return pointInRectangle(screen, x, y)
+                        && pointInRectangle(screen, x + w, y);
+                });
+                var screenBottom = self.screens().find(function (screen) {
+                    return pointInRectangle(screen, x, y + h)
+                        && pointInRectangle(screen, x + w, y + h);
+                });
+                isInScreens = (screenTop != null) && (screenBottom != null);
+                screen = screenTop;
+            }
+
+            if (isInScreens) {
+                if (self.gridEnabled()) {
+
+                    var deltaX = x - screen.left;
+                    var deltaY = y - screen.top;
+                    x = screen.left + adjustToStep(deltaX);
+                    y = screen.top + adjustToStep(deltaY);
+                };
+                block.width = w;
+                block.height = h;
+                block.left = x;
+                block.top = y;
+            }
+            else {
+                // Проверка глюков
+                var needUpdate = false;
+                if (block.width != w) {
+                    //Растянули по влево
+                    if (x < self.minX()) {
+                        needUpdate = true;
+                        var delta = Math.round(x - self.minX());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        x = Math.round(x + delta);
+                        w = Math.round(w + delta);
+                    }
+                    //Растянули по вправо
+                    if (x + w > self.maxX()) {
+                        needUpdate = true;
+                        var delta = Math.round(x + w - self.maxX());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        w = Math.round(w - delta);
+                    }
+                }
+                if (block.height != h) {
+                    //Растянули по вверх
+                    if (y < self.minY()) {
+                        needUpdate = true;
+                        var delta = Math.round(y - self.minY());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        y = Math.round(y + delta);
+                        h = Math.round(h + delta);
+                    }
+                    //Растянули по вниз
+                    if (y + h > self.maxY()) {
+                        needUpdate = true;
+                        var delta = Math.round(y + h - self.maxY());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        h = Math.round(h - delta);
+                    }
+                }
+                if (block.left != x && block.width == w) {
+                    //Перетащили влево
+                    if (x < self.minX()) {
+                        needUpdate = true;
+                        var delta = Math.round(x - self.minX());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        x = Math.round(x + delta);
+                    }
+                    //Перетащили вправо
+                    if (x + w > self.maxX()) {
+                        needUpdate = true;
+                        var delta = Math.round(x + w - self.maxX());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        x = Math.round(x - delta);
+                    }
+                }
+                if (block.top != y && block.height == h) {
+                    //Перетащили вверх
+                    if (y < self.minY()) {
+                        needUpdate = true;
+                        var delta = Math.round(y - self.minY());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        y = Math.round(y + delta);
+                    }
+                    //Перетащили вниз
+                    if (y + h > self.maxY()) {
+                        needUpdate = true;
+                        var delta = Math.round(y + h - self.maxY());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        y = Math.round(y - delta);
+                    }
+                }
+
+                if (needUpdate) {
+                    block.width = Math.round(w);
+                    block.height = Math.round(h);
+                    block.left = Math.round(x);
+                    block.top = Math.round(y);
+                }
+            }
+            self.blocks.push(block);
         }
-
-        if (!isInScreens) {
-            var screenTop = self.screens().find(function (screen) {
-                return pointInScreen(screen, x, y)
-                    && pointInScreen(screen, x + w, y);
-            });
-            var screenBottom = self.screens().find(function (screen) {
-                return pointInScreen(screen, x, y + h)
-                    && pointInScreen(screen, x + w, y + h);
-            });
-            isInScreens = (screenTop != null) && (screenBottom != null);
-            screen = screenTop;
-        }
-
-        if (isInScreens) {
-            if (self.gridEnabled()) {
-
-                var deltaX = x - screen.left;
-                var deltaY = y - screen.top;
-                x = screen.left + adjustToStep(deltaX);
-                y = screen.top + adjustToStep(deltaY);
+        else {
+            var metablock = getMetablockByFrameId(block.metablockFrameId);
+            var rectangle = {
+                left: 0,
+                top: 0,
+                width: metablock.width,
+                height: metablock.height
             };
-            block.width = w;
-            block.height = h;
-            block.left = x;
-            block.top = y;
+            if (self.gridEnabled()) {
+                x = adjustToStep(x);
+                y = adjustToStep(y);
+            };
+            var inMetablock = pointInRectangle(rectangle, x, y) && pointInRectangle(rectangle, x + w, y) && pointInRectangle(rectangle, x, y + h) && pointInRectangle(rectangle, x + w, y + h);
+            if (inMetablock) {
+                block.width = w;
+                block.height = h;
+                block.left = x;
+                block.top = y;
+            }
+            var frame = findFrame(block.metablockFrameId);
+
+            var existBlock = frame.blocks().filter(function (b) { return b.id == block.id; })[0];
+            frame.blocks.remove(existBlock);
+            frame.blocks.push(block);
+
         }
-        self.blocks.push(block);
         selectBlock(block);
         resizeAndMoveBlock(block);
     };
 
-    pointInScreen = function (screen, x, y) {
-        return screen.left <= x && screen.left + screen.width >= x && screen.top <= y && screen.top + screen.height >= y;
+    pointInRectangle = function (rectangle, x, y) {
+        return rectangle.left <= x && rectangle.left + rectangle.width >= x && rectangle.top <= y && rectangle.top + rectangle.height >= y;
     }
 
     resizeAndMoveBlock = function (block) {
@@ -622,13 +1120,16 @@ function masterViewModel(app) {
             "POST",
             "/api/saveBlock",
             block,
-            function (data) { }
+            function (data) {
+            }
         );
     };
 
     var timer = setInterval(function () {
         updateDatetimeBlocksValues();
     }, 100);
+
+    var treenodes = [];
 
     updateDatetimeBlocksValues = function () {
         var datetimeblocks = $(".datetimeblock");
@@ -640,22 +1141,113 @@ function masterViewModel(app) {
     }
 
     loadBlocks = function () {
-        app.request(
-            "GET",
-            "/api/blocks",
-            {},
-            function (data) {
-                data.forEach(function (block) {
-                    block.selected = false;
-                    if (block.type = 'datetime') {
-                        block.text = ''
-                        block.format = (block.format == undefined) ? null : block.format
-                    }
-                    self.blocks.push(block);
-                });
+        return new Promise(
+            function (resolve, reject) {
+                app.request(
+                    "GET",
+                    "/api/blocks",
+                    {},
+                    function (data) {
+                        data.forEach(function (block) {
+                            block.selected = ko.observable(false);
+                            if (block.type == 'datetime') {
+                                block.text = ''
+                                block.format = (block.format == undefined) ? null : block.format
+                            }
+                            if (block.type == 'meta') {
+                                makeMetablockObservableArrays(block);
+                                block.frames().forEach(function (frame) {
+                                    frame.selected = false;
+                                    if (frame.useFromTime != undefined) {
+                                        frame.useFromTime = moment(frame.useFromTime).format("HH:mm");
+                                    }
+                                    if (frame.useToTime != undefined) {
+                                        frame.useToTime = moment(frame.useToTime).format("HH:mm");
+                                    }
+                                    if (frame.dateToUse != undefined) {
+                                        frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
+                                    }
+                                });
+                            }
+                            self.blocks.push(block);
+                            var node = getNode(block);
+                            treenodes.push(node);
+                            $('#blocksTree').jstree(true).create_node(null, node);
+                        });
+                        resolve();
+                    });
+            });
+    }
 
-            }
-        );
+    makeMetablockObservableArrays = function (block) {
+        var tempFrames = [];
+        block.frames.forEach(function (frame) {
+            var tempBlocks = [];
+            frame.checked = ko.observable(frame.index == 1);
+            frame.blocks.forEach(function (block) {
+                block.selected = ko.observable(false);
+                tempBlocks.push(block);
+            })
+            frame.blocks = ko.observableArray(tempBlocks);
+            tempFrames.push(frame);
+        });
+        block.frames = ko.observableArray(tempFrames);
+    }
+
+    setFrameNodeChecked = function (metablockId, frameId) {
+        var metablock = self.blocks().filter(function (block) {
+            return block.id == metablockId;
+        })[0];
+        metablock.frames().forEach(function (frame) {
+            frame.checked((frame.id != undefined) && (frame.id == frameId));
+            var frameNode = $('#blocksTree').jstree(true).get_node(frame.id);
+            $('#blocksTree').jstree(true).set_icon(frameNode, frame.checked() ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png");
+        });
+    }
+
+    getNode = function (block) {
+        var node = {};
+        node["text"] = block.caption;
+        node["id"] = block.id;
+        node["type"] = block.type;
+        if (block.type == "text") {
+            node["icon"] = "Images/block_text.png";
+        }
+        else if (block.type == "datetime") {
+            node["icon"] = "Images/block_calendar.png";
+        }
+        else if (block.type == "table") {
+            node["icon"] = "Images/block_table.png";
+        }
+        else if (block.type == "picture") {
+            node["icon"] = "Images/block_image.png";
+        }
+        else if (block.type == "meta") {
+            node["icon"] = "Images/metablock.png"
+            node["children"] = getMetaFrames(block);
+        }
+        return node;
+    }
+
+    getMetaFrames = function (metaBlock) {
+        nodes = [];
+        metaBlock.frames().sort(function (a, b) { return a.index - b.index }).forEach(function (frame) {
+            var node = {};
+            node["type"] = "frame";
+            node["text"] = "Представление" + frame.index;
+            node["id"] = frame.id;
+            node["parent"] = metaBlock.id;
+            node["icon"] = frame.checked() ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png";
+            nodes.push(node);
+            childs = [];
+            frame.blocks().forEach(function (block) {
+                var nodeBlock = getNode(block);
+                nodeBlock["parent"] = frame.id;
+                childs.push(nodeBlock);
+            });
+            node["children"] = childs;
+        });
+        return nodes;
     }
 
     loadResolution = function () {
@@ -717,7 +1309,7 @@ function masterViewModel(app) {
     loadFonts = function () {
         return new Promise(
             function (resolve, reject) {
-                app.request("POST", "/api/fonts", {}, function (data) {
+                app.request("GET", "/api/fonts", {}, function (data) {
                     data.fonts.forEach(function (entry) {
                         self.fonts.push(entry);
                     });
@@ -735,7 +1327,7 @@ function masterViewModel(app) {
     loadDatetimeFormats = function () {
         return new Promise(
             function (resolve, reject) {
-                app.request("POST", "/api/datetimeformats", {}, function (data) {
+                app.request("GET", "/api/datetimeformats", {}, function (data) {
                     data.forEach(function (entry) {
                         self.datetimeformats.push(entry);
                     });

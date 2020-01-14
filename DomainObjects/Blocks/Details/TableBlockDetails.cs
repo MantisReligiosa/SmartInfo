@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace DomainObjects.Blocks.Details
 {
-    public class TableBlockDetails: Identity, ICopyable<TableBlockDetails>
+    public class TableBlockDetails : Identity, ICopyable<TableBlockDetails>
     {
         public string FontName { get; set; }
         public int FontSize { get; set; }
@@ -17,12 +16,23 @@ namespace DomainObjects.Blocks.Details
 
         public TableBlockDetails(TableBlockDetails source)
         {
-
             CopyFrom(source);
         }
 
         public void CopyFrom(TableBlockDetails source)
         {
+            if (HeaderDetails == null)
+            {
+                HeaderDetails = new TableBlockRowDetails();
+            }
+            if (EvenRowDetails == null)
+            {
+                EvenRowDetails = new TableBlockRowDetails();
+            }
+            if (OddRowDetails == null)
+            {
+                OddRowDetails = new TableBlockRowDetails();
+            }
             HeaderDetails.CopyFrom(source.HeaderDetails);
             EvenRowDetails.CopyFrom(source.EvenRowDetails);
             OddRowDetails.CopyFrom(source.OddRowDetails);

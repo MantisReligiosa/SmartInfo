@@ -1,5 +1,6 @@
 ﻿using DomainObjects;
 using DomainObjects.Blocks;
+using DomainObjects.Blocks.Details;
 using Repository.Configurations;
 using System.Data.Entity;
 
@@ -22,6 +23,7 @@ namespace Repository
         public DbSet<Display> Displays { get; set; }
         public DbSet<DisplayBlock> DisplayBlocks { get; set; }
         public DbSet<DateTimeFormat> DateTimeFormats { get; set; }
+        public DbSet<MetablockFrame> MetablockFrames { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -32,6 +34,7 @@ namespace Repository
             modelBuilder.Configurations.Add(new TableBlockDetailsConfiguration());
             modelBuilder.Configurations.Add(new TableBlockCellDetailsConfiguration());
             modelBuilder.Configurations.Add(new TableBlockRowDetailsConfiguration());
+            modelBuilder.Configurations.Add(new MetablockFrameConfiguration());
         }
     }
 }

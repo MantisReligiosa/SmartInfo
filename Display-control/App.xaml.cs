@@ -4,6 +4,7 @@ using DataExchange.Requests;
 using DataExchange.Responces;
 using Display_control.Blocks;
 using Display_control.Properties;
+using Helpers;
 using Nancy.Hosting.Self;
 using System;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace Display_control
             }
             catch (Exception ex)
             {
-                _notifyIcon.ShowBalloonTip(1, "Display-control", ex.Message, System.Windows.Forms.ToolTipIcon.Error);
+                _notifyIcon.ShowBalloonTip(1, "Display-control", ex.GetInnerException().Message, System.Windows.Forms.ToolTipIcon.Error);
             }
         }
 
@@ -101,6 +102,7 @@ namespace Display_control
                     _window.Width = requestData.Screens.Displays.Max(d => d.Left + d.Width) - requestData.Screens.Displays.Min(d => d.Left);
                     _window.Left = requestData.Screens.Displays.Min(d => d.Left);
                     _window.Top = requestData.Screens.Displays.Min(d => d.Top);
+                    _window.Visibility = Visibility.Visible;
                     var bc = new Media.BrushConverter();
                     var border = new Border();
                     if (ColorConverter.TryToParseRGB(requestData.Background, out string colorHex))
@@ -154,7 +156,7 @@ namespace Display_control
                 Visible = true,
                 ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip()
             };
-            _notifyIcon.ContextMenuStrip.Items.Add("Exit").Click += (s, args) => Current.Shutdown();
+            _notifyIcon.ContextMenuStrip.Items.Add("Выход").Click += (s, args) => Current.Shutdown();
         }
     }
 }

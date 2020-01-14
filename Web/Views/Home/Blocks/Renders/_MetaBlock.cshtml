@@ -1,0 +1,11 @@
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+@using Web.Models
+
+<!-- ko foreach: frames-->
+<!-- ko if: $data.checked-->
+<!-- ko foreach: $data.blocks-->
+@*<label data-bind="text: type"></label>*@
+@Html.Partial("Home/Blocks/_Block", new BlockRenderModel { AllowMetaBlock = false })
+<!-- /ko-->
+<!-- /ko-->
+<!-- /ko-->

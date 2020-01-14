@@ -1,0 +1,17 @@
+﻿<!-- ko if: (text == null || text.length < 1) -->
+<span class="block-icon block-text" data-bind="style:{'z-index': zIndex+1}"></span>
+<!-- /ko-->
+<label class="textblock blockContent"
+       data-bind="text: text,
+                   style: {
+                    'background-color' : backColor,
+                    'color' : textColor,
+                    'font-size' : fontSize + 'px',
+                    'font-family' :font,
+                    'line-height': fontIndex,
+                    'text-align' : align==0 ? 'left' : align==1 ? 'center' : 'right',
+                    'font-weight': bold ? 'bold' : '',
+                    'font-style': italic ? 'italic' : '',
+                    'position': 'fixed'
+                   }">
+</label>

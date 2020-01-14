@@ -1,7 +1,8 @@
 ﻿function TextBlockEditViewModel(master) {
 	var self = this;
 
-	self.textColor = ko.observable();
+    self.caption = ko.observable();
+    self.textColor = ko.observable();
 	self.backColor = ko.observable();
 	self.selectedFonts = ko.observableArray([""]);
     self.selectedFontSizes = ko.observableArray([""]);
@@ -10,6 +11,8 @@
     self.align = ko.observable(0);
     self.italic = ko.observable(false);
     self.bold = ko.observable(false);
+    self.win1251 = ko.observable(true);
+    self.utf8 = ko.observable(false);
 
 	self.setFont = function (font) {
 		self.selectedFonts.removeAll();

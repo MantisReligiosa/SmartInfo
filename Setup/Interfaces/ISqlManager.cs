@@ -1,8 +1,13 @@
-﻿namespace Setup.Interfaces
+﻿using Setup.Data;
+using System;
+
+namespace Setup.Interfaces
 {
     public interface ISqlManager
     {
-        void ApplyMigrations(string installDir);
+        event EventHandler<LogEventArgs> LogRecieved;
+
+        void ApplyMigrations(string installDir, string connectionString);
 
         void ValidateConnectionString(string connectionString);
 

@@ -1,0 +1,52 @@
+﻿<!-- ko if: header.length < 1 -->
+<span class="block-icon block-table" data-bind="style:{'z-index': zIndex+1}"></span>
+<!-- /ko-->
+<table class="blockContent" data-bind="style:{
+               'font-family' : font,
+               'font-size' : fontSize+'px',
+               }">
+    <thead>
+        <tr data-bind="foreach: header,
+                    style: {
+                        'background-color' : headerStyle.backColor,
+                        'color' : headerStyle.textColor,
+                        'text-align' : headerStyle.align==0 ? 'left' : headerStyle.align==1 ? 'center' : 'right',
+                        'font-weight': headerStyle.bold ? 'bold' : 'normal',
+                        'font-style': headerStyle.italic ? 'italic' : ''
+                    }">
+            <th data-bind="text: $data, style: {
+                        'font-weight': $parent.headerStyle.bold ? 'bold' : 'normal'
+                        }"></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: rows, style:{'line-height':fontIndex}">
+        <!-- ko if: index % 2 == 0 -->
+        <!--чётная строка-->
+        <tr data-bind="style: {
+                    'background-color' : $parent.evenStyle.backColor,
+                    'color' : $parent.evenStyle.textColor,
+                    'text-align' : $parent.evenStyle.align==0 ? 'left' : $parent.evenStyle.align==1 ? 'center' : 'right',
+                    'font-weight': $parent.evenStyle.bold ? 'bold' : '',
+                    'font-style': $parent.evenStyle.italic ? 'italic' : ''
+                    }">
+            <!-- ko foreach: cells-->
+            <td data-bind="text: $data"></td>
+            <!-- /ko-->
+        </tr>
+        <!--/ko-->
+        <!-- ko if: index % 2 == 1 -->
+        <!--нечётная строка-->
+        <tr data-bind="style: {
+                    'background-color' : $parent.oddStyle.backColor,
+                    'color' : $parent.oddStyle.textColor,
+                    'text-align' : $parent.oddStyle.align==0 ? 'left' : $parent.oddStyle.align==1 ? 'center' : 'right',
+                    'font-weight': $parent.oddStyle.bold ? 'bold' : '',
+                    'font-style': $parent.oddStyle.italic ? 'italic' : ''
+                    }">
+            <!-- ko foreach: cells-->
+            <td data-bind="text: $data"></td>
+            <!-- /ko-->
+        </tr>
+        <!--/ko-->
+    </tbody>
+</table>

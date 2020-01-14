@@ -1,5 +1,6 @@
 ﻿using Display_control.Blocks.Builders;
 using DomainObjects.Blocks;
+using Helpers;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -13,14 +14,22 @@ namespace Display_control.Blocks
             {typeof(TextBlock), new TextBlockBuilder() },
             {typeof(TableBlock), new TableBlockBuilder() },
             {typeof(PictureBlock), new PictureBlockBuilder() },
-            {typeof(DateTimeBlock), new DateTimeBlockBuilder() }
+            {typeof(DateTimeBlock), new DateTimeBlockBuilder() },
+            {typeof(MetaBlock), new MetaBlockBuilder(new MetablockScheduler()) }
         };
 
         public UIElement BuildElement(DisplayBlock displayBlock)
         {
             if (_builders.TryGetValue(displayBlock.GetType(), out AbstractBuilder builder))
             {
-                return builder.BuildElement(displayBlock);
+                try
+                {
+                    return builder.BuildElement(displayBlock);
+                }
+                catch
+                {
+                    return null;
+                }
             }
             return null;
         }
