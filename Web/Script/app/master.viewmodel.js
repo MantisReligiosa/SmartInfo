@@ -55,6 +55,30 @@ function masterViewModel(app) {
         }));
     });
 
+    self.minX = ko.computed(function () {
+        return Math.min.apply(Math, self.screens().map(function (screen) {
+            return screen.left
+        }));
+    });
+
+    self.maxX = ko.computed(function () {
+        return Math.max.apply(Math, self.screens().map(function (screen) {
+            return screen.left + screen.width
+        }));
+    });
+
+    self.minY = ko.computed(function () {
+        return Math.min.apply(Math, self.screens().map(function (screen) {
+            return screen.top
+        }));
+    });
+
+    self.maxY = ko.computed(function () {
+        return Math.max.apply(Math, self.screens().map(function (screen) {
+            return screen.top + screen.height
+        }));
+    });
+
     self.textBlockEditViewModel = ko.computed(function () { return new TextBlockEditViewModel(self); });
     self.tableBlockEditViewModel = ko.computed(function () { return new TableBlockEditViewModel(self); });
     self.pictureBlockEditViewModel = ko.computed(function () { return new PictureBlockEditViewModel(self); });
@@ -941,6 +965,99 @@ function masterViewModel(app) {
                 block.height = h;
                 block.left = x;
                 block.top = y;
+            }
+            else {
+                // Проверка глюков
+                var needUpdate = false;
+                if (block.width != w) {
+                    //Растянули по влево
+                    if (x < self.minX()) {
+                        needUpdate = true;
+                        var delta = Math.round(x - self.minX());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        x = Math.round(x + delta);
+                        w = Math.round(w + delta);
+                    }
+                    //Растянули по вправо
+                    if (x + w > self.maxX()) {
+                        needUpdate = true;
+                        var delta = Math.round(x + w - self.maxX());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        w = Math.round(w - delta);
+                    }
+                }
+                if (block.height != h) {
+                    //Растянули по вверх
+                    if (y < self.minY()) {
+                        needUpdate = true;
+                        var delta = Math.round(y - self.minY());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        y = Math.round(y + delta);
+                        h = Math.round(h + delta);
+                    }
+                    //Растянули по вниз
+                    if (y + h > self.maxY()) {
+                        needUpdate = true;
+                        var delta = Math.round(y + h - self.maxY());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        h = Math.round(h - delta);
+                    }
+                }
+                if (block.left != x && block.width == w) {
+                    //Перетащили влево
+                    if (x < self.minX()) {
+                        needUpdate = true;
+                        var delta = Math.round(x - self.minX());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        x = Math.round(x + delta);
+                    }
+                    //Перетащили вправо
+                    if (x + w > self.maxX()) {
+                        needUpdate = true;
+                        var delta = Math.round(x + w - self.maxX());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        x = Math.round(x - delta);
+                    }
+                }
+                if (block.top != y && block.height == h) {
+                    //Перетащили вверх
+                    if (y < self.minY()) {
+                        needUpdate = true;
+                        var delta = Math.round(y - self.minY());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        y = Math.round(y + delta);
+                    }
+                    //Перетащили вниз
+                    if (y + h > self.maxY()) {
+                        needUpdate = true;
+                        var delta = Math.round(y + h - self.maxY());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        y = Math.round(y - delta);
+                    }
+                }
+
+                if (needUpdate) {
+                    block.width = Math.round(w);
+                    block.height = Math.round(h);
+                    block.left = Math.round(x);
+                    block.top = Math.round(y);
+                }
             }
             self.blocks.push(block);
         }
