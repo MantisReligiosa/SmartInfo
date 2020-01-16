@@ -3,7 +3,7 @@
     public static class Constants
     {
 
-        public static string PublishFolder => $@"..\_publish\{ProductName}";
+        public static string PublishFolder => $@"..\{ProductName}\bin";
 
         public const string Manufacturer = "Smart Technologies-M";
 
