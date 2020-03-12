@@ -133,7 +133,6 @@ function masterViewModel(app) {
     }
 
     addSimpleBlock = function (apiMethod, blockProcessing) {
-        self.loading(true);
         var frame = null;
         if (self.selectedBlock() && self.selectedBlock().type == 'meta') {
             frame = self.selectedBlock().frames().filter(function (f) {
@@ -159,8 +158,8 @@ function masterViewModel(app) {
                 var node = getNode(data)
                 treenodes.push(node);
                 $('#blocksTree').jstree(true).create_node(frameId, node);
-                self.loading(false);
-            }
+            },
+            self.loading
         );
     }
 
@@ -176,7 +175,8 @@ function masterViewModel(app) {
                 var node = getNode(data)
                 treenodes.push(node);
                 $('#blocksTree').jstree(true).create_node(null, node);
-            }
+            },
+            self.loading
         );
     }
 
@@ -360,7 +360,8 @@ function masterViewModel(app) {
                 { color: backColor },
                 function () {
                     self.background(backColor);
-                }
+                },
+                self.loading
             );
             return;
         }
@@ -473,7 +474,8 @@ function masterViewModel(app) {
                     treenodes.splice(index, 0, newNode);
                 }
                 $('#blocksTree').jstree(true).create_node(block.metablockFrameId, newNode, index);
-            }
+            },
+            self.loading
         );
     };
 
@@ -535,13 +537,15 @@ function masterViewModel(app) {
                         clipboard,
                         function (data) {
                             $('#blocksTree').jstree(true).delete_node(clipboard.id);
-                        }
+                        },
+                        self.loading
                     );
                 }
                 else {
                     clipboard.selected(false);
                 }
-            }
+            },
+            self.loading
         );
     };
 
@@ -571,7 +575,8 @@ function masterViewModel(app) {
                     frame.blocks.remove(existBlock);
                 }
                 self.selectedBlock(null);
-            }
+            },
+            self.loading
         );
     };
 
@@ -606,7 +611,8 @@ function masterViewModel(app) {
                     frame.blocks.remove(existBlock);
                     frame.blocks.push(block);
                 }
-            }
+            },
+            self.loading
         );
     };
 
@@ -645,7 +651,8 @@ function masterViewModel(app) {
                     frame.blocks.remove(existBlock);
                     frame.blocks.push(block);
                 }
-            }
+            },
+            self.loading
         );
 
     };
@@ -660,7 +667,8 @@ function masterViewModel(app) {
                 $('#blocksTree').jstree(true).delete_node(treenodes);
                 treenodes = [];
                 self.selectedBlock(null);
-            }
+            },
+            self.loading
         );
     }
 
@@ -687,7 +695,8 @@ function masterViewModel(app) {
                                 loadBackground()
                                     .then(function () { return loadBlocks(); })
                                     .then(function () { self.loading(false) });
-                            }
+                            },
+                            self.loading
                         );
                     };
                 })(file);
@@ -1121,7 +1130,8 @@ function masterViewModel(app) {
             "/api/saveBlock",
             block,
             function (data) {
-            }
+            },
+            self.loading
         );
     };
 
@@ -1284,7 +1294,8 @@ function masterViewModel(app) {
                 data.displays.forEach(function (screen) {
                     self.screens.push(screen);
                 });
-            });
+            },
+            self.loading);
     }
 
     loadBackground = function () {
