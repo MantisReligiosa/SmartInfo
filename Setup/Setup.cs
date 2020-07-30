@@ -1,16 +1,18 @@
 using Microsoft.Deployment.WindowsInstaller;
-using Setup.CustomDialogs;
 using Setup.Data;
 using Setup.Interfaces;
 using Setup.Managers;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using WixSharp;
-using WixSharp.Forms;
+using WixSharp.Bootstrapper;
+using WixSharp.Controls;
 using static WixSharp.SetupEventArgs;
+using IO = System.IO;
 
 namespace Setup
 {
@@ -24,19 +26,50 @@ namespace Setup
             Debug.Write(path.ToString());
             AssemblyManager.GetAssemblyInfo(path, out Guid guid, out Version version);
 
-            var managedUI = new ManagedUI();
-            managedUI.InstallDialogs
-                .Add(Dialogs.Welcome)
-                .Add(Dialogs.InstallDir)
-                .Add<ConnectionStringDialog>()
-                .Add(Dialogs.Progress)
-                .Add(Dialogs.Exit);
 
-            managedUI.ModifyDialogs
-                .Add(Dialogs.MaintenanceType)
-                .Add(Dialogs.Progress)
-                .Add(Dialogs.Exit);
+            var productMsi = BuildMsi(guid, version);
+            var sqlPackage = SqlExpress();
+            var bootstrapper = new Bundle($"{Constants.ProductName}",
+                                            new PackageGroupRef("NetFx462Web"),
+                                            sqlPackage,
+                                            new MsiPackage(productMsi)
+                                            {
+                                                DisplayInternalUI = true,
+                                                Compressed = true
+                                            })
+            {
+                UpgradeCode = guid,
+                Version = version,
+                IconFile = @"..\Display-control\Resources\Logo.ico",
+                Manufacturer = Constants.Manufacturer,
+            };
+            bootstrapper.Application.LogoFile = @"..\Display-control\Resources\Logo.bmp";
+            bootstrapper.Application.SuppressOptionsUI = true;
+            bootstrapper.Include(WixExtension.NetFx);
+            bootstrapper.Build($"{Constants.ProductName} Installer.exe");
+            IO.File.Delete(productMsi);
+            IO.File.Delete(sqlPackage.SourceFile);
+        }
 
+        private static ExePackage SqlExpress()
+        {
+            string address = @"https://download.microsoft.com/download/7/f/8/7f8a9c43-8c8a-4f7c-9f92-83c18d96b681/SQL2019-SSEI-Expr.exe";
+            string fileName = @"SQL2019-SSEI-Expr.exe";
+            using (var client = new WebClient())
+            {
+                client.DownloadFile(address, fileName);
+            }
+            var package = new ExePackage(fileName)
+            {
+                Compressed = true,
+                InstallCommand = @"/q /Action=Install /IAcceptSQLServerLicenseTerms",
+                PerMachine = true,
+            };
+            return package;
+        }
+
+        private static string BuildMsi(Guid guid, Version version)
+        {
             const string scriptFolder = "Script";
             const string viewsFolder = "Views";
             const string assetsFolder = "assets";
@@ -51,7 +84,7 @@ namespace Setup
             const string propertiesFolder = "Properties";
             const string sharedFolder = "Shared";
             const string anyFilesMask = "*.*";
-            var project = new ManagedProject(Constants.CommonInstallationName,
+            var project = new ManagedProject("setup",
                     new Dir(Constants.InstallationDirectory,
                         new DirFiles(Path.Combine(Constants.PublishFolder, anyFilesMask)),
                         new Dir(assetsFolder, new DirFiles(Path.Combine(Constants.PublishFolder, assetsFolder, anyFilesMask))),
@@ -84,8 +117,13 @@ namespace Setup
                     NewerProductInstalledErrorMessage = Messages.NewerProductInstalledErrorMessage,
                     RemoveExistingProductAfter = Step.InstallInitialize
                 },
-                ManagedUI = managedUI,
+                InstallScope = InstallScope.perMachine,
                 Version = version,
+                UI = WUI.WixUI_InstallDir,
+                CustomUI = new DialogSequence()
+                                   .On(NativeDialogs.WelcomeDlg, Buttons.Next, new ShowDialog(NativeDialogs.InstallDirDlg))
+                                   .On(NativeDialogs.InstallDirDlg, Buttons.Back, new ShowDialog(NativeDialogs.WelcomeDlg)),
+                BannerImage = @"..\Display-control\Resources\Logo.bmp"
             };
             project.ControlPanelInfo.Manufacturer = Constants.Manufacturer;
             project.DefaultRefAssemblies.AddRange(
@@ -93,7 +131,7 @@ namespace Setup
                     System.Reflection.Assembly.GetExecutingAssembly().Location)));
             project.AfterInstall += Project_AfterInstall;
             project.UIInitialized += Project_UIInitialized;
-            Compiler.BuildMsi(project);
+            return project.BuildMsi();
         }
 
         [DllImport("kernel32.dll")]
@@ -105,9 +143,6 @@ namespace Setup
         private static void Project_UIInitialized(SetupEventArgs e)
         {
             e.Session.Log($"{Constants.LogPrefix}{MethodBase.GetCurrentMethod().Name}");
-
-            e.Data[Properties.ConnectionString.PropertyName] = Properties.ConnectionString.DefaultValue;
-            e.Session[Properties.ConnectionString.PropertyName] = Properties.ConnectionString.DefaultValue;
         }
 
         private static void Project_AfterInstall(SetupEventArgs e)
@@ -120,16 +155,13 @@ namespace Setup
                 return;
 
             var installDir = e.Session.Property(Parameters.InstallationDirectoryParameter);
-            var connectionString = e.Data[Properties.ConnectionString.PropertyName];
             e.Session.Log($"{Constants.LogPrefix}{nameof(installDir)}='{installDir}'");
-            e.Session.Log($"{Constants.LogPrefix}{nameof(connectionString)}='{connectionString}'");
             try
             {
-                ConfigurationManager.CorrectConfigurationFiles(
+                var connectionString = ConfigurationManager.GetConnectionString(
                         new ConfigurationFilesContext
                         {
-                            InstallDir = installDir,
-                            ConnectionString = connectionString
+                            InstallDir = installDir
                         });
 
                 _sqlManager.LogRecieved += (sender, logEventArgs) =>
@@ -140,8 +172,7 @@ namespace Setup
                 AllocConsole();
                 SetConsoleTitle("migrate.exe");
                 _sqlManager.CreateDatabase(connectionString);
-                var processToStart = Path.Combine(e.InstallDir, "migrate.exe");
-                _sqlManager.ApplyMigrations(processToStart, connectionString);
+                _sqlManager.ApplyMigrations(Path.Combine(e.InstallDir, "migrate.exe"), connectionString);
 
             }
             catch (Exception ex)
@@ -157,9 +188,7 @@ namespace Setup
 
         private static bool IsWizardInstallationMode(AppData data)
         {
-            return bool.TryParse(data[Parameters.WizardInstallationParameter], out bool result)
-                ? result
-                : false;
+            return bool.TryParse(data[Parameters.WizardInstallationParameter], out bool result) && result;
         }
     }
 }

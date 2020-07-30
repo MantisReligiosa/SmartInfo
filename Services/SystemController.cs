@@ -16,8 +16,7 @@ namespace Services
     public class SystemController : ISystemController
     {
         private readonly IUnitOfWork _unitOfWork;
-        private const string _screenWidthParameterName = "ScreenWidth";
-        private const string _screenHeightParameterName = "ScreenHeight";
+
         private IMapper _mapper => AutoMapperConfig.Mapper;
 
         public SystemController(
@@ -28,8 +27,8 @@ namespace Services
 
         public ScreenInfo GetDatabaseScreenInfo()
         {
-            var widthParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenWidth>())).FirstOrDefault();
-            var heightParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenHeight>())).FirstOrDefault();
+            var widthParameter = _unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenWidth>()).FirstOrDefault();
+            var heightParameter = _unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenHeight>()).FirstOrDefault();
             if (widthParameter != null && heightParameter != null && _unitOfWork.Displays.Count(d => true) > 0)
                 return new ScreenInfo
                 {
@@ -117,8 +116,6 @@ namespace Services
         {
             var broker = Broker.GetBroker();
             var responce = broker.GetResponce(new GetFontsRequest()) as GetFontsResponce;
-            var details = new List<Display>();
-
             return responce.Fonts;
         }
 

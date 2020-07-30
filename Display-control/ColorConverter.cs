@@ -13,7 +13,6 @@ namespace Display_control
                 return true;
             }
             var regular = @"^rgb\(\s?(\d{1,3})\,\s?(\d{1,3})\,\s?(\d{1,3})\)$";
-            colorHexString = string.Empty;
             if (Regex.IsMatch(colorString, regular))
             {
                 var t = Regex.Matches(colorString, regular);

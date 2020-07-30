@@ -1,7 +1,6 @@
 ﻿namespace Repository.Migrations
 {
     using DomainObjects;
-    using DomainObjects.Blocks.Details;
     using System;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -85,7 +84,7 @@
                 IsDateFormat = true
             });
 
-                        context.Set<DateTimeFormat>().AddOrUpdate(new DateTimeFormat
+            context.Set<DateTimeFormat>().AddOrUpdate(new DateTimeFormat
             {
                 Id = new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2),
                 Denomination = "ДД МЕСЯЦ ГГГГ",

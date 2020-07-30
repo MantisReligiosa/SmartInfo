@@ -21,7 +21,7 @@ namespace Repository.Repositories
 
         private static Task _taskExecutor;
 
-        private static Mutex mut = new Mutex();
+        private static readonly Mutex mut = new Mutex();
 
         public CachedRepository(DatabaseContext context)
             : base(context)
