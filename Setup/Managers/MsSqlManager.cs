@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 
 namespace Setup.Managers
 {
-    public class MsSqlManager : ISqlManager
+    internal class MsSqlManager : ISqlManager
     {
         public event EventHandler<LogEventArgs> LogRecieved;
 

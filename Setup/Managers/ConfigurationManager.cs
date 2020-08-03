@@ -5,9 +5,9 @@ using System.Xml.Linq;
 
 namespace Setup.Managers
 {
-    public static class ConfigurationManager
+    internal static class ConfigurationManager
     {
-        internal static string GetConnectionString(ConfigurationFilesContext context)
+        public static string GetConnectionString(ConfigurationFilesContext context)
         {
             var configFilePath = Path.Combine(
                 context.InstallDir, Constants.ConfigFileSource);

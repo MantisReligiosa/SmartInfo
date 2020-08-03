@@ -3,7 +3,7 @@ using System;
 
 namespace Setup.Interfaces
 {
-    public interface ISqlManager
+    internal interface ISqlManager
     {
         event EventHandler<LogEventArgs> LogRecieved;
 

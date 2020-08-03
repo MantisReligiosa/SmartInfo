@@ -1,6 +1,6 @@
 ﻿namespace Setup.Data
 {
-    public static class Parameters
+    internal static class Parameters
     {
         public const string WizardInstallationParameter = "IsWizardInstallation";
 

@@ -341,3 +341,4 @@ tools/
 
 Web/assets/
 *.wixpdb
+*.exe
