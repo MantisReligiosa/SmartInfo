@@ -1,6 +1,6 @@
 ﻿namespace Setup.Managers
 {
-    public class Messages
+    internal class Messages
     {
         public const string NewerProductInstalledErrorMessage = "Newer version already installed";
     }

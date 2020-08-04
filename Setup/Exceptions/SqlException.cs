@@ -2,7 +2,7 @@
 
 namespace Setup.Exceptions
 {
-    public class SqlException : Exception
+    internal class SqlException : Exception
     {
         public SqlException(string message) : base(message)
         {

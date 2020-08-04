@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Setup.Managers
 {
-    public static class AssemblyManager
+    internal static class AssemblyManager
     {
         public static void GetAssemblyInfo(string assemblyPath,
             out Guid guid, out Version version)

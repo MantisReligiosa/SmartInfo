@@ -340,3 +340,5 @@ tools/
 *.msi
 
 Web/assets/
+*.wixpdb
+*.exe

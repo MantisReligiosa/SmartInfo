@@ -2,7 +2,7 @@
 
 namespace Setup.Data
 {
-    public class ProcessDataEventArgs : EventArgs
+    internal class ProcessDataEventArgs : EventArgs
     {
         public ProcessDataEventArgs(string data)
         {
