@@ -1,7 +1,7 @@
 ﻿using Setup.Data;
 using System.IO;
-using System.Linq;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace Setup.Managers
 {
@@ -11,8 +11,10 @@ namespace Setup.Managers
         {
             var configFilePath = Path.Combine(
                 context.InstallDir, Constants.ConfigFileSource);
-            var webConfig = XDocument.Load(configFilePath);
-            return webConfig.Root.Element("Configuration").Element("connectionStrings").Elements().First().Attribute("connectionString").Value;
+            var xmlDocument = XDocument.Load(configFilePath);
+            var element = xmlDocument.XPathSelectElement(
+                $"configuration/connectionStrings/add[@name='DefaultConnection']");
+            return element.Attribute("connectionString").Value;
         }
     }
 }

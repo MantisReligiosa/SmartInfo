@@ -17,12 +17,11 @@ namespace Setup
             var path = Path.Combine(Constants.PublishFolder, Constants.ExecFile);
             AssemblyManager.GetAssemblyInfo(path, out Guid guid, out Version version);
 
-            ISqlManager sqlManager = new MsSqlManager();
             IPackageFactory packageFactory = new PackageFactory(new List<IPackageBuilder>
             {
                 new DotNetPackageBuilder(),
                 new SqlExpressPackageBuilder(),
-                new ProgramPackageBuilder(sqlManager)
+                new ProgramPackageBuilder(),
             });
 
             var bootstrapper = new Bundle($"{Constants.ProductName}", packageFactory.GetPackages(guid, version))
@@ -33,10 +32,10 @@ namespace Setup
                 Manufacturer = Constants.Manufacturer
             };
             bootstrapper.Application.LogoFile = @"..\Display-control\Resources\Logo.bmp";
-            bootstrapper.Application.SuppressOptionsUI = true;
+            bootstrapper.Application.SuppressOptionsUI = false;
+            bootstrapper.Application.SuppressRepair = false;
             bootstrapper.Include(WixExtension.NetFx);
-            bootstrapper.Build($"{Constants.ProductName} Installer.exe");
-            packageFactory.Cleanup();
+            bootstrapper.Build("Installer.exe");
         }
     }
 }

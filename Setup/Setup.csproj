@@ -82,7 +82,6 @@
     <Compile Include="Managers\NotificationManager.cs" />
     <Compile Include="Managers\ProcessManager.cs" />
     <Compile Include="PackageBuilders\DotNetPackageBuilder.cs" />
-    <Compile Include="PackageBuilders\MigrationPackageBuilder.cs" />
     <Compile Include="PackageBuilders\ProgramPackageBuilder.cs" />
     <Compile Include="PackageBuilders\PackageFactory.cs" />
     <Compile Include="PackageBuilders\SqlExpressPackageBuilder.cs" />

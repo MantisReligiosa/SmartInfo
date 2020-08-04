@@ -18,10 +18,5 @@ namespace Setup.Packages
         {
             return _builders.Select(b => b.Make(guid, version)).ToArray();
         }
-
-        public void Cleanup()
-        {
-            _builders.ForEach(b => b.Cleanup());
-        }
     }
 }

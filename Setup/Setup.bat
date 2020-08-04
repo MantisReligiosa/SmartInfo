@@ -1,3 +1,3 @@
-﻿Set CommandText=%*
+Set CommandText=%*
 Set CommandText=%CommandText:'="%
 Call %CommandText%

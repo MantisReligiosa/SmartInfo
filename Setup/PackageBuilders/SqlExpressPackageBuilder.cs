@@ -18,21 +18,15 @@ namespace Setup.Packages
             }
             var package = new ExePackage("Setup.bat")
             {
-                DisplayName = "Microsoft® SQL Server® 2019 Express Edition",
+                DisplayName = "Installing Microsoft® SQL Server® 2019 Express Edition",
                 Compressed = true,
                 InstallCommand = $"'[WixBundleLastUsedSource]{_sourceFile}' /q /CONFIGURATIONFILE=SqlExpress.ini /IAcceptSQLServerLicenseTerms",
-                InstallCondition = "Not SqlInstanceFoundx64 AND Not SqlInstanceFoundx64Express AND Not SqlInstanceFoundx86 AND Not SqlInstanceFoundx86Express AND VersionNT64",
+                InstallCondition = "Not SqlInstanceFoundx64",
                 DetectCondition = "SqlInstanceFoundx64",
                 PerMachine = true,
                 Payloads = new Payload[] { new Payload("SqlExpress.ini"), new Payload(_sourceFile) }
             };
             return package;
         }
-
-        public void Cleanup()
-        {
-            System.IO.File.Delete(_sourceFile);
-        }
-
     }
 }

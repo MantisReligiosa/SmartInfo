@@ -4,30 +4,16 @@ using Setup.Interfaces;
 using Setup.Managers;
 using System;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using WixSharp;
 using WixSharp.Bootstrapper;
 using WixSharp.Controls;
-using static WixSharp.SetupEventArgs;
 
 namespace Setup.Packages
 {
     internal class ProgramPackageBuilder : IPackageBuilder
     {
         private string _msiPath;
-        //private readonly ISqlManager _sqlManager;
-
-        //[DllImport("kernel32.dll")]
-        //private static extern bool AllocConsole();
-
-        //[DllImport("kernel32.dll")]
-        //private static extern bool SetConsoleTitle(string title);
-
-        public ProgramPackageBuilder(/*ISqlManager sqlManager*/)
-        {
-            //_sqlManager = sqlManager;
-        }
 
         public ChainItem Make(Guid guid, Version version)
         {
@@ -48,6 +34,7 @@ namespace Setup.Packages
             var project = new ManagedProject(Constants.CommonInstallationName,
                     new Dir(Constants.InstallationDirectory,
                         new DirFiles(Path.Combine(Constants.PublishFolder, anyFilesMask)),
+                        new WixSharp.File("\\..\\packages\\EntityFramework.6.2.0\\tools\\migrate.exe"),
                         new Dir(assetsFolder, new DirFiles(Path.Combine(Constants.PublishFolder, assetsFolder, anyFilesMask))),
                         new Dir(cssFolder, new DirFiles(Path.Combine(Constants.PublishFolder, cssFolder, anyFilesMask))),
                         new Dir(imagesFolder, new DirFiles(Path.Combine(Constants.PublishFolder, imagesFolder, anyFilesMask))),
@@ -66,11 +53,15 @@ namespace Setup.Packages
                             new ExeFileShortcut($"Uninstall {Constants.ProductName}", "[System64Folder]msiexec.exe", "/x [ProductCode]"),
                             new ExeFileShortcut(Constants.ProductName, $"[INSTALLDIR]{Constants.ExecFile}", arguments: "")),
                     new Dir(@"%Desktop%",
-                            new ExeFileShortcut(Constants.ExecFile, $"[INSTALLDIR]{Constants.ExecFile}", arguments: "")))
+                            new ExeFileShortcut(Constants.ExecFile, $"[INSTALLDIR]{Constants.ExecFile}", arguments: ""))
+                    , new ElevatedManagedAction(CustomActions.OnInstall, Return.check, When.After, Step.InstallFiles, Condition.NOT_Installed)
+                    {
+                        Impersonate = true
+                    }
+                    )
             {
                 GUID = guid,
                 Description = Constants.CommonInstallationName,
-                InstallPrivileges = InstallPrivileges.elevated,
                 MajorUpgradeStrategy = new MajorUpgradeStrategy
                 {
                     UpgradeVersions = VersionRange.OlderThanThis,
@@ -92,24 +83,31 @@ namespace Setup.Packages
             _msiPath = project.BuildMsi();
             return new MsiPackage(_msiPath);
         }
+    }
 
-        public void Cleanup()
+    public class CustomActions
+    {
+        [DllImport("kernel32.dll")]
+        private static extern bool AllocConsole();
+
+        [DllImport("kernel32.dll")]
+        private static extern bool SetConsoleTitle(string title);
+
+        [CustomAction]
+        public static ActionResult OnInstall(Session session)
         {
-            if (!_msiPath.IsNullOrEmpty())
-                System.IO.File.Delete(_msiPath);
+            return DeployDatabase(session) ? ActionResult.Success : ActionResult.Failure;
         }
-        /*
-        private void Project_AfterInstall(SetupEventArgs e)
+
+        private static bool DeployDatabase(Session session)
         {
-            e.Session.Log($"{Constants.LogPrefix}{MethodBase.GetCurrentMethod().Name}");
-            if (e.IsUpgrading)
-                return;
-
-            if (e.IsUninstalling)
-                return;
-
-            var installDir = e.Session.Property(Parameters.InstallationDirectoryParameter);
-            e.Session.Log($"{Constants.LogPrefix}{nameof(installDir)}='{installDir}'");
+            ISqlManager _sqlManager = new MsSqlManager();
+            _sqlManager.LogRecieved += (sender, logEventArgs) =>
+            {
+                session.Log(logEventArgs.Log);
+            };
+            var installDir = session.Property(Parameters.InstallationDirectoryParameter);
+            session.Log($"{Constants.LogPrefix}{nameof(installDir)}='{installDir}'");
             try
             {
                 var connectionString = ConfigurationManager.GetConnectionString(
@@ -117,33 +115,17 @@ namespace Setup.Packages
                         {
                             InstallDir = installDir
                         });
-
-                _sqlManager.LogRecieved += (sender, logEventArgs) =>
-                {
-                    Console.WriteLine(logEventArgs.Log);
-                    e.Session.Log(logEventArgs.Log);
-                };
-                //AllocConsole();
-                //SetConsoleTitle("migrate.exe");
-                //_sqlManager.CreateDatabase(connectionString);
-                //_sqlManager.ApplyMigrations(Path.Combine(e.InstallDir, "migrate.exe"), connectionString);
-
+                session.Log($"{Constants.LogPrefix}{nameof(connectionString)}='{connectionString}'");
+                AllocConsole();
+                SetConsoleTitle("migrate.exe");
+                _sqlManager.ApplyMigrations(Path.Combine(installDir, "migrate.exe"), connectionString);
             }
             catch (Exception ex)
             {
-                e.Session.Log(ex.ToString());
-                NotificationManager.ShowErrorMessage(ex.Message,
-                    isWizardInstallation: IsWizardInstallationMode(e.Data));
-
-                e.Result = ActionResult.Failure;
-                return;
+                session.Log(ex.ToString());
+                return false;
             }
+            return true;
         }
-        
-        private bool IsWizardInstallationMode(AppData data)
-        {
-            return bool.TryParse(data[Parameters.WizardInstallationParameter], out bool result) && result;
-        }
-*/
     }
 }
