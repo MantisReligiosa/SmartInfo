@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace Setup.Managers
 {
-    public static class NotificationManager
+    internal static class NotificationManager
     {
         public static void ShowErrorMessage(string message, string caption = "Ошибка",
             bool isWizardInstallation = true)

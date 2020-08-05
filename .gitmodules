@@ -1,0 +1,3 @@
+[submodule "Common"]
+	path = Common
+	url = https://dev.azure.com/info0821/KaLEDoscope/_git/Common

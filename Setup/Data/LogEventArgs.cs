@@ -2,7 +2,7 @@
 
 namespace Setup.Data
 {
-    public class LogEventArgs : EventArgs
+    internal class LogEventArgs : EventArgs
     {
         public LogEventArgs(string log)
         {

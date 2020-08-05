@@ -1177,6 +1177,12 @@ function masterViewModel(app) {
                                     if (frame.dateToUse != undefined) {
                                         frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
                                     }
+                                    frame.blocks().forEach(function (block) {
+                                        if (block.type == 'datetime') {
+                                            block.text = ''
+                                            block.format = (block.format == undefined) ? null : block.format
+                                        }
+                                    });
                                 });
                             }
                             self.blocks.push(block);

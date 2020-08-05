@@ -66,7 +66,6 @@ namespace Repository
             return Context.Set<TEntity>().ToList();
         }
 
-
         public virtual void Update(TEntity item)
         {
             Context.Entry(item).State = EntityState.Modified;

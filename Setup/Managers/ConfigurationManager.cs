@@ -5,28 +5,16 @@ using System.Xml.XPath;
 
 namespace Setup.Managers
 {
-    public static class ConfigurationManager
+    internal static class ConfigurationManager
     {
-        internal static void CorrectConfigurationFiles(ConfigurationFilesContext context)
+        public static string GetConnectionString(ConfigurationFilesContext context)
         {
             var configFilePath = Path.Combine(
                 context.InstallDir, Constants.ConfigFileSource);
-            var webConfig = XDocument.Load(configFilePath);
-
-            SetXmlConnectionString(Properties.ConnectionString.ConfigPropertyName,
-                context.ConnectionString ?? Properties.ConnectionString.DefaultValue, webConfig);
-
-            webConfig.Save(configFilePath);
-        }
-
-        private static void SetXmlConnectionString(string connectionStringName, string connectionStringValue,
-            XDocument xmlDocument)
-        {
+            var xmlDocument = XDocument.Load(configFilePath);
             var element = xmlDocument.XPathSelectElement(
-                $"configuration/connectionStrings/add[@name='{connectionStringName}']");
-
-            if (element != null)
-                element.Attribute("connectionString").SetValue(connectionStringValue);
+                $"configuration/connectionStrings/add[@name='DefaultConnection']");
+            return element.Attribute("connectionString").Value;
         }
     }
 }

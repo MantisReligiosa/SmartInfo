@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace Setup.Managers
 {
-    public class ProcessManager
+    internal class ProcessManager
     {
         public event EventHandler<ProcessDataEventArgs> OutputDataRecieved;
 
