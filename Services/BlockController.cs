@@ -195,12 +195,14 @@ namespace Services
             if (!(_unitOfWork.DisplayBlocks.Get(textBlock.Id) is TextBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(textBlock);
+                _unitOfWork.Complete();
                 return textBlock;
             }
             else
             {
                 block.CopyFrom(textBlock);
                 _unitOfWork.DisplayBlocks.Update(block);
+                _unitOfWork.Complete();
                 return block;
             }
         }
@@ -210,6 +212,7 @@ namespace Services
             if (!(_unitOfWork.DisplayBlocks.Get(tableBlock.Id) is TableBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(tableBlock);
+                _unitOfWork.Complete();
                 return tableBlock;
             }
             else
@@ -246,6 +249,7 @@ namespace Services
                     }
                 }
                 _unitOfWork.DisplayBlocks.Update(block);
+                _unitOfWork.Complete();
                 return block;
             }
         }
@@ -255,6 +259,7 @@ namespace Services
             if (!(_unitOfWork.DisplayBlocks.Get(metaBlock.Id) is MetaBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(metaBlock);
+                _unitOfWork.Complete();
                 return metaBlock;
             }
             else
@@ -325,6 +330,7 @@ namespace Services
                     }
                 }
                 _unitOfWork.DisplayBlocks.Update(block);
+                _unitOfWork.Complete();
                 return block;
             }
         }
@@ -334,12 +340,14 @@ namespace Services
             if (!(_unitOfWork.DisplayBlocks.Get(pictureBlock.Id) is PictureBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(pictureBlock);
+                _unitOfWork.Complete();
                 return pictureBlock;
             }
             else
             {
                 block.CopyFrom(pictureBlock);
                 _unitOfWork.DisplayBlocks.Update(block);
+                _unitOfWork.Complete();
                 return block;
             }
         }
@@ -354,12 +362,14 @@ namespace Services
             if (!(_unitOfWork.DisplayBlocks.Get(dateTimeBlock.Id) is DateTimeBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(dateTimeBlock);
+                _unitOfWork.Complete();
                 return dateTimeBlock;
             }
             else
             {
                 block.CopyFrom(dateTimeBlock);
                 _unitOfWork.DisplayBlocks.Update(block);
+                _unitOfWork.Complete();
                 return block;
             }
         }
@@ -367,18 +377,21 @@ namespace Services
         public TextBlock CopyTextBlock(TextBlock source)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new TextBlock(source)) as TextBlock;
+            _unitOfWork.Complete();
             return block;
         }
 
         public TableBlock CopyTableBlock(TableBlock source)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new TableBlock(source)) as TableBlock;
+            _unitOfWork.Complete();
             return block;
         }
 
         public PictureBlock CopyPictureBlock(PictureBlock source)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new PictureBlock(source)) as PictureBlock;
+            _unitOfWork.Complete();
             return block;
         }
 
@@ -390,6 +403,7 @@ namespace Services
                 source.Details.Format = format;
             }
             var block = _unitOfWork.DisplayBlocks.Create(new DateTimeBlock(source)) as DateTimeBlock;
+            _unitOfWork.Complete();
             return block;
         }
 
@@ -402,12 +416,14 @@ namespace Services
         public void DeleteBlock(Guid id)
         {
             _unitOfWork.DisplayBlocks.Delete(id);
+            _unitOfWork.Complete();
         }
 
         public void Cleanup()
         {
             var blocks = _unitOfWork.DisplayBlocks.GetAll();
             _unitOfWork.DisplayBlocks.DeleteRange(blocks);
+            _unitOfWork.Complete();
         }
 
         public void MoveAndResizeBlock(Guid id, int height, int width, int left, int top)
@@ -427,6 +443,7 @@ namespace Services
         public MetaBlock CopyMetabLock(MetaBlock source)
         {
             var block = _unitOfWork.DisplayBlocks.Create(new MetaBlock(source)) as MetaBlock;
+            _unitOfWork.Complete();
             return block;
         }
 
