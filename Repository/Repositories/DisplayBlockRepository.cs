@@ -1,6 +1,5 @@
 ﻿using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
-using Repository.QueuedTasks;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,7 +7,7 @@ using System.Linq;
 
 namespace Repository.Repositories
 {
-    public class DisplayBlockRepository : CachedRepository<DisplayBlock>
+    public class DisplayBlockRepository : Repository<DisplayBlock>
     {
         public DisplayBlockRepository(DatabaseContext context)
             : base(context)
@@ -17,10 +16,6 @@ namespace Repository.Repositories
 
         public override IEnumerable<DisplayBlock> GetAll()
         {
-            if (GetFullyCachedEneities().Contains(typeof(DisplayBlock)))
-            {
-                return GetCache().OfType<DisplayBlock>();
-            }
             var items = new List<DisplayBlock>();
             items.AddRange(Context.DisplayBlocks.OfType<TextBlock>().Include(t => t.Details).ToList());
             items.AddRange(Context.DisplayBlocks.OfType<PictureBlock>().Include(t => t.Details).ToList());
@@ -33,48 +28,51 @@ namespace Repository.Repositories
                 .Include(t => t.Details.HeaderDetails)
                 .ToList());
             items.AddRange(Context.DisplayBlocks.OfType<MetaBlock>()
-                .Include(t=>t.Details)
-                .Include(t=>t.Details.Frames)
+                .Include(t => t.Details)
+                .Include(t => t.Details.Frames)
                 .ToList());
 
-            GetCache().AddRange(items);
-            GetFullyCachedEneities().Add(typeof(DisplayBlock));
             return items;
         }
 
         public override void Delete(Guid id)
         {
-            var displayBlock = GetCache().OfType<DisplayBlock>().FirstOrDefault(i => i.Id.Equals(id));
-            if (displayBlock != null)
-                GetCache().Remove(displayBlock);
-            var task = new GuidTask((identity) =>
+            var displayBlock = Get(id);
+            if (displayBlock is TextBlock textBlock && textBlock.Details != null)
             {
-                if (displayBlock == null)
-                {
-                    displayBlock = base.Get(id);
-                }
-                base.Delete(identity);
-                if (displayBlock is TextBlock textBlock)
-                {
-                    Context.Set<TextBlockDetails>().Remove(textBlock.Details);
-                }
-                else if (displayBlock is PictureBlock pictureBlock)
-                {
-                    Context.Set<PictureBlockDetails>().Remove(pictureBlock.Details);
-                }
-                else if (displayBlock is TableBlock tableBlock)
-                {
-                    var rowDetails = new List<TableBlockRowDetails>
+                Context.Set<TextBlockDetails>().Remove(textBlock.Details);
+            }
+            if (displayBlock is PictureBlock pictureBlock && pictureBlock.Details != null)
+            {
+                Context.Set<PictureBlockDetails>().Remove(pictureBlock.Details);
+            }
+            if (displayBlock is TableBlock tableBlock && tableBlock.Details != null)
+            {
+                var rowDetails = new List<TableBlockRowDetails>
                     {
                         tableBlock.Details.HeaderDetails,
                         tableBlock.Details.EvenRowDetails,
                         tableBlock.Details.OddRowDetails
                     };
-                    Context.Set<TableBlockDetails>().Remove(tableBlock.Details);
-                    Context.Set<TableBlockRowDetails>().RemoveRange(rowDetails);
+                Context.Set<TableBlockDetails>().Remove(tableBlock.Details);
+                Context.Set<TableBlockRowDetails>().RemoveRange(rowDetails);
+            }
+            if (displayBlock is DateTimeBlock dateTimeBlock && dateTimeBlock.Details != null)
+            {
+                Context.Set<DateTimeBlockDetails>().Remove(dateTimeBlock.Details);
+            }
+            if (displayBlock is MetaBlock metaBlock && metaBlock.Details != null)
+            {
+
+                var innerBlockIds = metaBlock.Details.Frames.SelectMany(frame => frame.Blocks, (frame, block) => block.Id).ToList();
+                foreach (var innerBlockId in innerBlockIds)
+                {
+                    Delete(innerBlockId);
                 }
-            }, id);
-            GetTaskQueue().Enqueue(task);
+                Context.Set<MetablockFrame>().RemoveRange(metaBlock.Details.Frames);
+                Context.Set<MetaBlockDetails>().Remove(metaBlock.Details);
+            }
+            base.Delete(id);
         }
     }
 }

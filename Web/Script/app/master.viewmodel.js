@@ -2,6 +2,8 @@ function masterViewModel(app) {
     var self = this,
         clipboard;
 
+    self.loading = ko.observable(true);
+
     self.fonts = ko.observableArray([]);
     self.fontSizes = ko.observableArray([]);
     self.fontIndexes = ko.observableArray([]);
@@ -50,6 +52,30 @@ function masterViewModel(app) {
     self.screenOffsetLeft = ko.computed(function () {
         return -Math.min.apply(Math, self.screens().map(function (screen) {
             return screen.left;
+        }));
+    });
+
+    self.minX = ko.computed(function () {
+        return Math.min.apply(Math, self.screens().map(function (screen) {
+            return screen.left
+        }));
+    });
+
+    self.maxX = ko.computed(function () {
+        return Math.max.apply(Math, self.screens().map(function (screen) {
+            return screen.left + screen.width
+        }));
+    });
+
+    self.minY = ko.computed(function () {
+        return Math.min.apply(Math, self.screens().map(function (screen) {
+            return screen.top
+        }));
+    });
+
+    self.maxY = ko.computed(function () {
+        return Math.max.apply(Math, self.screens().map(function (screen) {
+            return screen.top + screen.height
         }));
     });
 
@@ -132,7 +158,8 @@ function masterViewModel(app) {
                 var node = getNode(data)
                 treenodes.push(node);
                 $('#blocksTree').jstree(true).create_node(frameId, node);
-            }
+            },
+            self.loading
         );
     }
 
@@ -148,7 +175,8 @@ function masterViewModel(app) {
                 var node = getNode(data)
                 treenodes.push(node);
                 $('#blocksTree').jstree(true).create_node(null, node);
-            }
+            },
+            self.loading
         );
     }
 
@@ -332,7 +360,8 @@ function masterViewModel(app) {
                 { color: backColor },
                 function () {
                     self.background(backColor);
-                }
+                },
+                self.loading
             );
             return;
         }
@@ -445,7 +474,8 @@ function masterViewModel(app) {
                     treenodes.splice(index, 0, newNode);
                 }
                 $('#blocksTree').jstree(true).create_node(block.metablockFrameId, newNode, index);
-            }
+            },
+            self.loading
         );
     };
 
@@ -507,13 +537,15 @@ function masterViewModel(app) {
                         clipboard,
                         function (data) {
                             $('#blocksTree').jstree(true).delete_node(clipboard.id);
-                        }
+                        },
+                        self.loading
                     );
                 }
                 else {
                     clipboard.selected(false);
                 }
-            }
+            },
+            self.loading
         );
     };
 
@@ -543,7 +575,8 @@ function masterViewModel(app) {
                     frame.blocks.remove(existBlock);
                 }
                 self.selectedBlock(null);
-            }
+            },
+            self.loading
         );
     };
 
@@ -578,7 +611,8 @@ function masterViewModel(app) {
                     frame.blocks.remove(existBlock);
                     frame.blocks.push(block);
                 }
-            }
+            },
+            self.loading
         );
     };
 
@@ -617,7 +651,8 @@ function masterViewModel(app) {
                     frame.blocks.remove(existBlock);
                     frame.blocks.push(block);
                 }
-            }
+            },
+            self.loading
         );
 
     };
@@ -632,7 +667,8 @@ function masterViewModel(app) {
                 $('#blocksTree').jstree(true).delete_node(treenodes);
                 treenodes = [];
                 self.selectedBlock(null);
-            }
+            },
+            self.loading
         );
     }
 
@@ -647,7 +683,7 @@ function masterViewModel(app) {
             .on('change', function (e) {
                 var file = this.files[0];
                 var reader = new FileReader();
-
+                self.loading(true);
                 reader.onload = (function (theFile) {
                     return function (e) {
                         var text = e.target.result;
@@ -657,8 +693,10 @@ function masterViewModel(app) {
                             { text: text },
                             function (data) {
                                 loadBackground()
-                                    .then(function () { return loadBlocks(); });
-                            }
+                                    .then(function () { return loadBlocks(); })
+                                    .then(function () { self.loading(false) });
+                            },
+                            self.loading
                         );
                     };
                 })(file);
@@ -710,7 +748,8 @@ function masterViewModel(app) {
             .then(function () { return loadResolution(); })
             .then(function () { return loadDatetimeFormats(); })
             .then(function () { return loadBackground(); })
-            .then(function () { return loadBlocks(); });
+            .then(function () { return loadBlocks(); })
+            .then(function () { self.loading(false); });
         initReact();
     });
 
@@ -936,6 +975,99 @@ function masterViewModel(app) {
                 block.left = x;
                 block.top = y;
             }
+            else {
+                // Проверка глюков
+                var needUpdate = false;
+                if (block.width != w) {
+                    //Растянули по влево
+                    if (x < self.minX()) {
+                        needUpdate = true;
+                        var delta = Math.round(x - self.minX());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        x = Math.round(x + delta);
+                        w = Math.round(w + delta);
+                    }
+                    //Растянули по вправо
+                    if (x + w > self.maxX()) {
+                        needUpdate = true;
+                        var delta = Math.round(x + w - self.maxX());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        w = Math.round(w - delta);
+                    }
+                }
+                if (block.height != h) {
+                    //Растянули по вверх
+                    if (y < self.minY()) {
+                        needUpdate = true;
+                        var delta = Math.round(y - self.minY());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        y = Math.round(y + delta);
+                        h = Math.round(h + delta);
+                    }
+                    //Растянули по вниз
+                    if (y + h > self.maxY()) {
+                        needUpdate = true;
+                        var delta = Math.round(y + h - self.maxY());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        h = Math.round(h - delta);
+                    }
+                }
+                if (block.left != x && block.width == w) {
+                    //Перетащили влево
+                    if (x < self.minX()) {
+                        needUpdate = true;
+                        var delta = Math.round(x - self.minX());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        x = Math.round(x + delta);
+                    }
+                    //Перетащили вправо
+                    if (x + w > self.maxX()) {
+                        needUpdate = true;
+                        var delta = Math.round(x + w - self.maxX());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        x = Math.round(x - delta);
+                    }
+                }
+                if (block.top != y && block.height == h) {
+                    //Перетащили вверх
+                    if (y < self.minY()) {
+                        needUpdate = true;
+                        var delta = Math.round(y - self.minY());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        y = Math.round(y + delta);
+                    }
+                    //Перетащили вниз
+                    if (y + h > self.maxY()) {
+                        needUpdate = true;
+                        var delta = Math.round(y + h - self.maxY());
+                        if (self.gridEnabled()) {
+                            delta = adjustToStep(delta);
+                        }
+                        y = Math.round(y - delta);
+                    }
+                }
+
+                if (needUpdate) {
+                    block.width = Math.round(w);
+                    block.height = Math.round(h);
+                    block.left = Math.round(x);
+                    block.top = Math.round(y);
+                }
+            }
             self.blocks.push(block);
         }
         else {
@@ -998,7 +1130,8 @@ function masterViewModel(app) {
             "/api/saveBlock",
             block,
             function (data) {
-            }
+            },
+            self.loading
         );
     };
 
@@ -1018,37 +1151,47 @@ function masterViewModel(app) {
     }
 
     loadBlocks = function () {
-        app.request(
-            "GET",
-            "/api/blocks",
-            {},
-            function (data) {
-                data.forEach(function (block) {
-                    block.selected = ko.observable(false);
-                    if (block.type == 'datetime') {
-                        block.text = ''
-                        block.format = (block.format == undefined) ? null : block.format
-                    }
-                    if (block.type == 'meta') {
-                        makeMetablockObservableArrays(block);
-                        block.frames().forEach(function (frame) {
-                            frame.selected = false;
-                            if (frame.useFromTime != undefined) {
-                                frame.useFromTime = moment(frame.useFromTime).format("HH:mm");
+        return new Promise(
+            function (resolve, reject) {
+                app.request(
+                    "GET",
+                    "/api/blocks",
+                    {},
+                    function (data) {
+                        data.forEach(function (block) {
+                            block.selected = ko.observable(false);
+                            if (block.type == 'datetime') {
+                                block.text = ''
+                                block.format = (block.format == undefined) ? null : block.format
                             }
-                            if (frame.useToTime != undefined) {
-                                frame.useToTime = moment(frame.useToTime).format("HH:mm");
+                            if (block.type == 'meta') {
+                                makeMetablockObservableArrays(block);
+                                block.frames().forEach(function (frame) {
+                                    frame.selected = false;
+                                    if (frame.useFromTime != undefined) {
+                                        frame.useFromTime = moment(frame.useFromTime).format("HH:mm");
+                                    }
+                                    if (frame.useToTime != undefined) {
+                                        frame.useToTime = moment(frame.useToTime).format("HH:mm");
+                                    }
+                                    if (frame.dateToUse != undefined) {
+                                        frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
+                                    }
+                                    frame.blocks().forEach(function (block) {
+                                        if (block.type == 'datetime') {
+                                            block.text = ''
+                                            block.format = (block.format == undefined) ? null : block.format
+                                        }
+                                    });
+                                });
                             }
-                            if (frame.dateToUse != undefined) {
-                                frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
-                            }
+                            self.blocks.push(block);
+                            var node = getNode(block);
+                            treenodes.push(node);
+                            $('#blocksTree').jstree(true).create_node(null, node);
                         });
-                    }
-                    self.blocks.push(block);
-                    var node = getNode(block);
-                    treenodes.push(node);
-                    $('#blocksTree').jstree(true).create_node(null, node);
-                });
+                        resolve();
+                    });
             });
     }
 
@@ -1157,7 +1300,8 @@ function masterViewModel(app) {
                 data.displays.forEach(function (screen) {
                     self.screens.push(screen);
                 });
-            });
+            },
+            self.loading);
     }
 
     loadBackground = function () {

@@ -179,6 +179,11 @@ function MetaBlockEditViewModel(master) {
         var currentFrame = self.metaFrames().find(function (f) {
             return f.index === self.currentFrame.Index();
         });
+        if (currentFrame == null) {
+            currentFrame = self.metaFrames()[0];
+            currentFrame.selected = true;
+        }
+
         var currentFramePosition = self.metaFrames.indexOf(currentFrame);
 
         currentFrame.duration = self.currentFrame.Duration();

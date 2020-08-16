@@ -1,6 +1,6 @@
 ﻿namespace Setup.Data
 {
-    public static class Constants
+    internal static class Constants
     {
 
         public static string PublishFolder => $@"..\_publish\{ProductName}";
@@ -21,6 +21,6 @@
 
         internal static string[] DependentAssemblies => new string[] { };
 
-        public static object LogPrefix => "*** ";
+        public static object LogPrefix => "<***> ";
     }
 }

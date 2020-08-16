@@ -1,7 +1,6 @@
-namespace Repository.Migrations
+Ôªønamespace Repository.Migrations
 {
     using DomainObjects;
-    using DomainObjects.Blocks.Details;
     using System;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -44,7 +43,7 @@ namespace Repository.Migrations
             context.Set<DateTimeFormat>().AddOrUpdate(new DateTimeFormat
             {
                 Id = new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1),
-                Denomination = "◊24:ÃÃ:——",
+                Denomination = "–ß24:–ú–ú:–°–°",
                 DesigntimeFormat = "HH:mm:ss",
                 ShowtimeFormat = "HH:mm:ss"
             });
@@ -52,7 +51,7 @@ namespace Repository.Migrations
             context.Set<DateTimeFormat>().AddOrUpdate(new DateTimeFormat
             {
                 Id = new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2),
-                Denomination = "◊12:ÃÃ:——",
+                Denomination = "–ß12:–ú–ú:–°–°",
                 DesigntimeFormat = "hh:mm:ss",
                 ShowtimeFormat = "hh:mm:ss",
                 IsDateFormat = false
@@ -61,7 +60,7 @@ namespace Repository.Migrations
             context.Set<DateTimeFormat>().AddOrUpdate(new DateTimeFormat
             {
                 Id = new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3),
-                Denomination = "◊24:ÃÃ",
+                Denomination = "–ß24:–ú–ú",
                 DesigntimeFormat = "HH:mm",
                 ShowtimeFormat = "HH:mm",
                 IsDateFormat = false
@@ -70,7 +69,7 @@ namespace Repository.Migrations
             context.Set<DateTimeFormat>().AddOrUpdate(new DateTimeFormat
             {
                 Id = new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4),
-                Denomination = "◊12:ÃÃ",
+                Denomination = "–ß12:–ú–ú",
                 DesigntimeFormat = "hh:mm",
                 ShowtimeFormat = "hh:mm",
                 IsDateFormat = false
@@ -79,16 +78,16 @@ namespace Repository.Migrations
             context.Set<DateTimeFormat>().AddOrUpdate(new DateTimeFormat
             {
                 Id = new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1),
-                Denomination = "ƒƒ.ÃÃ.√√√√",
+                Denomination = "–î–î.–ú–ú.–ì–ì–ì–ì",
                 DesigntimeFormat = "DD.MM.YYYY",
                 ShowtimeFormat = "dd.MM.yyyy",
                 IsDateFormat = true
             });
 
-                        context.Set<DateTimeFormat>().AddOrUpdate(new DateTimeFormat
+            context.Set<DateTimeFormat>().AddOrUpdate(new DateTimeFormat
             {
                 Id = new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2),
-                Denomination = "ƒƒ Ã≈—ﬂ÷ √√√√",
+                Denomination = "–î–î –ú–ï–°–Ø–¶ –ì–ì–ì–ì",
                 DesigntimeFormat = "DD MMMM YYYY",
                 ShowtimeFormat = "dd MMMM yyyy",
                 IsDateFormat = true
@@ -97,7 +96,7 @@ namespace Repository.Migrations
             context.Set<DateTimeFormat>().AddOrUpdate(new DateTimeFormat
             {
                 Id = new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3),
-                Denomination = "ƒ≈Õ‹Õ≈ƒ≈À», ƒƒ Ã≈—ﬂ÷ √√√√",
+                Denomination = "–î–ï–ù–¨–ù–ï–î–ï–õ–ò, –î–î –ú–ï–°–Ø–¶ –ì–ì–ì–ì",
                 DesigntimeFormat = "dddd, DD MMMM YYYY",
                 ShowtimeFormat = "dddd, dd MMMM yyyy",
                 IsDateFormat = true

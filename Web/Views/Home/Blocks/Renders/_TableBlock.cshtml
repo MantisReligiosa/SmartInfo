@@ -15,7 +15,8 @@
                         'font-style': headerStyle.italic ? 'italic' : ''
                     }">
             <th data-bind="text: $data, style: {
-                        'font-weight': $parent.headerStyle.bold ? 'bold' : 'normal'
+                        'font-weight': $parent.headerStyle.bold ? 'bold' : 'normal',
+                        'width': 'min-content'
                         }"></th>
         </tr>
     </thead>

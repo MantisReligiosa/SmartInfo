@@ -15,7 +15,10 @@
         toastr.info(message);
     }
 
-    self.request = function (method, url, data, successHandler) {
+    self.request = function (method, url, data, successHandler, loadingIndicator) {
+        if (loadingIndicator) {
+            loadingIndicator(true);
+        }
         $.ajax({
             method: method,
             url: url,
@@ -33,6 +36,8 @@
                     else {
                         successHandler(data);
                     }
+                    if (loadingIndicator)
+                        loadingIndicator(false);
                 },
             error: function (xhr, ajaxOptions, thrownError) {
                 if (xhr.status === 406) {

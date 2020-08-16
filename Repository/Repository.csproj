@@ -126,7 +126,6 @@
     <Compile Include="QueuedTasks\ItemsTask.cs" />
     <Compile Include="QueuedTasks\ItemTask.cs" />
     <Compile Include="QueuedTasks\IQueuedTask.cs" />
-    <Compile Include="Repositories\CachedRepository.cs" />
     <Compile Include="Repositories\DisplayBlockRepository.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="UnitOfWorkFactory.cs" />
