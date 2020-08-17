@@ -2,5 +2,25 @@
 <span class="block-icon block-image" data-bind="style:{'z-index': zIndex+1}"></span>
 <!-- /ko-->
 <!-- ko if: base64Src != null -->
+<!-- ko if: imageMode == 0 -->
+<!--Crop-->
 <img data-bind="attr:{src:'data:image/png;base64, '+ $data.base64Src}" />
+<!-- /ko -->
+<!-- ko if: imageMode == 1 -->
+<!--Zoom-->
+<!-- ko if: saveProportions -->
+<!--Save proportions-->
+<!-- ko if: width/height > 1-->
+<!--wide-->
+<img data-bind="attr:{src:'data:image/png;base64, '+ $data.base64Src}" style="max-width: 100%; max-height: 100%; height: auto;" />
+<!-- /ko -->
+<!-- ko if: width/height <= 1-->
+<!--tall-->
+<img data-bind="attr:{src:'data:image/png;base64, '+ $data.base64Src}" style="max-height: 100%; max-width: 100%; width: auto;" />
+<!-- /ko -->
+<!-- /ko -->
+<!-- ko ifnot: saveProportions -->
+<img data-bind="attr:{src:'data:image/png;base64, '+ $data.base64Src}" style="max-width: 100%; max-height: 100%; height: 100%; width: 100%;"/>
+<!-- /ko -->
+<!-- /ko -->
 <!-- /ko-->
