@@ -29,7 +29,8 @@ namespace Display_control.Blocks.Builders
                 Height = pictureBlock.Height,
                 Width = pictureBlock.Width,
                 Source = bitmap,
-                Stretch = Media.Stretch.None
+                Stretch = pictureBlock.Details.ImageMode == DisplayBlock.Details.ImageMode.Crop ? Media.Stretch.None 
+                    : pictureBlock.Details.SaveProportions ? Media.Stretch.Uniform : Media.Stretch.Fill
             };
 
             Canvas.SetTop(image, pictureBlock.Top);
