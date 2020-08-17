@@ -323,6 +323,8 @@ function masterViewModel(app) {
         if (block.type === 'picture') {
             self.pictureBlockEditViewModel().caption(block.caption);
             self.pictureBlockEditViewModel().base64Image(block.base64Src);
+            self.pictureBlockEditViewModel().imageMode(block.imageMode);
+            self.pictureBlockEditViewModel().saveProp(block.saveProportions);
         };
         if (block.type == 'meta') {
             var nodeId = $('#blocksTree').jstree(true).get_node(block.id);
@@ -410,6 +412,8 @@ function masterViewModel(app) {
         if (block.type === 'picture') {
             block.caption = self.pictureBlockEditViewModel().caption();
             block.base64Src = self.pictureBlockEditViewModel().base64Image();
+            block.saveProportions = self.pictureBlockEditViewModel().saveProp();
+            block.imageMode = self.pictureBlockEditViewModel().imageMode();
         }
         if (block.type === 'meta') {
             block.caption = self.metaBlockEditViewModel().caption();
