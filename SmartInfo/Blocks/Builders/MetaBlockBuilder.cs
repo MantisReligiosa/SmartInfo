@@ -8,7 +8,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Display_control.Blocks.Builders
+namespace SmartInfo.Blocks.Builders
 {
     public class MetaBlockBuilder : AbstractBuilder
     {

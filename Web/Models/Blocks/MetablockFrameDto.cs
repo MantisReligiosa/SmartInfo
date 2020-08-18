@@ -9,6 +9,8 @@ namespace Web.Models.Blocks
         public List<BlockDto> Blocks { get; set; }
         public int Index { get; set; }
         public int Duration { get; set; }
+        public string Name { get; set; }
+
         public bool UseInTimeInterval { get; set; }
         public TimeSpan? UseFromTime { get; set; }
         public TimeSpan? UseToTime { get; set; }

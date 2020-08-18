@@ -409,3 +409,11 @@ input[type=number] {
         transform: rotate(360deg);
     }
 }
+
+.posModal span {
+    width: 130px;
+}
+
+.posModal input {
+    width: 130px !important;
+}

@@ -77,6 +77,15 @@
 
             context.Set<DateTimeFormat>().AddOrUpdate(new DateTimeFormat
             {
+                Id = new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5),
+                Denomination = "ДЕНЬНЕДЕЛИ Ч24:ММ",
+                DesigntimeFormat = "dddd HH:mm",
+                ShowtimeFormat = "dddd HH:mm",
+                IsDateFormat = false
+            });
+
+            context.Set<DateTimeFormat>().AddOrUpdate(new DateTimeFormat
+            {
                 Id = new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1),
                 Denomination = "ДД.ММ.ГГГГ",
                 DesigntimeFormat = "DD.MM.YYYY",
