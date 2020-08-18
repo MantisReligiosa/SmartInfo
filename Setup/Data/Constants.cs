@@ -7,7 +7,7 @@
 
         public const string Manufacturer = "Smart Technologies-M";
 
-        public const string ProductName = "Display-control";
+        public const string ProductName = "SmartInfo";
 
         public static string ExecFile => $"{ProductName}.exe";
 
