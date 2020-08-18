@@ -9,6 +9,8 @@ namespace DomainObjects.Blocks.Details
 
         public int Index { get; set; }
 
+        public string Name { get; set; }
+
         public int Duration { get; set; }
 
         public bool UseInTimeInterval { get; set; }
@@ -65,6 +67,7 @@ namespace DomainObjects.Blocks.Details
         {
             Index = source.Index;
             Duration = source.Duration;
+            Name = source.Name;
 
             UseInTimeInterval = source.UseInTimeInterval;
             UseFromTime = source.UseFromTime;

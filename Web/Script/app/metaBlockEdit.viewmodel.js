@@ -12,6 +12,7 @@ function MetaBlockEditViewModel(master) {
     self.currentFrame = {
         Index: ko.observable(),
         Duration: ko.observable(),
+        Name: ko.observable(),
 
         UseInTimeInerval: ko.observable(false),
         UseFromTime: ko.observable(),
@@ -187,6 +188,7 @@ function MetaBlockEditViewModel(master) {
         var currentFramePosition = self.metaFrames.indexOf(currentFrame);
 
         currentFrame.duration = self.currentFrame.Duration();
+        currentFrame.name = self.currentFrame.Name();
         currentFrame.useInTimeInterval = self.currentFrame.UseInTimeInerval();
         currentFrame.useFromTime = self.currentFrame.UseFromTime();
         currentFrame.useToTime = self.currentFrame.UseToTime();
@@ -200,6 +202,9 @@ function MetaBlockEditViewModel(master) {
         currentFrame.useInDate = self.currentFrame.UseInDate();
         currentFrame.dateToUse = self.currentFrame.DateToUse();
         self.metaFrames.splice(currentFramePosition, 1, currentFrame);
+        var data = self.metaFrames().slice(0);
+        self.metaFrames([]);
+        self.metaFrames(data);
     }
 
     self.selectFrame = function (frame) {
@@ -208,6 +213,7 @@ function MetaBlockEditViewModel(master) {
         }
         self.currentFrame.Index(frame.index);
         self.currentFrame.Duration(frame.duration);
+        self.currentFrame.Name(frame.name);
         self.currentFrame.UseInTimeInerval(frame.useInTimeInterval);
         self.currentFrame.UseFromTime(frame.useFromTime);
         self.currentFrame.UseToTime(frame.useToTime);
