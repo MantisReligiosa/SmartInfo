@@ -169,6 +169,7 @@ function MetaBlockEditViewModel(master) {
         var frame = {
             selected: false,
             index: index,
+            name: 'Scene'+index,
             duration: 5,
             blocks: ko.observableArray(),
             checked: ko.observable(false)
@@ -242,5 +243,66 @@ function MetaBlockEditViewModel(master) {
             return false;
         }
         return true;
+    }
+
+    self.OrderUp = function (frame) {
+        var minIndex = Math.min(...self.metaFrames().map(function (f) {
+            return f.index;
+        }));
+
+        if (self.currentFrame.Index() == minIndex) {
+            return;
+        }
+
+        var prevFrameIndex = Math.max(...jQuery.grep(self.metaFrames(), function (frame) {
+            return frame.index < self.currentFrame.Index();
+        }).map(function (f) {
+            return f.index;
+        }));
+
+        var prevFrameElement = jQuery.grep(self.metaFrames(), function (frame) {
+            return frame.index == prevFrameIndex;
+        })[0];
+
+        var currentFrameElement = jQuery.grep(self.metaFrames(), function (frame) {
+            return frame.index == self.currentFrame.Index();
+        })[0];
+
+        prevFrameElement.index = self.currentFrame.Index();
+        self.currentFrame.Index(prevFrameIndex);
+        currentFrameElement.index = prevFrameIndex;
+        var data = self.metaFrames().sort(function (a, b) { return a.index - b.index });
+        self.metaFrames([]);
+        self.metaFrames(data);
+    }
+    self.OrderDown = function (frame) {
+        var maxIndex = Math.max(...self.metaFrames().map(function (f) {
+            return f.index;
+        }));
+
+        if (self.currentFrame.Index() == maxIndex) {
+            return;
+        }
+
+        var nextFrameIndex = Math.min(...jQuery.grep(self.metaFrames(), function (frame) {
+            return frame.index > self.currentFrame.Index();
+        }).map(function (f) {
+            return f.index;
+        }));
+
+        var nextFrameElement = jQuery.grep(self.metaFrames(), function (frame) {
+            return frame.index == nextFrameIndex;
+        })[0];
+
+        var currentFrameElement = jQuery.grep(self.metaFrames(), function (frame) {
+            return frame.index == self.currentFrame.Index();
+        })[0];
+
+        nextFrameElement.index = self.currentFrame.Index();
+        self.currentFrame.Index(nextFrameIndex);
+        currentFrameElement.index = nextFrameIndex;
+        var data = self.metaFrames().sort(function (a, b) { return a.index - b.index });
+        self.metaFrames([]);
+        self.metaFrames(data);
     }
 }
