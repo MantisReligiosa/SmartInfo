@@ -63,8 +63,7 @@ namespace Repository.Repositories
             }
             if (displayBlock is MetaBlock metaBlock && metaBlock.Details != null)
             {
-
-                var innerBlockIds = metaBlock.Details.Frames.SelectMany(frame => frame.Blocks, (frame, block) => block.Id).ToList();
+                var innerBlockIds = metaBlock.Details.Frames.SelectMany(frame => frame.Blocks ?? new List<DisplayBlock>(), (frame, block) => block.Id).ToList();
                 foreach (var innerBlockId in innerBlockIds)
                 {
                     Delete(innerBlockId);

@@ -1245,7 +1245,7 @@ function masterViewModel(app) {
         metaBlock.frames().sort(function (a, b) { return a.index - b.index }).forEach(function (frame) {
             var node = {};
             node["type"] = "frame";
-            node["text"] = "Представление" + frame.index;
+            node["text"] = frame.name;
             node["id"] = frame.id;
             node["parent"] = metaBlock.id;
             node["icon"] = frame.checked() ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png";

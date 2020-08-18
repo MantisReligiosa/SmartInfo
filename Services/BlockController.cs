@@ -175,12 +175,14 @@ namespace Services
                         {
                             Index = 1,
                             Duration = 5,
+                            Name = "Scene1",
                             Blocks = new List<DisplayBlock>()
                         },
                         new MetablockFrame
                         {
                             Index = 2,
                             Duration = 5,
+                            Name = "Scene2",
                             Blocks = new List<DisplayBlock>()
                         }
                     }
@@ -289,6 +291,7 @@ namespace Services
                     {
                         dbFrame.Duration = frame.Duration;
                         dbFrame.Index = frame.Index;
+                        dbFrame.Name = frame.Name;
                         dbFrame.DateToUse = frame.DateToUse;
                         if (frame.UseFromTime.HasValue)
                         {
