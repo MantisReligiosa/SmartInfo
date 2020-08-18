@@ -334,15 +334,6 @@ function masterViewModel(app) {
             self.metaBlockEditViewModel().id(block.id);
             block.frames().forEach(function (frame) {
                 frame.selected = false;
-                if (frame.useFromTime != undefined) {
-                    frame.useFromTime = moment(frame.useFromTime).format("HH:mm");
-                }
-                if (frame.useToTime != undefined) {
-                    frame.useToTime = moment(frame.useToTime).format("HH:mm");
-                }
-                if (frame.dateToUse != undefined) {
-                    frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
-                }
             });
             self.metaBlockEditViewModel().initializeControls();
             self.metaBlockEditViewModel().metaFrames(block.frames());
