@@ -323,6 +323,8 @@ function masterViewModel(app) {
         if (block.type === 'picture') {
             self.pictureBlockEditViewModel().caption(block.caption);
             self.pictureBlockEditViewModel().base64Image(block.base64Src);
+            self.pictureBlockEditViewModel().imageMode(block.imageMode);
+            self.pictureBlockEditViewModel().saveProp(block.saveProportions);
         };
         if (block.type == 'meta') {
             var nodeId = $('#blocksTree').jstree(true).get_node(block.id);
@@ -332,15 +334,6 @@ function masterViewModel(app) {
             self.metaBlockEditViewModel().id(block.id);
             block.frames().forEach(function (frame) {
                 frame.selected = false;
-                if (frame.useFromTime != undefined) {
-                    frame.useFromTime = moment(frame.useFromTime).format("HH:mm");
-                }
-                if (frame.useToTime != undefined) {
-                    frame.useToTime = moment(frame.useToTime).format("HH:mm");
-                }
-                if (frame.dateToUse != undefined) {
-                    frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
-                }
             });
             self.metaBlockEditViewModel().initializeControls();
             self.metaBlockEditViewModel().metaFrames(block.frames());
@@ -410,6 +403,8 @@ function masterViewModel(app) {
         if (block.type === 'picture') {
             block.caption = self.pictureBlockEditViewModel().caption();
             block.base64Src = self.pictureBlockEditViewModel().base64Image();
+            block.saveProportions = self.pictureBlockEditViewModel().saveProp();
+            block.imageMode = self.pictureBlockEditViewModel().imageMode();
         }
         if (block.type === 'meta') {
             block.caption = self.metaBlockEditViewModel().caption();
@@ -1250,7 +1245,7 @@ function masterViewModel(app) {
         metaBlock.frames().sort(function (a, b) { return a.index - b.index }).forEach(function (frame) {
             var node = {};
             node["type"] = "frame";
-            node["text"] = "Представление" + frame.index;
+            node["text"] = frame.name;
             node["id"] = frame.id;
             node["parent"] = metaBlock.id;
             node["icon"] = frame.checked() ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png";

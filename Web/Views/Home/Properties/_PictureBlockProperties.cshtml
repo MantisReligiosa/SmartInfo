@@ -11,3 +11,32 @@
     <input type="file" class="custom-file-input" id="inputPicture" accept="image/*" style="display:none">
     <button class="btn btn-primary" data-bind="click: openFileDialog">Импорт из файла</button>
 </div>
+
+<div class="input-group mb-3">
+    <div style="padding-left: 20px;">
+        <label style="margin-bottom:0">Формат:</label>
+        <div id="imageMode">
+            <div class="radio">
+                <label><input type="radio" name="crop" value="0" data-bind="checked: imageMode" checked>Обрезать</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="zoom" value="1" data-bind="checked: imageMode">Вписать</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="input-group mb-3">
+    <div style="padding-left: 20px;">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="saveProp" data-bind="checked: saveProp">
+            <label class="form-check-label" for="saveProp">Сохранить пропорции</label>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+

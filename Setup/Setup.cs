@@ -28,10 +28,10 @@ namespace Setup
             {
                 UpgradeCode = guid,
                 Version = version,
-                IconFile = @"..\Display-control\Resources\Logo.ico",
+                IconFile = @"..\SmartInfo\Resources\Logo.ico",
                 Manufacturer = Constants.Manufacturer
             };
-            bootstrapper.Application.LogoFile = @"..\Display-control\Resources\Logo.bmp";
+            bootstrapper.Application.LogoFile = @"..\SmartInfo\Resources\Logo.bmp";
             bootstrapper.Application.SuppressOptionsUI = false;
             bootstrapper.Application.SuppressRepair = false;
             bootstrapper.Include(WixExtension.NetFx);
