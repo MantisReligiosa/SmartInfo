@@ -145,16 +145,16 @@ function MetaBlockEditViewModel(master) {
         });
     }
 
-    self.deleteFrames = function () {
-        if (self.metaFrames().filter(function (metaframe) {
-            return !metaframe.selected;
-        }).length == 0) {
+    self.deleteFrame = function () {
+        if (self.metaFrames().length == 1) {
             alert("Нельзя удалить все фреймы!");
             return;
         }
-        self.metaFrames.remove(function (frame) {
-            return frame.selected;
+        self.metaFrames.remove(function (f) {
+            return f.index == self.currentFrame.Index();
         });
+        self.currentFrame.Index(null);
+        self.selectFrame(self.metaFrames()[0]);
     }
 
     self.addFrame = function () {
