@@ -336,7 +336,10 @@ function masterViewModel(app) {
                 frame.selected = false;
             });
             self.metaBlockEditViewModel().initializeControls();
+            self.metaBlockEditViewModel().metaFrames([]);
             self.metaBlockEditViewModel().metaFrames(block.frames());
+            self.metaBlockEditViewModel().currentFrame.Index(null);
+            self.metaBlockEditViewModel().selectFrame(block.frames()[0]);
         }
         $("#properties")
             .modal({ backdrop: 'static', keyboard: false })

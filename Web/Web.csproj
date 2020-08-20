@@ -362,9 +362,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Bundles\CssBundles.cs" />
     <Compile Include="Bundles\BundleConfig.cs" />
-    <Compile Include="Bundles\AppJsBundles.cs" />
-    <Compile Include="Bundles\MasterJsBundle.cs" />
-    <Compile Include="Bundles\VendorJsBundles.cs" />
+    <Compile Include="Bundles\JsBundle.cs" />
     <Compile Include="CustomStatusCode.cs" />
     <Compile Include="Models\AddBlockParamsDto.cs" />
     <Compile Include="Models\AuthenticatedUser.cs" />
