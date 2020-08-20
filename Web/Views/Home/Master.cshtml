@@ -2,7 +2,6 @@
 @using Web.Models
 @inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
 <!-- ko with: master-->
-
 <!-- ko if: loading()-->
 <div id="preloader">
     <div id="loader"></div>
@@ -154,4 +153,10 @@
     </div>
 </div>
 <!--/ko-->
+@Html.Raw(Bundles.GetJsKey("datetimeBlockEdit-js-key")) 
+@Html.Raw(Bundles.GetJsKey("pictureBlockEdit-js-key"))
+@Html.Raw(Bundles.GetJsKey("tableBlockEdit-js-key"))
+@Html.Raw(Bundles.GetJsKey("textBlockEdit-js-key"))
+@Html.Raw(Bundles.GetJsKey("metaBlockEdit-js-key"))
+@Html.Raw(Bundles.GetJsKey("position-js-key"))
 @Html.Raw(Bundles.GetJsKey("master-js-key"))

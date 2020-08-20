@@ -13,8 +13,6 @@ using NLog;
 using Repository;
 using ServiceInterfaces;
 using Services;
-using System;
-using System.Collections.Generic;
 using Web.Bundles;
 using Web.Bundles.Web.Bundles;
 
@@ -32,9 +30,15 @@ namespace Web
             container.AttachNancyBundle<BundleConfig>(cfg =>
             {
                 cfg.AddContentGroup(new CssBundles());
-                cfg.AddContentGroup(new VendorJsBundles());
-                cfg.AddContentGroup(new AppJsBundles());
-                cfg.AddContentGroup(new MasterJsBundle());
+                cfg.AddContentGroup(new JsBundle("vendor-js-key", "/vendor", "~/Script/Vendor/vendor.js"));
+                cfg.AddContentGroup(new JsBundle("app-js-key", "/app", "~/script/app/_run.js", "~/script/app/app.viewmodel.js"));
+                cfg.AddContentGroup(new JsBundle("master-js-key", "/master", "~/script/app/master.viewmodel.js"));
+                cfg.AddContentGroup(new JsBundle("position-js-key", "/position", "~/script/app/position.viewmodel.js"));
+                cfg.AddContentGroup(new JsBundle("datetimeBlockEdit-js-key", "/datetimeBlockEdit", "~/script/app/datetimeBlockEdit.viewmodel.js"));
+                cfg.AddContentGroup(new JsBundle("pictureBlockEdit-js-key", "/pictureBlockEdit", "~/script/app/pictureBlockEdit.viewmodel.js"));
+                cfg.AddContentGroup(new JsBundle("tableBlockEdit-js-key", "/tableBlockEdit", "~/script/app/tableBlockEdit.viewmodel.js"));
+                cfg.AddContentGroup(new JsBundle("textBlockEdit-js-key", "/textBlockEdit", "~/script/app/textBlockEdit.viewmodel.js"));
+                cfg.AddContentGroup(new JsBundle("metaBlockEdit-js-key", "/metaBlockEdit", "~/script/app/metaBlockEdit.viewmodel.js"));
             });
 
             container.Register<IConfiguration, Configuration>();

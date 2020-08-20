@@ -4,11 +4,6 @@ function MetaBlockEditViewModel(master) {
     self.id = ko.observable();
     self.caption = ko.observable();
     self.metaFrames = ko.observableArray();
-    self.metaFrames.subscribe(function (frames) {
-        if (self.currentFrame.Index() == null) {
-            self.selectFrame(frames[0]);
-        }
-    });
     self.currentFrame = {
         Index: ko.observable(),
         Duration: ko.observable(),
@@ -209,7 +204,7 @@ function MetaBlockEditViewModel(master) {
     }
 
     self.selectFrame = function (frame) {
-        if (self.currentFrame.Index() !== undefined) {
+        if (self.currentFrame.Index()!=null) {
             self.updateSelectedFrame();
         }
         self.currentFrame.Index(frame.index);
