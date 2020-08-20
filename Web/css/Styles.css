@@ -417,3 +417,8 @@ input[type=number] {
 .posModal input {
     width: 130px !important;
 }
+
+.inline-menu {
+    display: flex;
+    float: right;
+}
