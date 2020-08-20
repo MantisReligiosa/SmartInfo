@@ -415,7 +415,9 @@ function masterViewModel(app) {
             block.frames(self.metaBlockEditViewModel().metaFrames());
             block.frames().forEach(function (frame) {
                 if (frame.dateToUse != undefined) {
-                    frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
+                    if (moment(frame.dateToUse).isValid()) {
+                        frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
+                    }
                 }
             });
         }
