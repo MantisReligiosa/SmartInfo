@@ -11,16 +11,12 @@
 @Html.Partial("Views/Home/_Menu.cshtml")
 <div style=" flex: 1 1 auto;
 	display: flex; margin-left:15px; margin-right:20px">
-    <div style="flex: 1 1 auto;" class="leftPanel">
-        <div style="text-align:right">
-            <button class="btn btn-sm ribbon-element arrow-left" data-bind="style:{display:isPanelExpanded()?'initial':'none'}, click:collapsePanel"></button>
-            <button class="btn btn-sm ribbon-element arrow-right" data-bind="style:{display:!isPanelExpanded()?'initial':'none'}, click:expandPanel"></button>
-        </div>
-        <div class="panel-content" data-bind="style:{display:isPanelExpanded()?'block':'none'}">
+    <div class="leftPanel resize-rightSide" style="width: 130px">
+        <div class="panel-content">
             <div id="blocksTree" class="blocksTree"></div>
         </div>
     </div>
-    <div style="flex: 100 1 auto;">
+    <div style="display: contents">
         <div class="container-fluid workspace">
 
             <div class="zoomPanel panel">

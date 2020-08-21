@@ -862,6 +862,30 @@ function masterViewModel(app) {
             })
             .on('resizemove', onResizeMove)
             .on('resizeend', applyResizeMove);
+
+        interact('.resize-rightSide')
+            .resizable({
+                edges: { left: false, right: true, bottom: false, top: false },
+                restrictSize: {
+                    min: { width: 100 },
+                    max: { width: 400 },
+                    inertia: false
+                }
+            })
+            .on('resizemove', event => {
+                let { x, y } = event.target.dataset
+
+                x = parseFloat(x) || 0
+                y = parseFloat(y) || 0
+
+                Object.assign(event.target.style, {
+                    width: `${event.rect.width}px`,
+                    height: `${event.rect.height}px`,
+                    transform: `translate(${event.deltaRect.left}px, ${event.deltaRect.top}px)`
+                })
+
+                Object.assign(event.target.dataset, { x, y })
+            })
     };
 
     onResizeMove = function (event) {
