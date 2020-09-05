@@ -194,3 +194,7 @@
 .metablock {
     background: url('../Images/metablock.png') no-repeat center center;
 }
+
+.red_cross {
+    background: url(../Images/red_cross.png) no-repeat center center;
+}
