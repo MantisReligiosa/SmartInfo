@@ -1394,6 +1394,15 @@ function masterViewModel(app) {
             function (data) { }
         );
     }
+
+    self.applyChanges = function () {
+        app.request(
+            "POST",
+            "/api/applyChanges",
+            {},
+            function (data) { }
+        );
+    }
 }
 
 app.attach({

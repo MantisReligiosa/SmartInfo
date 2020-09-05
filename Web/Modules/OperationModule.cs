@@ -13,6 +13,7 @@ namespace Web.Modules
 
             Post["/api/startShow"] = Wrap(StartShow, "Ошибка запуска полноэкранного режима");
             Post["/api/stopShow"] = Wrap(StopShow, "Ошибка остановки полноэкранного режима");
+            Post["/api/applyChanges"] = Wrap(ApplyChanges, "Ошибка применения изменений");
         }
 
         private void StopShow()
@@ -23,6 +24,11 @@ namespace Web.Modules
         private void StartShow()
         {
             _operationController.StartShow();
+        }
+
+        private void ApplyChanges()
+        {
+            _operationController.ApplyChanges();
         }
     }
 }
