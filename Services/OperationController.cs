@@ -36,5 +36,16 @@ namespace Services
             var broker = Broker.GetBroker();
             broker.GetResponce(new StopShowRequest());
         }
+
+        public void ApplyChanges()
+        {
+            var broker = Broker.GetBroker();
+            var request = new ApplyChangesRequest
+            {
+                Background = _blockController.GetBackground(),
+                Blocks = _blockController.GetBlocks()
+            };
+            broker.GetResponce(request);
+        }
     }
 }

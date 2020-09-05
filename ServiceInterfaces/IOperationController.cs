@@ -4,5 +4,6 @@
     {
         void StartShow();
         void StopShow();
+        void ApplyChanges();
     }
 }
