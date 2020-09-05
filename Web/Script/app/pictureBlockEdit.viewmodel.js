@@ -3,7 +3,7 @@
 
     self.caption = ko.observable();
     self.base64Image = ko.observable();
-    self.imageMode = ko.observable();
+    self.imageMode = ko.observable("crop");
     self.saveProp = ko.observable();
 
     self.openFileDialog = function () {
