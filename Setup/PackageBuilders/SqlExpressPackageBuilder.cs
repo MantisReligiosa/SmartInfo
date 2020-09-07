@@ -1,7 +1,6 @@
 ﻿using Setup.Interfaces;
 using System;
 using System.Net;
-using WixSharp;
 using WixSharp.Bootstrapper;
 
 namespace Setup.Packages
