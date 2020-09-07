@@ -21,10 +21,9 @@ namespace Setup.Packages
                 DisplayName = "Installing Microsoft® SQL Server® 2019 Express Edition",
                 Compressed = true,
                 InstallCommand = $"'[WixBundleLastUsedSource]{_sourceFile}' /q /CONFIGURATIONFILE=SqlExpress.ini /IAcceptSQLServerLicenseTerms",
-                InstallCondition = "Not SqlInstanceFoundx64",
-                DetectCondition = "SqlInstanceFoundx64",
+                DetectCondition = "SQLSERVERINSTALLED",
                 PerMachine = true,
-                Payloads = new Payload[] { new Payload("SqlExpress.ini"), new Payload(_sourceFile) }
+                Payloads = new Payload[] { new Payload("SqlExpress.ini"), new Payload(_sourceFile) },
             };
             return package;
         }

@@ -35,6 +35,14 @@ namespace Setup
             bootstrapper.Application.SuppressOptionsUI = false;
             bootstrapper.Application.SuppressRepair = false;
             bootstrapper.Include(WixExtension.NetFx);
+            bootstrapper.AddWixFragment("Wix/Bundle",
+               new UtilRegistrySearch()
+               {
+                   Root = RegistryHive.LocalMachine,
+                   Key = @"SYSTEM\CurrentControlSet\Services\MSSQL$SQLSRV_SMRT",
+                   Result = SearchResult.exists,
+                   Variable = "SQLSERVERINSTALLED",
+               });
             bootstrapper.Build("Installer.exe");
         }
     }
