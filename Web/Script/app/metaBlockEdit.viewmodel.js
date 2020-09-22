@@ -92,22 +92,11 @@ function MetaBlockEditViewModel(master) {
         }
     ];
 
-    var isDialogInitialized = false;
-
     self.initializeControls = function () {
         var daysOfWeekPicker = $('#daysOfWeek');
         var timeIntervalFrom = $('#timeIntervalFrom');
         var timeIntervalTo = $('#timeIntervalTo');
         var dateToUse = $('#dateToUse');
-        if (
-            !daysOfWeekPicker.length ||
-            !timeIntervalFrom.length ||
-            !timeIntervalTo.length ||
-            !dateToUse.length ||
-            isDialogInitialized) {
-            return;
-        }
-        isDialogInitialized = true;
 
         daysOfWeekPicker.multiselect({
             onChange: function (element, checked) {

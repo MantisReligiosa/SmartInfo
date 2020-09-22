@@ -2,11 +2,13 @@
 using DataExchange.DTO;
 using DataExchange.Requests;
 using DataExchange.Responces;
-using SmartInfo.Blocks;
-using SmartInfo.Properties;
+using DomainObjects.Blocks;
 using Helpers;
 using Nancy.Hosting.Self;
+using SmartInfo.Blocks;
+using SmartInfo.Properties;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -103,27 +105,9 @@ namespace SmartInfo
                     _window.Left = requestData.Screens.Displays.Min(d => d.Left);
                     _window.Top = requestData.Screens.Displays.Min(d => d.Top);
                     _window.Visibility = Visibility.Visible;
-                    var bc = new Media.BrushConverter();
-                    var border = new Border();
-                    if (ColorConverter.TryToParseRGB(requestData.Background, out string colorHex))
-                    {
-                        border.Background = (Media.Brush)bc.ConvertFrom(colorHex);
-                    }
-                    var canvas = new Canvas();
+                    _window.WindowState = WindowState.Maximized;
+                    ApplyChanges(requestData.Background, requestData.Blocks);
 
-
-                    var blockBuilder = new BlockBuilder();
-                    foreach (var block in requestData.Blocks)
-                    {
-                        var element = blockBuilder.BuildElement(block);
-                        if (element != null)
-                        {
-                            canvas.Children.Add(element);
-                        }
-                    }
-
-                    border.Child = canvas;
-                    _window.Content = border;
                     _window.Show();
                 });
                 return null;
@@ -146,6 +130,37 @@ namespace SmartInfo
                     Build = version.Build
                 };
             });
+            broker.RegisterHandler<ApplyChangesRequest>(request =>
+            {
+                var requestData = request as ApplyChangesRequest;
+                Dispatcher.Invoke(() =>
+                {
+                    ApplyChanges(requestData.Background, requestData.Blocks);
+                });
+                return null;
+            });
+        }
+
+        private void ApplyChanges(string background, IEnumerable<DisplayBlock> blocks)
+        {
+            var bc = new Media.BrushConverter();
+            var border = new Border();
+            if (ColorConverter.TryToParseRGB(background, out string colorHex))
+            {
+                border.Background = (Media.Brush)bc.ConvertFrom(colorHex);
+            }
+            var canvas = new Canvas();
+            var blockBuilder = new BlockBuilder();
+            foreach (var block in blocks)
+            {
+                var element = blockBuilder.BuildElement(block);
+                if (element != null)
+                {
+                    canvas.Children.Add(element);
+                }
+            }
+            border.Child = canvas;
+            _window.Content = border;
         }
 
         private void CreateNotifyIcon()
