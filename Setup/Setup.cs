@@ -35,6 +35,7 @@ namespace Setup
             bootstrapper.Application.SuppressOptionsUI = false;
             bootstrapper.Application.SuppressRepair = false;
             bootstrapper.Include(WixExtension.NetFx);
+            bootstrapper.Include(WixExtension.Util);
             bootstrapper.AddWixFragment("Wix/Bundle",
                new UtilRegistrySearch()
                {
