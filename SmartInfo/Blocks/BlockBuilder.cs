@@ -15,7 +15,7 @@ namespace SmartInfo.Blocks
             {typeof(TableBlock), new TableBlockBuilder() },
             {typeof(PictureBlock), new PictureBlockBuilder() },
             {typeof(DateTimeBlock), new DateTimeBlockBuilder() },
-            {typeof(MetaBlock), new MetaBlockBuilder(new MetablockScheduler()) }
+            {typeof(MetaBlock), new MetaBlockBuilder() }
         };
 
         public UIElement BuildElement(DisplayBlock displayBlock)
@@ -24,9 +24,10 @@ namespace SmartInfo.Blocks
             {
                 try
                 {
-                    return builder.BuildElement(displayBlock);
+                    var element =  builder.BuildElement(displayBlock);
+                    return element;
                 }
-                catch
+                catch (Exception ex)
                 {
                     return null;
                 }
