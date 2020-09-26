@@ -23,7 +23,8 @@ namespace SmartInfo.Blocks.Builders
                 LineHeight = textBlock.Details.FontSize * textBlock.Details.FontIndex,
                 TextAlignment = textBlock.Details.Align == DisplayBlock.Align.Left ? TextAlignment.Left :
                                                 textBlock.Details.Align == DisplayBlock.Align.Center ? TextAlignment.Center :
-                                                textBlock.Details.Align == DisplayBlock.Align.Right ? TextAlignment.Right : TextAlignment.Left
+                                                textBlock.Details.Align == DisplayBlock.Align.Right ? TextAlignment.Right : TextAlignment.Left,
+                TextWrapping=TextWrapping.Wrap
             };
             if (ColorConverter.TryToParseRGB(textBlock.Details.BackColor, out string colorHex))
             {

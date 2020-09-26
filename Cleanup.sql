@@ -1,5 +1,7 @@
+use SmartInfo
+go
 delete from [dbo].[DisplayBlocks]
-Delete from [dbo].[DateTimeBlockDetails]
+delete from [dbo].[DateTimeBlockDetails]
 delete from [dbo].[MetablockFrames]
 delete from [dbo].[MetaBlockDetails]
 delete from [dbo].[PictureBlockDetails]
