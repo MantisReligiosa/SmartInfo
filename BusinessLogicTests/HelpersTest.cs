@@ -159,5 +159,23 @@ namespace BusinessLogicTests
             var exception = new Exception("1", new Exception("2", new Exception("3", innedException)));
             Assert.Equal(innedExceptionName, exception.GetInnerException().Message);
         }
+
+        [Fact]
+        public void TestNoUseInTime()
+        {
+            var date = new DateTime(2020, 09, 23);
+            var firstFrame = new MetablockFrame { Index = 1, UseInTimeInterval = false, UseFromTime = new TimeSpan(8, 0, 0), UseToTime = new TimeSpan(10, 0, 0), Duration = 1 };
+            var secondFrame = new MetablockFrame { Index = 2, UseInTimeInterval = false, UseFromTime = new TimeSpan(12, 0, 0), UseToTime = new TimeSpan(13, 0, 0), Duration = 1 };
+            var helper = new MetablockScheduler
+            {
+                Frames = new List<MetablockFrame> { firstFrame, secondFrame }
+            };
+            var nextFrame = helper.GetNextFrame(date, int.MinValue);
+            Assert.Equal(firstFrame.Index, nextFrame.Index);
+            nextFrame = helper.GetNextFrame(date, firstFrame.Index);
+            Assert.Equal(secondFrame.Index, nextFrame.Index);
+            nextFrame = helper.GetNextFrame(date, secondFrame.Index);
+            Assert.Equal(firstFrame.Index, nextFrame.Index);
+        }
     }
 }

@@ -14,19 +14,19 @@ namespace Helpers
             var dayOfWeek = dateTime.DayOfWeek;
             var frames = Frames
                 .Where(f => f.Duration > 0)
-                .Where(f => f.UseInTimeInterval ? f.UseFromTime.HasValue
+                .Where(f => !f.UseInTimeInterval || (f.UseFromTime.HasValue
                             && f.UseToTime.HasValue
                             && (f.UseFromTime.Value <= dateTime.TimeOfDay)
-                            && (dateTime.TimeOfDay <= f.UseToTime.Value) : true)
-                .Where(f => f.UseInDate ? f.DateToUse.HasValue
-                            && f.DateToUse.Value.Date.Equals(dateTime.Date) : true)
-                .Where(f => f.UseInDayOfWeek ? (f.UseInMon && dayOfWeek.Equals(DayOfWeek.Monday))
+                            && (dateTime.TimeOfDay <= f.UseToTime.Value)))
+                .Where(f => !f.UseInDate || (f.DateToUse.HasValue
+                            && f.DateToUse.Value.Date.Equals(dateTime.Date)))
+                .Where(f => !f.UseInDayOfWeek || ((f.UseInMon && dayOfWeek.Equals(DayOfWeek.Monday))
                             || (f.UseInTue && dayOfWeek.Equals(DayOfWeek.Tuesday))
                             || (f.UseInWed && dayOfWeek.Equals(DayOfWeek.Wednesday))
                             || (f.UseInThu && dayOfWeek.Equals(DayOfWeek.Thursday))
                             || (f.UseInFri && dayOfWeek.Equals(DayOfWeek.Friday))
                             || (f.UseInSat && dayOfWeek.Equals(DayOfWeek.Saturday))
-                            || (f.UseInSun && dayOfWeek.Equals(DayOfWeek.Sunday)) : true);
+                            || (f.UseInSun && dayOfWeek.Equals(DayOfWeek.Sunday))));
             var frameToShow = frames.FirstOrDefault(f => f.Index > currentFrameIndex);
             if (frameToShow == null)
             {
