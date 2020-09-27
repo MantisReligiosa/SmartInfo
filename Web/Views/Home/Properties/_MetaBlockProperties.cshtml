@@ -9,8 +9,21 @@
 <div class="row">
     <div class="col-md-5" style="overflow-y:scroll; height: 360px" data-bind="foreach: metaFrames">
         <div data-bind="class: 'form-check framelist', css: {frameSelected: index==$parent.currentFrame.Index() }">
-            <input type="checkbox" aria-label="Checkbox for following text input" data-bind="checked: selected">
+            @*<input type="checkbox" aria-label="Checkbox for following text input" data-bind="checked: selected">*@
             <a href="#" data-bind="text:name, click: $parent.selectFrame"></a>
+            <!--ko if: index==$parent.currentFrame.Index()-->
+            <div class="inline-menu">
+                <a href="#" data-bind="click: $parent.OrderDown">
+                    <img src="~/Images/arrow_down.png" />
+                </a>
+                <a href="#" data-bind="click: $parent.OrderUp">
+                    <img src="~/Images/arrow_up.png" />
+                </a>
+                <a href="#" data-bind="click: $parent.deleteFrame">
+                    <img src="~/Images/delete2.png" />
+                </a>
+            </div>
+            <!--/ko-->
         </div>
     </div>
     <div class="col-md-7">
@@ -35,7 +48,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">С:</span>
                 </div>
-                <input id="timeIntervalFrom" type="text" class="form-control" data-bind="enable: currentFrame.UseInTimeInerval, value: currentFrame.UseFromTime">
+                <input id="timeIntervalFrom" type="text" class="form-control" autocomplete="off" data-bind="enable: currentFrame.UseInTimeInerval, value: currentFrame.UseFromTime">
             </div>
         </div>
         <div class="form-group">
@@ -43,16 +56,19 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">По:</span>
                 </div>
-                <input id="timeIntervalTo" type="text" class="form-control" data-bind="enable: currentFrame.UseInTimeInerval, value: currentFrame.UseToTime">
+                <input id="timeIntervalTo" type="text" class="form-control" autocomplete="off" data-bind="enable: currentFrame.UseInTimeInerval, value: currentFrame.UseToTime">
             </div>
         </div>
+        <div class="form-group">
         <div class="form-check">
             <input type="checkbox" class="form-check-input" id="useInDayOfWeek" data-bind="checked: currentFrame.UseInDayOfWeek">
             <label class="form-check-label" for="useInDayOfWeek">Определенные дни недели</label>
         </div>
-        <select id="daysOfWeek" multiple="multiple" data-bind="foreach: daysOfWeek">
+        <select id="daysOfWeek" multiple="multiple" class="col-md-6" data-bind="foreach: daysOfWeek">
             <option data-bind="value: name, text: caption"></option>
         </select>
+        </div>
+
         <div class="form-check">
             <input type="checkbox" class="form-check-input" id="useInDate" data-bind="checked: currentFrame.UseInDate">
             <label class="form-check-label" for="useInDate">Определенная дата</label>
@@ -62,20 +78,20 @@
                 <input id="dateToUse" type="text" class="form-control" data-bind="enable: currentFrame.UseInDate, value: currentFrame.DateToUse">
             </div>
         </div>
-        <div class="form-group row">
+        @*<div class="form-group row">
             <div class="input-group col-md-6">
                 <button class="btn btn-light" style="width:inherit" data-bind="click: OrderUp">Поднять вверх</button>
             </div>
             <div class="input-group col-md-6">
                 <button class="btn btn-light" style="width:inherit" data-bind="click: OrderDown">Опустить вниз</button>
             </div>
-        </div>
+        </div>*@
     </div>
 </div>
 <div class="row">
-    <div class="input-group col-md-6">
+    @*<div class="input-group col-md-6">
         <button class="btn btn-danger" style="width:inherit" data-bind="click: deleteFrames">Удалить выбранные</button>
-    </div>
+    </div>*@
     <div class="input-group col-md-6">
         <button class="btn btn-success" style="width:inherit" data-bind="click: addFrame">Добавить представление</button>
     </div>

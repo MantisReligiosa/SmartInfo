@@ -45,6 +45,7 @@
     <Compile Include="IRequest.cs" />
     <Compile Include="IResponce.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\ApplyChangesRequest.cs" />
     <Compile Include="Requests\GetFontsRequest.cs" />
     <Compile Include="Requests\GetScreenSizeRequest.cs" />
     <Compile Include="Requests\GetVersionRequest.cs" />

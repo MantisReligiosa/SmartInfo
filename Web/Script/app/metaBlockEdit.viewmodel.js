@@ -4,11 +4,6 @@ function MetaBlockEditViewModel(master) {
     self.id = ko.observable();
     self.caption = ko.observable();
     self.metaFrames = ko.observableArray();
-    self.metaFrames.subscribe(function (frames) {
-        if (self.currentFrame.Index() == null) {
-            self.selectFrame(frames[0]);
-        }
-    });
     self.currentFrame = {
         Index: ko.observable(),
         Duration: ko.observable(),
@@ -97,22 +92,11 @@ function MetaBlockEditViewModel(master) {
         }
     ];
 
-    var isDialogInitialized = false;
-
     self.initializeControls = function () {
         var daysOfWeekPicker = $('#daysOfWeek');
         var timeIntervalFrom = $('#timeIntervalFrom');
         var timeIntervalTo = $('#timeIntervalTo');
         var dateToUse = $('#dateToUse');
-        if (
-            !daysOfWeekPicker.length ||
-            !timeIntervalFrom.length ||
-            !timeIntervalTo.length ||
-            !dateToUse.length ||
-            isDialogInitialized) {
-            return;
-        }
-        isDialogInitialized = true;
 
         daysOfWeekPicker.multiselect({
             onChange: function (element, checked) {
@@ -150,16 +134,16 @@ function MetaBlockEditViewModel(master) {
         });
     }
 
-    self.deleteFrames = function () {
-        if (self.metaFrames().filter(function (metaframe) {
-            return !metaframe.selected;
-        }).length == 0) {
+    self.deleteFrame = function () {
+        if (self.metaFrames().length == 1) {
             alert("Нельзя удалить все фреймы!");
             return;
         }
-        self.metaFrames.remove(function (frame) {
-            return frame.selected;
+        self.metaFrames.remove(function (f) {
+            return f.index == self.currentFrame.Index();
         });
+        self.currentFrame.Index(null);
+        self.selectFrame(self.metaFrames()[0]);
     }
 
     self.addFrame = function () {
@@ -209,7 +193,7 @@ function MetaBlockEditViewModel(master) {
     }
 
     self.selectFrame = function (frame) {
-        if (self.currentFrame.Index() !== undefined) {
+        if (self.currentFrame.Index()!=null) {
             self.updateSelectedFrame();
         }
         self.currentFrame.Index(frame.index);

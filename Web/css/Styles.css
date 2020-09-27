@@ -81,11 +81,8 @@ div.tab-content {
 
 .leftPanel {
     border: 1px solid;
-    border-radius: .25rem;
     border-color: #bbb;
     background-color: #fbfbfc;
-    padding-bottom: 25px;
-    /*margin-left:15px;*/
 }
 
 .ribbon-element, .tableBtn {
@@ -306,10 +303,6 @@ input[type=number] {
 
 .blocksTree {
     height: 100%;
-    width: 100px;
-    border-top-color: black;
-    border-top-style: dotted;
-    border-top-width: 1px;
 }
 
 .jstree-proton {
@@ -416,4 +409,9 @@ input[type=number] {
 
 .posModal input {
     width: 130px !important;
+}
+
+.inline-menu {
+    display: flex;
+    float: right;
 }

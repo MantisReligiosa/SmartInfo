@@ -100,7 +100,13 @@ namespace Web.Modules
             var configDto = _serializationController.Deserialize<ConfigDto>(data.Text);
             _blockController.SetBackground(configDto.Background);
             _blockController.Cleanup();
-            foreach (var b in configDto.Blocks)
+            var blocks = configDto.Blocks;
+            SaveBlocks(blocks);
+        }
+
+        private void SaveBlocks(List<BlockDto> blocks)
+        {
+            foreach (var b in blocks)
             {
                 switch (b)
                 {
@@ -123,6 +129,10 @@ namespace Web.Modules
                     case MetaBlockDto metaBlockDto:
                         var metablock = _mapper.Map<MetaBlock>(metaBlockDto);
                         _blockController.SaveMetabLock(metablock);
+                        foreach (var frame in metaBlockDto.Frames.Where(f => f.Blocks?.Any() ?? false))
+                        {
+                            SaveBlocks(frame.Blocks);
+                        }
                         break;
                 }
             }

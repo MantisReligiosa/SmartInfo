@@ -35,6 +35,12 @@ namespace Repository.Repositories
             return items;
         }
 
+
+        public override void DeleteRange(IEnumerable<DisplayBlock> list)
+        {
+            list.ToList().ForEach(l => Delete(l.Id));
+        }
+
         public override void Delete(Guid id)
         {
             var displayBlock = Get(id);
