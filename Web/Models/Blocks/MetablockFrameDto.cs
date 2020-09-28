@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace Web.Models.Blocks
 {
@@ -12,8 +13,28 @@ namespace Web.Models.Blocks
         public string Name { get; set; }
 
         public bool UseInTimeInterval { get; set; }
+        [XmlIgnore]
         public TimeSpan? UseFromTime { get; set; }
+        [XmlIgnore]
         public TimeSpan? UseToTime { get; set; }
+
+        public long UseFromTimeTicks
+        {
+            get => UseFromTime?.Ticks ?? 0;
+            set
+            {
+                UseFromTime = value == 0 ? null : (TimeSpan?)new TimeSpan(value);
+            }
+        }
+
+        public long UseToTimeTicks
+        {
+            get => UseToTime?.Ticks ?? 0;
+            set
+            {
+                UseToTime = value == 0 ? null : (TimeSpan?)new TimeSpan(value);
+            }
+        }
         public bool UseInDayOfWeek { get; set; }
         /// <summary>
         /// Пн
@@ -44,6 +65,15 @@ namespace Web.Models.Blocks
         /// </summary>
         public bool UseInSun { get; set; }
         public bool UseInDate { get; set; }
+        [XmlIgnore]
         public DateTime? DateToUse { get; set; }
+        public long DateToUseTicks
+        {
+            get => DateToUse?.Ticks ?? 0;
+            set
+            {
+                DateToUse = value == 0 ? null : (DateTime?)new DateTime(value);
+            }
+        }
     }
 }
