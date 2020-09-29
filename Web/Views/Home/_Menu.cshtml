@@ -147,18 +147,6 @@
                         <div>Пуск</div>
                     </div>
                 </button>
-                @*<button class="btn btn-sm btn-light navbar-btn ribbon-element" style="width: 50px;" data-bind="click: stopShow">
-                        <div class="ribbon-vertical-button-content">
-                            <div class="displays-off-large ribbon-large-icon"></div>
-                            <div>Стоп</div>
-                        </div>
-                    </button>
-                    <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: resetDisplays">
-                        <div class="ribbon-vertical-button-content">
-                            <div class="system-large ribbon-large-icon"></div>
-                            <div>Обновить</div>
-                        </div>
-                    </button>*@
                 <div class="ribbon-clip">
                     <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: stopShow">
                         <div class="ribbon-horizontal-button-content">
@@ -169,13 +157,13 @@
                     <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: resetDisplays">
                         <div class="ribbon-horizontal-button-content">
                             <div class="displays-refesh ribbon-small-icon"></div>
-                            <div class="ribbon-horizontal-button-text">Обновить</div>
+                            <div class="ribbon-horizontal-button-text">СканДисп</div>
                         </div>
                     </button>
-                    <button class="btn btn-sm btn-light navbar-btn ribbon-element" style="visibility:hidden">
+                    <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: applyChanges">
                         <div class="ribbon-horizontal-button-content">
-                            <div class="displays-test ribbon-small-icon"></div>
-                            <div class="ribbon-horizontal-button-text">Тест</div>
+                            <div class="apply ribbon-small-icon"></div>
+                            <div class="ribbon-horizontal-button-text">Обновить</div>
                         </div>
                     </button>
                 </div>

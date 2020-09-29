@@ -324,16 +324,12 @@ namespace Services
                                 {
                                     dbFrame.Blocks.Add(subBlock);
                                 }
-                                else
-                                {
-                                    dbBlock.CopyFrom(subBlock);
-                                }
                             }
                         }
                     }
                 }
-                _unitOfWork.DisplayBlocks.Update(block);
-                _unitOfWork.Complete();
+                    _unitOfWork.DisplayBlocks.Update(block);
+                    _unitOfWork.Complete();
                 return block;
             }
         }
