@@ -54,7 +54,7 @@ namespace SmartInfo.Blocks.Builders
                 {
                     currentFrameIndex = int.MinValue;
                     timer.Interval = 1000;
-                    //HideAllFrames(_blocks);
+                    HideAllFrames(blocks);
                 }
                 else
                 {
