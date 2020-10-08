@@ -10,13 +10,15 @@ namespace SmartInfo.Blocks.Builders
 {
     public class DateTimeBlockBuilder : AbstractBuilder
     {
-        private static Timer _timer;
+        private Timer _timer;
+        private DisplayBlock.DateTimeBlock datetimeBlock;
+        private TextBlock label;
 
         public override UIElement BuildElement(DisplayBlock.DisplayBlock displayBlock)
         {
-            var datetimeBlock = displayBlock as DisplayBlock.DateTimeBlock;
+            datetimeBlock = displayBlock as DisplayBlock.DateTimeBlock;
             var bc = new Media.BrushConverter();
-            var label = new TextBlock
+            label = new TextBlock
             {
                 Height = datetimeBlock.Height,
                 Width = datetimeBlock.Width,
@@ -40,11 +42,8 @@ namespace SmartInfo.Blocks.Builders
                         Enabled = true
                     };
                 }
-                _timer.Elapsed += (obj, args) =>
-                {
-                    _dispatcher.Invoke(() =>
-                    label.Text = DateTime.Now.ToString(datetimeBlock.Details.Format.ShowtimeFormat));
-                };
+
+                _timer.Elapsed += timer_Elapsed;
             }
             if (ColorConverter.TryToParseRGB(datetimeBlock.Details.BackColor, out string colorHex))
             {
@@ -58,6 +57,21 @@ namespace SmartInfo.Blocks.Builders
             Canvas.SetLeft(label, datetimeBlock.Left);
             Panel.SetZIndex(label, datetimeBlock.ZIndex);
             return label;
+        }
+
+        private void timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (datetimeBlock.Details == null)
+            {
+                _timer.Stop();
+                _timer.Elapsed -= timer_Elapsed;
+                _timer.Dispose();
+                _timer = null;
+                return;
+            }
+
+            _dispatcher.Invoke(() =>
+            label.Text = DateTime.Now.ToString(datetimeBlock.Details.Format.ShowtimeFormat));
         }
     }
 }
