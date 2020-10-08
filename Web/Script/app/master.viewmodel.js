@@ -383,7 +383,7 @@ function masterViewModel(app) {
             block.font = self.datetimeBlockEditViewModel().selectedFonts()[0];
             block.fontSize = self.datetimeBlockEditViewModel().selectedFontSizes()[0];
             block.fontIndex = self.datetimeBlockEditViewModel().selectedFontIndexes()[0];
-            block.format = self.datetimeBlockEditViewModel().selectedFormats()[0];
+            block.format = self.datetimeBlockEditViewModel().selectedFormats()[0] || self.datetimeformats()[0];
             block.align = self.datetimeBlockEditViewModel().align();
             block.italic = self.datetimeBlockEditViewModel().italic();
             block.bold = self.datetimeBlockEditViewModel().bold();
