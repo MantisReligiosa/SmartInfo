@@ -414,6 +414,12 @@ function masterViewModel(app) {
             self.metaBlockEditViewModel().updateSelectedFrame();
             block.frames(self.metaBlockEditViewModel().metaFrames());
             block.frames().forEach(function (frame) {
+                if (frame.useFromTime != undefined) {
+                    frame.UseFromTimeTicks = momentToTicks(moment(frame.useFromTime, "HH:mm"));
+                }
+                if (frame.useToTime != undefined) {
+                    frame.UseToTimeTicks = momentToTicks(moment(frame.useToTime, "HH:mm"));
+                }
                 if (frame.dateToUse != undefined) {
                     if (moment(frame.dateToUse).isValid()) {
                         frame.dateToUse = moment(frame.dateToUse).format("YYYY-MM-DD");
@@ -478,6 +484,11 @@ function masterViewModel(app) {
             self.loading
         );
     };
+
+    momentToTicks = function (m) {
+        var ms = m.milliseconds() + 1000 * (m.seconds() + 60 * (m.minutes() + 60 * m.hours()));
+        return ms * 10000;
+    }
 
     var isCopying = false;
 
@@ -1400,8 +1411,8 @@ function masterViewModel(app) {
             "POST",
             "/api/applyChanges",
             {},
-            function (data) { }
-        );
+            function (data) { },
+            self.loading);
     }
 }
 
