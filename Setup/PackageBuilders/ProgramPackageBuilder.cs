@@ -3,7 +3,9 @@ using Setup.Data;
 using Setup.Interfaces;
 using Setup.Managers;
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using WixSharp;
 using WixSharp.Bootstrapper;
@@ -76,12 +78,23 @@ namespace Setup.Packages
                                    .On(NativeDialogs.WelcomeDlg, Buttons.Next, new ShowDialog(NativeDialogs.InstallDirDlg))
                                    .On(NativeDialogs.InstallDirDlg, Buttons.Back, new ShowDialog(NativeDialogs.WelcomeDlg)),
             };
+            project.BeforeInstall += Project_BeforeInstall;
             project.ControlPanelInfo.Manufacturer = Constants.Manufacturer;
             project.DefaultRefAssemblies.AddRange(
                 AssemblyManager.GetAssemblyPathsCollection(Path.GetDirectoryName(
                     System.Reflection.Assembly.GetExecutingAssembly().Location)));
             _msiPath = project.BuildMsi();
             return new MsiPackage(_msiPath);
+        }
+
+        private void Project_BeforeInstall(SetupEventArgs e)
+        {
+            Process[] pname = Process.GetProcessesByName(Constants.ProductName);
+            if (pname.Any())
+            {
+                NotificationManager.ShowErrorMessage($"{Constants.ProductName} сейчас запущен.\r\nПеред установкой необходимо завершить работу текущей версии программы");
+                e.Result = ActionResult.Failure;
+            }
         }
     }
 
