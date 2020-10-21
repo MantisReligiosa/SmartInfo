@@ -1411,8 +1411,8 @@ function masterViewModel(app) {
             "POST",
             "/api/applyChanges",
             {},
-            function (data) { }
-        );
+            function (data) { },
+            self.loading);
     }
 }
 
