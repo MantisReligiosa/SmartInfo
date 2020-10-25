@@ -1224,6 +1224,11 @@ function masterViewModel(app) {
                                     });
                                 });
                             }
+                            if (block.type == 'table') {
+                                block.columnWidths.sort(function (a, b) {
+                                    return a.index - b.index;
+                                })
+                            }
                             self.blocks.push(block);
                             var node = getNode(block);
                             treenodes.push(node);

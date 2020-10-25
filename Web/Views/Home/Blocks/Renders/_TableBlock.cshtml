@@ -16,7 +16,9 @@
                     }">
             <th data-bind="text: $data, style: {
                         'font-weight': $parent.headerStyle.bold ? 'bold' : 'normal',
-                        'width': 'min-content'
+                        'width': $parent.columnWidths[$index()].units == 1? $parent.columnWidths[$index()].value+'%':
+                                 $parent.columnWidths[$index()].units == 0? 'min-content':
+                                    'min-content'
                         }"></th>
         </tr>
     </thead>
