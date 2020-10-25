@@ -319,6 +319,8 @@ function masterViewModel(app) {
 
             self.tableBlockEditViewModel().rows(block.rows);
             self.tableBlockEditViewModel().header(block.header);
+            self.tableBlockEditViewModel().rowHeights(block.rowHeights);
+            self.tableBlockEditViewModel().columnWidths(block.columnWidths);
         };
         if (block.type === 'picture') {
             self.pictureBlockEditViewModel().caption(block.caption);
@@ -402,6 +404,8 @@ function masterViewModel(app) {
             });
             block.rows = self.tableBlockEditViewModel().rows();
             block.header = self.tableBlockEditViewModel().header();
+            block.rowHeights = self.tableBlockEditViewModel().rowHeights();
+            block.columnWidths = self.tableBlockEditViewModel().columnWidths();
         }
         if (block.type === 'picture') {
             block.caption = self.pictureBlockEditViewModel().caption();

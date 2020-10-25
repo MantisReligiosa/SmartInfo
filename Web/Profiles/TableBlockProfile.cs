@@ -29,7 +29,7 @@ namespace Web.Profiles
                 ).ToArray()))
                 .ForMember(b => b.Caption, opt => opt.MapFrom(b => string.IsNullOrEmpty(b.Caption) ? "table" : b.Caption))
                 .ForMember(b => b.ColumnWidths, opt => opt.MapFrom(b => b.Details.TableBlockColumnWidths))
-                .ForMember(b => b.RowHeights, opt => opt.MapFrom(b => b.Details.TableBlockRowHeights);
+                .ForMember(b => b.RowHeights, opt => opt.MapFrom(b => b.Details.TableBlockRowHeights));
 
             CreateMap<TableBlockDto, TableBlock>()
                 .ForMember(b => b.Details, opt => opt.MapFrom(b => b));

@@ -19,6 +19,8 @@
     });
 
     self.rows = ko.observableArray();
+    self.rowHeights = ko.observableArray();
+    self.columnWidths = ko.observableArray();
     self.header = ko.observableArray();
 
     self.rowTypes.forEach(function (rowType) {
@@ -83,6 +85,13 @@
                             self.header(data.header);
                             self.rows.removeAll();
                             self.rows(data.rows);
+                            data.rows.forEach(function (value, index, array) {
+                                self.rowHeights.push({ index, units:0 })
+                            });
+
+                            data.header.forEach(function (value, index, array) {
+                                self.columnWidths.push({ index, units: 0 })
+                            });
                         }
                     );
                 };

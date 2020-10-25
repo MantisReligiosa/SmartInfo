@@ -110,6 +110,8 @@ namespace Services
                         Italic = true,
                     },
                     Cells = new List<TableBlockCellDetails>(),
+                    TableBlockColumnWidths = new List<TableBlockColumnWidth>(),
+                    TableBlockRowHeights = new List<TableBlockRowHeight>()
                 },
                 ZIndex = zIndex
             }) as TableBlock;
