@@ -250,6 +250,41 @@ namespace Services
                         databaseCell.Value = cell.Value;
                     }
                 }
+
+                var rowHeightsToDelete = block.Details.TableBlockRowHeights
+                    .Where(dbRowHeights => !tableBlock.Details.TableBlockRowHeights.Any(rh => dbRowHeights.Index.Equals(rh.Index))).ToList();
+                _unitOfWork.TableBlockRowHeights.DeleteRange(rowHeightsToDelete);
+                _unitOfWork.Complete();
+                foreach (var rowHeight in tableBlock.Details.TableBlockRowHeights)
+                {
+                    var dbRowHeight = block.Details.TableBlockRowHeights.FirstOrDefault(rh => rowHeight.Index.Equals(rh.Index));
+                    if (dbRowHeight == null)
+                    {
+                        block.Details.TableBlockRowHeights.Add(new TableBlockRowHeight(rowHeight ));
+                    }
+                    else
+                    {
+                        dbRowHeight.Value = rowHeight.Value;
+                    }
+                }
+
+                var columnWidthToDelete = block.Details.TableBlockColumnWidths
+                    .Where(dbColumnWidth => !tableBlock.Details.TableBlockColumnWidths.Any(cw => dbColumnWidth.Index.Equals(cw.Index))).ToList();
+                _unitOfWork.TableBlockColumnWidths.DeleteRange(columnWidthToDelete);
+                _unitOfWork.Complete();
+                foreach (var columnWidth in tableBlock.Details.TableBlockColumnWidths)
+                {
+                    var dbColumnWidth = block.Details.TableBlockColumnWidths.FirstOrDefault(cw => columnWidth.Index.Equals(cw.Index));
+                    if (dbColumnWidth == null)
+                    {
+                        block.Details.TableBlockColumnWidths.Add(new TableBlockColumnWidth(columnWidth));
+                    }
+                    else
+                    {
+                        dbColumnWidth.Value = columnWidth.Value;
+                    }
+                }
+
                 _unitOfWork.DisplayBlocks.Update(block);
                 _unitOfWork.Complete();
                 return block;

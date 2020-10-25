@@ -14,6 +14,8 @@ namespace ServiceInterfaces
         IRepository<TableBlockCellDetails> TableBlockCellDetails { get; }
         IRepository<DateTimeFormat> DateTimeFormats { get; }
         IRepository<MetablockFrame> MetablockFrames { get; }
+        IRepository<TableBlockRowHeight> TableBlockRowHeights { get; }
+        IRepository<TableBlockColumnWidth> TableBlockColumnWidths { get; }
 
         int Complete();
         Task<int> CompleteAsync();
