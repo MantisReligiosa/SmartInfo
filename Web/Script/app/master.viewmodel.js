@@ -1227,7 +1227,11 @@ function masterViewModel(app) {
                             if (block.type == 'table') {
                                 block.columnWidths.sort(function (a, b) {
                                     return a.index - b.index;
-                                })
+                                });
+                                block.rowHeights.sort(function (a, b) {
+                                    return a.index - b.index;
+                                });
+                                debugger;
                             }
                             self.blocks.push(block);
                             var node = getNode(block);

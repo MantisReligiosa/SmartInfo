@@ -24,10 +24,7 @@ namespace DomainObjects.Blocks.Details
             }
             set
             {
-                if (Units == SizeUnits.Auto)
-                    _value = null;
-                else
-                    _value = value ?? 0;
+                _value = value;
             }
         }
 

@@ -33,7 +33,9 @@
                     'font-style': $parent.evenStyle.italic ? 'italic' : ''
                     }">
             <!-- ko foreach: cells-->
-            <td data-bind="text: $data"></td>
+            <td data-bind="style: {'height':$parents[1].rowHeights[$parent.index].units == 1? $parents[1].rowHeights[$parent.index].value+'%':
+                                 $parents[1].rowHeights[$parent.index].units == 0? '':
+                                    ''}, text: $data"></td>
             <!-- /ko-->
         </tr>
         <!--/ko-->
@@ -47,7 +49,9 @@
                     'font-style': $parent.oddStyle.italic ? 'italic' : ''
                     }">
             <!-- ko foreach: cells-->
-            <td data-bind="text: $data"></td>
+            <td data-bind="style: {'height':$parents[1].rowHeights[$parent.index].units == 1? $parents[1].rowHeights[$parent.index].value+'%':
+                                 $parents[1].rowHeights[$parent.index].units == 0? '':
+                                    ''}, text: $data"></td>
             <!-- /ko-->
         </tr>
         <!--/ko-->
