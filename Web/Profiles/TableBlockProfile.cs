@@ -27,7 +27,9 @@ namespace Web.Profiles
                     Cells = g.OrderBy(c => c.Column).Select(c => c.Value).ToArray()
                 }
                 ).ToArray()))
-                .ForMember(b => b.Caption, opt => opt.MapFrom(b => string.IsNullOrEmpty(b.Caption) ? "table" : b.Caption));
+                .ForMember(b => b.Caption, opt => opt.MapFrom(b => string.IsNullOrEmpty(b.Caption) ? "table" : b.Caption))
+                .ForMember(b => b.ColumnWidths, opt => opt.MapFrom(b => b.Details.TableBlockColumnWidths))
+                .ForMember(b => b.RowHeights, opt => opt.MapFrom(b => b.Details.TableBlockRowHeights));
 
             CreateMap<TableBlockDto, TableBlock>()
                 .ForMember(b => b.Details, opt => opt.MapFrom(b => b));
@@ -37,6 +39,8 @@ namespace Web.Profiles
                 .ForMember(b => b.EvenRowDetails, opt => opt.MapFrom(b => b.EvenStyle))
                 .ForMember(b => b.OddRowDetails, opt => opt.MapFrom(b => b.OddStyle))
                 .ForMember(b => b.HeaderDetails, opt => opt.MapFrom(b => b.HeaderStyle))
+                .ForMember(b => b.TableBlockColumnWidths, opt => opt.MapFrom(b => b.ColumnWidths))
+                .ForMember(b => b.TableBlockRowHeights, opt => opt.MapFrom(b => b.RowHeights))
                 .AfterMap((dto, details) =>
                 {
                     var rowIndex = 0;
@@ -72,6 +76,10 @@ namespace Web.Profiles
                 });
 
             CreateMap<RowStyleDto, TableBlockRowDetails>();
+            CreateMap<TableBlockColumnWidth, TableBlockColumnWidthDto>();
+            CreateMap<TableBlockColumnWidthDto, TableBlockColumnWidth>();
+            CreateMap<TableBlockRowHeight, TableBlockRowHeightDto>();
+            CreateMap<TableBlockRowHeightDto, TableBlockRowHeight>();
         }
     }
 }

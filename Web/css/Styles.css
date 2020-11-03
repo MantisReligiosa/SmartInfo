@@ -171,6 +171,10 @@ div.tab-content {
     background-repeat: no-repeat;
 }
 
+.btn-row-navigate {
+    height: 38px
+}
+
 .tableBtn:before {
     background-image: url('../Images/table.png');
 }

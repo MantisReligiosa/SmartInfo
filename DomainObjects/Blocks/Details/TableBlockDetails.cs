@@ -11,6 +11,8 @@ namespace DomainObjects.Blocks.Details
         public TableBlockRowDetails EvenRowDetails { get; set; }
         public TableBlockRowDetails OddRowDetails { get; set; }
         public ICollection<TableBlockCellDetails> Cells { get; set; }
+        public ICollection<TableBlockRowHeight> TableBlockRowHeights { get; set; }
+        public ICollection<TableBlockColumnWidth> TableBlockColumnWidths { get; set; }
 
         public TableBlockDetails() { }
 
@@ -43,6 +45,16 @@ namespace DomainObjects.Blocks.Details
             foreach (var cell in source.Cells)
             {
                 Cells.Add(new TableBlockCellDetails(cell));
+            }
+            TableBlockRowHeights = new List<TableBlockRowHeight>();
+            foreach(var rowHeight in source.TableBlockRowHeights)
+            {
+                TableBlockRowHeights.Add(new TableBlockRowHeight(rowHeight));
+            }
+            TableBlockColumnWidths = new List<TableBlockColumnWidth>();
+            foreach(var columnWidth in source.TableBlockColumnWidths)
+            {
+                TableBlockColumnWidths.Add(new TableBlockColumnWidth(columnWidth));
             }
         }
     }

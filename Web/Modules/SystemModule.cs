@@ -1,4 +1,5 @@
 ﻿using DomainObjects;
+using DomainObjects.Blocks.Details;
 using Nancy.ModelBinding;
 using ServiceInterfaces;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace Web.Modules
 
             Get["/api/fonts"] = Wrap(GetFonts, "Ошибка загрузки шрифтов");
             Get["/api/datetimeformats"] = Wrap(GetDatetimeFormats, "Ошибка загрузки форматов даты/времени");
+            Get["/api/loadsizeunits"] = Wrap(GetSizeUnits, "Ошибка загрузки размерностей");
             // Нельзя менять на GET, т.к. есть параметры
             Post["/api/screenResolution"] = Wrap(GetScreenInfo, "Ошибка загрузки информации о экранах");
         }
@@ -45,6 +47,11 @@ namespace Web.Modules
         private IEnumerable<DateTimeFormat> GetDatetimeFormats()
         {
             return _systemController.GetDatetimeFormats();
+        }
+
+        private IEnumerable<SizeUnit> GetSizeUnits()
+        {
+            return _systemController.GetSizeUnits();
         }
 
         private FontInfo GetFonts()

@@ -1,11 +1,13 @@
 ﻿using AutoFixture;
 using AutoFixture.Kernel;
+using DomainObjects;
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
 using ExpectedObjects;
 using NSubstitute;
 using ServiceInterfaces;
 using Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -100,6 +102,117 @@ namespace BusinessLogicTests
             var actual = controller.SaveMetabLock(savingMetablock);
             var expected = savingMetablock.ToExpectedObject();
             expected.ShouldEqual(actual);
+        }
+
+        [Fact]
+        public void SaveDateTableBlock()
+        {
+            var controller = new BlockController(_systemController, _unitOfWorkFactory);
+
+            var tableBlock = new TableBlock
+            {
+                Caption = "Caption",
+                Height = 14,
+                Top = 15,
+                Left = 16,
+                Width = 17,
+                ZIndex = 0,
+                Id = Guid.NewGuid(),
+                MetablockFrame = null,
+                MetablockFrameId = null,
+            };
+            var details = new TableBlockDetails
+            {
+                Id = Guid.NewGuid(),
+                FontIndex = 1,
+                FontName = "Font",
+                FontSize = 15,
+                Cells = new List<TableBlockCellDetails>(),
+                TableBlockRowHeights = new List<TableBlockRowHeight>(),
+                TableBlockColumnWidths = new List<TableBlockColumnWidth>(),
+                HeaderDetails = new TableBlockRowDetails
+                {
+                    Id = Guid.NewGuid(),
+                    Align = Align.Center,
+                    BackColor = "#ffffff",
+                    Bold = false,
+                    Italic = false,
+                    TextColor = "#aaaaaa",
+                },
+                EvenRowDetails = new TableBlockRowDetails
+                {
+                    Id = Guid.NewGuid(),
+                    Align = Align.Center,
+                    BackColor = "#ffffff",
+                    Bold = false,
+                    Italic = false,
+                    TextColor = "#aaaaaa",
+                },
+                OddRowDetails = new TableBlockRowDetails
+                {
+                    Id = Guid.NewGuid(),
+                    Align = Align.Center,
+                    BackColor = "#ffffff",
+                    Bold = false,
+                    Italic = false,
+                    TextColor = "#aaaaaa",
+                }
+            };
+            tableBlock.Details = details;
+            var rows = 3;
+            var columns = 4;
+            for (int row = 0; row < rows; row++)
+                for (int column = 0; column < columns; column++)
+                {
+                    details.Cells.Add(new TableBlockCellDetails
+                    {
+                        Id = Guid.NewGuid(),
+                        Column = column,
+                        Row = row,
+                        TableBlockDetails = details,
+                        TableBlockDetailsId = details.Id,
+                        Value = $"C[{row}][{column}]"
+                    });
+                }
+            for (int row = 0; row < rows; row++)
+            {
+                details.TableBlockRowHeights.Add(new TableBlockRowHeight
+                {
+                    Id = Guid.NewGuid(),
+                    Index = row,
+                    Value = row * 5,
+                    Units = SizeUnits.Pecent,
+                    TableBlockDetails = details,
+                    TableBlockDetailsId = details.Id
+                });
+            }
+            for (int column = 0; column < columns; column++)
+            {
+                details.TableBlockColumnWidths.Add(new TableBlockColumnWidth
+                {
+                    Id = Guid.NewGuid(),
+                    Index = column,
+                    Value = null,
+                    Units = SizeUnits.Auto,
+                    TableBlockDetails = details,
+                    TableBlockDetailsId = details.Id
+                });
+            }
+
+            _unitOfWork.DisplayBlocks.Get(Arg.Any<object>()).Returns(new TableBlock
+            {
+                Details = new TableBlockDetails
+                {
+                    Cells = new List<TableBlockCellDetails>(),
+                    EvenRowDetails = new TableBlockRowDetails(),
+                    HeaderDetails = new TableBlockRowDetails(),
+                    OddRowDetails = new TableBlockRowDetails(),
+                    TableBlockColumnWidths = new List<TableBlockColumnWidth>(),
+                    TableBlockRowHeights = new List<TableBlockRowHeight>()
+                }
+            });
+
+            controller.SaveTableBlock(tableBlock);
         }
     }
 }

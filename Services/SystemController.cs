@@ -131,5 +131,11 @@ namespace Services
         {
             return _unitOfWork.DateTimeFormats.GetAll();
         }
+
+        public IEnumerable<SizeUnit> GetSizeUnits()
+        {
+            yield return new SizeUnit { SizeUnits = SizeUnits.Auto, Name = "Авто" };
+            yield return new SizeUnit { SizeUnits = SizeUnits.Pecent, Name = "%" };
+        }
     }
 }

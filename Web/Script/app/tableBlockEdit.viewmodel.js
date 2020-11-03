@@ -18,7 +18,14 @@
         return "";
     });
 
+    self.sizeUnits = ko.observableArray();
+    self.selectedRowUnit = ko.observable();
+    self.selectedColumnUnit = ko.observable();
+    self.selectedColumnHeader = ko.observable();
+
     self.rows = ko.observableArray();
+    self.rowHeights = ko.observableArray();
+    self.columnWidths = ko.observableArray();
     self.header = ko.observableArray();
 
     self.rowTypes.forEach(function (rowType) {
@@ -52,6 +59,75 @@
         });
     }
 
+    self.selectedRowHeight = ko.observable({ index: 0 });
+    self.selectedColumnWidth = ko.observable({ index: 0 });
+
+    self.selectRowHeight = function (rowHeight) {
+        self.selectedRowHeight(rowHeight);
+        var selectedItem = ko.utils.arrayFirst(self.sizeUnits(), function (item) {
+            return item.sizeUnits == rowHeight.units
+        });
+        if (selectedItem) {
+            selectedItem.isSelected = true;
+        }
+        self.selectedRowUnit(selectedItem);
+    };
+
+    self.prevRow = function () {
+        var currentIndex = self.selectedRowHeight().index;
+        var prevRowHeight = ko.utils.arrayFirst(self.rowHeights(), function (item) {
+            return item.index == currentIndex - 1;
+        });
+        if (prevRowHeight) {
+            self.selectRowHeight(prevRowHeight);
+        }
+    }
+
+    self.nextRow = function(){
+        var currentIndex = self.selectedRowHeight().index;
+        var nextRowHeight = ko.utils.arrayFirst(self.rowHeights(), function (item) {
+            return item.index == currentIndex + 1;
+        });
+        if (nextRowHeight) {
+            self.selectRowHeight(nextRowHeight);
+        }
+    }
+
+    self.selectColumnWidth = function (columnWidth) {
+        self.selectedColumnWidth(columnWidth);
+        var selectedItem = ko.utils.arrayFirst(self.sizeUnits(), function (item) {
+            return item.sizeUnits == columnWidth.units
+        });
+        var columnHeader = self.header()[self.selectedColumnWidth().index];
+        if (columnHeader) {
+            self.selectedColumnHeader(columnHeader);
+        }
+        if (selectedItem) {
+            selectedItem.isSelected = true;
+        }
+        self.selectedColumnUnit(selectedItem);
+    };
+
+    self.prevCol = function () {
+        var currentIndex = self.selectedColumnWidth().index;
+        var prevColumnWidth = ko.utils.arrayFirst(self.columnWidths(), function (item) {
+            return item.index == currentIndex - 1;
+        });
+        if (prevColumnWidth) {
+            self.selectColumnWidth(prevColumnWidth);
+        }
+    }
+
+    self.nextCol = function () {
+        var currentIndex = self.selectedColumnWidth().index;
+        var nextColumnWidth = ko.utils.arrayFirst(self.columnWidths(), function (item) {
+            return item.index == currentIndex + 1;
+        });
+        if (nextColumnWidth) {
+            self.selectColumnWidth(nextColumnWidth);
+        }
+    }
+
     self.openFileDialog = function () {
         $('#inputFile').on('change', function (e) {
             var tmp = $('#inputFile').val();
@@ -83,6 +159,13 @@
                             self.header(data.header);
                             self.rows.removeAll();
                             self.rows(data.rows);
+                            data.rows.forEach(function (value, index, array) {
+                                self.rowHeights.push({ index, units:0 })
+                            });
+
+                            data.header.forEach(function (value, index, array) {
+                                self.columnWidths.push({ index, units: 0 })
+                            });
                         }
                     );
                 };
@@ -114,5 +197,14 @@
 
     function capitalize(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    self.OnKeyDown = function (ctx, e) {
+        if (!((e.keyCode > 95 && e.keyCode < 106)
+            || (e.keyCode > 47 && e.keyCode < 58)
+            || e.keyCode == 8)) {
+            return false;
+        }
+        return true;
     }
 }
