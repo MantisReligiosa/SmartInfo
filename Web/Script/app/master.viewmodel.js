@@ -8,6 +8,7 @@ function masterViewModel(app) {
     self.fontSizes = ko.observableArray([]);
     self.fontIndexes = ko.observableArray([]);
     self.datetimeformats = ko.observableArray([]);
+    self.sizeunits = ko.observableArray([]);
     self.screenHeight = ko.observable();
     self.screenWidth = ko.observable();
     self.screens = ko.observableArray();
@@ -320,7 +321,10 @@ function masterViewModel(app) {
             self.tableBlockEditViewModel().rows(block.rows);
             self.tableBlockEditViewModel().header(block.header);
             self.tableBlockEditViewModel().rowHeights(block.rowHeights);
+            self.tableBlockEditViewModel().sizeUnits(self.sizeunits());
+            self.tableBlockEditViewModel().selectRowHeight(block.rowHeights[0]);
             self.tableBlockEditViewModel().columnWidths(block.columnWidths);
+            self.tableBlockEditViewModel().selectColumnWidth(block.columnWidths[0]);
         };
         if (block.type === 'picture') {
             self.pictureBlockEditViewModel().caption(block.caption);
@@ -761,6 +765,7 @@ function masterViewModel(app) {
         initializeControls();
         loadFonts()
             .then(function () { return loadResolution(); })
+            .then(function () { return loadSizeUnits(); })
             .then(function () { return loadDatetimeFormats(); })
             .then(function () { return loadBackground(); })
             .then(function () { return loadBlocks(); })
@@ -1231,7 +1236,6 @@ function masterViewModel(app) {
                                 block.rowHeights.sort(function (a, b) {
                                     return a.index - b.index;
                                 });
-                                debugger;
                             }
                             self.blocks.push(block);
                             var node = getNode(block);
@@ -1399,6 +1403,17 @@ function masterViewModel(app) {
                     resolve();
                 });
             });
+    }
+
+    loadSizeUnits = function () {
+        return new Promise(function (resolve, reject) {
+            app.request("GET", "/api/loadsizeunits", {}, function (data) {
+                data.forEach(function (entry) {
+                    self.sizeunits.push(entry);
+                });
+                resolve();
+            });
+        });
     }
 
     self.startShow = function () {

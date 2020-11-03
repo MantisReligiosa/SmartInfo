@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using AutoFixture.Kernel;
+using DomainObjects;
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
 using ExpectedObjects;

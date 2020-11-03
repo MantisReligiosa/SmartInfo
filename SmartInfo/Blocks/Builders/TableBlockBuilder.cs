@@ -37,7 +37,9 @@ namespace SmartInfo.Blocks.Builders
             rowStyle.Triggers.Add(oddTrigger);
             rowStyle.Triggers.Add(evenTrigger);
 
-            var rowHeight = (tableBlock.Height - tableBlock.Details.FontSize * tableBlock.Details.FontIndex) / (rows.Count() - 1);
+            var rowsHeight = tableBlock.Height - tableBlock.Details.FontSize * tableBlock.Details.FontIndex;
+
+            var rowHeight = rowsHeight / (rows.Count() - 1);
 
             foreach (var style in GetRowStyleSetters(tableBlock.Details.OddRowDetails, tableBlock.Details.FontSize, tableBlock.Details.FontName))
             {
@@ -64,6 +66,21 @@ namespace SmartInfo.Blocks.Builders
                 ColumnHeaderStyle = headerStyle,
                 RowStyle = rowStyle
             };
+            dataGrid.LoadingRow += (sender, e) =>
+            {
+                var index = e.Row.GetIndex();
+                var rowDetails = tableBlock.Details.TableBlockRowHeights.Single(h => h.Index == index);
+                if (rowDetails.Units == DomainObjects.SizeUnits.Pecent)
+                {
+                    e.Row.MinHeight = e.Row.MaxHeight = (tableBlock.Height)* rowDetails.Value.Value / 100;
+                }
+                if (rowDetails.Units == DomainObjects.SizeUnits.Auto)
+                {
+                    var totalPercentsOccupied = tableBlock.Details.TableBlockRowHeights.Where(h => h.Units == DomainObjects.SizeUnits.Pecent).Sum(h => h.Value.Value);
+                    var height = (rowsHeight * (100 - totalPercentsOccupied) / 100)/tableBlock.Details.TableBlockRowHeights.Count(h => h.Units != DomainObjects.SizeUnits.Pecent);
+                    e.Row.MinHeight = e.Row.MaxHeight = height;
+                }
+            };
             if (tableBlock.Details.Cells.Any())
             {
                 var columnCount = tableBlock.Details.Cells.Max(c => c.Column) + 1;
@@ -71,11 +88,14 @@ namespace SmartInfo.Blocks.Builders
                 for (int i = 0; i < columnCount; i++)
                 {
                     var name = $"Column{i}";
+                    var columnWidth = tableBlock.Details.TableBlockColumnWidths.Single(w => w.Index == i);
                     dataGrid.Columns.Add(new DataGridTextColumn
                     {
                         Header = header[i].Value,
                         Binding = new Binding(name),
-                        Width = new DataGridLength(1, DataGridLengthUnitType.Star)
+                        Width = columnWidth.Units == DomainObjects.SizeUnits.Pecent ?
+                        new DataGridLength(tableBlock.Width * columnWidth.Value.Value / 100, DataGridLengthUnitType.Pixel) :
+                        new DataGridLength(1, DataGridLengthUnitType.Star)
                     });
                 }
                 foreach (var row in rows.Skip(1))

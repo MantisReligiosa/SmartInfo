@@ -1,4 +1,4 @@
-﻿using DomainObjects.Blocks.Details;
+﻿using DomainObjects;
 
 namespace Web.Models.Blocks
 {

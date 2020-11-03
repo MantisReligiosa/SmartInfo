@@ -14,5 +14,6 @@ namespace ServiceInterfaces
         IEnumerable<double> GetFontHeightIndex();
         string GetVersion();
         IEnumerable<DateTimeFormat> GetDatetimeFormats();
+        IEnumerable<SizeUnit> GetSizeUnits();
     }
 }
