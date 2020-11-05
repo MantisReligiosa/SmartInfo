@@ -219,7 +219,7 @@
             <div id="collapseRows" class="collapse" aria-labelledby="headingRows" data-parent="#tableAccordion">
                 <div class="card-body">
                     <div class="form-group">
-                        <label class="d-inline" data-bind="text:'Строка'+(selectedRowHeight().index+1)"></label>
+                        <label class="d-inline" data-bind="text:'Строка'+(selectedRowHeight()?selectedRowHeight().index+1:1)"></label>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-light btn-column-navigate arrow-up" data-bind="click: prevRow"></button>
@@ -246,7 +246,7 @@
             <div id="collapseColumns" class="collapse" aria-labelledby="headingColumns" data-parent="#tableAccordion">
                 <div class="card-body">
                     <div class="form-group">
-                        <label class="d-inline" data-bind="text:'Столбец'+(selectedColumnWidth().index+1)+' ('+selectedColumnHeader()+')'"></label>
+                        <label class="d-inline" data-bind="text:'Столбец'+(selectedColumnWidth()?selectedColumnWidth().index+1:1)+' ('+selectedColumnHeader()+')'"></label>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-light btn-column-navigate arrow-left" data-bind="click: prevCol"></button>

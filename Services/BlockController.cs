@@ -267,6 +267,7 @@ namespace Services
                     else
                     {
                         dbRowHeight.Value = rowHeight.Value;
+                        dbRowHeight.Units = rowHeight.Units;
                     }
                 }
 
@@ -284,6 +285,7 @@ namespace Services
                     else
                     {
                         dbColumnWidth.Value = columnWidth.Value;
+                        dbColumnWidth.Units = columnWidth.Units;
                     }
                 }
 

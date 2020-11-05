@@ -408,6 +408,8 @@ function masterViewModel(app) {
             });
             block.rows = self.tableBlockEditViewModel().rows();
             block.header = self.tableBlockEditViewModel().header();
+            self.tableBlockEditViewModel().saveCurrentColumnChanges();
+            self.tableBlockEditViewModel().saveCurrentRowChanges();
             block.rowHeights = self.tableBlockEditViewModel().rowHeights();
             block.columnWidths = self.tableBlockEditViewModel().columnWidths();
         }
