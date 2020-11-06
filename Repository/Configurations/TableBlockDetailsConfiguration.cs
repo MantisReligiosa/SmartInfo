@@ -14,6 +14,16 @@ namespace Repository.Configurations
                 .WithRequired(c => c.TableBlockDetails)
                 .HasForeignKey(c => c.TableBlockDetailsId)
                 .WillCascadeOnDelete(true);
+
+            HasMany(t => t.TableBlockRowHeights)
+                .WithRequired(c => c.TableBlockDetails)
+                .HasForeignKey(c => c.TableBlockDetailsId)
+                .WillCascadeOnDelete(true);
+
+            HasMany(t => t.TableBlockColumnWidths)
+                .WithRequired(c => c.TableBlockDetails)
+                .HasForeignKey(c => c.TableBlockDetailsId)
+                .WillCascadeOnDelete(true);
         }
     }
 }

@@ -8,6 +8,7 @@ function masterViewModel(app) {
     self.fontSizes = ko.observableArray([]);
     self.fontIndexes = ko.observableArray([]);
     self.datetimeformats = ko.observableArray([]);
+    self.sizeunits = ko.observableArray([]);
     self.screenHeight = ko.observable();
     self.screenWidth = ko.observable();
     self.screens = ko.observableArray();
@@ -319,6 +320,22 @@ function masterViewModel(app) {
 
             self.tableBlockEditViewModel().rows(block.rows);
             self.tableBlockEditViewModel().header(block.header);
+            self.tableBlockEditViewModel().rowHeights(block.rowHeights);
+            self.tableBlockEditViewModel().sizeUnits(self.sizeunits());
+
+            self.tableBlockEditViewModel().rowHeights(block.rowHeights);
+            self.tableBlockEditViewModel().selectedRowUnit(ko.utils.arrayFirst(self.sizeunits(), function (item) {
+                return item.sizeUnits == block.rowHeights[0].units
+            }));
+            self.tableBlockEditViewModel().selectedRowHeight(block.rowHeights[0]);
+            self.tableBlockEditViewModel().selectRowHeight(block.rowHeights[0]);
+
+            self.tableBlockEditViewModel().columnWidths(block.columnWidths);
+            self.tableBlockEditViewModel().selectedColumnUnit(ko.utils.arrayFirst(self.sizeunits(), function (item) {
+                return item.sizeUnits == block.columnWidths[0].units
+            }));
+            self.tableBlockEditViewModel().selectedColumnWidth(block.columnWidths[0]);
+            self.tableBlockEditViewModel().selectColumnWidth(block.columnWidths[0]);
         };
         if (block.type === 'picture') {
             self.pictureBlockEditViewModel().caption(block.caption);
@@ -402,6 +419,10 @@ function masterViewModel(app) {
             });
             block.rows = self.tableBlockEditViewModel().rows();
             block.header = self.tableBlockEditViewModel().header();
+            self.tableBlockEditViewModel().saveCurrentColumnChanges();
+            self.tableBlockEditViewModel().saveCurrentRowChanges();
+            block.rowHeights = self.tableBlockEditViewModel().rowHeights();
+            block.columnWidths = self.tableBlockEditViewModel().columnWidths();
         }
         if (block.type === 'picture') {
             block.caption = self.pictureBlockEditViewModel().caption();
@@ -757,6 +778,7 @@ function masterViewModel(app) {
         initializeControls();
         loadFonts()
             .then(function () { return loadResolution(); })
+            .then(function () { return loadSizeUnits(); })
             .then(function () { return loadDatetimeFormats(); })
             .then(function () { return loadBackground(); })
             .then(function () { return loadBlocks(); })
@@ -1220,6 +1242,14 @@ function masterViewModel(app) {
                                     });
                                 });
                             }
+                            if (block.type == 'table') {
+                                block.columnWidths.sort(function (a, b) {
+                                    return a.index - b.index;
+                                });
+                                block.rowHeights.sort(function (a, b) {
+                                    return a.index - b.index;
+                                });
+                            }
                             self.blocks.push(block);
                             var node = getNode(block);
                             treenodes.push(node);
@@ -1386,6 +1416,17 @@ function masterViewModel(app) {
                     resolve();
                 });
             });
+    }
+
+    loadSizeUnits = function () {
+        return new Promise(function (resolve, reject) {
+            app.request("GET", "/api/loadsizeunits", {}, function (data) {
+                data.forEach(function (entry) {
+                    self.sizeunits.push(entry);
+                });
+                resolve();
+            });
+        });
     }
 
     self.startShow = function () {

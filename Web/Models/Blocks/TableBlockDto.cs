@@ -10,5 +10,7 @@
         public RowStyleDto OddStyle { get; set; }
         public string[] Header { get; set; }
         public RowDto[] Rows { get; set; }
+        public TableBlockRowHeightDto[] RowHeights { get; set; }
+        public TableBlockColumnWidthDto[] ColumnWidths { get; set; }
     }
 }

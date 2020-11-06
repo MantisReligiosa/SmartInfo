@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Web.Models.Blocks;
@@ -27,7 +28,38 @@ namespace Web.Profiles
                     Cells = g.OrderBy(c => c.Column).Select(c => c.Value).ToArray()
                 }
                 ).ToArray()))
-                .ForMember(b => b.Caption, opt => opt.MapFrom(b => string.IsNullOrEmpty(b.Caption) ? "table" : b.Caption));
+                .ForMember(b => b.Caption, opt => opt.MapFrom(b => string.IsNullOrEmpty(b.Caption) ? "table" : b.Caption))
+                .ForMember(b => b.ColumnWidths, opt => opt.MapFrom(b =>  b.Details.TableBlockColumnWidths))
+                .ForMember(b => b.RowHeights, opt => opt.MapFrom(b => b.Details.TableBlockRowHeights))
+                .AfterMap((block,dto )=> 
+                { 
+                    if (!dto.ColumnWidths.Any())
+                    {
+                        var columns = new List<TableBlockColumnWidthDto>();
+                        for (int i = 0; i < dto.Header.Length; i++)
+                        {
+                            columns.Add(new TableBlockColumnWidthDto
+                            {
+                                Index = i,
+                                Units = DomainObjects.SizeUnits.Auto
+                            });
+                            dto.ColumnWidths = columns.ToArray();
+                        }
+                    }
+                    if (!dto.RowHeights.Any())
+                    {
+                        var rows = new List<TableBlockRowHeightDto>();
+                        for (int i = 0; i < dto.Rows.Length; i++)
+                        {
+                            rows.Add(new TableBlockRowHeightDto
+                            {
+                                Index = i,
+                                Units = DomainObjects.SizeUnits.Auto
+                            });
+                            dto.RowHeights = rows.ToArray();
+                        }
+                    }
+                });
 
             CreateMap<TableBlockDto, TableBlock>()
                 .ForMember(b => b.Details, opt => opt.MapFrom(b => b));
@@ -37,6 +69,8 @@ namespace Web.Profiles
                 .ForMember(b => b.EvenRowDetails, opt => opt.MapFrom(b => b.EvenStyle))
                 .ForMember(b => b.OddRowDetails, opt => opt.MapFrom(b => b.OddStyle))
                 .ForMember(b => b.HeaderDetails, opt => opt.MapFrom(b => b.HeaderStyle))
+                .ForMember(b => b.TableBlockColumnWidths, opt => opt.MapFrom(b => b.ColumnWidths))
+                .ForMember(b => b.TableBlockRowHeights, opt => opt.MapFrom(b => b.RowHeights))
                 .AfterMap((dto, details) =>
                 {
                     var rowIndex = 0;
@@ -72,6 +106,10 @@ namespace Web.Profiles
                 });
 
             CreateMap<RowStyleDto, TableBlockRowDetails>();
+            CreateMap<TableBlockColumnWidth, TableBlockColumnWidthDto>();
+            CreateMap<TableBlockColumnWidthDto, TableBlockColumnWidth>();
+            CreateMap<TableBlockRowHeight, TableBlockRowHeightDto>();
+            CreateMap<TableBlockRowHeightDto, TableBlockRowHeight>();
         }
     }
 }

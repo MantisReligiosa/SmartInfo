@@ -100,8 +100,15 @@ namespace Services
 
         public IEnumerable<int> GetFontSizes()
         {
-            yield return 15;
-            for (int i = 20; i <= 200; i += 10)
+            for (int i = 8; i <= 11; i++)
+            {
+                yield return i;
+            }
+            for (int i = 12; i <= 28; i+=2)
+            {
+                yield return i;
+            }
+            for (int i = 30; i <= 200; i += 10)
             {
                 yield return i;
             }
@@ -130,6 +137,12 @@ namespace Services
         public IEnumerable<DateTimeFormat> GetDatetimeFormats()
         {
             return _unitOfWork.DateTimeFormats.GetAll();
+        }
+
+        public IEnumerable<SizeUnit> GetSizeUnits()
+        {
+            yield return new SizeUnit { SizeUnits = SizeUnits.Auto, Name = "Авто" };
+            yield return new SizeUnit { SizeUnits = SizeUnits.Pecent, Name = "%" };
         }
     }
 }

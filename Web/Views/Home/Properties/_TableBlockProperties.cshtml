@@ -1,60 +1,60 @@
 ﻿<div class="form-group">
-    <div id="textBlockText" class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Имя</span>
-        </div>
-        <input type="text" class="form-control" placeholder="Имя блока" data-bind="value:caption" />
-    </div>
-</div>
-
-<div class="form-group">
-    <label class="d-inline">Шрифт</label>
-    <select class="form-control fontPicker d-inline" data-bind="selectedOptions:selectedFonts">
-        <!-- ko foreach: $parent.fonts()-->
-        <option data-bind="style:{fontFamily:$data}, text:$data, value:$data"></option>
-        <!-- /ko-->
-    </select>
-    <select class="form-control fontSizePicker d-inline" data-bind="options: $parent.fontSizes, selectedOptions:selectedFontSizes"></select>
-    <select class="form-control fontSizePicker d-inline" data-bind="options: $parent.fontIndexes, selectedOptions:selectedFontIndexes"></select>
-</div>
-
-<div class="form-group">
-    <label class="d-inline">Интервал</label>
-    <select class="form-control fontSizePicker d-inline" data-bind="options: $parent.fontIndexes, selectedOptions:selectedFontIndexes"></select>
-</div>
-
-<div class="input-group mb-3">
-    <div>
-        @*<input type="file" class="custom-file-input" id="inputFile" style="display:none" accept=".xls,.xlsx,.csv">*@
-        <input type="file" class="custom-file-input" id="inputFile" style="display:none" data-bind="attr:{accept:accept}">
-        <button class="btn btn-primary" data-bind="click: openFileDialog">Импорт из файла</button>
-    </div>
-    @*<div style="padding-left: 20px;">
-            <label style="margin-bottom:0">Кодировка:</label>
-            <div id="encoding">
-                <div class="radio">
-                    <label><input type="radio" name="win1251" value="0" data-bind="checked: encoding" checked>Windows-1251</label>
-                </div>
-                <div class="radio">
-                    <label><input type="radio" name="utf8" value="1" data-bind="checked: encoding">UTF-8</label>
-                </div>
-            </div>
-        </div>*@
-    <div style="padding-left: 20px;">
-        <label style="margin-bottom:0">Формат:</label>
-        <div id="encoding">
-            <div class="radio">
-                <label><input type="radio" name="csv" value="0" data-bind="checked: format" checked>CSV</label>
-            </div>
-            <div class="radio">
-                <label><input type="radio" name="excel" value="1" data-bind="checked: format">Excel</label>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
     <div class="accordion accordion-properties" id="tableAccordion">
+        <div class="card">
+            <div class="card-header" id="commonTable">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseCommonTable" aria-expanded="true" aria-controls="collapseStyle">
+                        Общие
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseCommonTable" class="collapse show" aria-labelledby="commonTable" data-parent="#tableAccordion">
+                <div class="card-body">
+                    <div class="form-group">
+                        <div id="textBlockText" class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Имя</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Имя блока" data-bind="value:caption" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="d-inline">Шрифт</label>
+                        <select class="form-control fontPicker d-inline" data-bind="selectedOptions:selectedFonts">
+                            <!-- ko foreach: $parent.fonts()-->
+                            <option data-bind="style:{fontFamily:$data}, text:$data, value:$data"></option>
+                            <!-- /ko-->
+                        </select>
+                        <select class="form-control fontSizePicker d-inline" data-bind="options: $parent.fontSizes, selectedOptions:selectedFontSizes"></select>
+                        <select class="form-control fontSizePicker d-inline" data-bind="options: $parent.fontIndexes, selectedOptions:selectedFontIndexes"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="d-inline">Интервал</label>
+                        <select class="form-control fontSizePicker d-inline" data-bind="options: $parent.fontIndexes, selectedOptions:selectedFontIndexes"></select>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div>
+                            <input type="file" class="custom-file-input" id="inputFile" style="display:none" data-bind="attr:{accept:accept}">
+                            <button class="btn btn-primary" data-bind="click: openFileDialog">Импорт из файла</button>
+                        </div>
+                        <div style="padding-left: 20px;">
+                            <label style="margin-bottom:0">Формат:</label>
+                            <div id="encoding">
+                                <div class="radio">
+                                    <label><input type="radio" name="csv" value="0" data-bind="checked: format" checked>CSV</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="excel" value="1" data-bind="checked: format">Excel</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-header" id="headingHeader">
                 <h5 class="mb-0">
@@ -63,7 +63,7 @@
                     </button>
                 </h5>
             </div>
-            <div id="collapseHeader" class="collapse show" aria-labelledby="headingHeader" data-parent="#tableAccordion">
+            <div id="collapseHeader" class="collapse" aria-labelledby="headingHeader" data-parent="#tableAccordion">
                 <div class="card-body">
                     <div id="tableBlockHeaderBackgroundCP" class="input-group colorpicker-component">
                         <span class="input-group-text color-prompt">Цвет фона</span>
@@ -203,6 +203,56 @@
                         <div class="radio">
                             <label><input type="radio" name="oddAlign" value="2" data-bind="checked: oddAlign">По правому краю</label>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="headingRows">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseRows" aria-expanded="true" aria-controls="collapseStyle">
+                        Высота строк
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseRows" class="collapse" aria-labelledby="headingRows" data-parent="#tableAccordion">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="d-inline" data-bind="text:'Строка'+(selectedRowHeight()?selectedRowHeight().index+1:1)"></label>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-light btn-column-navigate arrow-up" data-bind="click: prevRow"></button>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control d-inline" data-bind="value: selectedRowHeight().value, event: {keydown:OnKeyDown}" min="0" style="width:90px !important" />
+                        <select class="form-control d-inline" data-bind="options: sizeUnits(), optionsText: 'name', value: selectedRowUnit" style="width:100px"></select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-light btn-row-navigate arrow-down" data-bind="click: nextRow"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="headingColumns">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseColumns" aria-expanded="true" aria-controls="collapseStyle">
+                        Ширина столбцов
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseColumns" class="collapse" aria-labelledby="headingColumns" data-parent="#tableAccordion">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="d-inline" data-bind="text:'Столбец'+(selectedColumnWidth()?selectedColumnWidth().index+1:1)+' ('+selectedColumnHeader()+')'"></label>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-light btn-column-navigate arrow-left" data-bind="click: prevCol"></button>
+                        <input type="number" class="form-control d-inline" data-bind="value: selectedColumnWidth().value, event: {keydown:OnKeyDown}" min="0" style="width:90px !important" />
+                        <select class="form-control d-inline" data-bind="options: sizeUnits(), optionsText: 'name', value: selectedColumnUnit" style="width:100px"></select>
+                        <button class="btn btn-light btn-column-navigate arrow-right" data-bind="click: nextCol"></button>
                     </div>
                 </div>
             </div>

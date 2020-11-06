@@ -26,6 +26,8 @@ namespace Repository.Repositories
                 .Include(t => t.Details.EvenRowDetails)
                 .Include(t => t.Details.OddRowDetails)
                 .Include(t => t.Details.HeaderDetails)
+                .Include(t => t.Details.TableBlockColumnWidths)
+                .Include(t => t.Details.TableBlockRowHeights)
                 .ToList());
             items.AddRange(Context.DisplayBlocks.OfType<MetaBlock>()
                 .Include(t => t.Details)

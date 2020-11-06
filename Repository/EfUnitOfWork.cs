@@ -22,6 +22,8 @@ namespace Repository
             TableBlockCellDetails = new Repository<TableBlockCellDetails>(_databaseContext);
             DateTimeFormats = new Repository<DateTimeFormat>(_databaseContext);
             MetablockFrames = new Repository<MetablockFrame>(_databaseContext);
+            TableBlockRowHeights = new Repository<TableBlockRowHeight>(_databaseContext);
+            TableBlockColumnWidths = new Repository<TableBlockColumnWidth>(_databaseContext);
         }
 
         public IRepository<User> Users { get; private set; }
@@ -31,6 +33,8 @@ namespace Repository
         public IRepository<TableBlockCellDetails> TableBlockCellDetails { get; private set; }
         public IRepository<DateTimeFormat> DateTimeFormats { get; private set; }
         public IRepository<MetablockFrame> MetablockFrames { get; private set; }
+        public IRepository<TableBlockRowHeight> TableBlockRowHeights { get; private set; }
+        public IRepository<TableBlockColumnWidth> TableBlockColumnWidths { get; private set; }
 
         public int Complete()
         {
