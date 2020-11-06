@@ -131,7 +131,7 @@ namespace Services
             var broker = Broker.GetBroker();
             var responce = broker.GetResponce(new GetVersionRequest()) as GetVersionResponce;
 
-            return $"v{responce.Major}.{responce.Minor}.{responce.Build}";
+            return $"v{responce.Major}.{responce.Minor} build {responce.Build}";
         }
 
         public IEnumerable<DateTimeFormat> GetDatetimeFormats()
