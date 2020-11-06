@@ -12,11 +12,13 @@
                         'color' : headerStyle.textColor,
                         'text-align' : headerStyle.align==0 ? 'left' : headerStyle.align==1 ? 'center' : 'right',
                         'font-weight': headerStyle.bold ? 'bold' : 'normal',
-                        'font-style': headerStyle.italic ? 'italic' : ''
+                        'font-style': headerStyle.italic ? 'italic' : '',
+                        'word-break': 'break-all'
                     }">
             <th data-bind="text: $data, style: {
                         'font-weight': $parent.headerStyle.bold ? 'bold' : 'normal',
-                        'width': $parent.columnWidths[$index()].units == 1? $parent.columnWidths[$index()].value+'%':
+                        'width': !($parent.columnWidths[$index()])?'min-content':
+                                $parent.columnWidths[$index()].units == 1? $parent.columnWidths[$index()].value+'%':
                                  $parent.columnWidths[$index()].units == 0? 'min-content':
                                     'min-content'
                         }"></th>
@@ -33,7 +35,8 @@
                     'font-style': $parent.evenStyle.italic ? 'italic' : ''
                     }">
             <!-- ko foreach: cells-->
-            <td data-bind="style: {'height':$parents[1].rowHeights[$parent.index].units == 1? $parents[1].rowHeights[$parent.index].value+'%':
+            <td data-bind="style: {'height':!($parents[1].rowHeights[$parent.index])?'':
+                $parents[1].rowHeights[$parent.index].units == 1? $parents[1].rowHeights[$parent.index].value+'%':
                                  $parents[1].rowHeights[$parent.index].units == 0? '':
                                     ''}, text: $data"></td>
             <!-- /ko-->
@@ -49,7 +52,8 @@
                     'font-style': $parent.oddStyle.italic ? 'italic' : ''
                     }">
             <!-- ko foreach: cells-->
-            <td data-bind="style: {'height':$parents[1].rowHeights[$parent.index].units == 1? $parents[1].rowHeights[$parent.index].value+'%':
+            <td data-bind="style: {'height':!($parents[1].rowHeights[$parent.index])?'':
+                $parents[1].rowHeights[$parent.index].units == 1? $parents[1].rowHeights[$parent.index].value+'%':
                                  $parents[1].rowHeights[$parent.index].units == 0? '':
                                     ''}, text: $data"></td>
             <!-- /ko-->

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Web.Models.Blocks;
@@ -28,8 +29,37 @@ namespace Web.Profiles
                 }
                 ).ToArray()))
                 .ForMember(b => b.Caption, opt => opt.MapFrom(b => string.IsNullOrEmpty(b.Caption) ? "table" : b.Caption))
-                .ForMember(b => b.ColumnWidths, opt => opt.MapFrom(b => b.Details.TableBlockColumnWidths))
-                .ForMember(b => b.RowHeights, opt => opt.MapFrom(b => b.Details.TableBlockRowHeights));
+                .ForMember(b => b.ColumnWidths, opt => opt.MapFrom(b =>  b.Details.TableBlockColumnWidths))
+                .ForMember(b => b.RowHeights, opt => opt.MapFrom(b => b.Details.TableBlockRowHeights))
+                .AfterMap((block,dto )=> 
+                { 
+                    if (!dto.ColumnWidths.Any())
+                    {
+                        var columns = new List<TableBlockColumnWidthDto>();
+                        for (int i = 0; i < dto.Header.Length; i++)
+                        {
+                            columns.Add(new TableBlockColumnWidthDto
+                            {
+                                Index = i,
+                                Units = DomainObjects.SizeUnits.Auto
+                            });
+                            dto.ColumnWidths = columns.ToArray();
+                        }
+                    }
+                    if (!dto.RowHeights.Any())
+                    {
+                        var rows = new List<TableBlockRowHeightDto>();
+                        for (int i = 0; i < dto.Rows.Length; i++)
+                        {
+                            rows.Add(new TableBlockRowHeightDto
+                            {
+                                Index = i,
+                                Units = DomainObjects.SizeUnits.Auto
+                            });
+                            dto.RowHeights = rows.ToArray();
+                        }
+                    }
+                });
 
             CreateMap<TableBlockDto, TableBlock>()
                 .ForMember(b => b.Details, opt => opt.MapFrom(b => b));

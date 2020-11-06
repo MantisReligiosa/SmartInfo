@@ -63,6 +63,9 @@
     self.selectedColumnWidth = ko.observable({ index: 0 });
 
     self.selectRowHeight = function (rowHeight) {
+        if (!rowHeight)
+            return;
+        self.saveCurrentRowChanges();
         self.selectedRowHeight(rowHeight);
         var selectedItem = ko.utils.arrayFirst(self.sizeUnits(), function (item) {
             return item.sizeUnits == rowHeight.units
@@ -94,6 +97,9 @@
     }
 
     self.selectColumnWidth = function (columnWidth) {
+        if (!columnWidth)
+            return;
+        self.saveCurrentColumnChanges();
         self.selectedColumnWidth(columnWidth);
         var selectedItem = ko.utils.arrayFirst(self.sizeUnits(), function (item) {
             return item.sizeUnits == columnWidth.units
@@ -107,6 +113,26 @@
         }
         self.selectedColumnUnit(selectedItem);
     };
+
+    self.saveCurrentColumnChanges = function () {
+        if (!self.selectedColumnWidth())
+            return;
+        var currentColumn = ko.utils.arrayFirst(self.columnWidths(), function (item) {
+            return item.index == self.selectedColumnWidth().index;
+        });
+        currentColumn.value = self.selectedColumnWidth().value;
+        currentColumn.units = self.selectedColumnUnit().sizeUnits;
+    }
+
+    self.saveCurrentRowChanges = function() {
+        if (!self.selectedRowHeight())
+            return;
+        var currentRow = ko.utils.arrayFirst(self.rowHeights(), function (item) {
+            return item.index == self.selectedRowHeight().index;
+        });
+        currentRow.value = self.selectedRowHeight().value;
+        currentRow.units = self.selectedRowUnit().sizeUnits;
+    }
 
     self.prevCol = function () {
         var currentIndex = self.selectedColumnWidth().index;

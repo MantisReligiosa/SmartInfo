@@ -322,8 +322,19 @@ function masterViewModel(app) {
             self.tableBlockEditViewModel().header(block.header);
             self.tableBlockEditViewModel().rowHeights(block.rowHeights);
             self.tableBlockEditViewModel().sizeUnits(self.sizeunits());
+
+            self.tableBlockEditViewModel().rowHeights(block.rowHeights);
+            self.tableBlockEditViewModel().selectedRowUnit(ko.utils.arrayFirst(self.sizeunits(), function (item) {
+                return item.sizeUnits == block.rowHeights[0].units
+            }));
+            self.tableBlockEditViewModel().selectedRowHeight(block.rowHeights[0]);
             self.tableBlockEditViewModel().selectRowHeight(block.rowHeights[0]);
+
             self.tableBlockEditViewModel().columnWidths(block.columnWidths);
+            self.tableBlockEditViewModel().selectedColumnUnit(ko.utils.arrayFirst(self.sizeunits(), function (item) {
+                return item.sizeUnits == block.columnWidths[0].units
+            }));
+            self.tableBlockEditViewModel().selectedColumnWidth(block.columnWidths[0]);
             self.tableBlockEditViewModel().selectColumnWidth(block.columnWidths[0]);
         };
         if (block.type === 'picture') {
@@ -408,6 +419,8 @@ function masterViewModel(app) {
             });
             block.rows = self.tableBlockEditViewModel().rows();
             block.header = self.tableBlockEditViewModel().header();
+            self.tableBlockEditViewModel().saveCurrentColumnChanges();
+            self.tableBlockEditViewModel().saveCurrentRowChanges();
             block.rowHeights = self.tableBlockEditViewModel().rowHeights();
             block.columnWidths = self.tableBlockEditViewModel().columnWidths();
         }

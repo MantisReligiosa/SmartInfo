@@ -6,7 +6,7 @@ namespace Services
 {
     public class SerializationController : ISerializationController
     {
-        public T Deserialize<T>(string source) where T : class
+        public T DeserializeXML<T>(string source) where T : class
         {
             var serializer = new XmlSerializer(typeof(T));
             object obj;

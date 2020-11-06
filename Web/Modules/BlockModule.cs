@@ -97,7 +97,7 @@ namespace Web.Modules
         private void UploadConfig()
         {
             var data = this.Bind<ConfigDataDto>();
-            var configDto = _serializationController.Deserialize<ConfigDto>(data.Text);
+            var configDto = _serializationController.DeserializeXML<ConfigDto>(data.Text);
             _blockController.SetBackground(configDto.Background);
             _blockController.Cleanup();
             var blocks = configDto.Blocks;
