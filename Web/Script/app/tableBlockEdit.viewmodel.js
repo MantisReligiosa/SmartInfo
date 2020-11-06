@@ -52,7 +52,7 @@
     };
 
     self.initializeControls = function () {
-
+        $('input[name="csv"][value="0"]').prop('checked', true);
         self.rowTypes.forEach(function (rowType) {
             $('#tableBlock' + capitalize(rowType) + 'BackgroundCP').colorpicker({ format: "rgba" });
             $('#tableBlock' + capitalize(rowType) + 'TextColorCP').colorpicker({ format: "rgba" });
