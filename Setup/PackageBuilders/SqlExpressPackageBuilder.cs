@@ -24,6 +24,8 @@ namespace Setup.Packages
                 DetectCondition = "SQLSERVERINSTALLED",
                 PerMachine = true,
                 Payloads = new Payload[] { new Payload("SqlExpress.ini"), new Payload(_sourceFile) },
+                Permanent = true,
+                Vital = false
             };
             return package;
         }

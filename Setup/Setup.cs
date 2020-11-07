@@ -32,8 +32,8 @@ namespace Setup
                 Manufacturer = Constants.Manufacturer
             };
             bootstrapper.Application.LogoFile = @"..\SmartInfo\Resources\Logo.bmp";
-            bootstrapper.Application.SuppressOptionsUI = false;
-            bootstrapper.Application.SuppressRepair = false;
+            bootstrapper.Application.SuppressOptionsUI = true;
+            bootstrapper.Application.SuppressRepair = true;
             bootstrapper.Include(WixExtension.NetFx);
             bootstrapper.Include(WixExtension.Util);
             bootstrapper.AddWixFragment("Wix/Bundle",
