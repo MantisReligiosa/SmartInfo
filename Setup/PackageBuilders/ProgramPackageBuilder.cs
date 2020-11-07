@@ -96,8 +96,8 @@ namespace Setup.Packages
         {
             if (e.IsInstalling)
             {
-                Process[] pname = Process.GetProcessesByName(Constants.ProductName);
-                if (pname.Any())
+                Process[] pname = Process.GetProcesses();
+                if (pname.Any(p=>p.ProcessName.Contains(Constants.ProductName)))
                 {
                     NotificationManager.ShowErrorMessage($"{Constants.ProductName} сейчас запущен.\r\nПеред установкой необходимо завершить работу текущей версии программы");
                     e.Result = ActionResult.Failure;
