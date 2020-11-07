@@ -2,6 +2,24 @@ function masterViewModel(app) {
     var self = this,
         clipboard;
 
+    $(function () {
+        var _redirectTimeout = 5 * 60 * 1000; //5 минут!
+        var _redirectUrl = 'login';
+
+        var _redirectHandle = null;
+
+        function resetRedirect() {
+            if (_redirectHandle) clearTimeout(_redirectHandle);
+            _redirectHandle = setTimeout(function () {
+                window.location.href = _redirectUrl;
+            }, _redirectTimeout);
+        }
+
+        $.ajaxSetup({ complete: function () { resetRedirect(); } });
+
+        resetRedirect();
+    });
+
     self.loading = ko.observable(true);
 
     self.fonts = ko.observableArray([]);
