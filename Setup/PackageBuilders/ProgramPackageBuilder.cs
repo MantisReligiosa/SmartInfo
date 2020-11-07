@@ -56,10 +56,6 @@ namespace Setup.Packages
                             new ExeFileShortcut(Constants.ProductName, $"[INSTALLDIR]{Constants.ExecFile}", arguments: "")),
                     new Dir(@"%Desktop%",
                             new ExeFileShortcut(Constants.ExecFile, $"[INSTALLDIR]{Constants.ExecFile}", arguments: ""))
-                    , new ElevatedManagedAction(CustomActions.OnInstall, Return.check, When.After, Step.InstallFiles, Condition.NOT_Installed)
-                    {
-                        Impersonate = true
-                    }
                     )
             {
                 GUID = guid,
@@ -79,6 +75,7 @@ namespace Setup.Packages
                                    .On(NativeDialogs.InstallDirDlg, Buttons.Back, new ShowDialog(NativeDialogs.WelcomeDlg)),
             };
             project.BeforeInstall += Project_BeforeInstall;
+            project.AfterInstall += Project_AfterInstall;
             project.ControlPanelInfo.Manufacturer = Constants.Manufacturer;
             project.DefaultRefAssemblies.AddRange(
                 AssemblyManager.GetAssemblyPathsCollection(Path.GetDirectoryName(
@@ -87,13 +84,24 @@ namespace Setup.Packages
             return new MsiPackage(_msiPath);
         }
 
+        private void Project_AfterInstall(SetupEventArgs e)
+        {
+            if (e.IsInstalling)
+            {
+                CustomActions.OnInstall(e.Session);
+            }
+        }
+
         private void Project_BeforeInstall(SetupEventArgs e)
         {
-            Process[] pname = Process.GetProcessesByName(Constants.ProductName);
-            if (pname.Any())
+            if (e.IsInstalling)
             {
-                NotificationManager.ShowErrorMessage($"{Constants.ProductName} сейчас запущен.\r\nПеред установкой необходимо завершить работу текущей версии программы");
-                e.Result = ActionResult.Failure;
+                Process[] pname = Process.GetProcessesByName(Constants.ProductName);
+                if (pname.Any())
+                {
+                    NotificationManager.ShowErrorMessage($"{Constants.ProductName} сейчас запущен.\r\nПеред установкой необходимо завершить работу текущей версии программы");
+                    e.Result = ActionResult.Failure;
+                }
             }
         }
     }
