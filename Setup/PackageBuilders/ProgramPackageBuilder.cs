@@ -94,7 +94,7 @@ namespace Setup.Packages
 
         private void Project_BeforeInstall(SetupEventArgs e)
         {
-            if (e.IsInstalling)
+            if (e.IsUninstalling)
             {
                 Process[] pname = Process.GetProcesses();
                 if (pname.Any(p=>p.ProcessName.Contains(Constants.ProductName)))
