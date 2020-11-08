@@ -24,9 +24,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{B308A561-A4D6-47DB-B19D-2115B92AFC94}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInfo", "SmartInfo\SmartInfo.csproj", "{6D207A00-7003-4766-A51C-F52E354435DC}"
-	ProjectSection(ProjectDependencies) = postProject
-		{04CCEB3B-4809-45FB-B952-41435B5C2E6D} = {04CCEB3B-4809-45FB-B952-41435B5C2E6D}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI.Testing", "UI.Testing", "{EF1F1F25-37B9-430B-9831-65DE4431A94D}"
 EndProject
@@ -34,19 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Testing.Console", "UI.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Testing.SeleniumAdapter", "UI.Testing\UI.Testing.SeleniumAdapter\UI.Testing.SeleniumAdapter.csproj", "{0499E48A-8C23-49B4-BC47-4C765FA19601}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Extensions", "Common\Common.Extensions\Common.Extensions.csproj", "{1BAF3556-8262-4102-BDA9-F0EA0DEDDA44}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Activation", "Common\Common.Activation\Common.Activation.csproj", "{F1AC927D-0F23-448D-B122-49A725A9E55B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Compression", "Common\Common.Compression\Common.Compression.csproj", "{7E425F1A-5E02-4C0B-BE9A-0BA0E7B2E315}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Keygen", "Common\Common.Keygen\Common.Keygen.csproj", "{BA941B1C-D4DB-4889-A842-A0E5A1714F5B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constants", "Constants\Constants.csproj", "{F94769F2-7AD0-4FA4-A308-45F55927979E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Base", "Common\Common.Base\Common.Base.csproj", "{04CCEB3B-4809-45FB-B952-41435B5C2E6D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.SerialNumberInput", "Common\Common.SerialNumberInput\Common.SerialNumberInput.csproj", "{6A5ABB21-29E3-4AFC-BA8C-B1A8A40F9530}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyGen", "KeyGen\KeyGen.csproj", "{4689DD49-EF8C-48EA-93D9-1986CB86415B}"
 EndProject
@@ -106,34 +91,10 @@ Global
 		{0499E48A-8C23-49B4-BC47-4C765FA19601}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0499E48A-8C23-49B4-BC47-4C765FA19601}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0499E48A-8C23-49B4-BC47-4C765FA19601}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1BAF3556-8262-4102-BDA9-F0EA0DEDDA44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BAF3556-8262-4102-BDA9-F0EA0DEDDA44}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1BAF3556-8262-4102-BDA9-F0EA0DEDDA44}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1BAF3556-8262-4102-BDA9-F0EA0DEDDA44}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1AC927D-0F23-448D-B122-49A725A9E55B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1AC927D-0F23-448D-B122-49A725A9E55B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1AC927D-0F23-448D-B122-49A725A9E55B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1AC927D-0F23-448D-B122-49A725A9E55B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E425F1A-5E02-4C0B-BE9A-0BA0E7B2E315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E425F1A-5E02-4C0B-BE9A-0BA0E7B2E315}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E425F1A-5E02-4C0B-BE9A-0BA0E7B2E315}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E425F1A-5E02-4C0B-BE9A-0BA0E7B2E315}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BA941B1C-D4DB-4889-A842-A0E5A1714F5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA941B1C-D4DB-4889-A842-A0E5A1714F5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BA941B1C-D4DB-4889-A842-A0E5A1714F5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA941B1C-D4DB-4889-A842-A0E5A1714F5B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F94769F2-7AD0-4FA4-A308-45F55927979E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F94769F2-7AD0-4FA4-A308-45F55927979E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F94769F2-7AD0-4FA4-A308-45F55927979E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F94769F2-7AD0-4FA4-A308-45F55927979E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04CCEB3B-4809-45FB-B952-41435B5C2E6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04CCEB3B-4809-45FB-B952-41435B5C2E6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04CCEB3B-4809-45FB-B952-41435B5C2E6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04CCEB3B-4809-45FB-B952-41435B5C2E6D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A5ABB21-29E3-4AFC-BA8C-B1A8A40F9530}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A5ABB21-29E3-4AFC-BA8C-B1A8A40F9530}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A5ABB21-29E3-4AFC-BA8C-B1A8A40F9530}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A5ABB21-29E3-4AFC-BA8C-B1A8A40F9530}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4689DD49-EF8C-48EA-93D9-1986CB86415B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4689DD49-EF8C-48EA-93D9-1986CB86415B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection

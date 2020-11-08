@@ -1,5 +1,5 @@
-﻿using Common.Keygen;
-using Constants;
+﻿using Constants;
+using SmartTechnologiesM.Activation;
 using System;
 using System.Windows.Forms;
 
@@ -15,7 +15,7 @@ namespace KeyGen
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1(Activation.Key, Activation.IV));
+            Application.Run(new KeygenForm(Activation.Key, Activation.IV));
         }
     }
 }

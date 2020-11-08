@@ -55,6 +55,9 @@
     <ApplicationIcon>Resources\Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Crc32.NET, Version=1.0.0.0, Culture=neutral, PublicKeyToken=dc0b95cf99bf4e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\Crc32.NET.1.2.0\lib\net20\Crc32.NET.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -70,11 +73,21 @@
     <Reference Include="Nancy.ViewEngines.Razor, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.Viewengines.Razor.1.4.3\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SmartTechnologiesM.Activation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SmartTechnologiesM.Activation.1.0.0-CI-20201108-211212\lib\net461\SmartTechnologiesM.Activation.dll</HintPath>
+    </Reference>
+    <Reference Include="SmartTechnologiesM.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SmartTechnologiesM.Base.1.0.0-CI-20201108-211212\lib\net461\SmartTechnologiesM.Base.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
@@ -89,9 +102,11 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsBase.4.6.1055.0\lib\WindowsBase.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -145,26 +160,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.Activation\Common.Activation.csproj">
-      <Project>{F1AC927D-0F23-448D-B122-49A725A9E55B}</Project>
-      <Name>Common.Activation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.Base\Common.Base.csproj">
-      <Project>{04cceb3b-4809-45fb-b952-41435b5c2e6d}</Project>
-      <Name>Common.Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.Compression\Common.Compression.csproj">
-      <Project>{7E425F1A-5E02-4C0B-BE9A-0BA0E7B2E315}</Project>
-      <Name>Common.Compression</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.Extensions\Common.Extensions.csproj">
-      <Project>{1baf3556-8262-4102-bda9-f0ea0dedda44}</Project>
-      <Name>Common.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.SerialNumberInput\Common.SerialNumberInput.csproj">
-      <Project>{6a5abb21-29e3-4afc-ba8c-b1a8a40f9530}</Project>
-      <Name>Common.SerialNumberInput</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Constants\Constants.csproj">
       <Project>{f94769f2-7ad0-4fa4-a308-45f55927979e}</Project>
       <Name>Constants</Name>

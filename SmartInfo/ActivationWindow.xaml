@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartInfo"
-        xmlns:SerialNumberInput="clr-namespace:Common.SerialNumberInput;assembly=Common.SerialNumberInput"
+        xmlns:Activation="clr-namespace:SmartTechnologiesM.Activation;assembly=SmartTechnologiesM.Activation"
     x:Class="SmartInfo.ActivationWindow"
         mc:Ignorable="d"
         Title="Активация" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight">
@@ -25,8 +25,8 @@
             </Grid.ColumnDefinitions>
             <Label Content="Request code" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10,0,0"/>
             <Label Content="Activation key" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10,0,0"/>
-            <SerialNumberInput:SerialNumberInputControl Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Center" ReadOnly="True" SerialNumber="{Binding RequestCode, Mode=TwoWay}"/>
-            <SerialNumberInput:SerialNumberInputControl Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Center" SerialNumber="{Binding ActivationKey, Mode=TwoWay}"/>
+            <Activation:SerialNumberInputControl Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Center" ReadOnly="True" SerialNumber="{Binding RequestCode, Mode=TwoWay}"/>
+            <Activation:SerialNumberInputControl Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Center" SerialNumber="{Binding ActivationKey, Mode=TwoWay}"/>
             <Button Content="Копировать" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Center" Width="75" Command="{Binding CopyToClipboardCommand}"/>
             <Button Content="Вставить" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1" Margin="10,10,10,0" VerticalAlignment="Center" Width="75" Command="{Binding PasteFromClipboardCommand}"/>
         </Grid>

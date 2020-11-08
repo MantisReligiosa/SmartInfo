@@ -1,6 +1,6 @@
-﻿using Common.Base;
-using Common.Activation;
-using Common.Extensions;
+﻿using SmartTechnologiesM.Activation;
+using SmartTechnologiesM.Base;
+using SmartTechnologiesM.Base.Extensions;
 using System;
 using Input = System.Windows.Input;
 

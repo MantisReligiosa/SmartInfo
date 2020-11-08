@@ -1,6 +1,4 @@
-﻿using Common.Activation;
-using Common.Compression;
-using Constants;
+﻿using Constants;
 using DataExchange;
 using DataExchange.DTO;
 using DataExchange.Requests;
@@ -10,6 +8,8 @@ using Helpers;
 using Nancy.Hosting.Self;
 using SmartInfo.Blocks;
 using SmartInfo.Properties;
+using SmartTechnologiesM.Activation;
+using SmartTechnologiesM.Base.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
