@@ -98,12 +98,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ActivationViewModel.cs" />
+    <Compile Include="ActivationWindow.xaml.cs">
+      <DependentUpon>ActivationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Blocks\Builders\DateTimeBlockBuilder.cs" />
     <Compile Include="Blocks\Builders\MetaBlockBuilder.cs" />
+    <Compile Include="DelegateCommand.cs" />
+    <Compile Include="TrialExpirationEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blocks\AbstractBuilder.cs" />
@@ -139,6 +145,30 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.Activation\Common.Activation.csproj">
+      <Project>{F1AC927D-0F23-448D-B122-49A725A9E55B}</Project>
+      <Name>Common.Activation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.Base\Common.Base.csproj">
+      <Project>{04cceb3b-4809-45fb-b952-41435b5c2e6d}</Project>
+      <Name>Common.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.Compression\Common.Compression.csproj">
+      <Project>{7E425F1A-5E02-4C0B-BE9A-0BA0E7B2E315}</Project>
+      <Name>Common.Compression</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.Extensions\Common.Extensions.csproj">
+      <Project>{1baf3556-8262-4102-bda9-f0ea0dedda44}</Project>
+      <Name>Common.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.SerialNumberInput\Common.SerialNumberInput.csproj">
+      <Project>{6a5abb21-29e3-4afc-ba8c-b1a8a40f9530}</Project>
+      <Name>Common.SerialNumberInput</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Constants\Constants.csproj">
+      <Project>{f94769f2-7ad0-4fa4-a308-45f55927979e}</Project>
+      <Name>Constants</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataExchange\DataExchange.csproj">
       <Project>{E2B3C0E1-7118-4EA8-B830-26C53BBF07E3}</Project>
       <Name>DataExchange</Name>
@@ -170,6 +200,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ActivationWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets" Condition="Exists('..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets')" />

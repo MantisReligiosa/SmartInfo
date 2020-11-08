@@ -152,15 +152,6 @@ namespace BusinessLogicTests
         }
 
         [Fact]
-        public void TestInnerException()
-        {
-            var innedExceptionName = "123";
-            var innedException = new Exception(innedExceptionName);
-            var exception = new Exception("1", new Exception("2", new Exception("3", innedException)));
-            Assert.Equal(innedExceptionName, exception.GetInnerException().Message);
-        }
-
-        [Fact]
         public void TestNoUseInTime()
         {
             var date = new DateTime(2020, 09, 23);
