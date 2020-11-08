@@ -1,0 +1,3 @@
+[submodule "Common"]
+	path = Common
+	url = https://info0821@dev.azure.com/info0821/Common/_git/Common
