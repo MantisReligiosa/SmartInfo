@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Testing.Console", "UI.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Testing.SeleniumAdapter", "UI.Testing\UI.Testing.SeleniumAdapter\UI.Testing.SeleniumAdapter.csproj", "{0499E48A-8C23-49B4-BC47-4C765FA19601}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constants", "Constants\Constants.csproj", "{F94769F2-7AD0-4FA4-A308-45F55927979E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyGen", "KeyGen\KeyGen.csproj", "{4689DD49-EF8C-48EA-93D9-1986CB86415B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +91,12 @@ Global
 		{0499E48A-8C23-49B4-BC47-4C765FA19601}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0499E48A-8C23-49B4-BC47-4C765FA19601}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0499E48A-8C23-49B4-BC47-4C765FA19601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F94769F2-7AD0-4FA4-A308-45F55927979E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F94769F2-7AD0-4FA4-A308-45F55927979E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F94769F2-7AD0-4FA4-A308-45F55927979E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F94769F2-7AD0-4FA4-A308-45F55927979E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4689DD49-EF8C-48EA-93D9-1986CB86415B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4689DD49-EF8C-48EA-93D9-1986CB86415B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
