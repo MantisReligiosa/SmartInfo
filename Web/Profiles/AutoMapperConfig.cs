@@ -24,9 +24,12 @@ namespace Web.Profiles
                         {
                             var currentAssembly = Assembly.GetAssembly(typeof(AutoMapperConfig));
 
-                            AutoMapper.Mapper.Initialize(cfg => cfg.AddProfiles(currentAssembly));
+                            var config = new MapperConfiguration(cfg =>
+                            {
+                                cfg.AddMaps(currentAssembly);
+                            });
 
-                            _mapper = AutoMapper.Mapper.Instance;
+                            _mapper = config.CreateMapper();
                         }
                     }
                 }

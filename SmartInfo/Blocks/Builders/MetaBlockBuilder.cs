@@ -15,7 +15,7 @@ namespace SmartInfo.Blocks.Builders
         {
             var blocks = new List<UIElement>();
             var currentFrameIndex = int.MinValue;
-            var metablockScheduler = new MetablockScheduler();
+            var metablockScheduler = new ScenarioScheduler();
             var metablock = displayBlock as MetaBlock;
             var canvas = new Canvas
             {
@@ -30,7 +30,7 @@ namespace SmartInfo.Blocks.Builders
                 var element = blockBuilder.BuildElement(block);
                 if (element != null)
                 {
-                    element.Uid = block.MetablockFrameId.ToString();
+                    element.Uid = block.SceneId.ToString();
                     blocks.Add(element);
                     canvas.Children.Add(element);
                 }
@@ -82,7 +82,7 @@ namespace SmartInfo.Blocks.Builders
             });
         }
 
-        private void SetFrameVisibility(Guid frameId, List<UIElement> elements)
+        private void SetFrameVisibility(int frameId, List<UIElement> elements)
         {
             _dispatcher.Invoke(() =>
             {

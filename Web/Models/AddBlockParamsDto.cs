@@ -4,6 +4,6 @@ namespace Web.Models
 {
     public class AddBlockParamsDto
     {
-        public Guid? FrameId { get; set; }
+        public int? FrameId { get; set; }
     }
 }

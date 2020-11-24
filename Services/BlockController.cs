@@ -1,7 +1,6 @@
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
 using DomainObjects.Parameters;
-using DomainObjects.Specifications;
 using ServiceInterfaces;
 using System;
 using System.Collections.Generic;
@@ -23,7 +22,7 @@ namespace Services
 
         public void SetBackground(string color)
         {
-            var backgroundColor = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<BackgroundColor>())).FirstOrDefault();
+            var backgroundColor = _unitOfWork.Parameters.BackgroundColor;
             if (backgroundColor == null)
             {
                 _unitOfWork.Parameters.Create(new BackgroundColor
@@ -41,19 +40,19 @@ namespace Services
 
         public string GetBackground()
         {
-            var backgroundColor = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<BackgroundColor>())).FirstOrDefault();
+            var backgroundColor = _unitOfWork.Parameters.BackgroundColor;
             return backgroundColor?.Value ?? string.Empty;
         }
 
-        public TextBlock AddTextBlock(Guid? frameId)
+        public TextBlock AddTextBlock(int? sceneId)
         {
-            var zIndex = GetZindex(frameId);
+            var zIndex = GetNextZindexInScene(sceneId);
             var block = _unitOfWork.DisplayBlocks.Create(new TextBlock
             {
                 Caption = $"TextBlock",
                 Height = 50,
                 Width = 200,
-                MetablockFrameId = frameId,
+                SceneId = sceneId,
                 Details = new TextBlockDetails
                 {
                     BackColor = "#ffffff",
@@ -71,15 +70,15 @@ namespace Services
             return block;
         }
 
-        public TableBlock AddTableBlock(Guid? frameId)
+        public TableBlock AddTableBlock(int? sceneId)
         {
-            var zIndex = GetZindex(frameId);
+            var zIndex = GetNextZindexInScene(sceneId);
             var block = _unitOfWork.DisplayBlocks.Create(new TableBlock
             {
                 Caption = "TableBlock",
                 Height = 200,
                 Width = 200,
-                MetablockFrameId = frameId,
+                SceneId = sceneId,
                 Details = new TableBlockDetails
                 {
                     FontName = _systemController.GetFonts().First(),
@@ -119,15 +118,15 @@ namespace Services
             return block;
         }
 
-        public PictureBlock AddPictureBlock(Guid? frameId)
+        public PictureBlock AddPictureBlock(int? sceneId)
         {
-            var zIndex = GetZindex(frameId);
+            var zIndex = GetNextZindexInScene(sceneId);
             var block = _unitOfWork.DisplayBlocks.Create(new PictureBlock
             {
                 Caption = "PictureBlock",
                 Height = 50,
                 Width = 50,
-                MetablockFrameId = frameId,
+                SceneId = sceneId,
                 Details = new PictureBlockDetails(),
                 ZIndex = zIndex
             }) as PictureBlock;
@@ -135,15 +134,15 @@ namespace Services
             return block;
         }
 
-        public DateTimeBlock AddDateTimeBlock(Guid? frameId)
+        public DateTimeBlock AddDateTimeBlock(int? sceneId)
         {
-            var zIndex = GetZindex(frameId);
+            var zIndex = GetNextZindexInScene(sceneId);
             var block = _unitOfWork.DisplayBlocks.Create(new DateTimeBlock
             {
                 Caption = "DateTimeBlock",
                 Height = 50,
                 Width = 50,
-                MetablockFrameId = frameId,
+                SceneId = sceneId,
                 Details = new DateTimeBlockDetails
                 {
                     BackColor = "#ffffff",
@@ -196,7 +195,7 @@ namespace Services
 
         public TextBlock SaveTextBlock(TextBlock textBlock)
         {
-            if (!(_unitOfWork.DisplayBlocks.Get(textBlock.Id) is TextBlock block))
+            if (!(_unitOfWork.DisplayBlocks.GetById(textBlock.Id) is TextBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(textBlock);
                 _unitOfWork.Complete();
@@ -213,7 +212,7 @@ namespace Services
 
         public TableBlock SaveTableBlock(TableBlock tableBlock)
         {
-            if (!(_unitOfWork.DisplayBlocks.Get(tableBlock.Id) is TableBlock block))
+            if (!(_unitOfWork.DisplayBlocks.GetById(tableBlock.Id) is TableBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(tableBlock);
                 _unitOfWork.Complete();
@@ -227,7 +226,7 @@ namespace Services
                 block.Top = tableBlock.Top;
                 block.Width = tableBlock.Width;
                 block.Caption = tableBlock.Caption;
-                block.MetablockFrameId = tableBlock.MetablockFrameId;
+                block.SceneId = tableBlock.SceneId;
                 block.ZIndex = tableBlock.ZIndex;
                 block.Details.FontName = tableBlock.Details.FontName;
                 block.Details.FontSize = tableBlock.Details.FontSize;
@@ -297,7 +296,7 @@ namespace Services
 
         public MetaBlock SaveMetabLock(MetaBlock metaBlock)
         {
-            if (!(_unitOfWork.DisplayBlocks.Get(metaBlock.Id) is MetaBlock block))
+            if (!(_unitOfWork.DisplayBlocks.GetById(metaBlock.Id) is MetaBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(metaBlock);
                 _unitOfWork.Complete();
@@ -317,10 +316,10 @@ namespace Services
                 _unitOfWork.MetablockFrames.DeleteRange(framesToDelete);
                 foreach (var frame in metaBlock.Details.Frames)
                 {
-                    if (frame.Id.Equals(new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)))
-                    {
-                        frame.Id = Guid.NewGuid();
-                    }
+                    //if (frame.Id.Equals(new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)))
+                    //{
+                    //    frame.Id = Guid.NewGuid();
+                    //}
                     var dbFrame = block.Details.Frames.FirstOrDefault(f => f.Id.Equals(frame.Id));
                     if (dbFrame == null)
                     {
@@ -375,7 +374,7 @@ namespace Services
 
         public PictureBlock SavePictureBlock(PictureBlock pictureBlock)
         {
-            if (!(_unitOfWork.DisplayBlocks.Get(pictureBlock.Id) is PictureBlock block))
+            if (!(_unitOfWork.DisplayBlocks.GetById(pictureBlock.Id) is PictureBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(pictureBlock);
                 _unitOfWork.Complete();
@@ -394,10 +393,10 @@ namespace Services
         {
             if (dateTimeBlock.Details.Format != null)
             {
-                var format = _unitOfWork.DateTimeFormats.Get(dateTimeBlock.Details.Format.Id);
+                var format = _unitOfWork.DateTimeFormats.GetById(dateTimeBlock.Details.Format.Id);
                 dateTimeBlock.Details.Format = format;
             }
-            if (!(_unitOfWork.DisplayBlocks.Get(dateTimeBlock.Id) is DateTimeBlock block))
+            if (!(_unitOfWork.DisplayBlocks.GetById(dateTimeBlock.Id) is DateTimeBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(dateTimeBlock);
                 _unitOfWork.Complete();
@@ -437,7 +436,7 @@ namespace Services
         {
             if (source.Details.Format != null)
             {
-                var format = _unitOfWork.DateTimeFormats.Get(source.Details.Format.Id);
+                var format = _unitOfWork.DateTimeFormats.GetById(source.Details.Format.Id);
                 source.Details.Format = format;
             }
             var block = _unitOfWork.DisplayBlocks.Create(new DateTimeBlock(source)) as DateTimeBlock;
@@ -447,26 +446,25 @@ namespace Services
 
         public IEnumerable<DisplayBlock> GetBlocks()
         {
-            var result = _unitOfWork.DisplayBlocks.GetAll().Where(b => b.MetablockFrameId == null);
+            var result = _unitOfWork.DisplayBlocks.GetAllNonScenaried();
             return result;
         }
 
-        public void DeleteBlock(Guid id)
+        public void DeleteBlock(int id)
         {
-            _unitOfWork.DisplayBlocks.Delete(id);
+            _unitOfWork.DisplayBlocks.DeleteById(id);
             _unitOfWork.Complete();
         }
 
         public void Cleanup()
         {
-            var blocks = _unitOfWork.DisplayBlocks.GetAll();
-            _unitOfWork.DisplayBlocks.DeleteRange(blocks);
+            _unitOfWork.DisplayBlocks.DeleteAll();
             _unitOfWork.Complete();
         }
 
-        public void MoveAndResizeBlock(Guid id, int height, int width, int left, int top)
+        public void MoveAndResizeBlock(int id, int height, int width, int left, int top)
         {
-            var block = _unitOfWork.DisplayBlocks.Get(id);
+            var block = _unitOfWork.DisplayBlocks.GetById(id);
             if (block == null)
             {
                 return;
@@ -485,9 +483,9 @@ namespace Services
             return block;
         }
 
-        private int GetZindex(Guid? frameId)
+        private int GetNextZindexInScene(int? sceneId)
         {
-            var blocks = _unitOfWork.DisplayBlocks.Find(b => b.MetablockFrameId == frameId);
+            var blocks = _unitOfWork.DisplayBlocks.GetBlocksInScene(sceneId);
             if (!blocks.Any())
                 return 0;
             else

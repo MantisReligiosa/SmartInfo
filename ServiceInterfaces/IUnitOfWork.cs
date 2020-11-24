@@ -1,16 +1,17 @@
 using DomainObjects;
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
+using ServiceInterfaces.IRepositories;
 using System.Threading.Tasks;
 
 namespace ServiceInterfaces
 {
     public interface IUnitOfWork
     {
-        IRepository<User> Users { get; }
-        IRepository<Parameter> Parameters { get; }
+        IUserRepository Users { get; }
+        IParametersRepository Parameters { get; }
         IRepository<Display> Displays { get; }
-        IRepository<DisplayBlock> DisplayBlocks { get; }
+        IDisplayBlockRepository DisplayBlocks { get; }
         IRepository<TableBlockCellDetails> TableBlockCellDetails { get; }
         IRepository<DateTimeFormat> DateTimeFormats { get; }
         IRepository<MetablockFrame> MetablockFrames { get; }

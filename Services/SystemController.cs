@@ -1,12 +1,9 @@
-﻿using AutoMapper;
-using DataExchange;
+﻿using DataExchange;
 using DataExchange.Requests;
 using DataExchange.Responces;
 using DomainObjects;
 using DomainObjects.Parameters;
-using DomainObjects.Specifications;
 using ServiceInterfaces;
-using Services.Profiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +14,6 @@ namespace Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private IMapper _mapper => AutoMapperConfig.Mapper;
-
         public SystemController(
             IUnitOfWorkFactory unitOfWorkFactory)
         {
@@ -27,9 +22,9 @@ namespace Services
 
         public ScreenInfo GetDatabaseScreenInfo()
         {
-            var widthParameter = _unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenWidth>()).FirstOrDefault();
-            var heightParameter = _unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenHeight>()).FirstOrDefault();
-            if (widthParameter != null && heightParameter != null && _unitOfWork.Displays.Count(d => true) > 0)
+            var widthParameter = _unitOfWork.Parameters.ScreenWidth;
+            var heightParameter = _unitOfWork.Parameters.ScreenHeight;
+            if (widthParameter != null && heightParameter != null && _unitOfWork.Displays.Count() > 0)
                 return new ScreenInfo
                 {
                     Height = Convert.ToInt32(heightParameter.Value),
@@ -41,8 +36,8 @@ namespace Services
 
         public void SetDatabaseScreenInfo(ScreenInfo screenInfo)
         {
-            var widthParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenWidth>())).FirstOrDefault();
-            var heightParameter = (_unitOfWork.Parameters.Find(ParameterSpecification.OfType<ScreenHeight>())).FirstOrDefault();
+            var widthParameter = _unitOfWork.Parameters.ScreenWidth;
+            var heightParameter = _unitOfWork.Parameters.ScreenHeight;
             if (widthParameter == null)
             {
                 _unitOfWork.Parameters.Create(new ScreenWidth
@@ -68,7 +63,8 @@ namespace Services
                 _unitOfWork.Parameters.Update(heightParameter);
             }
 
-            _unitOfWork.Displays.DeleteRange(_unitOfWork.Displays.GetAll());
+            var existsDisplays = _unitOfWork.Displays.GetAll();
+            _unitOfWork.Displays.DeleteRange(existsDisplays);
             _unitOfWork.Displays.CreateMany(screenInfo.Displays);
             _unitOfWork.Complete();
         }

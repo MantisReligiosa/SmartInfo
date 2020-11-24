@@ -17,7 +17,7 @@ namespace DomainObjects.Blocks.Details
         public int Column { get; set; }
         public string Value { get; set; }
 
-        public Guid TableBlockDetailsId { get; set; }
+        public int TableBlockDetailsId { get; set; }
         public TableBlockDetails TableBlockDetails { get; set; }
     }
 }

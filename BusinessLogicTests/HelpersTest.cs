@@ -1,20 +1,20 @@
 ﻿using DomainObjects.Blocks.Details;
 using Helpers;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using Xunit;
 
 namespace BusinessLogicTests
 {
+    [TestFixture]
     public class HelpersTest
     {
-        [Theory]
-        [InlineData(1, 2)]
-        [InlineData(2, 3)]
-        [InlineData(3, 1)]
+        [TestCase(1, 2)]
+        [TestCase(2, 3)]
+        [TestCase(3, 1)]
         public void TestNoConditions(int currentIndex, int expectedNextIndex)
         {
-            var helper = new MetablockScheduler
+            var helper = new ScenarioScheduler
             {
                 Frames = new List<MetablockFrame>
                 {
@@ -24,17 +24,16 @@ namespace BusinessLogicTests
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(), currentIndex);
-            Assert.Equal(expectedNextIndex, nextFrame.Index);
+            Assert.AreEqual(expectedNextIndex, nextFrame.Index);
         }
 
-        [Theory]
-        [InlineData(1, 2)]
-        [InlineData(2, 4)]
-        [InlineData(3, 4)]
-        [InlineData(4, 1)]
+        [TestCase(1, 2)]
+        [TestCase(2, 4)]
+        [TestCase(3, 4)]
+        [TestCase(4, 1)]
         public void TestTimeInterval(int currentIndex, int expectedNextIndex)
         {
-            var helper = new MetablockScheduler
+            var helper = new ScenarioScheduler
             {
                 Frames = new List<MetablockFrame>
                 {
@@ -45,17 +44,16 @@ namespace BusinessLogicTests
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 1, 11, 0, 0), currentIndex);
-            Assert.Equal(expectedNextIndex, nextFrame.Index);
+            Assert.AreEqual(expectedNextIndex, nextFrame.Index);
         }
 
-        [Theory]
-        [InlineData(1, 2)]
-        [InlineData(2, 4)]
-        [InlineData(3, 4)]
-        [InlineData(4, 1)]
+        [TestCase(1, 2)]
+        [TestCase(2, 4)]
+        [TestCase(3, 4)]
+        [TestCase(4, 1)]
         public void TestDate(int currentIndex, int expectedNextIndex)
         {
-            var helper = new MetablockScheduler
+            var helper = new ScenarioScheduler
             {
                 Frames = new List<MetablockFrame>
                 {
@@ -66,17 +64,16 @@ namespace BusinessLogicTests
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 3, 11, 0, 0), currentIndex);
-            Assert.Equal(expectedNextIndex, nextFrame.Index);
+            Assert.AreEqual(expectedNextIndex, nextFrame.Index);
         }
 
-        [Theory]
-        [InlineData(1, 2)]
-        [InlineData(2, 4)]
-        [InlineData(3, 4)]
-        [InlineData(4, 1)]
+        [TestCase(1, 2)]
+        [TestCase(2, 4)]
+        [TestCase(3, 4)]
+        [TestCase(4, 1)]
         public void TestDayOfWeek(int currentIndex, int expectedNextIndex)
         {
-            var helper = new MetablockScheduler
+            var helper = new ScenarioScheduler
             {
                 Frames = new List<MetablockFrame>
                 {
@@ -87,18 +84,17 @@ namespace BusinessLogicTests
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 3, 11, 0, 0), currentIndex);
-            Assert.Equal(expectedNextIndex, nextFrame.Index);
+            Assert.AreEqual(expectedNextIndex, nextFrame.Index);
         }
 
-        [Theory]
-        [InlineData(1, 3)]
-        [InlineData(2, 3)]
-        [InlineData(3, 5)]
-        [InlineData(4, 5)]
-        [InlineData(5, 1)]
+        [TestCase(1, 3)]
+        [TestCase(2, 3)]
+        [TestCase(3, 5)]
+        [TestCase(4, 5)]
+        [TestCase(5, 1)]
         public void TestSundayMorning(int currentIndex, int expectedNextIndex)
         {
-            var helper = new MetablockScheduler
+            var helper = new ScenarioScheduler
             {
                 Frames = new List<MetablockFrame>
                 {
@@ -110,13 +106,13 @@ namespace BusinessLogicTests
                 }
             };
             var nextFrame = helper.GetNextFrame(new DateTime(1, 1, 7, 10, 0, 0), currentIndex);
-            Assert.Equal(expectedNextIndex, nextFrame.Index);
+            Assert.AreEqual(expectedNextIndex, nextFrame.Index);
         }
 
-        [Fact]
+        [Test]
         public void TestNull()
         {
-            var helper = new MetablockScheduler
+            var helper = new ScenarioScheduler
             {
                 Frames = new List<MetablockFrame>
                 {
@@ -131,11 +127,11 @@ namespace BusinessLogicTests
             Assert.Null(nextFrame);
         }
 
-        [Fact]
+        [Test]
         public void TestGoToFirst()
         {
             var date = new DateTime(2020, 1, 1);
-            var helper = new MetablockScheduler
+            var helper = new ScenarioScheduler
             {
                 Frames = new List<MetablockFrame>
                 {
@@ -148,25 +144,25 @@ namespace BusinessLogicTests
             };
 
             var nextFrame = helper.GetNextFrame(date, 5);
-            Assert.Equal(1, nextFrame.Index);
+            Assert.AreEqual(1, nextFrame.Index);
         }
 
-        [Fact]
+        [Test]
         public void TestNoUseInTime()
         {
             var date = new DateTime(2020, 09, 23);
             var firstFrame = new MetablockFrame { Index = 1, UseInTimeInterval = false, UseFromTime = new TimeSpan(8, 0, 0), UseToTime = new TimeSpan(10, 0, 0), Duration = 1 };
             var secondFrame = new MetablockFrame { Index = 2, UseInTimeInterval = false, UseFromTime = new TimeSpan(12, 0, 0), UseToTime = new TimeSpan(13, 0, 0), Duration = 1 };
-            var helper = new MetablockScheduler
+            var helper = new ScenarioScheduler
             {
                 Frames = new List<MetablockFrame> { firstFrame, secondFrame }
             };
             var nextFrame = helper.GetNextFrame(date, int.MinValue);
-            Assert.Equal(firstFrame.Index, nextFrame.Index);
+            Assert.AreEqual(firstFrame.Index, nextFrame.Index);
             nextFrame = helper.GetNextFrame(date, firstFrame.Index);
-            Assert.Equal(secondFrame.Index, nextFrame.Index);
+            Assert.AreEqual(secondFrame.Index, nextFrame.Index);
             nextFrame = helper.GetNextFrame(date, secondFrame.Index);
-            Assert.Equal(firstFrame.Index, nextFrame.Index);
+            Assert.AreEqual(firstFrame.Index, nextFrame.Index);
         }
     }
 }

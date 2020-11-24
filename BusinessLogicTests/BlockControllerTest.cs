@@ -5,24 +5,26 @@ using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
 using ExpectedObjects;
 using NSubstitute;
+using NUnit.Framework;
 using ServiceInterfaces;
 using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xunit;
 
 namespace BusinessLogicTests
 {
+    [TestFixture]
     public class BlockControllerTest
     {
-        private readonly ISystemController _systemController;
+        private ISystemController _systemController;
         private IUnitOfWorkFactory _unitOfWorkFactory;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<DisplayBlock> _displayBlockRepository;
-        private readonly Fixture _fixture;
+        private IUnitOfWork _unitOfWork;
+        private IRepository<DisplayBlock> _displayBlockRepository;
+        private Fixture _fixture;
 
-        public BlockControllerTest()
+        [SetUp]
+        public void BlockControllerTestSetup()
         {
             _fixture = new Fixture();
             _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
@@ -44,15 +46,15 @@ namespace BusinessLogicTests
             _unitOfWorkFactory.Create().Returns(_unitOfWork);
         }
 
-        [Fact]
+        [Test]
         public void SaveExistMetablockWithExistsFramesTest()
         {
             var controller = new BlockController(_systemController, _unitOfWorkFactory);
 
             var savingMetablock = _fixture
                 .Build<MetaBlock>()
-                .Without(m => m.MetablockFrame)
-                .Without(m => m.MetablockFrameId)
+                .Without(m => m.Scene)
+                .Without(m => m.SceneId)
                 .Create();
 
             var dbMetablock = new MetaBlock
@@ -69,22 +71,22 @@ namespace BusinessLogicTests
                 }
             };
 
-            _displayBlockRepository.Get(Arg.Any<object>()).Returns(dbMetablock);
+            _displayBlockRepository.GetById(Arg.Any<int>()).Returns(dbMetablock);
 
             var actual = controller.SaveMetabLock(savingMetablock);
             var expected = savingMetablock.ToExpectedObject();
             expected.ShouldEqual(actual);
         }
 
-        [Fact]
+        [Test]
         public void SaveExistMetablockWithNoExistsFramesTest()
         {
             var controller = new BlockController(_systemController, _unitOfWorkFactory);
 
             var savingMetablock = _fixture
                 .Build<MetaBlock>()
-                .Without(m => m.MetablockFrame)
-                .Without(m => m.MetablockFrameId)
+                .Without(m => m.Scene)
+                .Without(m => m.SceneId)
                 .Create();
 
             var dbMetablock = new MetaBlock
@@ -97,14 +99,14 @@ namespace BusinessLogicTests
                 }
             };
 
-            _displayBlockRepository.Get(Arg.Any<object>()).Returns(dbMetablock);
+            _displayBlockRepository.GetById(Arg.Any<int>()).Returns(dbMetablock);
 
             var actual = controller.SaveMetabLock(savingMetablock);
             var expected = savingMetablock.ToExpectedObject();
             expected.ShouldEqual(actual);
         }
 
-        [Fact]
+        [Test]
         public void SaveDateTableBlock()
         {
             var controller = new BlockController(_systemController, _unitOfWorkFactory);
@@ -117,13 +119,11 @@ namespace BusinessLogicTests
                 Left = 16,
                 Width = 17,
                 ZIndex = 0,
-                Id = Guid.NewGuid(),
-                MetablockFrame = null,
-                MetablockFrameId = null,
+                Scene = null,
+                SceneId = null,
             };
             var details = new TableBlockDetails
             {
-                Id = Guid.NewGuid(),
                 FontIndex = 1,
                 FontName = "Font",
                 FontSize = 15,
@@ -132,7 +132,6 @@ namespace BusinessLogicTests
                 TableBlockColumnWidths = new List<TableBlockColumnWidth>(),
                 HeaderDetails = new TableBlockRowDetails
                 {
-                    Id = Guid.NewGuid(),
                     Align = Align.Center,
                     BackColor = "#ffffff",
                     Bold = false,
@@ -141,7 +140,6 @@ namespace BusinessLogicTests
                 },
                 EvenRowDetails = new TableBlockRowDetails
                 {
-                    Id = Guid.NewGuid(),
                     Align = Align.Center,
                     BackColor = "#ffffff",
                     Bold = false,
@@ -150,7 +148,6 @@ namespace BusinessLogicTests
                 },
                 OddRowDetails = new TableBlockRowDetails
                 {
-                    Id = Guid.NewGuid(),
                     Align = Align.Center,
                     BackColor = "#ffffff",
                     Bold = false,
@@ -166,7 +163,6 @@ namespace BusinessLogicTests
                 {
                     details.Cells.Add(new TableBlockCellDetails
                     {
-                        Id = Guid.NewGuid(),
                         Column = column,
                         Row = row,
                         TableBlockDetails = details,
@@ -178,7 +174,6 @@ namespace BusinessLogicTests
             {
                 details.TableBlockRowHeights.Add(new TableBlockRowHeight
                 {
-                    Id = Guid.NewGuid(),
                     Index = row,
                     Value = row * 5,
                     Units = SizeUnits.Pecent,
@@ -190,7 +185,6 @@ namespace BusinessLogicTests
             {
                 details.TableBlockColumnWidths.Add(new TableBlockColumnWidth
                 {
-                    Id = Guid.NewGuid(),
                     Index = column,
                     Value = null,
                     Units = SizeUnits.Auto,
@@ -199,7 +193,7 @@ namespace BusinessLogicTests
                 });
             }
 
-            _unitOfWork.DisplayBlocks.Get(Arg.Any<object>()).Returns(new TableBlock
+            _unitOfWork.DisplayBlocks.GetById(Arg.Any<int>()).Returns(new TableBlock
             {
                 Details = new TableBlockDetails
                 {

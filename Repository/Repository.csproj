@@ -34,23 +34,41 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.EF6, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.EF6.2.0.0\lib\net461\AutoMapper.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="DelegateDecompiler, Version=1.0.0.0, Culture=neutral, PublicKeyToken=93b26a10a04705bd, processorArchitecture=MSIL">
+      <HintPath>..\packages\DelegateDecompiler.0.24.0\lib\net45\DelegateDecompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="DelegateDecompiler.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=93b26a10a04705bd, processorArchitecture=MSIL">
+      <HintPath>..\packages\DelegateDecompiler.EntityFramework.0.24.0\lib\net45\DelegateDecompiler.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Reflection, Version=1.1.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Reflection.Core.1.1.1\lib\net45\Mono.Reflection.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\lib\net46\System.Data.SQLite.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System.Data.SQLite.EF6, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.EF6.1.0.113.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System.Data.SQLite.Linq, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.113.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
@@ -63,19 +81,48 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configurations\DateTimeDetailsConfiguration.cs" />
-    <Compile Include="Configurations\MetablockFrameConfiguration.cs" />
-    <Compile Include="Configurations\PictureBlockDetailsConfiguration.cs" />
-    <Compile Include="Configurations\TableBlockCellDetailsConfiguration.cs" />
-    <Compile Include="Configurations\TableBlockDetailsConfiguration.cs" />
-    <Compile Include="Configurations\TableBlockRowDetailsConfiguration.cs" />
-    <Compile Include="Configurations\TextBlockDetailsConfiguration.cs" />
-    <Compile Include="Configurations\DisplayBlockConfiguration.cs" />
-    <Compile Include="Configurations\DisplayConfiguration.cs" />
-    <Compile Include="Configurations\ParameterConfiguration.cs" />
     <Compile Include="DatabaseContext.cs" />
-    <Compile Include="EfUnitOfWork.cs" />
-    <Compile Include="Configurations\UserConfiguration.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockRowDetailsEntities\TableBlockEvenRowDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockRowDetailsEntities\TableBlockHeaderDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockRowDetailsEntities\TableBlockOddRowDetailsEntity.cs" />
+    <Compile Include="Entities\ParameterEntities\BackgroundColorEntity.cs" />
+    <Compile Include="Entities\ParameterEntities\ScreenWidthEntity.cs" />
+    <Compile Include="Entities\ParameterEntities\ScreenHeightEntity.cs" />
+    <Compile Include="Profiles\DetailsEntitiesProfiles\TextBlockDetailsEntityProfile.cs" />
+    <Compile Include="Profiles\DisplayBlockEntitiesProfiles\SceneProfile.cs" />
+    <Compile Include="Profiles\DisplayBlockEntitiesProfiles\TextBlockEntityProfile.cs" />
+    <Compile Include="Profiles\DisplayBlockEntityProfile.cs" />
+    <Compile Include="Profiles\DisplayProfile.cs" />
+    <Compile Include="Profiles\DateTimeFormatProfile.cs" />
+    <Compile Include="Profiles\ParameterProfile.cs" />
+    <Compile Include="Profiles\UserProfile.cs" />
+    <Compile Include="Repositories\ParameterRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Specifications\DisplayBlockSpecification.cs" />
+    <Compile Include="Specifications\ParameterSpecification.cs" />
+    <Compile Include="Specifications\UserSpecification.cs" />
+    <Compile Include="UnitOfWork.cs" />
+    <Compile Include="Entities\DetailsEntities\DateTimeBlockDetailsEntity.cs" />
+    <Compile Include="Entities\DateTimeFormatEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\PictureBlockDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\ScenarioDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockColumnWidthEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockRowDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockRowHeightEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockCellDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TextBlockDetailsEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntities\DateTimeBlockEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntities\PictureBlockEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntities\ScenarioEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntities\SceneEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntities\TableBlockEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntities\TextBlockEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntity.cs" />
+    <Compile Include="Entities\DisplayEntity.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\ParameterEntity.cs" />
+    <Compile Include="Entities\UserEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DisplayBlockRepository.cs" />
     <Compile Include="Repository.cs" />
@@ -94,7 +141,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="SmartInfo.sqlite">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

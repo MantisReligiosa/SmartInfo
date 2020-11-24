@@ -69,8 +69,6 @@
     <Compile Include="Display.cs" />
     <Compile Include="ScreenInfo.cs" />
     <Compile Include="SizeUnit.cs" />
-    <Compile Include="Specifications\ParameterSpecification.cs" />
-    <Compile Include="Specifications\UserSpecification.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup />

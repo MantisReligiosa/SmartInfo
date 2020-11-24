@@ -89,7 +89,7 @@ namespace DomainObjects.Blocks.Details
             foreach (var block in source.Blocks)
             {
                 var clonedBlock = block.Clone();
-                clonedBlock.MetablockFrameId = Id;
+                clonedBlock.SceneId = Id;
                 Blocks.Add(clonedBlock);
             }
         }

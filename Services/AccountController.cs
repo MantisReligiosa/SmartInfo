@@ -1,5 +1,4 @@
 ﻿using DomainObjects;
-using DomainObjects.Specifications;
 using ServiceInterfaces;
 using System;
 using System.Linq;
@@ -19,13 +18,13 @@ namespace Services
 
         public User GetUserByIdentifier(Guid identifier)
         {
-            var user = _unitOfWork.Users.Get(identifier);
+            var user = _unitOfWork.Users.FindByGuid(identifier);
             return user;
         }
 
         public User GetUserByName(string login)
         {
-            var user = _unitOfWork.Users.Find(UserSpecification.ByName(login)).FirstOrDefault();
+            var user = _unitOfWork.Users.FindByName(login);
             return user;
         }
 

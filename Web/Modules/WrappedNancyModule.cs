@@ -25,9 +25,7 @@ namespace Web.Modules
                 {
                     try
                     {
-
                         return Response.AsJson(func.Invoke());
-
                     }
                     catch (Exception ex)
                     {
