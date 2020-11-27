@@ -9,10 +9,10 @@ namespace Repository.Profiles
         public DateTimeFormatProfile()
         {
             CreateMap<DateTimeFormatEntity, DateTimeFormat>()
-                .ForMember(d => d.IsDateFormat, opt => opt.MapFrom(d => d.DateFormatFlag == 1));
+                .ForMember(model => model.IsDateFormat, opt => opt.MapFrom(entity => entity.DateFormatFlag == 1));
             CreateMap<DateTimeFormat, DateTimeFormatEntity>()
-                .ForMember(d => d.DateFormatFlag, opt => opt.MapFrom(d => d.IsDateFormat ? 1 : 0))
-                .ForMember(d => d.DatetTimeBlockDetailsEntities, opt => opt.Ignore());
+                .ForMember(entity => entity.DateFormatFlag, opt => opt.MapFrom(model => model.IsDateFormat ? 1 : 0))
+                .ForMember(entity => entity.DatetTimeBlockDetailsEntities, opt => opt.Ignore());
         }
     }
 }

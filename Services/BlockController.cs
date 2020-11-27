@@ -161,25 +161,25 @@ namespace Services
             return block;
         }
 
-        public MetaBlock AddMetaBlock()
+        public Scenario AddScenario()
         {
-            var block = _unitOfWork.DisplayBlocks.Create(new MetaBlock
+            var block = _unitOfWork.DisplayBlocks.Create(new Scenario
             {
                 Caption = "Scenario",
                 Height = 50,
                 Width = 50,
-                Details = new MetaBlockDetails
+                Details = new ScenarioDetails
                 {
-                    Frames = new List<MetablockFrame>
+                    Scenes = new List<Scene>
                     {
-                        new MetablockFrame
+                        new Scene
                         {
                             Index = 1,
                             Duration = 5,
                             Name = "Scene1",
                             Blocks = new List<DisplayBlock>()
                         },
-                        new MetablockFrame
+                        new Scene
                         {
                             Index = 2,
                             Duration = 5,
@@ -188,7 +188,7 @@ namespace Services
                         }
                     }
                 }
-            }) as MetaBlock;
+            }) as Scenario;
             _unitOfWork.Complete();
             return block;
         }
@@ -237,7 +237,7 @@ namespace Services
 
                 var cellsToDelete = block.Details.Cells
                     .Where(dbCell => !tableBlock.Details.Cells.Any(cell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column))).ToList();
-                _unitOfWork.TableBlockCellDetails.DeleteRange(cellsToDelete);
+                _unitOfWork.TableBlockCellDetails.DeleteMany(cellsToDelete);
                 _unitOfWork.Complete();
                 foreach (var cell in tableBlock.Details.Cells)
                 {
@@ -254,14 +254,14 @@ namespace Services
 
                 var rowHeightsToDelete = block.Details.TableBlockRowHeights
                     .Where(dbRowHeights => !tableBlock.Details.TableBlockRowHeights.Any(rh => dbRowHeights.Index.Equals(rh.Index))).ToList();
-                _unitOfWork.TableBlockRowHeights.DeleteRange(rowHeightsToDelete);
+                _unitOfWork.TableBlockRowHeights.DeleteMany(rowHeightsToDelete);
                 _unitOfWork.Complete();
                 foreach (var rowHeight in tableBlock.Details.TableBlockRowHeights)
                 {
                     var dbRowHeight = block.Details.TableBlockRowHeights.FirstOrDefault(rh => rowHeight.Index.Equals(rh.Index));
                     if (dbRowHeight == null)
                     {
-                        block.Details.TableBlockRowHeights.Add(new TableBlockRowHeight(rowHeight ));
+                        block.Details.TableBlockRowHeights.Add(new TableBlockRowHeight(rowHeight));
                     }
                     else
                     {
@@ -272,7 +272,7 @@ namespace Services
 
                 var columnWidthToDelete = block.Details.TableBlockColumnWidths
                     .Where(dbColumnWidth => !tableBlock.Details.TableBlockColumnWidths.Any(cw => dbColumnWidth.Index.Equals(cw.Index))).ToList();
-                _unitOfWork.TableBlockColumnWidths.DeleteRange(columnWidthToDelete);
+                _unitOfWork.TableBlockColumnWidths.DeleteMany(columnWidthToDelete);
                 _unitOfWork.Complete();
                 foreach (var columnWidth in tableBlock.Details.TableBlockColumnWidths)
                 {
@@ -294,67 +294,67 @@ namespace Services
             }
         }
 
-        public MetaBlock SaveMetabLock(MetaBlock metaBlock)
+        public Scenario SaveScenario(Scenario scenario)
         {
-            if (!(_unitOfWork.DisplayBlocks.GetById(metaBlock.Id) is MetaBlock block))
+            if (!(_unitOfWork.DisplayBlocks.GetById(scenario.Id) is Scenario block))
             {
-                _unitOfWork.DisplayBlocks.Create(metaBlock);
+                _unitOfWork.DisplayBlocks.Create(scenario);
                 _unitOfWork.Complete();
-                return metaBlock;
+                return scenario;
             }
             else
             {
-                block.Height = metaBlock.Height;
-                block.Width = metaBlock.Width;
-                block.ZIndex = metaBlock.ZIndex;
-                block.Left = metaBlock.Left;
-                block.Top = metaBlock.Top;
-                block.Caption = metaBlock.Caption;
-                var blocksToDelete = block.Details.Frames.SelectMany(f => f.Blocks ?? new List<DisplayBlock>()).Where(dbBlock => !metaBlock.Details.Frames.SelectMany(mf => mf.Blocks).Any(b => b.Id.Equals(dbBlock.Id))).ToList();
-                _unitOfWork.DisplayBlocks.DeleteRange(blocksToDelete);
-                var framesToDelete = block.Details.Frames.Where(dbFrame => !metaBlock.Details.Frames.Any(f => f.Id.Equals(dbFrame.Id))).ToList();
-                _unitOfWork.MetablockFrames.DeleteRange(framesToDelete);
-                foreach (var frame in metaBlock.Details.Frames)
+                block.Height = scenario.Height;
+                block.Width = scenario.Width;
+                block.ZIndex = scenario.ZIndex;
+                block.Left = scenario.Left;
+                block.Top = scenario.Top;
+                block.Caption = scenario.Caption;
+                var blocksToDelete = block.Details.Scenes.SelectMany(f => f.Blocks ?? new List<DisplayBlock>()).Where(dbBlock => !scenario.Details.Scenes.SelectMany(mf => mf.Blocks).Any(b => b.Id.Equals(dbBlock.Id))).ToList();
+                _unitOfWork.DisplayBlocks.DeleteMany(blocksToDelete);
+                var framesToDelete = block.Details.Scenes.Where(dbFrame => !scenario.Details.Scenes.Any(f => f.Id.Equals(dbFrame.Id))).ToList();
+                _unitOfWork.Scenes.DeleteMany(framesToDelete);
+                foreach (var scene in scenario.Details.Scenes)
                 {
                     //if (frame.Id.Equals(new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)))
                     //{
                     //    frame.Id = Guid.NewGuid();
                     //}
-                    var dbFrame = block.Details.Frames.FirstOrDefault(f => f.Id.Equals(frame.Id));
+                    var dbFrame = block.Details.Scenes.FirstOrDefault(f => f.Id.Equals(scene.Id));
                     if (dbFrame == null)
                     {
-                        block.Details.Frames.Add(frame);
+                        block.Details.Scenes.Add(scene);
                     }
                     else
                     {
-                        dbFrame.Duration = frame.Duration;
-                        dbFrame.Index = frame.Index;
-                        dbFrame.Name = frame.Name;
-                        dbFrame.DateToUse = frame.DateToUse;
-                        if (frame.UseFromTime.HasValue)
+                        dbFrame.Duration = scene.Duration;
+                        dbFrame.Index = scene.Index;
+                        dbFrame.Name = scene.Name;
+                        dbFrame.DateToUse = scene.DateToUse;
+                        if (scene.UseFromTime.HasValue)
                         {
-                            var span = frame.UseFromTime.Value;
+                            var span = scene.UseFromTime.Value;
                             span -= new TimeSpan(span.Days, 0, 0, 0);
                             dbFrame.UseFromTime = span;
                         }
-                        if (frame.UseToTime.HasValue)
+                        if (scene.UseToTime.HasValue)
                         {
-                            var span = frame.UseToTime.Value;
+                            var span = scene.UseToTime.Value;
                             span -= new TimeSpan(span.Days, 0, 0, 0);
                             dbFrame.UseToTime = span;
                         }
-                        dbFrame.UseInDate = frame.UseInDate;
-                        dbFrame.UseInDayOfWeek = frame.UseInDayOfWeek;
-                        dbFrame.UseInFri = frame.UseInFri;
-                        dbFrame.UseInMon = frame.UseInMon;
-                        dbFrame.UseInSat = frame.UseInSat;
-                        dbFrame.UseInSun = frame.UseInSun;
-                        dbFrame.UseInThu = frame.UseInThu;
-                        dbFrame.UseInTimeInterval = frame.UseInTimeInterval;
-                        dbFrame.UseInTue = frame.UseInTue;
-                        dbFrame.UseInWed = frame.UseInWed;
+                        dbFrame.UseInDate = scene.UseInDate;
+                        dbFrame.UseInDayOfWeek = scene.UseInDayOfWeek;
+                        dbFrame.UseInFri = scene.UseInFri;
+                        dbFrame.UseInMon = scene.UseInMon;
+                        dbFrame.UseInSat = scene.UseInSat;
+                        dbFrame.UseInSun = scene.UseInSun;
+                        dbFrame.UseInThu = scene.UseInThu;
+                        dbFrame.UseInTimeInterval = scene.UseInTimeInterval;
+                        dbFrame.UseInTue = scene.UseInTue;
+                        dbFrame.UseInWed = scene.UseInWed;
 
-                        foreach (var subBlock in frame.Blocks)
+                        foreach (var subBlock in scene.Blocks)
                         {
                             var dbBlock = dbFrame.Blocks.FirstOrDefault(b => b.Id.Equals(subBlock.Id));
                             {
@@ -366,8 +366,8 @@ namespace Services
                         }
                     }
                 }
-                    _unitOfWork.DisplayBlocks.Update(block);
-                    _unitOfWork.Complete();
+                _unitOfWork.DisplayBlocks.Update(block);
+                _unitOfWork.Complete();
                 return block;
             }
         }
@@ -476,9 +476,9 @@ namespace Services
             _unitOfWork.Complete();
         }
 
-        public MetaBlock CopyMetabLock(MetaBlock source)
+        public Scenario CopyScenario(Scenario source)
         {
-            var block = _unitOfWork.DisplayBlocks.Create(new MetaBlock(source)) as MetaBlock;
+            var block = _unitOfWork.DisplayBlocks.Create(new Scenario(source)) as Scenario;
             _unitOfWork.Complete();
             return block;
         }

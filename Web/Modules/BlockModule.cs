@@ -39,7 +39,7 @@ namespace Web.Modules
             Post["/api/addTableBlock"] = Wrap(AddTableBlock, "Ошибка добавления таблицы");
             Post["/api/addPictureBlock"] = Wrap(AddPictureBlock, "Ошибка добавления картинки");
             Post["/api/addDateTimeBlock"] = Wrap(AddDatetimeBlock, "Ошибка добавления блока даты/времени");
-            Post["api/addMetaBlock"] = Wrap(AddMetaBlock, "Ошибка добавления метаблока");
+            Post["api/addMetaBlock"] = Wrap(AddScenario, "Ошибка добавления метаблока");
             Get["/api/blocks"] = Wrap(GetBlocks, "Ошибка загрузки блоков");
             Post["/api/moveAndResize"] = Wrap(MoveAndResize, "Ошибка изменения размеров и положения блока");
             Post["/api/saveBlock"] = Wrap(SaveBlock, "Ошибка сохранения блоков");
@@ -56,7 +56,7 @@ namespace Web.Modules
                 { BlockType.Table, (dto) => SaveBlock<TableBlock, TableBlockDto>(dto, b => _mapper.Map<TableBlockDto>(blockController.SaveTableBlock(b))) },
                 { BlockType.Picture, (dto) => SaveBlock<PictureBlock, PictureBlockDto>(dto, b => _mapper.Map<PictureBlockDto>(blockController.SavePictureBlock(b))) },
                 { BlockType.Datetime, (dto) => SaveBlock<DateTimeBlock, DateTimeBlockDto>(dto, b => _mapper.Map<DateTimeBlockDto>(blockController.SaveDateTimeBlock(b))) },
-                { BlockType.Meta, (dto) => SaveBlock<MetaBlock, MetaBlockDto>(dto, b => _mapper.Map<MetaBlockDto>(blockController.SaveMetabLock(b)), CastBlocksInFrames) }
+                { BlockType.Meta, (dto) => SaveBlock<Scenario, ScenarioDto>(dto, b => _mapper.Map<ScenarioDto>(blockController.SaveScenario(b)), CastBlocksInFrames) }
             };
             _copiers = new Dictionary<string, Func<object>>
             {
@@ -64,7 +64,7 @@ namespace Web.Modules
                 { BlockType.Table , () => CopyBlock<TableBlock, TableBlockDto>(b => blockController.CopyTableBlock(b)) },
                 { BlockType.Picture , () => CopyBlock<PictureBlock, PictureBlockDto>(b => blockController.CopyPictureBlock(b)) },
                 { BlockType.Datetime , () => CopyBlock<DateTimeBlock, DateTimeBlockDto>(b => blockController.CopyDateTimeBlock(b)) },
-                { BlockType.Meta, () => CopyBlock<MetaBlock, MetaBlockDto>(b => blockController.CopyMetabLock(b)) }
+                { BlockType.Meta, () => CopyBlock<Scenario, ScenarioDto>(b => blockController.CopyScenario(b)) }
             };
             _blockDtoConververs = new Dictionary<string, Func<BlockDto, DisplayBlock>>
             {
@@ -75,13 +75,13 @@ namespace Web.Modules
             };
         }
 
-        private void CastBlocksInFrames(BlockDto blockDto, MetaBlock metablock)
+        private void CastBlocksInFrames(BlockDto blockDto, Scenario scenario)
         {
-            var metablockDto = blockDto as MetaBlockDto;
-            foreach (var frameDto in metablockDto.Frames)
+            var scenarioDto = blockDto as ScenarioDto;
+            foreach (var sceneDto in scenarioDto.Scenes)
             {
-                var frame = metablock.Details.Frames.FirstOrDefault(f => f.Id.Equals(frameDto.Id));
-                frame.Blocks = frameDto.Blocks?.Select(frameBlockDto =>
+                var scene = scenario.Details.Scenes.FirstOrDefault(f => f.Id.Equals(sceneDto.Id));
+                scene.Blocks = sceneDto.Blocks?.Select(frameBlockDto =>
                      _blockDtoConververs
                         .First(kvp => kvp.Key.Equals(frameBlockDto.Type, StringComparison.InvariantCultureIgnoreCase))
                             .Value.Invoke(frameBlockDto)
@@ -126,12 +126,12 @@ namespace Web.Modules
                         var datetimeBlock = _mapper.Map<DateTimeBlock>(dateTimeBlockDto);
                         _blockController.SaveDateTimeBlock(datetimeBlock);
                         break;
-                    case MetaBlockDto metaBlockDto:
-                        var metablock = _mapper.Map<MetaBlock>(metaBlockDto);
-                        _blockController.SaveMetabLock(metablock);
-                        foreach (var frame in metaBlockDto.Frames.Where(f => f.Blocks?.Any() ?? false))
+                    case ScenarioDto scenarioDto:
+                        var scenario = _mapper.Map<Scenario>(scenarioDto);
+                        _blockController.SaveScenario(scenario);
+                        foreach (var scene in scenarioDto.Scenes.Where(f => f.Blocks?.Any() ?? false))
                         {
-                            SaveBlocks(frame.Blocks);
+                            SaveBlocks(scene.Blocks);
                         }
                         break;
                 }
@@ -223,10 +223,10 @@ namespace Web.Modules
             _blockController.MoveAndResizeBlock(block.Id, block.Height, block.Width, block.Left, block.Top);
         }
 
-        private MetaBlockDto AddMetaBlock()
+        private ScenarioDto AddScenario()
         {
-            var metablock = _blockController.AddMetaBlock();
-            var block = _mapper.Map<MetaBlockDto>(metablock);
+            var scenario = _blockController.AddScenario();
+            var block = _mapper.Map<ScenarioDto>(scenario);
             return block;
         }
 

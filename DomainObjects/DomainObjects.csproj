@@ -42,11 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blocks\Details\TableBlockColumnWidth.cs" />
-    <Compile Include="Blocks\Details\MetaBlockDetails.cs" />
-    <Compile Include="Blocks\Details\MetablockFrame.cs" />
+    <Compile Include="Blocks\Details\ScenarioDetails.cs" />
+    <Compile Include="Blocks\Details\Scene.cs" />
     <Compile Include="Blocks\Details\TableBlockRowHeight.cs" />
     <Compile Include="SizeUnits.cs" />
-    <Compile Include="Blocks\MetaBlock.cs" />
+    <Compile Include="Blocks\Scenario.cs" />
     <Compile Include="Blocks\DateTimeBlock.cs" />
     <Compile Include="Blocks\Details\DateTimeBlockDetails.cs" />
     <Compile Include="DateTimeFormat.cs" />

@@ -9,14 +9,14 @@ using System.Windows.Controls;
 
 namespace SmartInfo.Blocks.Builders
 {
-    public class MetaBlockBuilder : AbstractBuilder
+    public class ScenarioBuilder : AbstractBuilder
     {
         public override UIElement BuildElement(DisplayBlock displayBlock)
         {
             var blocks = new List<UIElement>();
             var currentFrameIndex = int.MinValue;
             var metablockScheduler = new ScenarioScheduler();
-            var metablock = displayBlock as MetaBlock;
+            var metablock = displayBlock as Scenario;
             var canvas = new Canvas
             {
                 Height = metablock.Height,
@@ -25,7 +25,7 @@ namespace SmartInfo.Blocks.Builders
 
             var blockBuilder = new BlockBuilder();
 
-            foreach (var block in metablock.Details.Frames.SelectMany(f => f?.Blocks ?? new List<DisplayBlock>()))
+            foreach (var block in metablock.Details.Scenes.SelectMany(f => f?.Blocks ?? new List<DisplayBlock>()))
             {
                 var element = blockBuilder.BuildElement(block);
                 if (element != null)
@@ -36,7 +36,7 @@ namespace SmartInfo.Blocks.Builders
                 }
             }
 
-            metablockScheduler.Frames = metablock.Details.Frames.OrderByDescending(f => f.Index).Reverse().ToList();
+            metablockScheduler.Frames = metablock.Details.Scenes.OrderByDescending(f => f.Index).Reverse().ToList();
 
             var timer = new Timer
             {

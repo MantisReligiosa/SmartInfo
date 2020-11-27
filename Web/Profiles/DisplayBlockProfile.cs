@@ -13,14 +13,14 @@ namespace Web.Profiles
                 .Include<PictureBlock, PictureBlockDto>()
                 .Include<TableBlock, TableBlockDto>()
                 .Include<TextBlock, TextBlockDto>()
-                .Include<MetaBlock, MetaBlockDto>();
+                .Include<Scenario, ScenarioDto>();
 
             CreateMap<BlockDto, DisplayBlock>()
                 .Include<DateTimeBlockDto, DateTimeBlock>()
                 .Include<PictureBlockDto, PictureBlock>()
                 .Include<TableBlockDto, TableBlock>()
                 .Include<TextBlockDto, TextBlock>()
-                .Include<MetaBlockDto, MetaBlock>();
+                .Include<ScenarioDto, Scenario>();
         }
     }
 }

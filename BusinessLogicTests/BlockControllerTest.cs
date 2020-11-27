@@ -7,8 +7,8 @@ using ExpectedObjects;
 using NSubstitute;
 using NUnit.Framework;
 using ServiceInterfaces;
+using ServiceInterfaces.IRepositories;
 using Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -37,7 +37,7 @@ namespace BusinessLogicTests
 
             _systemController = Substitute.For<ISystemController>();
 
-            _displayBlockRepository = Substitute.For<IRepository<DisplayBlock>>();
+            _displayBlockRepository = Substitute.For<IDisplayBlockRepository>();
 
             _unitOfWork = Substitute.For<IUnitOfWork>();
             _unitOfWork.DisplayBlocks.Returns(_displayBlockRepository);
@@ -52,18 +52,18 @@ namespace BusinessLogicTests
             var controller = new BlockController(_systemController, _unitOfWorkFactory);
 
             var savingMetablock = _fixture
-                .Build<MetaBlock>()
+                .Build<Scenario>()
                 .Without(m => m.Scene)
                 .Without(m => m.SceneId)
                 .Create();
 
-            var dbMetablock = new MetaBlock
+            var dbMetablock = new Scenario
             {
                 Id = savingMetablock.Id,
-                Details = new MetaBlockDetails
+                Details = new ScenarioDetails
                 {
                     Id = savingMetablock.Details.Id,
-                    Frames = new List<MetablockFrame>(savingMetablock.Details.Frames.Select(f => new MetablockFrame
+                    Scenes = new List<Scene>(savingMetablock.Details.Scenes.Select(f => new Scene
                     {
                         Id = f.Id,
                         Blocks = new List<DisplayBlock>()
@@ -73,7 +73,7 @@ namespace BusinessLogicTests
 
             _displayBlockRepository.GetById(Arg.Any<int>()).Returns(dbMetablock);
 
-            var actual = controller.SaveMetabLock(savingMetablock);
+            var actual = controller.SaveScenario(savingMetablock);
             var expected = savingMetablock.ToExpectedObject();
             expected.ShouldEqual(actual);
         }
@@ -84,24 +84,24 @@ namespace BusinessLogicTests
             var controller = new BlockController(_systemController, _unitOfWorkFactory);
 
             var savingMetablock = _fixture
-                .Build<MetaBlock>()
+                .Build<Scenario>()
                 .Without(m => m.Scene)
                 .Without(m => m.SceneId)
                 .Create();
 
-            var dbMetablock = new MetaBlock
+            var dbMetablock = new Scenario
             {
                 Id = savingMetablock.Id,
-                Details = new MetaBlockDetails
+                Details = new ScenarioDetails
                 {
                     Id = savingMetablock.Details.Id,
-                    Frames = new List<MetablockFrame>()
+                    Scenes = new List<Scene>()
                 }
             };
 
             _displayBlockRepository.GetById(Arg.Any<int>()).Returns(dbMetablock);
 
-            var actual = controller.SaveMetabLock(savingMetablock);
+            var actual = controller.SaveScenario(savingMetablock);
             var expected = savingMetablock.ToExpectedObject();
             expected.ShouldEqual(actual);
         }
@@ -166,7 +166,6 @@ namespace BusinessLogicTests
                         Column = column,
                         Row = row,
                         TableBlockDetails = details,
-                        TableBlockDetailsId = details.Id,
                         Value = $"C[{row}][{column}]"
                     });
                 }
@@ -178,7 +177,6 @@ namespace BusinessLogicTests
                     Value = row * 5,
                     Units = SizeUnits.Pecent,
                     TableBlockDetails = details,
-                    TableBlockDetailsId = details.Id
                 });
             }
             for (int column = 0; column < columns; column++)
@@ -189,22 +187,21 @@ namespace BusinessLogicTests
                     Value = null,
                     Units = SizeUnits.Auto,
                     TableBlockDetails = details,
-                    TableBlockDetailsId = details.Id
                 });
             }
 
-            _unitOfWork.DisplayBlocks.GetById(Arg.Any<int>()).Returns(new TableBlock
-            {
-                Details = new TableBlockDetails
-                {
-                    Cells = new List<TableBlockCellDetails>(),
-                    EvenRowDetails = new TableBlockRowDetails(),
-                    HeaderDetails = new TableBlockRowDetails(),
-                    OddRowDetails = new TableBlockRowDetails(),
-                    TableBlockColumnWidths = new List<TableBlockColumnWidth>(),
-                    TableBlockRowHeights = new List<TableBlockRowHeight>()
-                }
-            });
+            //_unitOfWork.DisplayBlocks.GetById(Arg.Any<int>()).Returns(new TableBlock
+            //{
+            //    Details = new TableBlockDetails
+            //    {
+            //        Cells = new List<TableBlockCellDetails>(),
+            //        EvenRowDetails = new TableBlockRowDetails(),
+            //        HeaderDetails = new TableBlockRowDetails(),
+            //        OddRowDetails = new TableBlockRowDetails(),
+            //        TableBlockColumnWidths = new List<TableBlockColumnWidth>(),
+            //        TableBlockRowHeights = new List<TableBlockRowHeight>()
+            //    }
+            //});
 
             controller.SaveTableBlock(tableBlock);
         }

@@ -4,7 +4,6 @@ using Repository.Entities;
 using Repository.Entities.ParameterEntities;
 using Repository.Specifications;
 using ServiceInterfaces.IRepositories;
-using System.Linq;
 
 namespace Repository.Repositories
 {
@@ -25,7 +24,7 @@ namespace Repository.Repositories
             where TEntity : ParameterEntity
             where TModel : Parameter
         {
-            var entity = (TEntity)Context.Set<ParameterEntity>().SingleOrDefault(ParameterSpecification.OfType<TEntity>());
+            var entity = (TEntity)Context.SingleOrDefault(ParameterSpecification.OfType<TEntity>());
             var parameter = _mapper.Map<TModel>(entity);
             return parameter;
         }

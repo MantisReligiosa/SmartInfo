@@ -33,8 +33,8 @@ namespace Repository.Entities.DetailsEntities
         [Column("FormatId")]
         public int DateTimeFormatId { get; set; }
 
-        public DateTimeBlockEntity DatetimeBlockEntity { get; set; }
+        public virtual DateTimeBlockEntity DatetimeBlockEntity { get; set; }
 
-        public DateTimeFormatEntity DateTimeFormatEntity { get; set; }
+        public virtual DateTimeFormatEntity DateTimeFormatEntity { get; set; }
     }
 }

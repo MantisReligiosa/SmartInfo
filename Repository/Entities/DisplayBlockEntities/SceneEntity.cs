@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Repository.Entities.DetailsEntities;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repository.Entities
@@ -33,6 +34,12 @@ namespace Repository.Entities
         [Column("DateToUse")]
         public int DateToUse { get; set; }
 
-        public ICollection<DisplayBlockEntity> DisplayBlocks { get; set; }
+        [Column("ScenarioDetailsId")]
+        public int ScenarioDetailsEntityId { get; set; }
+
+        public virtual ICollection<DisplayBlockEntity> DisplayBlocks { get; set; }
+
+        public virtual ScenarioDetailsEntity ScenarioDetailsEntity { get; set; }
+       
     }
 }

@@ -4,7 +4,6 @@ using Repository.Entities;
 using ServiceInterfaces;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -15,10 +14,10 @@ namespace Repository
         where TModel : Identity
         where TEntity : Entity
     {
-        internal readonly DatabaseContext Context;
+        internal readonly IDatabaseContext Context;
         internal IMapper _mapper;
 
-        public Repository(DatabaseContext context)
+        public Repository(IDatabaseContext context)
         {
             Context = context;
             var currentAssembly = Assembly.GetExecutingAssembly();
@@ -34,7 +33,7 @@ namespace Repository
 
         public int Count()
         {
-            return Context.Set<TEntity>().Count();
+            return Context.Count<TEntity>();
         }
 
         public virtual TModel Create(TModel item)
@@ -45,57 +44,69 @@ namespace Repository
         protected TModel CreateItem(TModel item)
         {
             var entity = _mapper.Map<TModel, TEntity>(item);
-            var addedEntity = Context.Set<TEntity>().Add(entity);
+            var addedEntity = Context.Add(entity);
             var result = _mapper.Map<TEntity, TModel>(addedEntity);
             return result;
         }
 
         public virtual void CreateMany(IEnumerable<TModel> list)
         {
-            Context.Set<TEntity>().AddRange(_mapper.Map<IEnumerable<TModel>, IEnumerable<TEntity>>(list));
+            Context.AddRange(_mapper.Map<IEnumerable<TModel>, IEnumerable<TEntity>>(list));
+            Context.SaveChanges();
         }
 
         public virtual void DeleteById(int id)
         {
-            TEntity entity = Context.Set<TEntity>().Find(id);
+            TEntity entity = Context.Find<TEntity>(id);
             if (entity != null)
-                Context.Set<TEntity>().Remove(entity);
+            {
+                Context.Remove(entity);
+                Context.SaveChanges();
+            }
         }
 
-        public virtual void DeleteRange(IEnumerable<TModel> list)
+        public virtual void DeleteByIds(IEnumerable<int> ids)
         {
-            if (list != null && list.Count() > 0)
+            if (ids != null && ids.Count() > 0)
             {
-                var entities = _mapper.Map<IEnumerable<TModel>, IEnumerable<TEntity>>(list);
-                foreach(var entity in entities)
+                foreach (var id in ids)
                 {
-                    Context.Entry(entity).State = EntityState.Deleted;
+                    TEntity entity = Context.Find<TEntity>(id);
+                    if (entity != null)
+                    {
+                        Context.Remove(entity);
+                    }
                 }
-                Context.Set<TEntity>().RemoveRange(entities);
+                Context.SaveChanges();
             }
+        }
+
+        public void DeleteMany(IEnumerable<Identity> identities)
+        {
+            DeleteByIds(identities.Select(i => i.Id));
         }
 
         protected IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> expression)
         {
-            return Context.Set<TEntity>().Where(expression);
+            return Context.Get(expression);
         }
 
         public virtual TModel GetById(int id)
         {
-            var entity =  Context.Set<TEntity>().Find(id);
+            var entity = Context.Find<TEntity>(id);
             return _mapper.Map<TModel>(entity);
         }
 
         public virtual IEnumerable<TModel> GetAll()
         {
-            var entities = Context.Set<TEntity>().ToList();
+            var entities = Context.Get<TEntity>().ToList();
             var result = _mapper.Map<IEnumerable<TModel>>(entities);
             return result;
         }
 
         public virtual void Update(TModel item)
         {
-            Context.Entry(item).State = EntityState.Modified;
+            Context.SetModifiedState(item);
         }
     }
 }

@@ -9,6 +9,9 @@ namespace Repository.Profiles.DetailsEntitiesProfiles
         public TextBlockDetailsEntityProfile()
         {
             CreateMap<TextBlockDetailsEntity, TextBlockDetails>();
+
+            CreateMap<TextBlockDetails, TextBlockDetailsEntity>()
+                .ForMember(entity => entity.TextBlockEntity, opt=>opt.Ignore());
         }
     }
 }

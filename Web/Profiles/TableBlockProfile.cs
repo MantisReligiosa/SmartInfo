@@ -83,7 +83,6 @@ namespace Web.Profiles
                             Column = columnIndex++,
                             Row = rowIndex,
                             Value = headerCellValue,
-                            TableBlockDetailsId = details.Id,
                             TableBlockDetails = details
                         });
                     }
@@ -98,18 +97,19 @@ namespace Web.Profiles
                                 Column = columnIndex++,
                                 Row = rowIndex,
                                 Value = cellValue,
-                                TableBlockDetailsId = details.Id,
                                 TableBlockDetails = details
                             });
                         }
                     }
                 });
 
+            CreateMap<TableBlockRowDetails, RowStyleDto>();
             CreateMap<RowStyleDto, TableBlockRowDetails>();
             CreateMap<TableBlockColumnWidth, TableBlockColumnWidthDto>();
             CreateMap<TableBlockColumnWidthDto, TableBlockColumnWidth>();
             CreateMap<TableBlockRowHeight, TableBlockRowHeightDto>();
             CreateMap<TableBlockRowHeightDto, TableBlockRowHeight>();
+
         }
     }
 }

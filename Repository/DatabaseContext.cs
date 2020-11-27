@@ -2,16 +2,21 @@
 using Repository.Entities.DetailsEntities;
 using Repository.Entities.DetailsEntities.TableBlockRowDetailsEntities;
 using Repository.Entities.DisplayBlockEntities;
+using ServiceInterfaces;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Repository
 {
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : DbContext, IDatabaseContext
     {
         public DatabaseContext()
             : base("DefaultConnection")
         {
-            Configuration.LazyLoadingEnabled = false;
+            //Configuration.LazyLoadingEnabled = false;
         }
 
         public DbSet<UserEntity> Users { get; set; }
@@ -25,13 +30,86 @@ namespace Repository
         public DbSet<TableBlockDetailsEntity> TableBlockDetailsEntities { get; set; }
         public DbSet<TableBlockRowDetailsEntity> TableBlockRowDetailsEntities { get; set; }
 
+        public TEntity Add<TEntity>(TEntity entity) where TEntity : class
+        {
+            return Set<TEntity>().Add(entity);
+        }
+
+        public void AddRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
+        {
+            Set<TEntity>().AddRange(entities);
+        }
+
+        public int Count<TEntity>() where TEntity : class
+        {
+            return Set<TEntity>().AsQueryable().Count();
+        }
+
+        public TEntity Find<TEntity>(object id) where TEntity : class
+        {
+            return Set<TEntity>().Find(id);
+        }
+
+        public IQueryable<TEntity> Get<TEntity>() where TEntity : class
+        {
+            return Set<TEntity>();
+        }
+
+
+        public IQueryable<TEntity> Get<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class
+        {
+            return Set<TEntity>().Where(expression);
+        }
+
+        //public IQueryable<TEntity> GetWith<TEntity>(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes) where TEntity : class
+        //{
+        //    var query = Set<TEntity>().AsQueryable();
+        //    foreach (var include in includes)
+        //    {
+        //        query = query.Include(include);
+        //    }
+        //    return query.Where(expression);
+        //}
+
+        public void Remove<TEntity>(TEntity entity) where TEntity : class
+        {
+            Set<TEntity>().Remove(entity);
+        }
+
+        public void RemoveRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
+        {
+            Set<TEntity>().RemoveRange(entities);
+        }
+
+        public void SetDeletedState<TEntity>(TEntity entity) where TEntity : class
+        {
+            Entry(entity).State = EntityState.Deleted;
+        }
+
+        public void SetModifiedState<TEntity>(TEntity entity) where TEntity : class
+        {
+            Entry(entity).State = EntityState.Modified;
+        }
+
+
+        public TEntity Single<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class
+        {
+            return Set<TEntity>().Single(expression);
+        }
+
+        public TEntity SingleOrDefault<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class
+        {
+            return Set<TEntity>().SingleOrDefault(expression);
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DisplayBlockEntity>()
                 .Map<TextBlockEntity>(m => m.Requires("Type").HasValue("Text"))
                 .Map<PictureBlockEntity>(m => m.Requires("Type").HasValue("Picture"))
                 .Map<DateTimeBlockEntity>(m => m.Requires("Type").HasValue("Datetime"))
-                .Map<TableBlockEntity>(m => m.Requires("Type").HasValue("Table"));
+                .Map<TableBlockEntity>(m => m.Requires("Type").HasValue("Table"))
+                .Map<ScenarioEntity>(m=>m.Requires("Type").HasValue("Scenario"));
 
             modelBuilder.Entity<TableBlockRowDetailsEntity>()
                 .Map<TableBlockHeaderDetailsEntity>(m => m.Requires("Type").HasValue("Header"))
@@ -46,6 +124,8 @@ namespace Repository
                 .HasRequired(e => e.DateTimeBlockDetails).WithRequiredPrincipal(e => e.DatetimeBlockEntity).Map(a => a.MapKey("DateTimeBlockId"));
             modelBuilder.Entity<TableBlockEntity>()
                 .HasRequired(e => e.TableBlockDetails).WithRequiredPrincipal(e => e.TableBlockEntity).Map(a => a.MapKey("TableBlockId"));
+            modelBuilder.Entity<ScenarioEntity>()
+                .HasRequired(e => e.ScenarioDetails).WithRequiredPrincipal(e => e.ScenarioEntity).Map(a => a.MapKey("ScenarioId"));
 
             modelBuilder.Entity<DateTimeBlockDetailsEntity>()
                 .HasRequired(d => d.DateTimeFormatEntity).WithMany(f => f.DatetTimeBlockDetailsEntities).HasForeignKey(f => f.DateTimeFormatId);
@@ -58,6 +138,12 @@ namespace Repository
                 .HasMany(d => d.ColumnWidthEntities).WithRequired(r => r.TableBlockDetailsEntity).HasForeignKey(f => f.TableBlockDetailsEntityId);
             modelBuilder.Entity<TableBlockDetailsEntity>()
                 .HasMany(d => d.CellDetailsEntities).WithRequired(r => r.TableBlockDetailsEntity).HasForeignKey(f => f.TableBlockDetailsEntityId);
+
+            modelBuilder.Entity<ScenarioDetailsEntity>()
+                .HasMany(s => s.Scenes).WithRequired(s => s.ScenarioDetailsEntity).HasForeignKey(f => f.ScenarioDetailsEntityId);
+
+            modelBuilder.Entity<SceneEntity>()
+                .HasMany(s => s.DisplayBlocks).WithOptional(s => s.Scene).HasForeignKey(s => s.SceneId);
         }
     }
 }

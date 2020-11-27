@@ -7,9 +7,9 @@ namespace Helpers
 {
     public class ScenarioScheduler
     {
-        public List<MetablockFrame> Frames { get; set; }
+        public List<Scene> Frames { get; set; }
 
-        public MetablockFrame GetNextFrame(DateTime dateTime, int currentFrameIndex)
+        public Scene GetNextFrame(DateTime dateTime, int currentFrameIndex)
         {
             var dayOfWeek = dateTime.DayOfWeek;
             var frames = Frames

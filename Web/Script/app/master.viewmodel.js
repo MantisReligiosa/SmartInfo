@@ -1280,7 +1280,7 @@ function masterViewModel(app) {
 
     makeMetablockObservableArrays = function (block) {
         var tempFrames = [];
-        block.frames.forEach(function (frame) {
+        block.scenes.forEach(function (frame) {
             var tempBlocks = [];
             frame.checked = ko.observable(frame.index == 1);
             frame.blocks.forEach(function (block) {

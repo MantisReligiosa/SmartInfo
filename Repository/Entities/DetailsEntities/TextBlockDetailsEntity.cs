@@ -33,6 +33,6 @@ namespace Repository.Entities.DetailsEntities
         [Column("FontIndex", TypeName ="decimal")]
         public decimal FontIndex { get; set; }
 
-        public TextBlockEntity TextBlockEntity { get; set; }
+        public virtual TextBlockEntity TextBlockEntity { get; set; }
     }
 }

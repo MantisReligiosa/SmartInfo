@@ -7,7 +7,8 @@ namespace ServiceInterfaces
     {
         int Count();
         TModel Create(TModel item);
-        void DeleteRange(System.Collections.Generic.IEnumerable<TModel> list);
+        void DeleteByIds(IEnumerable<int> ids);
+        void DeleteMany(IEnumerable<Identity> identities);
         TModel GetById(int v);
         void Update(TModel item);
         IEnumerable<TModel> GetAll();

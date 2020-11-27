@@ -24,7 +24,7 @@ namespace Repository
             DisplayBlocks = new DisplayBlockRepository(_databaseContext);
             TableBlockCellDetails = new Repository<TableBlockCellDetails, TableBlockCellDetailsEntity>(_databaseContext);
             DateTimeFormats = new Repository<DateTimeFormat, DateTimeFormatEntity>(_databaseContext);
-            MetablockFrames = new Repository<MetablockFrame, SceneEntity>(_databaseContext);
+            Scenes = new Repository<Scene, SceneEntity>(_databaseContext);
             TableBlockRowHeights = new Repository<TableBlockRowHeight, TableBlockRowHeightEntity>(_databaseContext);
             TableBlockColumnWidths = new Repository<TableBlockColumnWidth, TableBlockColumnWidthEntity>(_databaseContext);
         }
@@ -35,7 +35,7 @@ namespace Repository
         public IDisplayBlockRepository DisplayBlocks { get; private set; }
         public IRepository<TableBlockCellDetails> TableBlockCellDetails { get; private set; }
         public IRepository<DateTimeFormat> DateTimeFormats { get; private set; }
-        public IRepository<MetablockFrame> MetablockFrames { get; private set; }
+        public IRepository<Scene> Scenes { get; private set; }
         public IRepository<TableBlockRowHeight> TableBlockRowHeights { get; private set; }
         public IRepository<TableBlockColumnWidth> TableBlockColumnWidths { get; private set; }
 

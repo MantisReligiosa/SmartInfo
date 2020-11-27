@@ -15,8 +15,8 @@ namespace Repository.Entities.DetailsEntities
         public string Value { get; set; }
 
         [Column("TableBlockDetailsId")]
-        public int TableBlockDetailsEntityId { get; internal set; }
+        public int TableBlockDetailsEntityId { get; set; }
 
-        public TableBlockDetailsEntity TableBlockDetailsEntity { get; set; }
+        public virtual TableBlockDetailsEntity TableBlockDetailsEntity { get; set; }
     }
 }

@@ -15,6 +15,6 @@ namespace Repository.Entities.DetailsEntities
         [Column("SaveProportions")]
         public int SaveProportions { get; set; }
 
-        public PictureBlockEntity PictureBlockEntity { get; set; }
+        public virtual PictureBlockEntity PictureBlockEntity { get; set; }
     }
 }

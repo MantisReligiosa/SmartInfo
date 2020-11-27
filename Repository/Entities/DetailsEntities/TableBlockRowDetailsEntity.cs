@@ -21,8 +21,8 @@ namespace Repository.Entities.DetailsEntities
         public int Bold { get; set; }
 
         [Column("TableBlockDetailsEntityId")]
-        public int TableBlockDetailsEntityId { get; internal set; }
+        public int TableBlockDetailsEntityId { get; set; }
 
-        public TableBlockDetailsEntity TableBlockDetailsEntity { get; set; }
+        public virtual TableBlockDetailsEntity TableBlockDetailsEntity { get; set; }
     }
 }

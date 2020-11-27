@@ -64,7 +64,7 @@ namespace Services
             }
 
             var existsDisplays = _unitOfWork.Displays.GetAll();
-            _unitOfWork.Displays.DeleteRange(existsDisplays);
+            _unitOfWork.Displays.DeleteMany(existsDisplays);
             _unitOfWork.Displays.CreateMany(screenInfo.Displays);
             _unitOfWork.Complete();
         }

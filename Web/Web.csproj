@@ -382,7 +382,7 @@
     <Compile Include="Models\Blocks\Converter\BaseSpecifiedConcreteClassConverter.cs" />
     <Compile Include="Models\Blocks\Converter\BlockConverter.cs" />
     <Compile Include="Models\Blocks\DateTimeBlockDto.cs" />
-    <Compile Include="Models\Blocks\MetablockFrameDto.cs" />
+    <Compile Include="Models\Blocks\SceneDto.cs" />
     <Compile Include="Models\Blocks\PictureBlockDto.cs" />
     <Compile Include="Models\Blocks\RowDto.cs" />
     <Compile Include="Models\Blocks\RowStyleDto.cs" />
@@ -397,7 +397,7 @@
     <Compile Include="Models\ErrorResponce.cs" />
     <Compile Include="Models\TableDataDto.cs" />
     <Compile Include="Models\ParsedTableDto.cs" />
-    <Compile Include="Models\Blocks\MetaBlockDto.cs" />
+    <Compile Include="Models\Blocks\ScenarioDto.cs" />
     <Compile Include="Models\SaveBlockRequest.cs" />
     <Compile Include="Models\ScreenBackgroundRequest.cs" />
     <Compile Include="Models\ScreenResolutionResponce.cs" />
@@ -414,7 +414,7 @@
     <Compile Include="Profiles\BlockType.cs" />
     <Compile Include="Profiles\DateTimeBlockProfile.cs" />
     <Compile Include="Profiles\DisplayBlockProfile.cs" />
-    <Compile Include="Profiles\MetaBlockProfile.cs" />
+    <Compile Include="Profiles\ScenarioProfile.cs" />
     <Compile Include="Profiles\TableBlockProfile.cs" />
     <Compile Include="Profiles\PictureBlockProfile.cs" />
     <Compile Include="Profiles\TextBlockProfile.cs" />
