@@ -3,20 +3,21 @@ using DomainObjects.Parameters;
 using Repository.Entities;
 using Repository.Entities.ParameterEntities;
 using Repository.Specifications;
+using ServiceInterfaces;
 using ServiceInterfaces.IRepositories;
 
 namespace Repository.Repositories
 {
     public class ParameterRepository : Repository<Parameter, ParameterEntity>, IParametersRepository
     {
-        public ParameterRepository(DatabaseContext context)
+        public ParameterRepository(IDatabaseContext context)
             : base(context)
         {
         }
 
         public ScreenHeight ScreenHeight => GetParameter<ScreenHeight, ScreenHeightEntity>();
 
-        public ScreenWidth ScreenWidth => GetParameter<ScreenWidth, ScreenHeightEntity>();
+        public ScreenWidth ScreenWidth => GetParameter<ScreenWidth, ScreenWidthEntity>();
 
         public BackgroundColor BackgroundColor => GetParameter<BackgroundColor, BackgroundColorEntity>();
 
@@ -25,7 +26,7 @@ namespace Repository.Repositories
             where TModel : Parameter
         {
             var entity = (TEntity)Context.SingleOrDefault(ParameterSpecification.OfType<TEntity>());
-            var parameter = _mapper.Map<TModel>(entity);
+            var parameter = _mapper.Map<TEntity,TModel>(entity);
             return parameter;
         }
     }

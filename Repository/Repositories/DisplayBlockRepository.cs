@@ -5,6 +5,7 @@ using Repository.Specifications;
 using ServiceInterfaces;
 using ServiceInterfaces.IRepositories;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Repository.Repositories
 {
@@ -15,72 +16,35 @@ namespace Repository.Repositories
         {
         }
 
-        //public override IEnumerable<DisplayBlock> GetAll()
-        //{
-        //    var items = new List<DisplayBlock>();
-        //    items.AddRange(Context.DisplayBlocks.OfType<TextBlock>().Include(t => t.Details).ToList());
-        //    items.AddRange(Context.DisplayBlocks.OfType<PictureBlock>().Include(t => t.Details).ToList());
-        //    items.AddRange(Context.DisplayBlocks.OfType<DateTimeBlock>().Include(t => t.Details).Include(t => t.Details.Format).ToList());
-        //    items.AddRange(Context.DisplayBlocks.OfType<TableBlock>()
-        //        .Include(t => t.Details)
-        //        .Include(t => t.Details.Cells)
-        //        .Include(t => t.Details.EvenRowDetails)
-        //        .Include(t => t.Details.OddRowDetails)
-        //        .Include(t => t.Details.HeaderDetails)
-        //        .Include(t => t.Details.TableBlockColumnWidths)
-        //        .Include(t => t.Details.TableBlockRowHeights)
-        //        .ToList());
-        //    items.AddRange(Context.DisplayBlocks.OfType<MetaBlock>()
-        //        .Include(t => t.Details)
-        //        .Include(t => t.Details.Frames)
-        //        .ToList());
+        public override void DeleteById(int id)
+        {
+            var displayBlock = Context.Find<DisplayBlockEntity>(id);
 
-        //    return items;
-        //}
+            switch (displayBlock)
+            {
+                case TextBlockEntity _:
+                    DeleteBlockById<TextBlockEntity>(id);
+                    return;
+                case PictureBlockEntity _:
+                    DeleteBlockById<PictureBlockEntity>(id);
+                    return;
+                case DateTimeBlockEntity _:
+                    DeleteBlockById<DateTimeBlockEntity>(id);
+                    return;
+                case TableBlockEntity _:
+                    DeleteBlockById<TableBlockEntity>(id);
+                    return;
+                case ScenarioEntity _:
+                    DeleteBlockById<ScenarioEntity>(id);
+                    return;
+            }
+        }
 
-        //public override void DeleteRange(IEnumerable<DisplayBlock> list)
-        //{
-        //    list.ToList().ForEach(l => DeleteById(l.Id));
-        //}
-
-        //public override void DeleteById(int id)
-        //{
-        //    var displayBlock = GetById(id);
-        //    if (displayBlock is TextBlock textBlock && textBlock.Details != null)
-        //    {
-        //        Context.Set<TextBlockDetails>().Remove(textBlock.Details);
-        //    }
-        //    if (displayBlock is PictureBlock pictureBlock && pictureBlock.Details != null)
-        //    {
-        //        Context.Set<PictureBlockDetails>().Remove(pictureBlock.Details);
-        //    }
-        //    if (displayBlock is TableBlock tableBlock && tableBlock.Details != null)
-        //    {
-        //        var rowDetails = new List<TableBlockRowDetails>
-        //            {
-        //                tableBlock.Details.HeaderDetails,
-        //                tableBlock.Details.EvenRowDetails,
-        //                tableBlock.Details.OddRowDetails
-        //            };
-        //        Context.Set<TableBlockDetails>().Remove(tableBlock.Details);
-        //        Context.Set<TableBlockRowDetails>().RemoveRange(rowDetails);
-        //    }
-        //    if (displayBlock is DateTimeBlock dateTimeBlock && dateTimeBlock.Details != null)
-        //    {
-        //        Context.Set<DateTimeBlockDetails>().Remove(dateTimeBlock.Details);
-        //    }
-        //    if (displayBlock is MetaBlock metaBlock && metaBlock.Details != null)
-        //    {
-        //        var innerBlockIds = metaBlock.Details.Frames.SelectMany(frame => frame.Blocks ?? new List<DisplayBlock>(), (frame, block) => block.Id).ToList();
-        //        foreach (var innerBlockId in innerBlockIds)
-        //        {
-        //            DeleteById(innerBlockId);
-        //        }
-        //        Context.Set<MetablockFrame>().RemoveRange(metaBlock.Details.Frames);
-        //        Context.Set<MetaBlockDetails>().Remove(metaBlock.Details);
-        //    }
-        //    base.DeleteById(id);
-        //}
+        private void DeleteBlockById<TBlock>(int id) where TBlock : DisplayBlockEntity
+        {
+            var entity = Context.GetWith(DisplayBlockSpecification.ById<TBlock>(id)).Single();
+            Context.Remove(entity);
+        }
 
         public IEnumerable<DisplayBlock> GetBlocksInScene(int? sceneId)
         {

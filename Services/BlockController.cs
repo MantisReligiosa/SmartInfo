@@ -84,7 +84,7 @@ namespace Services
                     FontName = _systemController.GetFonts().First(),
                     FontSize = _systemController.GetFontSizes().First(),
                     FontIndex = 1.5,
-                    HeaderDetails = new TableBlockRowDetails
+                    HeaderDetails = new TableBlockHeaderDetails
                     {
                         Align = Align.Center,
                         BackColor = "#000000",
@@ -92,7 +92,7 @@ namespace Services
                         Bold = true,
                         Italic = false,
                     },
-                    EvenRowDetails = new TableBlockRowDetails
+                    EvenRowDetails = new TableBlockEvenRowDetails
                     {
                         Align = Align.Left,
                         BackColor = "#ffffff",
@@ -100,7 +100,7 @@ namespace Services
                         Bold = false,
                         Italic = true,
                     },
-                    OddRowDetails = new TableBlockRowDetails
+                    OddRowDetails = new TableBlockOddRowDetails
                     {
                         Align = Align.Left,
                         BackColor = "#e6e6e6",

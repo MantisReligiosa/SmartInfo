@@ -2,6 +2,7 @@
 using Repository.Entities.DetailsEntities;
 using Repository.Entities.DetailsEntities.TableBlockRowDetailsEntities;
 using Repository.Entities.DisplayBlockEntities;
+using Repository.Entities.ParameterEntities;
 using ServiceInterfaces;
 using System;
 using System.Collections.Generic;
@@ -61,15 +62,15 @@ namespace Repository
             return Set<TEntity>().Where(expression);
         }
 
-        //public IQueryable<TEntity> GetWith<TEntity>(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes) where TEntity : class
-        //{
-        //    var query = Set<TEntity>().AsQueryable();
-        //    foreach (var include in includes)
-        //    {
-        //        query = query.Include(include);
-        //    }
-        //    return query.Where(expression);
-        //}
+        public IQueryable<TEntity> GetWith<TEntity>(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes) where TEntity : class
+        {
+            var query = Set<TEntity>().AsQueryable();
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return query.Where(expression);
+        }
 
         public void Remove<TEntity>(TEntity entity) where TEntity : class
         {
@@ -104,12 +105,17 @@ namespace Repository
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ParameterEntity>()
+                .Map<BackgroundColorEntity>(m => m.Requires("Type").HasValue("BackgroundColor"))
+                .Map<ScreenHeightEntity>(m => m.Requires("Type").HasValue("ScreenHeight"))
+                .Map<ScreenWidthEntity>(m => m.Requires("Type").HasValue("ScreenWidth"));
+
             modelBuilder.Entity<DisplayBlockEntity>()
                 .Map<TextBlockEntity>(m => m.Requires("Type").HasValue("Text"))
                 .Map<PictureBlockEntity>(m => m.Requires("Type").HasValue("Picture"))
                 .Map<DateTimeBlockEntity>(m => m.Requires("Type").HasValue("Datetime"))
                 .Map<TableBlockEntity>(m => m.Requires("Type").HasValue("Table"))
-                .Map<ScenarioEntity>(m=>m.Requires("Type").HasValue("Scenario"));
+                .Map<ScenarioEntity>(m => m.Requires("Type").HasValue("Scenario"));
 
             modelBuilder.Entity<TableBlockRowDetailsEntity>()
                 .Map<TableBlockHeaderDetailsEntity>(m => m.Requires("Type").HasValue("Header"))
@@ -117,33 +123,33 @@ namespace Repository
                 .Map<TableBlockOddRowDetailsEntity>(m => m.Requires("Type").HasValue("OddRow"));
 
             modelBuilder.Entity<TextBlockEntity>()
-                .HasRequired(e => e.TextBlockDetails).WithRequiredPrincipal(e => e.TextBlockEntity).Map(a => a.MapKey("TextBlockId"));
+                .HasRequired(e => e.TextBlockDetails).WithRequiredPrincipal(e => e.TextBlockEntity).Map(a => a.MapKey("TextBlockId")).WillCascadeOnDelete(true);
             modelBuilder.Entity<PictureBlockEntity>()
-                .HasRequired(e => e.PictureBlockDetails).WithRequiredPrincipal(e => e.PictureBlockEntity).Map(a => a.MapKey("PictureBlockId"));
+                .HasRequired(e => e.PictureBlockDetails).WithRequiredPrincipal(e => e.PictureBlockEntity).Map(a => a.MapKey("PictureBlockId")).WillCascadeOnDelete(true);
             modelBuilder.Entity<DateTimeBlockEntity>()
-                .HasRequired(e => e.DateTimeBlockDetails).WithRequiredPrincipal(e => e.DatetimeBlockEntity).Map(a => a.MapKey("DateTimeBlockId"));
+                .HasRequired(e => e.DateTimeBlockDetails).WithRequiredPrincipal(e => e.DatetimeBlockEntity).Map(a => a.MapKey("DateTimeBlockId")).WillCascadeOnDelete(true);
             modelBuilder.Entity<TableBlockEntity>()
-                .HasRequired(e => e.TableBlockDetails).WithRequiredPrincipal(e => e.TableBlockEntity).Map(a => a.MapKey("TableBlockId"));
+                .HasRequired(e => e.TableBlockDetails).WithRequiredPrincipal(e => e.TableBlockEntity).Map(a => a.MapKey("TableBlockId")).WillCascadeOnDelete(true);
             modelBuilder.Entity<ScenarioEntity>()
-                .HasRequired(e => e.ScenarioDetails).WithRequiredPrincipal(e => e.ScenarioEntity).Map(a => a.MapKey("ScenarioId"));
+                .HasRequired(e => e.ScenarioDetails).WithRequiredPrincipal(e => e.ScenarioEntity).Map(a => a.MapKey("ScenarioId")).WillCascadeOnDelete(true);
 
             modelBuilder.Entity<DateTimeBlockDetailsEntity>()
                 .HasRequired(d => d.DateTimeFormatEntity).WithMany(f => f.DatetTimeBlockDetailsEntities).HasForeignKey(f => f.DateTimeFormatId);
 
             modelBuilder.Entity<TableBlockDetailsEntity>()
-                .HasMany(d => d.RowDetailsEntities).WithRequired(r => r.TableBlockDetailsEntity).HasForeignKey(f => f.TableBlockDetailsEntityId);
+                .HasMany(d => d.RowDetailsEntities).WithRequired(r => r.TableBlockDetailsEntity).HasForeignKey(f => f.TableBlockDetailsEntityId).WillCascadeOnDelete(true);
             modelBuilder.Entity<TableBlockDetailsEntity>()
-                .HasMany(d => d.RowHeightsEntities).WithRequired(r => r.TableBlockDetailsEntity).HasForeignKey(f => f.TableBlockDetailsEntityId);
+                .HasMany(d => d.RowHeightsEntities).WithRequired(r => r.TableBlockDetailsEntity).HasForeignKey(f => f.TableBlockDetailsEntityId).WillCascadeOnDelete(true);
             modelBuilder.Entity<TableBlockDetailsEntity>()
-                .HasMany(d => d.ColumnWidthEntities).WithRequired(r => r.TableBlockDetailsEntity).HasForeignKey(f => f.TableBlockDetailsEntityId);
+                .HasMany(d => d.ColumnWidthEntities).WithRequired(r => r.TableBlockDetailsEntity).HasForeignKey(f => f.TableBlockDetailsEntityId).WillCascadeOnDelete(true);
             modelBuilder.Entity<TableBlockDetailsEntity>()
-                .HasMany(d => d.CellDetailsEntities).WithRequired(r => r.TableBlockDetailsEntity).HasForeignKey(f => f.TableBlockDetailsEntityId);
+                .HasMany(d => d.CellDetailsEntities).WithRequired(r => r.TableBlockDetailsEntity).HasForeignKey(f => f.TableBlockDetailsEntityId).WillCascadeOnDelete(true);
 
             modelBuilder.Entity<ScenarioDetailsEntity>()
-                .HasMany(s => s.Scenes).WithRequired(s => s.ScenarioDetailsEntity).HasForeignKey(f => f.ScenarioDetailsEntityId);
+                .HasMany(s => s.Scenes).WithRequired(s => s.ScenarioDetailsEntity).HasForeignKey(f => f.ScenarioDetailsEntityId).WillCascadeOnDelete(true);
 
             modelBuilder.Entity<SceneEntity>()
-                .HasMany(s => s.DisplayBlocks).WithOptional(s => s.Scene).HasForeignKey(s => s.SceneId);
+                .HasMany(s => s.DisplayBlocks).WithOptional(s => s.Scene).HasForeignKey(s => s.SceneId).WillCascadeOnDelete(true);
         }
     }
 }

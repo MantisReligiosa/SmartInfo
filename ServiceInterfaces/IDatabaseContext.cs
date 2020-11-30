@@ -1,5 +1,4 @@
-﻿using DomainObjects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,7 +11,7 @@ namespace ServiceInterfaces
         
         IQueryable<TEntity> Get<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class;
         
-        //IQueryable<TEntity> GetWith<TEntity>(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] p) where TEntity : class;
+        IQueryable<TEntity> GetWith<TEntity>(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] p) where TEntity : class;
         
         IQueryable<TEntity> Get<TEntity>() where TEntity : class;
         

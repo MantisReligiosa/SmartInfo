@@ -44,6 +44,9 @@
     <Compile Include="Blocks\Details\TableBlockColumnWidth.cs" />
     <Compile Include="Blocks\Details\ScenarioDetails.cs" />
     <Compile Include="Blocks\Details\Scene.cs" />
+    <Compile Include="Blocks\Details\TableBlockRowDetails\TableBlockOddRowDetails.cs" />
+    <Compile Include="Blocks\Details\TableBlockRowDetails\TableBlockEvenRowDetails.cs" />
+    <Compile Include="Blocks\Details\TableBlockRowDetails\TableBlockHeaderDetails.cs" />
     <Compile Include="Blocks\Details\TableBlockRowHeight.cs" />
     <Compile Include="SizeUnits.cs" />
     <Compile Include="Blocks\Scenario.cs" />

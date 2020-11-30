@@ -130,7 +130,7 @@ namespace BusinessLogicTests
                 Cells = new List<TableBlockCellDetails>(),
                 TableBlockRowHeights = new List<TableBlockRowHeight>(),
                 TableBlockColumnWidths = new List<TableBlockColumnWidth>(),
-                HeaderDetails = new TableBlockRowDetails
+                HeaderDetails = new TableBlockHeaderDetails
                 {
                     Align = Align.Center,
                     BackColor = "#ffffff",
@@ -138,7 +138,7 @@ namespace BusinessLogicTests
                     Italic = false,
                     TextColor = "#aaaaaa",
                 },
-                EvenRowDetails = new TableBlockRowDetails
+                EvenRowDetails = new TableBlockEvenRowDetails
                 {
                     Align = Align.Center,
                     BackColor = "#ffffff",
@@ -146,7 +146,7 @@ namespace BusinessLogicTests
                     Italic = false,
                     TextColor = "#aaaaaa",
                 },
-                OddRowDetails = new TableBlockRowDetails
+                OddRowDetails = new TableBlockOddRowDetails
                 {
                     Align = Align.Center,
                     BackColor = "#ffffff",
