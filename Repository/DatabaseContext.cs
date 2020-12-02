@@ -145,6 +145,8 @@ namespace Repository
             modelBuilder.Entity<TableBlockDetailsEntity>()
                 .HasMany(d => d.CellDetailsEntities).WithRequired(r => r.TableBlockDetailsEntity).HasForeignKey(f => f.TableBlockDetailsEntityId).WillCascadeOnDelete(true);
 
+            modelBuilder.Entity<TableBlockRowDetailsEntity>().HasRequired(e => e.TableBlockDetailsEntity).WithMany().WillCascadeOnDelete(true);
+
             modelBuilder.Entity<ScenarioDetailsEntity>()
                 .HasMany(s => s.Scenes).WithRequired(s => s.ScenarioDetailsEntity).HasForeignKey(f => f.ScenarioDetailsEntityId).WillCascadeOnDelete(true);
 

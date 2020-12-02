@@ -473,6 +473,7 @@ namespace Services
             block.Width = width;
             block.Left = left;
             block.Top = top;
+            _unitOfWork.DisplayBlocks.Update(block);
             _unitOfWork.Complete();
         }
 

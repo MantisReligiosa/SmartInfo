@@ -10,17 +10,28 @@ namespace Web.Profiles
         public ScenarioProfile()
         {
             CreateMap<Scenario, ScenarioDto>()
-                .ForMember(b => b.Type, opt => opt.MapFrom(b =>BlockType.Meta))
-                .ForMember(b => b.Caption, opt => opt.MapFrom(b => string.IsNullOrEmpty(b.Caption) ? "meta" : b.Caption))
-                .ForMember(b => b.Scenes, opt => opt.MapFrom(b => b.Details.Scenes));
+                .ForMember(dto => dto.Type, opt => opt.MapFrom(model => BlockType.Meta))
+                .ForMember(dto => dto.Caption, opt => opt.MapFrom(model => string.IsNullOrEmpty(model.Caption) ? "meta" : model.Caption))
+                .ForMember(dto => dto.Scenes, opt => opt.MapFrom(model => model.Details.Scenes));
 
             CreateMap<ScenarioDto, Scenario>()
-                .ForPath(b => b.Details.Scenes, opt => opt.MapFrom(b => b.Scenes));
+                .ForPath(model => model.Details.Scenes, opt => opt.MapFrom(dto => dto.Scenes))
+                .AfterMap((dto, model) =>
+                {
+                    foreach (var scene in model.Details.Scenes)
+                    {
+                        scene.ScenarioDetails = model.Details;
+                    }
+                });
 
-            CreateMap<Scene, SceneDto>();
+            CreateMap<Scene, SceneDto>()
+                .ForMember(model => model.UseFromTimeTicks, opt => opt.Ignore())
+                .ForMember(model => model.UseToTimeTicks, opt => opt.Ignore())
+                .ForMember(model => model.DateToUseTicks, opt => opt.Ignore());
 
             CreateMap<SceneDto, Scene>()
-                .ForMember(dto => dto.Blocks, opt => opt.Ignore());
+                .ForMember(model => model.Blocks, opt => opt.Ignore())
+                .ForMember(model => model.ScenarioDetails, opt => opt.Ignore());
         }
     }
 }

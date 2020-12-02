@@ -4,6 +4,7 @@ namespace Web.Models.Blocks
 {
     public class RowStyleDto
     {
+        public int Id { get; set; }
         public string BackColor { get; set; }
         public string TextColor { get; set; }
         public Align Align { get; set; }

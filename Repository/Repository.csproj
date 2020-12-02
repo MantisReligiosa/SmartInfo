@@ -110,6 +110,7 @@
     <Compile Include="Profiles\UserProfile.cs" />
     <Compile Include="Repositories\ParameterRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Specifications\CellDetailsSpecification.cs" />
     <Compile Include="Specifications\DisplayBlockSpecification.cs" />
     <Compile Include="Specifications\ParameterSpecification.cs" />
     <Compile Include="Specifications\UserSpecification.cs" />

@@ -4,8 +4,10 @@ using Repository.Entities.DisplayBlockEntities;
 using Repository.Specifications;
 using ServiceInterfaces;
 using ServiceInterfaces.IRepositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Repository.Repositories
 {
@@ -32,7 +34,8 @@ namespace Repository.Repositories
                     DeleteBlockById<DateTimeBlockEntity>(id);
                     return;
                 case TableBlockEntity _:
-                    DeleteBlockById<TableBlockEntity>(id);
+                    var tableBlockEntity = Context.GetWith(DisplayBlockSpecification.ById<TableBlockEntity>(id)).Single();
+                    Context.Remove(tableBlockEntity);
                     return;
                 case ScenarioEntity _:
                     DeleteBlockById<ScenarioEntity>(id);

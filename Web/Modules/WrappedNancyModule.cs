@@ -11,12 +11,13 @@ namespace Web.Modules
     public abstract class WrappedNancyModule : NancyModule
     {
         protected ILogger _logger;
-        protected IMapper _mapper = AutoMapperConfig.Mapper;
+        protected IMapper _mapper;
 
         public WrappedNancyModule()
         {
             this.RequiresAuthentication();
             _logger = LogManager.GetCurrentClassLogger();
+            _mapper = AutoMapperConfig.Mapper;
         }
 
         protected Func<dynamic, dynamic> Wrap<TResponceModel>(Func<TResponceModel> func, string errorMsg)

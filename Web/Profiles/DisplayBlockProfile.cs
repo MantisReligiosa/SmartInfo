@@ -13,14 +13,18 @@ namespace Web.Profiles
                 .Include<PictureBlock, PictureBlockDto>()
                 .Include<TableBlock, TableBlockDto>()
                 .Include<TextBlock, TextBlockDto>()
-                .Include<Scenario, ScenarioDto>();
+                .Include<Scenario, ScenarioDto>()
+                .ForMember(dto => dto.MetablockFrameId, opt => opt.MapFrom(model => model.SceneId))
+                .ForMember(dto => dto.Type, opt => opt.Ignore());
 
             CreateMap<BlockDto, DisplayBlock>()
                 .Include<DateTimeBlockDto, DateTimeBlock>()
                 .Include<PictureBlockDto, PictureBlock>()
                 .Include<TableBlockDto, TableBlock>()
                 .Include<TextBlockDto, TextBlock>()
-                .Include<ScenarioDto, Scenario>();
+                .Include<ScenarioDto, Scenario>()
+                .ForMember(model => model.SceneId, opt => opt.MapFrom(dto => dto.MetablockFrameId))
+                .ForMember(model => model.Scene, opt => opt.Ignore());
         }
     }
 }

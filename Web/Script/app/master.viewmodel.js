@@ -342,17 +342,17 @@ function masterViewModel(app) {
             self.tableBlockEditViewModel().sizeUnits(self.sizeunits());
 
             self.tableBlockEditViewModel().rowHeights(block.rowHeights);
-            self.tableBlockEditViewModel().selectedRowUnit(ko.utils.arrayFirst(self.sizeunits(), function (item) {
+            self.tableBlockEditViewModel().selectedRowUnit(block.rowHeights.length ? ko.utils.arrayFirst(self.sizeunits(), function (item) {
                 return item.sizeUnits == block.rowHeights[0].units
-            }));
-            self.tableBlockEditViewModel().selectedRowHeight(block.rowHeights[0]);
+            }) : self.sizeunits()[0]);
+            self.tableBlockEditViewModel().selectedRowHeight(block.rowHeights[0] || { index: 0, value: 0 });
             self.tableBlockEditViewModel().selectRowHeight(block.rowHeights[0]);
 
             self.tableBlockEditViewModel().columnWidths(block.columnWidths);
-            self.tableBlockEditViewModel().selectedColumnUnit(ko.utils.arrayFirst(self.sizeunits(), function (item) {
+            self.tableBlockEditViewModel().selectedColumnUnit(block.columnWidths.length ? ko.utils.arrayFirst(self.sizeunits(), function (item) {
                 return item.sizeUnits == block.columnWidths[0].units
-            }));
-            self.tableBlockEditViewModel().selectedColumnWidth(block.columnWidths[0]);
+            }) : self.sizeunits()[0]);
+            self.tableBlockEditViewModel().selectedColumnWidth(block.columnWidths[0] || { index: 0, value: 0 });
             self.tableBlockEditViewModel().selectColumnWidth(block.columnWidths[0]);
         };
         if (block.type === 'picture') {
@@ -989,7 +989,7 @@ function masterViewModel(app) {
     applyResizeMove = function (event) {
         var target = event.target;
         var id = target.getAttribute('id');
-        var block = self.blocks.remove(function (block) { return block.id === id; })[0] || getBlockFromMetablock(id);
+        var block = self.blocks.remove(function (block) { return block.id == id; })[0] || getBlockFromMetablock(id);
         var w = +target.getAttribute('data-w') || block.width;
         var h = +target.getAttribute('data-h') || block.height;
 

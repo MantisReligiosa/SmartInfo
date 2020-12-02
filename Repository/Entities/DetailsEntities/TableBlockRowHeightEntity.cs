@@ -15,7 +15,7 @@ namespace Repository.Entities.DetailsEntities
         public int Units { get; set; }
 
         [Column("TableBlockDetailsId")]
-        public int TableBlockDetailsEntityId { get; set; }
+        public int? TableBlockDetailsEntityId { get; set; }
 
         public virtual TableBlockDetailsEntity TableBlockDetailsEntity { get; set; }
     }

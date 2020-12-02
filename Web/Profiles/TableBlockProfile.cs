@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Web.Models.Blocks;
@@ -29,10 +28,10 @@ namespace Web.Profiles
                 }
                 ).ToArray()))
                 .ForMember(b => b.Caption, opt => opt.MapFrom(b => string.IsNullOrEmpty(b.Caption) ? "table" : b.Caption))
-                .ForMember(b => b.ColumnWidths, opt => opt.MapFrom(b =>  b.Details.TableBlockColumnWidths))
+                .ForMember(b => b.ColumnWidths, opt => opt.MapFrom(b => b.Details.TableBlockColumnWidths))
                 .ForMember(b => b.RowHeights, opt => opt.MapFrom(b => b.Details.TableBlockRowHeights))
-                .AfterMap((block,dto )=> 
-                { 
+                .AfterMap((block, dto) =>
+                {
                     if (!dto.ColumnWidths.Any())
                     {
                         var columns = new List<TableBlockColumnWidthDto>();
@@ -71,6 +70,7 @@ namespace Web.Profiles
                 .ForMember(b => b.HeaderDetails, opt => opt.MapFrom(b => b.HeaderStyle))
                 .ForMember(b => b.TableBlockColumnWidths, opt => opt.MapFrom(b => b.ColumnWidths))
                 .ForMember(b => b.TableBlockRowHeights, opt => opt.MapFrom(b => b.RowHeights))
+                .ForMember(d => d.Cells, opt => opt.Ignore())
                 .AfterMap((dto, details) =>
                 {
                     var rowIndex = 0;
@@ -101,14 +101,26 @@ namespace Web.Profiles
                             });
                         }
                     }
+                    foreach (var rowHeight in details.TableBlockRowHeights)
+                    {
+                        rowHeight.TableBlockDetails = details;
+                    }
+                    foreach (var columnWidth in details.TableBlockColumnWidths)
+                    {
+                        columnWidth.TableBlockDetails = details;
+                    }
                 });
 
             CreateMap<TableBlockRowDetails, RowStyleDto>();
-            CreateMap<RowStyleDto, TableBlockRowDetails>();
+            CreateMap<RowStyleDto, TableBlockEvenRowDetails>();
+            CreateMap<RowStyleDto, TableBlockOddRowDetails>();
+            CreateMap<RowStyleDto, TableBlockHeaderDetails>();
             CreateMap<TableBlockColumnWidth, TableBlockColumnWidthDto>();
-            CreateMap<TableBlockColumnWidthDto, TableBlockColumnWidth>();
+            CreateMap<TableBlockColumnWidthDto, TableBlockColumnWidth>()
+                .ForMember(model => model.TableBlockDetails, opt => opt.Ignore());
             CreateMap<TableBlockRowHeight, TableBlockRowHeightDto>();
-            CreateMap<TableBlockRowHeightDto, TableBlockRowHeight>();
+            CreateMap<TableBlockRowHeightDto, TableBlockRowHeight>()
+                .ForMember(model => model.TableBlockDetails, opt => opt.Ignore());
 
         }
     }

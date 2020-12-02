@@ -107,8 +107,8 @@ namespace Repository
 
         public virtual void Update(TModel item)
         {
-            Context.SetModifiedState(item);
-            Context.SaveChanges();
+            var entity = Context.Find<TEntity>(item.Id);
+            _mapper.Map(item, entity);
         }
     }
 }

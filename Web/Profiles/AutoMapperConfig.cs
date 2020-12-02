@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Web.Profiles
 {
-    internal static class AutoMapperConfig
+    public static class AutoMapperConfig
     {
         private static IMapper _mapper;
 
@@ -29,6 +29,7 @@ namespace Web.Profiles
                                 cfg.AddMaps(currentAssembly);
                             });
 
+                            config.AssertConfigurationIsValid();
                             _mapper = config.CreateMapper();
                         }
                     }
