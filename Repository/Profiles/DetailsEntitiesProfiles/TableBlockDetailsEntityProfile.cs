@@ -19,19 +19,11 @@ namespace Repository.Profiles.DetailsEntitiesProfiles
                 .ForMember(model => model.TableBlockColumnWidths, opt => opt.MapFrom(entity => entity.ColumnWidthEntities));
 
             CreateMap<TableBlockDetails, TableBlockDetailsEntity>()
-                .ForMember(entity => entity.RowDetailsEntities, opt => opt.MapFrom(model => new TableBlockRowDetails[] { model.HeaderDetails, model.EvenRowDetails, model.OddRowDetails }))
-                .ForMember(entity => entity.CellDetailsEntities, opt => opt.MapFrom(model => model.Cells))
-                .ForMember(entity => entity.RowHeightsEntities, opt => opt.MapFrom(model => model.TableBlockRowHeights))
-                .ForMember(entity => entity.ColumnWidthEntities, opt => opt.MapFrom(model => model.TableBlockColumnWidths))
-                .ForMember(entity => entity.TableBlockEntity, opt => opt.Ignore())
-                .AfterMap((model,entity)=> 
-                {
-                    foreach (var rowDetailsEntity in entity.RowDetailsEntities)
-                    {
-                        rowDetailsEntity.TableBlockDetailsEntity = entity;
-                        rowDetailsEntity.TableBlockDetailsEntityId = entity.Id;
-                    }
-                });
+                .ForMember(entity => entity.RowDetailsEntities, opt => opt.Ignore())
+                .ForMember(entity => entity.CellDetailsEntities, opt => opt.Ignore())
+                .ForMember(entity => entity.RowHeightsEntities, opt => opt.Ignore())
+                .ForMember(entity => entity.ColumnWidthEntities, opt => opt.Ignore())
+                .ForMember(entity => entity.TableBlockEntity, opt => opt.Ignore());
         }
     }
 }

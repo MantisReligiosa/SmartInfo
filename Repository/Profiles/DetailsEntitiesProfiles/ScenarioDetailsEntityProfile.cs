@@ -9,11 +9,11 @@ namespace Repository.Profiles.DetailsEntitiesProfiles
         public ScenarioDetailsEntityProfile()
         {
             CreateMap<ScenarioDetailsEntity, ScenarioDetails>()
-                .ForMember(model=>model.Scenes, opt=>opt.MapFrom(entity=>entity.Scenes));
+                .ForMember(model => model.Scenes, opt => opt.MapFrom(entity => entity.Scenes));
 
             CreateMap<ScenarioDetails, ScenarioDetailsEntity>()
                 .ForMember(entity => entity.Scenes, opt => opt.MapFrom(model => model.Scenes))
-                .ForMember(entity => entity.ScenarioEntity, opt=>opt.Ignore());
+                .ForMember(entity => entity.ScenarioEntity, opt => opt.Ignore());
         }
     }
 }

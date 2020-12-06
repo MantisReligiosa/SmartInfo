@@ -25,6 +25,7 @@ namespace Repository
         public DbSet<DisplayEntity> Displays { get; set; }
         public DbSet<DisplayBlockEntity> DisplayBlocks { get; set; }
         public DbSet<DateTimeFormatEntity> DateTimeFormats { get; set; }
+        public DbSet<ScenarioDetailsEntity> ScenarioDetailsEntities { get; set; }
         public DbSet<SceneEntity> Scenes { get; set; }
         public DbSet<TextBlockDetailsEntity> TextBlockDetailsEntities { get; set; }
         public DbSet<PictureBlockDetailsEntity> PictureBlockDetailsEntities { get; set; }
@@ -149,6 +150,9 @@ namespace Repository
 
             modelBuilder.Entity<ScenarioDetailsEntity>()
                 .HasMany(s => s.Scenes).WithRequired(s => s.ScenarioDetailsEntity).HasForeignKey(f => f.ScenarioDetailsEntityId).WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<SceneEntity>()
+                .HasRequired(e => e.ScenarioDetailsEntity).WithMany().WillCascadeOnDelete();
 
             modelBuilder.Entity<SceneEntity>()
                 .HasMany(s => s.DisplayBlocks).WithOptional(s => s.Scene).HasForeignKey(s => s.SceneId).WillCascadeOnDelete(true);

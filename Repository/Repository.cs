@@ -38,14 +38,8 @@ namespace Repository
 
         public virtual TModel Create(TModel item)
         {
-            return CreateItem(item);
-        }
-
-        protected TModel CreateItem(TModel item)
-        {
             var entity = _mapper.Map<TModel, TEntity>(item);
             var addedEntity = Context.Add(entity);
-            Context.SaveChanges();
             var result = _mapper.Map<TEntity, TModel>(addedEntity);
             return result;
         }
@@ -53,7 +47,6 @@ namespace Repository
         public virtual void CreateMany(IEnumerable<TModel> list)
         {
             Context.AddRange(_mapper.Map<IEnumerable<TModel>, IEnumerable<TEntity>>(list));
-            Context.SaveChanges();
         }
 
         public virtual void DeleteById(int id)
@@ -62,7 +55,6 @@ namespace Repository
             if (entity != null)
             {
                 Context.Remove(entity);
-                Context.SaveChanges();
             }
         }
 
@@ -78,7 +70,6 @@ namespace Repository
                         Context.Remove(entity);
                     }
                 }
-                Context.SaveChanges();
             }
         }
 

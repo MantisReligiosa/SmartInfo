@@ -35,7 +35,7 @@ namespace Repository.Entities
         public int DateToUse { get; set; }
 
         [Column("ScenarioDetailsId")]
-        public int ScenarioDetailsEntityId { get; set; }
+        public int? ScenarioDetailsEntityId { get; set; }
 
         public virtual ICollection<DisplayBlockEntity> DisplayBlocks { get; set; }
 

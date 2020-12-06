@@ -38,7 +38,7 @@ namespace Repository.Profiles.DisplayBlockEntitiesProfiles
                 .ForMember(entity => entity.UseFromTime, opt => opt.MapFrom(model => ToTimestamp(model.UseFromTime)))
                 .ForMember(entity => entity.UseToTime, opt => opt.MapFrom(model => ToTimestamp(model.UseToTime)))
                 .ForMember(entity => entity.DateToUse, opt => opt.MapFrom(model => ToEpoch(model.DateToUse)))
-                .ForMember(entity => entity.ScenarioDetailsEntity, opt => opt.MapFrom(model => model.ScenarioDetails))
+                .ForMember(entity => entity.ScenarioDetailsEntity, opt => opt.Ignore())
                 .ForMember(entity => entity.ScenarioDetailsEntityId, opt => opt.MapFrom(model => model.ScenarioDetails.Id))
                 .ForMember(entity => entity.DisplayBlocks, opt => opt.MapFrom(model=>model.Blocks));
         }
