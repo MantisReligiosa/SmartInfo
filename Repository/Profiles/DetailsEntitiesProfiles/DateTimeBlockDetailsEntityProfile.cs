@@ -14,7 +14,8 @@ namespace Repository.Profiles.DetailsEntitiesProfiles
             CreateMap<DateTimeBlockDetails, DateTimeBlockDetailsEntity>()
                 .ForMember(entity => entity.DateTimeFormatEntity, opt => opt.MapFrom(model => model.Format))
                 .ForMember(entity => entity.DateTimeFormatId, opt => opt.MapFrom(model => model.Format.Id))
-                .ForMember(entity => entity.DatetimeBlockEntity, opt => opt.Ignore());
+                .ForMember(entity => entity.DatetimeBlockEntity, opt => opt.Ignore())
+                .ForMember(entity => entity.Id, opt => opt.Ignore());
         }
     }
 }

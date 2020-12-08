@@ -46,6 +46,7 @@ namespace Repository.Repositories
 
         public override DisplayBlock Create(DisplayBlock item)
         {
+            DisplayBlock result;
             if (item is TableBlock tableBlock)
             {
                 var entity = _mapper.Map<TableBlockEntity>(tableBlock);
@@ -65,10 +66,14 @@ namespace Repository.Repositories
                 entity.TableBlockDetails.RowDetailsEntities.Add(oddRowDetailsEntity);
 
                 var addedEntity = Context.Add(entity);
-                var result = _mapper.Map<TableBlockEntity, TableBlock>(addedEntity);
-                return result;
+                Context.SaveChanges();
+                result = _mapper.Map<TableBlockEntity, TableBlock>(addedEntity);
             }
-            return base.Create(item);
+            else
+            {
+                result = base.Create(item);
+            }
+            return result;
         }
 
         public override void Update(DisplayBlock item)
@@ -78,70 +83,101 @@ namespace Repository.Repositories
             {
                 case TableBlockEntity tableBlockEntity:
                     var tableBlock = item as TableBlock;
+                    base.Update(tableBlock);
+
+                    if (tableBlockEntity.TableBlockDetails.RowDetailsEntities == null)
+                    {
+                        tableBlockEntity.TableBlockDetails.RowDetailsEntities = new List<TableBlockRowDetailsEntity>();
+                    }
+                    if (tableBlockEntity.TableBlockDetails.CellDetailsEntities == null)
+                    {
+                        tableBlockEntity.TableBlockDetails.CellDetailsEntities = new List<TableBlockCellDetailsEntity>();
+                    }
+                    if (tableBlockEntity.TableBlockDetails.ColumnWidthEntities == null)
+                    {
+                        tableBlockEntity.TableBlockDetails.ColumnWidthEntities = new List<TableBlockColumnWidthEntity>();
+                    }
+                    if (tableBlockEntity.TableBlockDetails.RowHeightsEntities == null)
+                    {
+                        tableBlockEntity.TableBlockDetails.RowHeightsEntities = new List<TableBlockRowHeightEntity>();
+                    }
+
                     UpdateCollection(tableBlockEntity.TableBlockDetails,
                         tableBlock.Details, entity => entity.RowDetailsEntities,
                         model => new List<TableBlockRowDetails> { model.EvenRowDetails, model.OddRowDetails, model.HeaderDetails },
-                        (rowDetails, details) => rowDetails.TableBlockDetailsEntityId = details.Id);
+                        (rowDetails, details) => { rowDetails.TableBlockDetailsEntityId = details.Id; rowDetails.TableBlockDetailsEntity = details; },
+                        (mRowDetail, eRowDetail) => mRowDetail.Id == eRowDetail.Id);
                     UpdateCollection(tableBlockEntity.TableBlockDetails,
                         tableBlock.Details,
                         entity => entity.CellDetailsEntities,
                         model => model.Cells,
-                        (cell, details) => cell.TableBlockDetailsEntityId = details.Id);
+                        (cell, details) => { cell.TableBlockDetailsEntityId = details.Id; cell.TableBlockDetailsEntity = details; },
+                        (mCell, eCell) => mCell.Column == eCell.Column && mCell.Row == eCell.Row);
                     UpdateCollection(tableBlockEntity.TableBlockDetails,
                         tableBlock.Details,
                         entity => entity.ColumnWidthEntities,
                         model => model.TableBlockColumnWidths,
-                        (columnWidth, details) => columnWidth.TableBlockDetailsEntityId = details.Id);
+                        (columnWidth, details) => { columnWidth.TableBlockDetailsEntityId = details.Id; columnWidth.TableBlockDetailsEntity = details; },
+                        (mColumn, eColumn) => mColumn.Index == eColumn.Index);
                     UpdateCollection(tableBlockEntity.TableBlockDetails,
                         tableBlock.Details,
                         entity => entity.RowHeightsEntities,
                         model => model.TableBlockRowHeights,
-                        (rowHeight, details) => rowHeight.TableBlockDetailsEntityId = details.Id);
-                    return;
+                        (rowHeight, details) => { rowHeight.TableBlockDetailsEntityId = details.Id; rowHeight.TableBlockDetailsEntity = details; },
+                        (mRow, eRow) => mRow.Index == eRow.Index);
+                    break;
                 case ScenarioEntity scenarioEntity:
                     var scenario = item as Scenario;
-                    UpdateCollection(scenarioEntity.ScenarioDetails, scenario.Details, entity => entity.Scenes, model => model.Scenes, (scene, details) => scene.ScenarioDetailsEntityId = details.Id);
-                    return;
+                    UpdateCollection(scenarioEntity.ScenarioDetails,
+                        scenario.Details,
+                        entity => entity.Scenes,
+                        model => model.Scenes,
+                        (scene, details) => scene.ScenarioDetailsEntityId = details.Id,
+                        (mScene, eScene) => mScene.Id == eScene.Id);
+                    break;
                 default:
                     base.Update(item);
-                    return;
+                    break;
             }
-
+            Context.SaveChanges();
         }
+
+
 
         private void UpdateCollection<TEntity, TCollectionItemEntity, TModel, TCollectionItemModel>(
             TEntity entity,
             TModel model,
             Func<TEntity, ICollection<TCollectionItemEntity>> entityCollectionSelector,
             Func<TModel, IEnumerable<TCollectionItemModel>> modelCollectionSelector,
-            Action<TCollectionItemEntity, TEntity> entityReferenceUpdateAction)
+            Action<TCollectionItemEntity, TEntity> entityReferenceUpdateAction,
+            Func<TCollectionItemModel, TCollectionItemEntity, bool> equalPredicate)
             where TCollectionItemEntity : Entity
             where TCollectionItemModel : Identity
         {
             var entityCollection = entityCollectionSelector(entity);
             var modelCollection = modelCollectionSelector(model);
 
-            var itemsToDelete = entityCollection.Where(e => !modelCollection.Any(m => m.Id == e.Id));
+            var itemsToDelete = entityCollection.Where(e => !modelCollection.Any(m => equalPredicate(m, e) /*m.Id == e.Id*/));
             foreach (var itemToDelete in itemsToDelete)
             {
                 entityCollection.Remove(itemToDelete);
             }
 
-            var itemsToAdd = modelCollection.Where(m => !entityCollection.Any(e => m.Id == e.Id));
+            var itemsToUpdate = entityCollection.Where(e => modelCollection.Any(m => equalPredicate(m, e)/*m.Id == e.Id*/));
+            foreach (var entityItemToUpdate in itemsToUpdate)
+            {
+                var modelItemToUpdateFrom = modelCollection.Single(m => equalPredicate(m, entityItemToUpdate)/*e.Id == entityItemToUpdate.Id*/);
+
+                _mapper.Map(modelItemToUpdateFrom, entityItemToUpdate);
+                entityReferenceUpdateAction(entityItemToUpdate, entity);
+            }
+
+            var itemsToAdd = modelCollection.Where(m => !entityCollection.Any(e => equalPredicate(m, e)/*m.Id == e.Id*/));
             foreach (var entityItemToAdd in _mapper.Map<IEnumerable<TCollectionItemModel>, IEnumerable<TCollectionItemEntity>>(itemsToAdd))
             {
                 entityReferenceUpdateAction(entityItemToAdd, entity);
 
                 entityCollection.Add(entityItemToAdd);
-            }
-
-            var itemsToUpdate = entityCollection.Where(e => modelCollection.Any(m => m.Id == e.Id));
-            foreach (var entityItemToUpdate in itemsToUpdate)
-            {
-                var modelItemToUpdateFrom = modelCollection.Single(e => e.Id == entityItemToUpdate.Id);
-
-                _mapper.Map(modelItemToUpdateFrom, entityItemToUpdate);
-                entityReferenceUpdateAction(entityItemToUpdate, entity);
             }
         }
 
@@ -180,7 +216,7 @@ namespace Repository.Repositories
         public void DeleteAll()
         {
             Context.RemoveRange(Context.Get<DisplayBlockEntity>());
-            Context.SaveChanges();
+            //Context.SaveChanges();
         }
     }
 }

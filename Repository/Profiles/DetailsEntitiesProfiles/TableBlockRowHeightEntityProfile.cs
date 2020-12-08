@@ -13,7 +13,8 @@ namespace Repository.Profiles.DetailsEntitiesProfiles
 
             CreateMap<TableBlockRowHeight, TableBlockRowHeightEntity>()
                 .ForMember(entity => entity.TableBlockDetailsEntity, opt => opt.MapFrom(model => model.TableBlockDetails))
-                .ForMember(entity => entity.TableBlockDetailsEntityId, opt => opt.MapFrom(model => model.TableBlockDetails.Id));
+                .ForMember(entity => entity.TableBlockDetailsEntityId, opt => opt.MapFrom(model => model.TableBlockDetails.Id))
+                .ForMember(entity => entity.Id, opt => opt.Ignore());
         }
     }
 }

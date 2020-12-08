@@ -11,7 +11,8 @@ namespace Repository.Profiles.DetailsEntitiesProfiles
             CreateMap<PictureBlockDetailsEntity, PictureBlockDetails>();
 
             CreateMap<PictureBlockDetails, PictureBlockDetailsEntity>()
-                .ForMember(entity => entity.PictureBlockEntity, opt => opt.Ignore());
+                .ForMember(entity => entity.PictureBlockEntity, opt => opt.Ignore())
+                .ForMember(entity => entity.Id, opt => opt.Ignore());
         }
     }
 }

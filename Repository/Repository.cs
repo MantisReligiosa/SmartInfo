@@ -40,6 +40,7 @@ namespace Repository
         {
             var entity = _mapper.Map<TModel, TEntity>(item);
             var addedEntity = Context.Add(entity);
+            Context.SaveChanges();
             var result = _mapper.Map<TEntity, TModel>(addedEntity);
             return result;
         }

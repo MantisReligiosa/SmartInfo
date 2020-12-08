@@ -23,7 +23,8 @@ namespace Repository.Profiles.DetailsEntitiesProfiles
                 .ForMember(entity => entity.CellDetailsEntities, opt => opt.Ignore())
                 .ForMember(entity => entity.RowHeightsEntities, opt => opt.Ignore())
                 .ForMember(entity => entity.ColumnWidthEntities, opt => opt.Ignore())
-                .ForMember(entity => entity.TableBlockEntity, opt => opt.Ignore());
+                .ForMember(entity => entity.TableBlockEntity, opt => opt.Ignore())
+                .ForMember(entity => entity.Id, opt => opt.Ignore());
         }
     }
 }

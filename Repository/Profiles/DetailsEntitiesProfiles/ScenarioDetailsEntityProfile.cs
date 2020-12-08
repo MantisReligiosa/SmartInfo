@@ -13,7 +13,8 @@ namespace Repository.Profiles.DetailsEntitiesProfiles
 
             CreateMap<ScenarioDetails, ScenarioDetailsEntity>()
                 .ForMember(entity => entity.Scenes, opt => opt.MapFrom(model => model.Scenes))
-                .ForMember(entity => entity.ScenarioEntity, opt => opt.Ignore());
+                .ForMember(entity => entity.ScenarioEntity, opt => opt.Ignore())
+                .ForMember(entity => entity.Id, opt => opt.Ignore());
         }
     }
 }

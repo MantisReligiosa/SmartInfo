@@ -203,8 +203,7 @@ namespace Services
             }
             else
             {
-                block.CopyFrom(textBlock);
-                _unitOfWork.DisplayBlocks.Update(block);
+                _unitOfWork.DisplayBlocks.Update(textBlock);
                 _unitOfWork.Complete();
                 return block;
             }
@@ -220,75 +219,7 @@ namespace Services
             }
             else
             {
-                //ToDo: нужен рефакторинг
-                block.Height = tableBlock.Height;
-                block.Left = tableBlock.Left;
-                block.Top = tableBlock.Top;
-                block.Width = tableBlock.Width;
-                block.Caption = tableBlock.Caption;
-                block.SceneId = tableBlock.SceneId;
-                block.ZIndex = tableBlock.ZIndex;
-                block.Details.FontName = tableBlock.Details.FontName;
-                block.Details.FontSize = tableBlock.Details.FontSize;
-                block.Details.FontIndex = tableBlock.Details.FontIndex;
-                block.Details.EvenRowDetails.CopyFrom(tableBlock.Details.EvenRowDetails);
-                block.Details.OddRowDetails.CopyFrom(tableBlock.Details.OddRowDetails);
-                block.Details.HeaderDetails.CopyFrom(tableBlock.Details.HeaderDetails);
-
-                var cellsToDelete = block.Details.Cells
-                    .Where(dbCell => !tableBlock.Details.Cells.Any(cell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column))).ToList();
-                _unitOfWork.TableBlockCellDetails.DeleteMany(cellsToDelete);
-                _unitOfWork.Complete();
-                foreach (var cell in tableBlock.Details.Cells)
-                {
-                    var databaseCell = block.Details.Cells.FirstOrDefault(dbCell => dbCell.Row.Equals(cell.Row) && dbCell.Column.Equals(cell.Column));
-                    if (databaseCell == null)
-                    {
-                        block.Details.Cells.Add(new TableBlockCellDetails(cell));
-                    }
-                    else
-                    {
-                        databaseCell.Value = cell.Value;
-                    }
-                }
-
-                var rowHeightsToDelete = block.Details.TableBlockRowHeights
-                    .Where(dbRowHeights => !tableBlock.Details.TableBlockRowHeights.Any(rh => dbRowHeights.Index.Equals(rh.Index))).ToList();
-                _unitOfWork.TableBlockRowHeights.DeleteMany(rowHeightsToDelete);
-                _unitOfWork.Complete();
-                foreach (var rowHeight in tableBlock.Details.TableBlockRowHeights)
-                {
-                    var dbRowHeight = block.Details.TableBlockRowHeights.FirstOrDefault(rh => rowHeight.Index.Equals(rh.Index));
-                    if (dbRowHeight == null)
-                    {
-                        block.Details.TableBlockRowHeights.Add(new TableBlockRowHeight(rowHeight));
-                    }
-                    else
-                    {
-                        dbRowHeight.Value = rowHeight.Value;
-                        dbRowHeight.Units = rowHeight.Units;
-                    }
-                }
-
-                var columnWidthToDelete = block.Details.TableBlockColumnWidths
-                    .Where(dbColumnWidth => !tableBlock.Details.TableBlockColumnWidths.Any(cw => dbColumnWidth.Index.Equals(cw.Index))).ToList();
-                _unitOfWork.TableBlockColumnWidths.DeleteMany(columnWidthToDelete);
-                _unitOfWork.Complete();
-                foreach (var columnWidth in tableBlock.Details.TableBlockColumnWidths)
-                {
-                    var dbColumnWidth = block.Details.TableBlockColumnWidths.FirstOrDefault(cw => columnWidth.Index.Equals(cw.Index));
-                    if (dbColumnWidth == null)
-                    {
-                        block.Details.TableBlockColumnWidths.Add(new TableBlockColumnWidth(columnWidth));
-                    }
-                    else
-                    {
-                        dbColumnWidth.Value = columnWidth.Value;
-                        dbColumnWidth.Units = columnWidth.Units;
-                    }
-                }
-
-                _unitOfWork.DisplayBlocks.Update(block);
+                _unitOfWork.DisplayBlocks.Update(tableBlock);
                 _unitOfWork.Complete();
                 return block;
             }
@@ -304,69 +235,7 @@ namespace Services
             }
             else
             {
-                block.Height = scenario.Height;
-                block.Width = scenario.Width;
-                block.ZIndex = scenario.ZIndex;
-                block.Left = scenario.Left;
-                block.Top = scenario.Top;
-                block.Caption = scenario.Caption;
-                var blocksToDelete = block.Details.Scenes.SelectMany(f => f.Blocks ?? new List<DisplayBlock>()).Where(dbBlock => !scenario.Details.Scenes.SelectMany(mf => mf.Blocks).Any(b => b.Id.Equals(dbBlock.Id))).ToList();
-                _unitOfWork.DisplayBlocks.DeleteMany(blocksToDelete);
-                var framesToDelete = block.Details.Scenes.Where(dbFrame => !scenario.Details.Scenes.Any(f => f.Id.Equals(dbFrame.Id))).ToList();
-                _unitOfWork.Scenes.DeleteMany(framesToDelete);
-                foreach (var scene in scenario.Details.Scenes)
-                {
-                    //if (frame.Id.Equals(new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)))
-                    //{
-                    //    frame.Id = Guid.NewGuid();
-                    //}
-                    var dbFrame = block.Details.Scenes.FirstOrDefault(f => f.Id.Equals(scene.Id));
-                    if (dbFrame == null)
-                    {
-                        block.Details.Scenes.Add(scene);
-                    }
-                    else
-                    {
-                        dbFrame.Duration = scene.Duration;
-                        dbFrame.Index = scene.Index;
-                        dbFrame.Name = scene.Name;
-                        dbFrame.DateToUse = scene.DateToUse;
-                        if (scene.UseFromTime.HasValue)
-                        {
-                            var span = scene.UseFromTime.Value;
-                            span -= new TimeSpan(span.Days, 0, 0, 0);
-                            dbFrame.UseFromTime = span;
-                        }
-                        if (scene.UseToTime.HasValue)
-                        {
-                            var span = scene.UseToTime.Value;
-                            span -= new TimeSpan(span.Days, 0, 0, 0);
-                            dbFrame.UseToTime = span;
-                        }
-                        dbFrame.UseInDate = scene.UseInDate;
-                        dbFrame.UseInDayOfWeek = scene.UseInDayOfWeek;
-                        dbFrame.UseInFri = scene.UseInFri;
-                        dbFrame.UseInMon = scene.UseInMon;
-                        dbFrame.UseInSat = scene.UseInSat;
-                        dbFrame.UseInSun = scene.UseInSun;
-                        dbFrame.UseInThu = scene.UseInThu;
-                        dbFrame.UseInTimeInterval = scene.UseInTimeInterval;
-                        dbFrame.UseInTue = scene.UseInTue;
-                        dbFrame.UseInWed = scene.UseInWed;
-
-                        foreach (var subBlock in scene.Blocks)
-                        {
-                            var dbBlock = dbFrame.Blocks.FirstOrDefault(b => b.Id.Equals(subBlock.Id));
-                            {
-                                if (dbBlock == null)
-                                {
-                                    dbFrame.Blocks.Add(subBlock);
-                                }
-                            }
-                        }
-                    }
-                }
-                _unitOfWork.DisplayBlocks.Update(block);
+                _unitOfWork.DisplayBlocks.Update(scenario);
                 _unitOfWork.Complete();
                 return block;
             }
@@ -382,8 +251,7 @@ namespace Services
             }
             else
             {
-                block.CopyFrom(pictureBlock);
-                _unitOfWork.DisplayBlocks.Update(block);
+                _unitOfWork.DisplayBlocks.Update(pictureBlock);
                 _unitOfWork.Complete();
                 return block;
             }
@@ -404,8 +272,7 @@ namespace Services
             }
             else
             {
-                block.CopyFrom(dateTimeBlock);
-                _unitOfWork.DisplayBlocks.Update(block);
+                _unitOfWork.DisplayBlocks.Update(dateTimeBlock);
                 _unitOfWork.Complete();
                 return block;
             }

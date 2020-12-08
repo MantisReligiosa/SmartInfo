@@ -63,6 +63,9 @@ namespace SmartInfo
 #if !DEBUG
                 _notifyIcon.ShowBalloonTip(1, "SmartInfo", ex.GetInnerException().Message, System.Windows.Forms.ToolTipIcon.Error);
 #endif
+#if DEBUG
+                throw ex;
+#endif
             }
         }
 

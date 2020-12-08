@@ -11,7 +11,8 @@ namespace Repository.Profiles.DetailsEntitiesProfiles
             CreateMap<TextBlockDetailsEntity, TextBlockDetails>();
 
             CreateMap<TextBlockDetails, TextBlockDetailsEntity>()
-                .ForMember(entity => entity.TextBlockEntity, opt=>opt.Ignore());
+                .ForMember(entity => entity.TextBlockEntity, opt => opt.Ignore())
+                .ForMember(entity => entity.Id, opt => opt.Ignore());
         }
     }
 }
