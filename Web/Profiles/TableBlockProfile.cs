@@ -4,6 +4,7 @@ using DomainObjects.Blocks.Details;
 using System.Collections.Generic;
 using System.Linq;
 using Web.Models.Blocks;
+using Web.Models.Blocks.Converter;
 
 namespace Web.Profiles
 {
@@ -12,6 +13,7 @@ namespace Web.Profiles
         public TableBlockProfile()
         {
             CreateMap<TableBlock, TableBlockDto>()
+                .ForMember(dto => dto.Id, opt => opt.MapFrom(model => BlockIdProcessor.GetIdDTO(BlockType.Table, model.Id)))
                 .ForMember(b => b.Type, opt => opt.MapFrom(b => BlockType.Table))
                 .ForMember(b => b.Font, opt => opt.MapFrom(b => b.Details.FontName))
                 .ForMember(b => b.FontSize, opt => opt.MapFrom(b => b.Details.FontSize))
@@ -64,6 +66,7 @@ namespace Web.Profiles
                 .ForMember(b => b.Details, opt => opt.MapFrom(b => b));
 
             CreateMap<TableBlockDto, TableBlockDetails>()
+                .ForMember(b => b.Id, opt => opt.Ignore())
                 .ForMember(b => b.FontName, opt => opt.MapFrom(b => b.Font))
                 .ForMember(b => b.EvenRowDetails, opt => opt.MapFrom(b => b.EvenStyle))
                 .ForMember(b => b.OddRowDetails, opt => opt.MapFrom(b => b.OddStyle))

@@ -53,10 +53,10 @@ namespace RepositoryTests
             var tableBlockEntity = CreateTableBlockEntity();
 
             var scenarioEntity = CreateScenarioEntity();
-            scenarioEntity.ScenarioDetails.Scenes.First().DisplayBlocks.Add(textBlockEntity);
-            scenarioEntity.ScenarioDetails.Scenes.First().DisplayBlocks.Add(pictureBlockEntity);
-            scenarioEntity.ScenarioDetails.Scenes.Last().DisplayBlocks.Add(dateTimeBlockEntity);
-            scenarioEntity.ScenarioDetails.Scenes.Last().DisplayBlocks.Add(tableBlockEntity);
+            scenarioEntity.ScenarioDetails.SceneEntities.First().DisplayBlocks.Add(textBlockEntity);
+            scenarioEntity.ScenarioDetails.SceneEntities.First().DisplayBlocks.Add(pictureBlockEntity);
+            scenarioEntity.ScenarioDetails.SceneEntities.Last().DisplayBlocks.Add(dateTimeBlockEntity);
+            scenarioEntity.ScenarioDetails.SceneEntities.Last().DisplayBlocks.Add(tableBlockEntity);
 
             InitGetter(new List<ScenarioEntity> { scenarioEntity });
 
@@ -119,7 +119,7 @@ namespace RepositoryTests
                 DisplayBlocks = new List<DisplayBlockEntity>()
             };
 
-            scenarioDetailsEntity.Scenes = new List<SceneEntity> { scene1, scene2 };
+            scenarioDetailsEntity.SceneEntities = new List<SceneEntity> { scene1, scene2 };
 
             return scenarioEntity;
         }

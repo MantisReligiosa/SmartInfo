@@ -2,6 +2,7 @@
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
 using Web.Models.Blocks;
+using Web.Models.Blocks.Converter;
 
 namespace Web.Profiles
 {
@@ -10,6 +11,7 @@ namespace Web.Profiles
         public DateTimeBlockProfile()
         {
             CreateMap<DateTimeBlock, DateTimeBlockDto>()
+                .ForMember(dto => dto.Id, opt => opt.MapFrom(model => BlockIdProcessor.GetIdDTO(BlockType.Datetime, model.Id)))
                 .ForMember(dto => dto.Type, opt => opt.MapFrom(model => BlockType.Datetime))
                 .ForMember(dto => dto.BackColor, opt => opt.MapFrom(model => model.Details.BackColor))
                 .ForMember(dto => dto.TextColor, opt => opt.MapFrom(model => model.Details.TextColor))

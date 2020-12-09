@@ -93,7 +93,6 @@ namespace Repository
             Entry(entity).State = EntityState.Modified;
         }
 
-
         public TEntity Single<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class
         {
             return Set<TEntity>().Single(expression);
@@ -149,10 +148,10 @@ namespace Repository
             modelBuilder.Entity<TableBlockRowDetailsEntity>().HasRequired(e => e.TableBlockDetailsEntity).WithMany().WillCascadeOnDelete(true);
 
             modelBuilder.Entity<ScenarioDetailsEntity>()
-                .HasMany(s => s.Scenes).WithRequired(s => s.ScenarioDetailsEntity).HasForeignKey(f => f.ScenarioDetailsEntityId).WillCascadeOnDelete(true);
+                .HasMany(s => s.SceneEntities).WithRequired(s => s.ScenarioDetailsEntity).HasForeignKey(f => f.ScenarioDetailsEntityId).WillCascadeOnDelete(true);
 
-            modelBuilder.Entity<SceneEntity>()
-                .HasRequired(e => e.ScenarioDetailsEntity).WithMany().WillCascadeOnDelete();
+            //modelBuilder.Entity<SceneEntity>()
+            //    .HasRequired(e => e.ScenarioDetailsEntity).WithMany().WillCascadeOnDelete();
 
             modelBuilder.Entity<SceneEntity>()
                 .HasMany(s => s.DisplayBlocks).WithOptional(s => s.Scene).HasForeignKey(s => s.SceneId).WillCascadeOnDelete(true);

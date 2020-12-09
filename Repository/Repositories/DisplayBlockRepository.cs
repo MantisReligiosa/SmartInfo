@@ -128,11 +128,12 @@ namespace Repository.Repositories
                     break;
                 case ScenarioEntity scenarioEntity:
                     var scenario = item as Scenario;
+                    base.Update(scenario);
                     UpdateCollection(scenarioEntity.ScenarioDetails,
                         scenario.Details,
-                        entity => entity.Scenes,
+                        entity => entity.SceneEntities,
                         model => model.Scenes,
-                        (scene, details) => scene.ScenarioDetailsEntityId = details.Id,
+                        (scene, details) => { scene.ScenarioDetailsEntityId = details.Id; scene.ScenarioDetailsEntity = details; },
                         (mScene, eScene) => mScene.Id == eScene.Id);
                     break;
                 default:
@@ -157,22 +158,22 @@ namespace Repository.Repositories
             var entityCollection = entityCollectionSelector(entity);
             var modelCollection = modelCollectionSelector(model);
 
-            var itemsToDelete = entityCollection.Where(e => !modelCollection.Any(m => equalPredicate(m, e) /*m.Id == e.Id*/));
+            var itemsToDelete = entityCollection.Where(e => !modelCollection.Any(m => equalPredicate(m, e))).ToList();
             foreach (var itemToDelete in itemsToDelete)
             {
                 entityCollection.Remove(itemToDelete);
             }
 
-            var itemsToUpdate = entityCollection.Where(e => modelCollection.Any(m => equalPredicate(m, e)/*m.Id == e.Id*/));
+            var itemsToUpdate = entityCollection.Where(e => modelCollection.Any(m => equalPredicate(m, e))).ToList();
             foreach (var entityItemToUpdate in itemsToUpdate)
             {
-                var modelItemToUpdateFrom = modelCollection.Single(m => equalPredicate(m, entityItemToUpdate)/*e.Id == entityItemToUpdate.Id*/);
+                var modelItemToUpdateFrom = modelCollection.Single(m => equalPredicate(m, entityItemToUpdate));
 
                 _mapper.Map(modelItemToUpdateFrom, entityItemToUpdate);
                 entityReferenceUpdateAction(entityItemToUpdate, entity);
             }
 
-            var itemsToAdd = modelCollection.Where(m => !entityCollection.Any(e => equalPredicate(m, e)/*m.Id == e.Id*/));
+            var itemsToAdd = modelCollection.Where(m => !entityCollection.Any(e => equalPredicate(m, e))).ToList();
             foreach (var entityItemToAdd in _mapper.Map<IEnumerable<TCollectionItemModel>, IEnumerable<TCollectionItemEntity>>(itemsToAdd))
             {
                 entityReferenceUpdateAction(entityItemToAdd, entity);

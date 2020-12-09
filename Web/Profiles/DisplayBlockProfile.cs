@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DomainObjects.Blocks;
 using Web.Models.Blocks;
+using Web.Models.Blocks.Converter;
 
 namespace Web.Profiles
 {
@@ -23,6 +24,7 @@ namespace Web.Profiles
                 .Include<TableBlockDto, TableBlock>()
                 .Include<TextBlockDto, TextBlock>()
                 .Include<ScenarioDto, Scenario>()
+                .ForMember(model => model.Id, opt => opt.MapFrom(dto => BlockIdProcessor.FromDTOId(dto.Id)))
                 .ForMember(model => model.SceneId, opt => opt.MapFrom(dto => dto.MetablockFrameId))
                 .ForMember(model => model.Scene, opt => opt.Ignore());
         }

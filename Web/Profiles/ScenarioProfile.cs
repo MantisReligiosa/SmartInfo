@@ -2,6 +2,7 @@
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
 using Web.Models.Blocks;
+using Web.Models.Blocks.Converter;
 
 namespace Web.Profiles
 {
@@ -10,6 +11,7 @@ namespace Web.Profiles
         public ScenarioProfile()
         {
             CreateMap<Scenario, ScenarioDto>()
+                .ForMember(dto => dto.Id, opt => opt.MapFrom(model => BlockIdProcessor.GetIdDTO(BlockType.Meta, model.Id)))
                 .ForMember(dto => dto.Type, opt => opt.MapFrom(model => BlockType.Meta))
                 .ForMember(dto => dto.Caption, opt => opt.MapFrom(model => string.IsNullOrEmpty(model.Caption) ? "meta" : model.Caption))
                 .ForMember(dto => dto.Scenes, opt => opt.MapFrom(model => model.Details.Scenes));

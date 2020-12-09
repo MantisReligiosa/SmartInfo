@@ -9,7 +9,7 @@ namespace Web.Models.Blocks
         public int Left { get; set; }
         public int Top { get; set; }
         public string Type { get; set; }
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int ZIndex { get; set; }
         public string Caption { get; set; }
         public int? MetablockFrameId { get; set; }

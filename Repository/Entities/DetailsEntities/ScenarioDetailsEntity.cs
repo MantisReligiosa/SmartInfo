@@ -7,7 +7,8 @@ namespace Repository.Entities.DetailsEntities
     [Table("ScenarioDetails")]
     public class ScenarioDetailsEntity : Entity
     {
-        public virtual ICollection<SceneEntity> Scenes { get; set; }
+        public virtual ICollection<SceneEntity> SceneEntities { get; set; }
+
         public virtual ScenarioEntity ScenarioEntity { get; set; }
     }
 }

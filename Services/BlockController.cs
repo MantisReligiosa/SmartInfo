@@ -198,15 +198,13 @@ namespace Services
             if (!(_unitOfWork.DisplayBlocks.GetById(textBlock.Id) is TextBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(textBlock);
-                _unitOfWork.Complete();
-                return textBlock;
             }
             else
             {
                 _unitOfWork.DisplayBlocks.Update(textBlock);
-                _unitOfWork.Complete();
-                return block;
             }
+            _unitOfWork.Complete();
+            return textBlock;
         }
 
         public TableBlock SaveTableBlock(TableBlock tableBlock)
@@ -214,15 +212,14 @@ namespace Services
             if (!(_unitOfWork.DisplayBlocks.GetById(tableBlock.Id) is TableBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(tableBlock);
-                _unitOfWork.Complete();
-                return tableBlock;
             }
             else
             {
                 _unitOfWork.DisplayBlocks.Update(tableBlock);
-                _unitOfWork.Complete();
-                return block;
             }
+            _unitOfWork.Complete();
+            return tableBlock;
+
         }
 
         public Scenario SaveScenario(Scenario scenario)
@@ -230,15 +227,14 @@ namespace Services
             if (!(_unitOfWork.DisplayBlocks.GetById(scenario.Id) is Scenario block))
             {
                 _unitOfWork.DisplayBlocks.Create(scenario);
-                _unitOfWork.Complete();
-                return scenario;
             }
             else
             {
                 _unitOfWork.DisplayBlocks.Update(scenario);
-                _unitOfWork.Complete();
-                return block;
             }
+            _unitOfWork.Complete();
+            return scenario;
+
         }
 
         public PictureBlock SavePictureBlock(PictureBlock pictureBlock)
@@ -246,15 +242,14 @@ namespace Services
             if (!(_unitOfWork.DisplayBlocks.GetById(pictureBlock.Id) is PictureBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(pictureBlock);
-                _unitOfWork.Complete();
-                return pictureBlock;
             }
             else
             {
                 _unitOfWork.DisplayBlocks.Update(pictureBlock);
-                _unitOfWork.Complete();
-                return block;
             }
+            _unitOfWork.Complete();
+            return pictureBlock;
+
         }
 
         public DateTimeBlock SaveDateTimeBlock(DateTimeBlock dateTimeBlock)
@@ -267,15 +262,14 @@ namespace Services
             if (!(_unitOfWork.DisplayBlocks.GetById(dateTimeBlock.Id) is DateTimeBlock block))
             {
                 _unitOfWork.DisplayBlocks.Create(dateTimeBlock);
-                _unitOfWork.Complete();
-                return dateTimeBlock;
             }
             else
             {
                 _unitOfWork.DisplayBlocks.Update(dateTimeBlock);
-                _unitOfWork.Complete();
-                return block;
             }
+            _unitOfWork.Complete();
+            return dateTimeBlock;
+
         }
 
         public TextBlock CopyTextBlock(TextBlock source)

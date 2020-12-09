@@ -2,6 +2,7 @@
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
 using Web.Models.Blocks;
+using Web.Models.Blocks.Converter;
 
 namespace Web.Profiles
 {
@@ -10,6 +11,7 @@ namespace Web.Profiles
         public PictureBlockProfile()
         {
             CreateMap<PictureBlock, PictureBlockDto>()
+                .ForMember(dto => dto.Id, opt => opt.MapFrom(model => BlockIdProcessor.GetIdDTO(BlockType.Picture, model.Id)))
                 .ForMember(b => b.Type, opt => opt.MapFrom(b => BlockType.Picture))
                 .ForMember(b => b.Base64Src, opt => opt.MapFrom(b => b.Details.Base64Image))
                 .ForMember(b => b.Caption, opt => opt.MapFrom(b => string.IsNullOrEmpty(b.Caption) ? "picture" : b.Caption))

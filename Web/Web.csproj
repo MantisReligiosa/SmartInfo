@@ -381,6 +381,7 @@
     <Compile Include="Models\Blocks\BlockDto.cs" />
     <Compile Include="Models\Blocks\Converter\BaseSpecifiedConcreteClassConverter.cs" />
     <Compile Include="Models\Blocks\Converter\BlockConverter.cs" />
+    <Compile Include="Models\Blocks\Converter\BlockIdProcessor.cs" />
     <Compile Include="Models\Blocks\DateTimeBlockDto.cs" />
     <Compile Include="Models\Blocks\SceneDto.cs" />
     <Compile Include="Models\Blocks\PictureBlockDto.cs" />

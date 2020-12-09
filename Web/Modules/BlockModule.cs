@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Web.Models;
 using Web.Models.Blocks;
+using Web.Models.Blocks.Converter;
 using Web.Profiles;
 
 namespace Web.Modules
@@ -205,7 +206,7 @@ namespace Web.Modules
         private void DeleteBlock()
         {
             var data = this.Bind<BlockDto>();
-            _blockController.DeleteBlock(data.Id);
+            _blockController.DeleteBlock(BlockIdProcessor.FromDTOId(data.Id));
         }
 
         private dynamic SaveBlock()
@@ -220,7 +221,7 @@ namespace Web.Modules
         private void MoveAndResize()
         {
             var block = this.Bind<SizeAndPositionDto>();
-            _blockController.MoveAndResizeBlock(block.Id, block.Height, block.Width, block.Left, block.Top);
+            _blockController.MoveAndResizeBlock(BlockIdProcessor.FromDTOId(block.Id), block.Height, block.Width, block.Left, block.Top);
         }
 
         private ScenarioDto AddScenario()

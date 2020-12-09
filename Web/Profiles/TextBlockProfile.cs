@@ -2,6 +2,7 @@
 using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
 using Web.Models.Blocks;
+using Web.Models.Blocks.Converter;
 
 namespace Web.Profiles
 {
@@ -10,6 +11,7 @@ namespace Web.Profiles
         public TextBlockProfile()
         {
             CreateMap<TextBlock, TextBlockDto>()
+                .ForMember(dto => dto.Id, opt => opt.MapFrom(model => BlockIdProcessor.GetIdDTO(BlockType.Text, model.Id)))
                 .ForMember(b => b.Type, opt => opt.MapFrom(b => BlockType.Text))
                 .ForMember(b => b.Text, opt => opt.MapFrom(b => b.Details.Text))
                 .ForMember(b => b.BackColor, opt => opt.MapFrom(b => b.Details.BackColor))
