@@ -117,6 +117,7 @@ div.tab-content {
 .ribbon-large-icon {
     height: 32px;
     width: 32px;
+    display:grid;
 }
 
 .ribbon-small-icon {

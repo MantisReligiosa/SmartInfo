@@ -69,6 +69,22 @@ namespace Repository.Repositories
                 Context.SaveChanges();
                 result = _mapper.Map<TableBlockEntity, TableBlock>(addedEntity);
             }
+            else if (item is Scenario scenario)
+            {
+                var entity = _mapper.Map<ScenarioEntity>(scenario);
+
+                entity.ScenarioDetails.SceneEntities = new List<SceneEntity>();
+                foreach (var scene in scenario.Details.Scenes)
+                {
+                    var sceneEntity = _mapper.Map<SceneEntity>(scene);
+                    sceneEntity.ScenarioDetailsEntity = entity.ScenarioDetails;
+                    entity.ScenarioDetails.SceneEntities.Add(sceneEntity);
+                }
+
+                var addedEntity = Context.Add(entity);
+                Context.SaveChanges();
+                result = _mapper.Map<ScenarioEntity, Scenario>(addedEntity);
+            }
             else
             {
                 result = base.Create(item);
@@ -129,6 +145,12 @@ namespace Repository.Repositories
                 case ScenarioEntity scenarioEntity:
                     var scenario = item as Scenario;
                     base.Update(scenario);
+
+                    if (scenarioEntity.ScenarioDetails.SceneEntities == null)
+                    {
+                        scenarioEntity.ScenarioDetails.SceneEntities = new List<SceneEntity>();
+                    }
+
                     UpdateCollection(scenarioEntity.ScenarioDetails,
                         scenario.Details,
                         entity => entity.SceneEntities,
