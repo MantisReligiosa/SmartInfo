@@ -184,6 +184,7 @@ namespace Repository.Repositories
             foreach (var itemToDelete in itemsToDelete)
             {
                 entityCollection.Remove(itemToDelete);
+                Context.Remove(itemToDelete);
             }
 
             var itemsToUpdate = entityCollection.Where(e => modelCollection.Any(m => equalPredicate(m, e))).ToList();

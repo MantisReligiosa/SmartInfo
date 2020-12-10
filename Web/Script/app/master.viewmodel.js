@@ -154,7 +154,7 @@ function masterViewModel(app) {
     addSimpleBlock = function (apiMethod, blockProcessing) {
         var frame = null;
         if (self.selectedBlock() && self.selectedBlock().type == 'meta') {
-            frame = self.selectedBlock().frames().filter(function (f) {
+            frame = self.selectedBlock().scenes().filter(function (f) {
                 return f.checked();
             })[0];
         };
@@ -257,7 +257,7 @@ function masterViewModel(app) {
     getMetablockByFrameId = function (frameId) {
         var metablock = self
             .blocks().filter(function (b) {
-                return b.type == 'meta' && b.frames().some(function (f) {
+                return b.type == 'meta' && b.scenes().some(function (f) {
                     return f.id == frameId;
                 })
             })[0];
@@ -266,7 +266,7 @@ function masterViewModel(app) {
 
     getMetablockFrame = function (metablock, frameId) {
         var frame = metablock
-            .frames().filter(function (f) {
+            .scenes().filter(function (f) {
                 return f.id == frameId;
             })[0];
         return frame;
@@ -367,14 +367,14 @@ function masterViewModel(app) {
 
             self.metaBlockEditViewModel().caption(block.caption);
             self.metaBlockEditViewModel().id(block.id);
-            block.frames().forEach(function (frame) {
+            block.scenes().forEach(function (frame) {
                 frame.selected = false;
             });
             self.metaBlockEditViewModel().initializeControls();
             self.metaBlockEditViewModel().metaFrames([]);
-            self.metaBlockEditViewModel().metaFrames(block.frames());
+            self.metaBlockEditViewModel().metaFrames(block.scenes());
             self.metaBlockEditViewModel().currentFrame.Index(null);
-            self.metaBlockEditViewModel().selectFrame(block.frames()[0]);
+            self.metaBlockEditViewModel().selectFrame(block.scenes()[0]);
         }
         $("#properties")
             .modal({ backdrop: 'static', keyboard: false })
@@ -451,8 +451,8 @@ function masterViewModel(app) {
         if (block.type === 'meta') {
             block.caption = self.metaBlockEditViewModel().caption();
             self.metaBlockEditViewModel().updateSelectedFrame();
-            block.frames(self.metaBlockEditViewModel().metaFrames());
-            block.frames().forEach(function (frame) {
+            block.scenes(self.metaBlockEditViewModel().metaFrames());
+            block.scenes().forEach(function (frame) {
                 if (frame.useFromTime != undefined) {
                     frame.UseFromTimeTicks = momentToTicks(moment(frame.useFromTime, "HH:mm"));
                 }
@@ -497,8 +497,8 @@ function masterViewModel(app) {
                     var metablock = self.blocks().filter(function (block) {
                         return block.id == data.id;
                     })[0];
-                    data.frames().forEach(function (frame) {
-                        var existFrame = metablock.frames().filter(function (f) {
+                    data.scenes().forEach(function (frame) {
+                        var existFrame = metablock.scenes().filter(function (f) {
                             return f.index == frame.index;
                         })[0];
                         if (existFrame.id == undefined) {
@@ -640,7 +640,7 @@ function masterViewModel(app) {
         }
         block.zIndex++;
         if (block.type === "meta") {
-            block.frames().forEach(function (frame) {
+            block.scenes().forEach(function (frame) {
                 frame.blocks().forEach(function (blockInFrame) {
                     blockInFrame.zIndex++;
                 });
@@ -680,7 +680,7 @@ function masterViewModel(app) {
         }
         block.zIndex--;
         if (block.type === "meta") {
-            block.frames().forEach(function (frame) {
+            block.scenes().forEach(function (frame) {
                 frame.blocks().forEach(function (blockInFrame) {
                     blockInFrame.zIndex--;
                 });
@@ -780,7 +780,7 @@ function masterViewModel(app) {
 
         self.blocks().filter(function (block) { return block.type == 'meta' })
             .forEach(function (metablock) {
-                metablock.frames().forEach(function (frame) {
+                metablock.scenes().forEach(function (frame) {
                     frame.blocks().forEach(function (frameBlock) {
                         frameBlock.selected(false);
                     })
@@ -975,7 +975,7 @@ function masterViewModel(app) {
         var block = null;
         self.blocks().filter(function (block) { return block.type == 'meta' })
             .forEach(function (metablock) {
-                metablock.frames().forEach(function (frame) {
+                metablock.scenes().forEach(function (frame) {
                     frame.blocks().forEach(function (frameBlock) {
                         if (id == frameBlock.id) {
                             block = frameBlock
@@ -1241,7 +1241,7 @@ function masterViewModel(app) {
                             }
                             if (block.type == 'meta') {
                                 makeMetablockObservableArrays(block);
-                                block.frames().forEach(function (frame) {
+                                block.scenes().forEach(function (frame) {
                                     frame.selected = false;
                                     if (frame.useFromTime != undefined) {
                                         frame.useFromTime = moment(frame.useFromTime).format("HH:mm");
@@ -1290,14 +1290,14 @@ function masterViewModel(app) {
             frame.blocks = ko.observableArray(tempBlocks);
             tempFrames.push(frame);
         });
-        block.frames = ko.observableArray(tempFrames);
+        block.scenes = ko.observableArray(tempFrames);
     }
 
     setFrameNodeChecked = function (metablockId, frameId) {
         var metablock = self.blocks().filter(function (block) {
             return block.id == metablockId;
         })[0];
-        metablock.frames().forEach(function (frame) {
+        metablock.scenes().forEach(function (frame) {
             frame.checked((frame.id != undefined) && (frame.id == frameId));
             var frameNode = $('#blocksTree').jstree(true).get_node(frame.id);
             $('#blocksTree').jstree(true).set_icon(frameNode, frame.checked() ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png");
@@ -1330,7 +1330,7 @@ function masterViewModel(app) {
 
     getMetaFrames = function (metaBlock) {
         nodes = [];
-        metaBlock.frames().sort(function (a, b) { return a.index - b.index }).forEach(function (frame) {
+        metaBlock.scenes().sort(function (a, b) { return a.index - b.index }).forEach(function (frame) {
             var node = {};
             node["type"] = "frame";
             node["text"] = frame.name;
