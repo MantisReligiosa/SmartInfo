@@ -95,6 +95,8 @@ namespace Repository.Repositories
         public override void Update(DisplayBlock item)
         {
             var displayBlock = Context.Find<DisplayBlockEntity>(item.Id);
+            var displayBlockSceneId = displayBlock.SceneId;
+            var displayBlockScene = displayBlock.Scene;
             switch (displayBlock)
             {
                 case TableBlockEntity tableBlockEntity:
@@ -161,6 +163,11 @@ namespace Repository.Repositories
                 default:
                     base.Update(item);
                     break;
+            }
+            if (displayBlockScene != null)
+            {
+                displayBlock.Scene = displayBlockScene;
+                displayBlock.SceneId = displayBlockSceneId;
             }
             Context.SaveChanges();
         }

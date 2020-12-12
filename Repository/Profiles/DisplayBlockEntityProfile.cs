@@ -18,7 +18,7 @@ namespace Repository.Profiles
                 .Include<ScenarioEntity, Scenario>();
 
             CreateMap<DisplayBlock, DisplayBlockEntity>()
-                .ForMember(entity => entity.Scene, opt => opt.MapFrom(model => model.Scene))
+                .ForMember(entity => entity.Scene, opt => opt.Ignore())
                 .Include<TextBlock, TextBlockEntity>()
                 .Include<PictureBlock, PictureBlockEntity>()
                 .Include<DateTimeBlock, DateTimeBlockEntity>()
