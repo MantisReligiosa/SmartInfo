@@ -172,8 +172,6 @@ namespace Repository.Repositories
             Context.SaveChanges();
         }
 
-
-
         private void UpdateCollection<TEntity, TCollectionItemEntity, TModel, TCollectionItemModel>(
             TEntity entity,
             TModel model,
@@ -233,7 +231,7 @@ namespace Repository.Repositories
             var dateTimeBlocksQuery = Context.Get(DisplayBlockSpecification.BySceneId<DateTimeBlockEntity>(null));
             var scenarioQuery = Context.Get(DisplayBlockSpecification.BySceneId<ScenarioEntity>(null));
 
-            List<DisplayBlockEntity> entities = new List<DisplayBlockEntity>();
+            var entities = new List<DisplayBlockEntity>();
             entities.AddRange(textBlocksQuery);
             entities.AddRange(pictureBlocksQuery);
             entities.AddRange(dateTimeBlocksQuery);
@@ -247,7 +245,6 @@ namespace Repository.Repositories
         public void DeleteAll()
         {
             Context.RemoveRange(Context.Get<DisplayBlockEntity>());
-            //Context.SaveChanges();
         }
     }
 }

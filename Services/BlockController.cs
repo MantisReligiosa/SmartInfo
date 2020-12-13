@@ -2,7 +2,6 @@ using DomainObjects.Blocks;
 using DomainObjects.Blocks.Details;
 using DomainObjects.Parameters;
 using ServiceInterfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -149,7 +148,6 @@ namespace Services
                     TextColor = "#000000",
                     FontName = _systemController.GetFonts().First(),
                     FontSize = _systemController.GetFontSizes().First(),
-                    //Format = _systemController.GetDatetimeFormats().First(),
                     FontIndex = 1.5,
                     Align = Align.Left,
                     Bold = false,
@@ -234,7 +232,6 @@ namespace Services
             }
             _unitOfWork.Complete();
             return scenario;
-
         }
 
         public PictureBlock SavePictureBlock(PictureBlock pictureBlock)
