@@ -157,7 +157,16 @@ namespace Repository.Repositories
                         scenario.Details,
                         entity => entity.SceneEntities,
                         model => model.Scenes,
-                        (scene, details) => { scene.ScenarioDetailsEntityId = details.Id; scene.ScenarioDetailsEntity = details; },
+                        (sceneEntity, details) => 
+                        { 
+                            sceneEntity.ScenarioDetailsEntityId = details.Id; 
+                            sceneEntity.ScenarioDetailsEntity = details;
+                            foreach(var sceneDisplayBlockEntity in sceneEntity.DisplayBlocks)
+                            {
+                                sceneDisplayBlockEntity.Scene = sceneEntity;
+                                sceneDisplayBlockEntity.SceneId = sceneEntity.Id;
+                            }
+                        },
                         (mScene, eScene) => mScene.Id == eScene.Id);
                     break;
                 default:
