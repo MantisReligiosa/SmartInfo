@@ -45,7 +45,11 @@
     <Compile Include="IBlockController.cs" />
     <Compile Include="IConfiguration.cs" />
     <Compile Include="ICryptoProvider.cs" />
+    <Compile Include="IDatabaseContext.cs" />
     <Compile Include="IOperationController.cs" />
+    <Compile Include="IRepositories\IDisplayBlockRepository.cs" />
+    <Compile Include="IRepositories\IParametersRepository.cs" />
+    <Compile Include="IRepositories\IUserRepository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="ISerializationController.cs" />
     <Compile Include="ISystemController.cs" />

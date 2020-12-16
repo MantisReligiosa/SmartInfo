@@ -120,6 +120,8 @@
         var currentColumn = ko.utils.arrayFirst(self.columnWidths(), function (item) {
             return item.index == self.selectedColumnWidth().index;
         });
+        if (!currentColumn)
+            return;
         currentColumn.value = self.selectedColumnWidth().value;
         currentColumn.units = self.selectedColumnUnit().sizeUnits;
     }
@@ -130,6 +132,8 @@
         var currentRow = ko.utils.arrayFirst(self.rowHeights(), function (item) {
             return item.index == self.selectedRowHeight().index;
         });
+        if (!currentRow)
+            return;
         currentRow.value = self.selectedRowHeight().value;
         currentRow.units = self.selectedRowUnit().sizeUnits;
     }
@@ -185,10 +189,11 @@
                             self.header(data.header);
                             self.rows.removeAll();
                             self.rows(data.rows);
+                            self.rowHeights([]);
                             data.rows.forEach(function (value, index, array) {
                                 self.rowHeights.push({ index, units:0 })
                             });
-
+                            self.columnWidths([]);
                             data.header.forEach(function (value, index, array) {
                                 self.columnWidths.push({ index, units: 0 })
                             });

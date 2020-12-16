@@ -35,8 +35,9 @@ namespace SmartInfo
             base.OnStartup(e);
             _activationManager = new ActivationManager(Activation.Key, Activation.IV, new Compressor(), new ActivationFile(), new HardwareInfoProvider());
             CheckActivation();
+#if !DEBUG
             CreateNotifyIcon();
-
+#endif
             try
             {
                 RegisterHandlers();
@@ -53,11 +54,18 @@ namespace SmartInfo
                     Topmost = true
 #endif
                 };
+#if !DEBUG
                 _notifyIcon.ShowBalloonTip(1, "SmartInfo", "Сервер запущен и готов к работе", System.Windows.Forms.ToolTipIcon.Info);
+#endif
             }
             catch (Exception ex)
             {
+#if !DEBUG
                 _notifyIcon.ShowBalloonTip(1, "SmartInfo", ex.GetInnerException().Message, System.Windows.Forms.ToolTipIcon.Error);
+#endif
+#if DEBUG
+                throw ex;
+#endif
             }
         }
 

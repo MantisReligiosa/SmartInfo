@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,6 +13,8 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,15 +34,42 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.EF6, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.EF6.2.0.0\lib\net461\AutoMapper.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="DelegateDecompiler, Version=1.0.0.0, Culture=neutral, PublicKeyToken=93b26a10a04705bd, processorArchitecture=MSIL">
+      <HintPath>..\packages\DelegateDecompiler.0.24.0\lib\net45\DelegateDecompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="DelegateDecompiler.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=93b26a10a04705bd, processorArchitecture=MSIL">
+      <HintPath>..\packages\DelegateDecompiler.EntityFramework.0.24.0\lib\net45\DelegateDecompiler.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Reflection, Version=1.1.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Reflection.Core.1.1.1\lib\net45\Mono.Reflection.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\lib\net46\System.Data.SQLite.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.113.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.113.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -51,93 +81,62 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configurations\DateTimeDetailsConfiguration.cs" />
-    <Compile Include="Configurations\MetablockFrameConfiguration.cs" />
-    <Compile Include="Configurations\PictureBlockDetailsConfiguration.cs" />
-    <Compile Include="Configurations\TableBlockCellDetailsConfiguration.cs" />
-    <Compile Include="Configurations\TableBlockDetailsConfiguration.cs" />
-    <Compile Include="Configurations\TableBlockRowDetailsConfiguration.cs" />
-    <Compile Include="Configurations\TextBlockDetailsConfiguration.cs" />
-    <Compile Include="Configurations\DisplayBlockConfiguration.cs" />
-    <Compile Include="Configurations\DisplayConfiguration.cs" />
-    <Compile Include="Configurations\ParameterConfiguration.cs" />
     <Compile Include="DatabaseContext.cs" />
-    <Compile Include="EfUnitOfWork.cs" />
-    <Compile Include="Configurations\UserConfiguration.cs" />
-    <Compile Include="Migrations\201811201652522_InitialCreate.cs" />
-    <Compile Include="Migrations\201811201652522_InitialCreate.Designer.cs">
-      <DependentUpon>201811201652522_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811211645465_AddParameters.cs" />
-    <Compile Include="Migrations\201811211645465_AddParameters.Designer.cs">
-      <DependentUpon>201811211645465_AddParameters.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811271858014_AddDisplays.cs" />
-    <Compile Include="Migrations\201811271858014_AddDisplays.Designer.cs">
-      <DependentUpon>201811271858014_AddDisplays.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812021749577_DisplayBlocks.cs" />
-    <Compile Include="Migrations\201812021749577_DisplayBlocks.Designer.cs">
-      <DependentUpon>201812021749577_DisplayBlocks.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903161021344_DateTimeBlockDetails.cs" />
-    <Compile Include="Migrations\201903161021344_DateTimeBlockDetails.Designer.cs">
-      <DependentUpon>201903161021344_DateTimeBlockDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903171705139_DatetimeFormat.cs" />
-    <Compile Include="Migrations\201903171705139_DatetimeFormat.Designer.cs">
-      <DependentUpon>201903171705139_DatetimeFormat.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903291627557_BlockCaption.cs" />
-    <Compile Include="Migrations\201903291627557_BlockCaption.Designer.cs">
-      <DependentUpon>201903291627557_BlockCaption.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903300917179_MetablockDetails.cs" />
-    <Compile Include="Migrations\201903300917179_MetablockDetails.Designer.cs">
-      <DependentUpon>201903300917179_MetablockDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903300927416_DisplayBlocksToMetaFrames.cs" />
-    <Compile Include="Migrations\201903300927416_DisplayBlocksToMetaFrames.Designer.cs">
-      <DependentUpon>201903300927416_DisplayBlocksToMetaFrames.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903301330090_MetablockFrameParams.cs" />
-    <Compile Include="Migrations\201903301330090_MetablockFrameParams.Designer.cs">
-      <DependentUpon>201903301330090_MetablockFrameParams.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907101730154_MetablockFrameSchedule.cs" />
-    <Compile Include="Migrations\201907101730154_MetablockFrameSchedule.Designer.cs">
-      <DependentUpon>201907101730154_MetablockFrameSchedule.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907101812328_MetablockFrameScheduleEdit.cs" />
-    <Compile Include="Migrations\201907101812328_MetablockFrameScheduleEdit.Designer.cs">
-      <DependentUpon>201907101812328_MetablockFrameScheduleEdit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907191659391_FrameUseInTimeInterval.cs" />
-    <Compile Include="Migrations\201907191659391_FrameUseInTimeInterval.Designer.cs">
-      <DependentUpon>201907191659391_FrameUseInTimeInterval.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909010702145_MetablockFrameTimespan.cs" />
-    <Compile Include="Migrations\201909010702145_MetablockFrameTimespan.Designer.cs">
-      <DependentUpon>201909010702145_MetablockFrameTimespan.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008161915125_ImageOptions.cs" />
-    <Compile Include="Migrations\202008161915125_ImageOptions.Designer.cs">
-      <DependentUpon>202008161915125_ImageOptions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008180802467_NameOfFrame.cs" />
-    <Compile Include="Migrations\202008180802467_NameOfFrame.Designer.cs">
-      <DependentUpon>202008180802467_NameOfFrame.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202010242142489_TableSizes.cs" />
-    <Compile Include="Migrations\202010242142489_TableSizes.Designer.cs">
-      <DependentUpon>202010242142489_TableSizes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockRowDetailsEntities\TableBlockEvenRowDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockRowDetailsEntities\TableBlockHeaderDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockRowDetailsEntities\TableBlockOddRowDetailsEntity.cs" />
+    <Compile Include="Entities\ParameterEntities\BackgroundColorEntity.cs" />
+    <Compile Include="Entities\ParameterEntities\ScreenWidthEntity.cs" />
+    <Compile Include="Entities\ParameterEntities\ScreenHeightEntity.cs" />
+    <Compile Include="Profiles\DetailsEntitiesProfiles\ScenarioDetailsEntityProfile.cs" />
+    <Compile Include="Profiles\DetailsEntitiesProfiles\TableBlockCellDetailsEntityProfile.cs" />
+    <Compile Include="Profiles\DetailsEntitiesProfiles\TableBlockColumnWidthEntityProfile.cs" />
+    <Compile Include="Profiles\DetailsEntitiesProfiles\TableBlockRowHeightEntityProfile.cs" />
+    <Compile Include="Profiles\DetailsEntitiesProfiles\TableBlockRowDetailsEntityProfile.cs" />
+    <Compile Include="Profiles\DetailsEntitiesProfiles\TableBlockDetailsEntityProfile.cs" />
+    <Compile Include="Profiles\DetailsEntitiesProfiles\DateTimeBlockDetailsEntityProfile.cs" />
+    <Compile Include="Profiles\DetailsEntitiesProfiles\PictureBlockDetailsEntityProfile.cs" />
+    <Compile Include="Profiles\DetailsEntitiesProfiles\TextBlockDetailsEntityProfile.cs" />
+    <Compile Include="Profiles\DisplayBlockEntitiesProfiles\ScenarioEntityProfile.cs" />
+    <Compile Include="Profiles\DisplayBlockEntitiesProfiles\TableBlockEntityProfile.cs" />
+    <Compile Include="Profiles\DisplayBlockEntitiesProfiles\DateTimeBlockEntityProfile.cs" />
+    <Compile Include="Profiles\DisplayBlockEntitiesProfiles\SceneProfile.cs" />
+    <Compile Include="Profiles\DisplayBlockEntitiesProfiles\PictureBlockEntityProfile.cs" />
+    <Compile Include="Profiles\DisplayBlockEntitiesProfiles\TextBlockEntityProfile.cs" />
+    <Compile Include="Profiles\DisplayBlockEntityProfile.cs" />
+    <Compile Include="Profiles\DisplayProfile.cs" />
+    <Compile Include="Profiles\DateTimeFormatProfile.cs" />
+    <Compile Include="Profiles\ParameterProfile.cs" />
+    <Compile Include="Profiles\UserProfile.cs" />
+    <Compile Include="Repositories\ParameterRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Specifications\CellDetailsSpecification.cs" />
+    <Compile Include="Specifications\DisplayBlockSpecification.cs" />
+    <Compile Include="Specifications\ParameterSpecification.cs" />
+    <Compile Include="Specifications\UserSpecification.cs" />
+    <Compile Include="UnitOfWork.cs" />
+    <Compile Include="Entities\DetailsEntities\DateTimeBlockDetailsEntity.cs" />
+    <Compile Include="Entities\DateTimeFormatEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\PictureBlockDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\ScenarioDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockColumnWidthEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockRowDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockRowHeightEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TableBlockCellDetailsEntity.cs" />
+    <Compile Include="Entities\DetailsEntities\TextBlockDetailsEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntities\DateTimeBlockEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntities\PictureBlockEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntities\ScenarioEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntities\SceneEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntities\TableBlockEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntities\TextBlockEntity.cs" />
+    <Compile Include="Entities\DisplayBlockEntity.cs" />
+    <Compile Include="Entities\DisplayEntity.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\ParameterEntity.cs" />
+    <Compile Include="Entities\UserEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueuedTasks\GuidTask.cs" />
-    <Compile Include="QueuedTasks\ItemsTask.cs" />
-    <Compile Include="QueuedTasks\ItemTask.cs" />
-    <Compile Include="QueuedTasks\IQueuedTask.cs" />
     <Compile Include="Repositories\DisplayBlockRepository.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="UnitOfWorkFactory.cs" />
@@ -155,59 +154,20 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="SmartInfo.sqlite">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811201652522_InitialCreate.resx">
-      <DependentUpon>201811201652522_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811211645465_AddParameters.resx">
-      <DependentUpon>201811211645465_AddParameters.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811271858014_AddDisplays.resx">
-      <DependentUpon>201811271858014_AddDisplays.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812021749577_DisplayBlocks.resx">
-      <DependentUpon>201812021749577_DisplayBlocks.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903161021344_DateTimeBlockDetails.resx">
-      <DependentUpon>201903161021344_DateTimeBlockDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903171705139_DatetimeFormat.resx">
-      <DependentUpon>201903171705139_DatetimeFormat.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903291627557_BlockCaption.resx">
-      <DependentUpon>201903291627557_BlockCaption.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903300917179_MetablockDetails.resx">
-      <DependentUpon>201903300917179_MetablockDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903300927416_DisplayBlocksToMetaFrames.resx">
-      <DependentUpon>201903300927416_DisplayBlocksToMetaFrames.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903301330090_MetablockFrameParams.resx">
-      <DependentUpon>201903301330090_MetablockFrameParams.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907101730154_MetablockFrameSchedule.resx">
-      <DependentUpon>201907101730154_MetablockFrameSchedule.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907101812328_MetablockFrameScheduleEdit.resx">
-      <DependentUpon>201907101812328_MetablockFrameScheduleEdit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907191659391_FrameUseInTimeInterval.resx">
-      <DependentUpon>201907191659391_FrameUseInTimeInterval.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909010702145_MetablockFrameTimespan.resx">
-      <DependentUpon>201909010702145_MetablockFrameTimespan.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008161915125_ImageOptions.resx">
-      <DependentUpon>202008161915125_ImageOptions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008180802467_NameOfFrame.resx">
-      <DependentUpon>202008180802467_NameOfFrame.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202010242142489_TableSizes.resx">
-      <DependentUpon>202010242142489_TableSizes.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
 </Project>

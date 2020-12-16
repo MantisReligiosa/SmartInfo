@@ -8,7 +8,7 @@ namespace Web.Models
     [XmlInclude(typeof(TableBlockDto))]
     [XmlInclude(typeof(TextBlockDto))]
     [XmlInclude(typeof(DateTimeBlockDto))]
-    [XmlInclude(typeof(MetaBlockDto))]
+    [XmlInclude(typeof(ScenarioDto))]
     public class ConfigDto
     {
         public string Background { get; set; }

@@ -17,7 +17,7 @@ namespace Repository
         {
             if (_unitOfWork == null)
             {
-                _unitOfWork = new EfUnitOfWork(new DatabaseContext());
+                _unitOfWork = new UnitOfWork(new DatabaseContext());
             }
             return _unitOfWork;
         }

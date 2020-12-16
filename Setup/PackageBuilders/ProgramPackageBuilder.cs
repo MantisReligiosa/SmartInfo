@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using WixSharp;
 using WixSharp.Bootstrapper;
 using WixSharp.Controls;
@@ -36,7 +35,6 @@ namespace Setup.Packages
             var project = new ManagedProject(Constants.CommonInstallationName,
                     new Dir(Constants.InstallationDirectory,
                         new DirFiles(Path.Combine(Constants.PublishFolder, anyFilesMask)),
-                        new WixSharp.File("\\..\\packages\\EntityFramework.6.2.0\\tools\\migrate.exe"),
                         new Dir(assetsFolder, new DirFiles(Path.Combine(Constants.PublishFolder, assetsFolder, anyFilesMask))),
                         new Dir(cssFolder, new DirFiles(Path.Combine(Constants.PublishFolder, cssFolder, anyFilesMask))),
                         new Dir(imagesFolder, new DirFiles(Path.Combine(Constants.PublishFolder, imagesFolder, anyFilesMask))),
@@ -64,7 +62,7 @@ namespace Setup.Packages
                 {
                     UpgradeVersions = VersionRange.OlderThanThis,
                     PreventDowngradingVersions = VersionRange.ThisAndNewer,
-                    NewerProductInstalledErrorMessage = Messages.NewerProductInstalledErrorMessage,
+                    NewerProductInstalledErrorMessage = Constants.NewerProductInstalledErrorMessage,
                     RemoveExistingProductAfter = Step.InstallInitialize
                 },
                 InstallScope = InstallScope.perMachine,
@@ -75,7 +73,6 @@ namespace Setup.Packages
                                    .On(NativeDialogs.InstallDirDlg, Buttons.Back, new ShowDialog(NativeDialogs.WelcomeDlg)),
             };
             project.BeforeInstall += Project_BeforeInstall;
-            project.AfterInstall += Project_AfterInstall;
             project.ControlPanelInfo.Manufacturer = Constants.Manufacturer;
             project.DefaultRefAssemblies.AddRange(
                 AssemblyManager.GetAssemblyPathsCollection(Path.GetDirectoryName(
@@ -84,69 +81,17 @@ namespace Setup.Packages
             return new MsiPackage(_msiPath);
         }
 
-        private void Project_AfterInstall(SetupEventArgs e)
-        {
-            if (e.IsInstalling)
-            {
-                CustomActions.OnInstall(e.Session);
-            }
-        }
-
         private void Project_BeforeInstall(SetupEventArgs e)
         {
             if (e.IsUninstalling)
             {
                 Process[] pname = Process.GetProcesses();
-                if (pname.Any(p=>p.ProcessName.Contains(Constants.ProductName)))
+                if (pname.Any(p => p.ProcessName.Contains(Constants.ProductName)))
                 {
                     NotificationManager.ShowErrorMessage($"{Constants.ProductName} сейчас запущен.\r\nПеред установкой необходимо завершить работу текущей версии программы");
                     e.Result = ActionResult.Failure;
                 }
             }
-        }
-    }
-
-    public class CustomActions
-    {
-        [DllImport("kernel32.dll")]
-        private static extern bool AllocConsole();
-
-        [DllImport("kernel32.dll")]
-        private static extern bool SetConsoleTitle(string title);
-
-        [CustomAction]
-        public static ActionResult OnInstall(Session session)
-        {
-            return DeployDatabase(session) ? ActionResult.Success : ActionResult.Failure;
-        }
-
-        private static bool DeployDatabase(Session session)
-        {
-            ISqlManager _sqlManager = new MsSqlManager();
-            _sqlManager.LogRecieved += (sender, logEventArgs) =>
-            {
-                session.Log(logEventArgs.Log);
-            };
-            var installDir = session.Property(Parameters.InstallationDirectoryParameter);
-            session.Log($"{Constants.LogPrefix}{nameof(installDir)}='{installDir}'");
-            try
-            {
-                var connectionString = ConfigurationManager.GetConnectionString(
-                        new ConfigurationFilesContext
-                        {
-                            InstallDir = installDir
-                        });
-                session.Log($"{Constants.LogPrefix}{nameof(connectionString)}='{connectionString}'");
-                AllocConsole();
-                SetConsoleTitle("migrate.exe");
-                _sqlManager.ApplyMigrations(Path.Combine(installDir, "migrate.exe"), connectionString);
-            }
-            catch (Exception ex)
-            {
-                session.Log(ex.ToString());
-                return false;
-            }
-            return true;
         }
     }
 }

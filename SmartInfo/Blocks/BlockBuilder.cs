@@ -15,7 +15,7 @@ namespace SmartInfo.Blocks
             {typeof(TableBlock), new TableBlockBuilder() },
             {typeof(PictureBlock), new PictureBlockBuilder() },
             {typeof(DateTimeBlock), new DateTimeBlockBuilder() },
-            {typeof(MetaBlock), new MetaBlockBuilder() }
+            {typeof(Scenario), new ScenarioBuilder() }
         };
 
         public UIElement BuildElement(DisplayBlock displayBlock)

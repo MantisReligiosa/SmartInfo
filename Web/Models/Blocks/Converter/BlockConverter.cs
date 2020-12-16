@@ -21,7 +21,7 @@ namespace Web.Models.Blocks.Converter
         {
             var jObject = JObject.Load(reader);
             if (jObject["type"].Value<string>().Equals("meta", StringComparison.InvariantCultureIgnoreCase))
-                return DeserializeMetaBlock(jObject);
+                return DeserializeScenario(jObject);
             return DeserializeSimpleBlock(jObject);
         }
 
@@ -41,19 +41,19 @@ namespace Web.Models.Blocks.Converter
             throw new NotImplementedException();
         }
 
-        private static object DeserializeMetaBlock(JObject jMetablockObject)
+        private static object DeserializeScenario(JObject jScenarioObject)
         {
-            var metablockDto = JsonConvert.DeserializeObject<MetaBlockDto>(jMetablockObject.ToString(), _specifiedSubclassConversion);
-            foreach (var jFrame in jMetablockObject["frames"].AsJEnumerable())
+            var scenarioDto = JsonConvert.DeserializeObject<ScenarioDto>(jScenarioObject.ToString(), _specifiedSubclassConversion);
+            foreach (var jFrame in jScenarioObject["scenes"].AsJEnumerable())
             {
                 if (jFrame["id"] != null)
                 {
-                    var id = new Guid(jFrame["id"].Value<string>());
-                    var frameDto = metablockDto.Frames.First(f => f.Id.Equals(id));
-                    frameDto.Blocks = jFrame["blocks"].AsJEnumerable().Select(jBlock => DeserializeSimpleBlock(jBlock as JObject)).ToList();
+                    var id = int.Parse(jFrame["id"].Value<string>());
+                    var sceneDto = scenarioDto.Scenes.First(f => f.Id.Equals(id));
+                    sceneDto.Blocks = jFrame["blocks"].AsJEnumerable().Select(jBlock => DeserializeSimpleBlock(jBlock as JObject)).ToList();
                 }
             }
-            return metablockDto;
+            return scenarioDto;
         }
 
         public override bool CanWrite

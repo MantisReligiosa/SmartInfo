@@ -2,12 +2,11 @@
 {
     internal static class Constants
     {
-
         public static string PublishFolder => $@"..\_publish\{ProductName}";
 
-        public const string Manufacturer = "Smart Technologies-M";
+        public static string Manufacturer => "Smart Technologies-M";
 
-        public const string ProductName = "SmartInfo";
+        public static string ProductName => "SmartInfo";
 
         public static string ExecFile => $"{ProductName}.exe";
 
@@ -17,7 +16,7 @@
 
         public static string ProgramMenuDirectory => $@"%ProgramMenu%\{Manufacturer}\{ProductName}";
 
-        public static string ConfigFileSource => $"{ProductName}.exe.config";
+        public static string NewerProductInstalledErrorMessage => "Newer version already installed";
 
         internal static string[] DependentAssemblies => new string[] { };
 
