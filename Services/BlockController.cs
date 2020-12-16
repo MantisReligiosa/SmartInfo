@@ -224,14 +224,17 @@ namespace Services
         {
             if (!(_unitOfWork.DisplayBlocks.GetById(scenario.Id) is Scenario block))
             {
-                _unitOfWork.DisplayBlocks.Create(scenario);
+                var result =  _unitOfWork.DisplayBlocks.Create(scenario) as Scenario;
+                _unitOfWork.Complete();
+                return result;
             }
             else
             {
                 _unitOfWork.DisplayBlocks.Update(scenario);
+                _unitOfWork.Complete();
+                return scenario;
+
             }
-            _unitOfWork.Complete();
-            return scenario;
         }
 
         public PictureBlock SavePictureBlock(PictureBlock pictureBlock)

@@ -102,7 +102,6 @@ namespace Web.Modules
             _blockController.SetBackground(configDto.Background);
             _blockController.Cleanup();
             var blocks = configDto.Blocks;
-#warning при загрузке данных сцены оказались пустыми
             SaveBlocks(blocks);
         }
 
@@ -130,10 +129,15 @@ namespace Web.Modules
                         break;
                     case ScenarioDto scenarioDto:
                         var scenario = _mapper.Map<Scenario>(scenarioDto);
-                        _blockController.SaveScenario(scenario);
+                        var savedScenario = _blockController.SaveScenario(scenario);
                         foreach (var scene in scenarioDto.Scenes.Where(f => f.Blocks?.Any() ?? false))
                         {
-                            SaveBlocks(scene.Blocks);
+                            var savedScene = savedScenario.Details.Scenes.Single(s => s.Index == scene.Index);
+                            SaveBlocks(scene.Blocks.Select(blockInScene=>
+                            {
+                                blockInScene.MetablockFrameId = savedScene.Id;
+                                return blockInScene;
+                            }).ToList());
                         }
                         break;
                 }

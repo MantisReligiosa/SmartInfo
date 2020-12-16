@@ -65,6 +65,16 @@ namespace Repository.Repositories
                 oddRowDetailsEntity.TableBlockDetailsEntity = entity.TableBlockDetails;
                 entity.TableBlockDetails.RowDetailsEntities.Add(oddRowDetailsEntity);
 
+                entity.TableBlockDetails.CellDetailsEntities = new List<TableBlockCellDetailsEntity>();
+
+                foreach (var cell in tableBlock.Details.Cells)
+                {
+                    var entityCell = _mapper.Map<TableBlockCellDetailsEntity>(cell);
+                    entityCell.TableBlockDetailsEntity = entity.TableBlockDetails;
+                    entityCell.TableBlockDetailsEntityId = entity.TableBlockDetails.Id;
+                    entity.TableBlockDetails.CellDetailsEntities.Add(entityCell);
+                }
+
                 var addedEntity = Context.Add(entity);
                 Context.SaveChanges();
                 result = _mapper.Map<TableBlockEntity, TableBlock>(addedEntity);
