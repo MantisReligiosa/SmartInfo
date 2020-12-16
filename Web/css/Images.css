@@ -23,6 +23,10 @@
     background: url('../Images/block_calendar.png') no-repeat center center;
 }
 
+.block-scenario {
+    background: url('../Images/block_scenario.png') no-repeat center center;
+}
+
 .clipboard-paste-large {
     background: url('../Images/clipboard_paste_large.png') no-repeat center center;
 }
