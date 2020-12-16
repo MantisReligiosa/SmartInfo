@@ -36,7 +36,7 @@ namespace SmartInfo.Blocks.Builders
                 }
             }
 
-            metablockScheduler.Frames = metablock.Details.Scenes.OrderByDescending(f => f.Index).Reverse().ToList();
+            metablockScheduler.Scenes = metablock.Details.Scenes.OrderByDescending(f => f.Index).Reverse().ToList();
 
             var timer = new Timer
             {
@@ -49,7 +49,7 @@ namespace SmartInfo.Blocks.Builders
             timer.Elapsed += (o, args) =>
             {
                 var currentDateTime = DateTime.Now;
-                var frameToShow = metablockScheduler.GetNextFrame(currentDateTime, currentFrameIndex);
+                var frameToShow = metablockScheduler.GetNextScene(currentDateTime, currentFrameIndex);
                 if (frameToShow == null)
                 {
                     currentFrameIndex = int.MinValue;

@@ -7,12 +7,12 @@ namespace Helpers
 {
     public class ScenarioScheduler
     {
-        public List<Scene> Frames { get; set; }
+        public List<Scene> Scenes { get; set; }
 
-        public Scene GetNextFrame(DateTime dateTime, int currentFrameIndex)
+        public Scene GetNextScene(DateTime dateTime, int currentFrameIndex)
         {
             var dayOfWeek = dateTime.DayOfWeek;
-            var frames = Frames
+            var frames = Scenes
                 .Where(f => f.Duration > 0)
                 .Where(f => !f.UseInTimeInterval || (f.UseFromTime.HasValue
                             && f.UseToTime.HasValue

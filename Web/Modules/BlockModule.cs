@@ -102,6 +102,7 @@ namespace Web.Modules
             _blockController.SetBackground(configDto.Background);
             _blockController.Cleanup();
             var blocks = configDto.Blocks;
+#warning при загрузке данных сцены оказались пустыми
             SaveBlocks(blocks);
         }
 

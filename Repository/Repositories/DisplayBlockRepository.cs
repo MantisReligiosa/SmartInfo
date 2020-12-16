@@ -161,10 +161,13 @@ namespace Repository.Repositories
                         { 
                             sceneEntity.ScenarioDetailsEntityId = details.Id; 
                             sceneEntity.ScenarioDetailsEntity = details;
-                            foreach(var sceneDisplayBlockEntity in sceneEntity.DisplayBlocks)
+                            if (sceneEntity.DisplayBlocks != null)
                             {
-                                sceneDisplayBlockEntity.Scene = sceneEntity;
-                                sceneDisplayBlockEntity.SceneId = sceneEntity.Id;
+                                foreach (var sceneDisplayBlockEntity in sceneEntity.DisplayBlocks)
+                                {
+                                    sceneDisplayBlockEntity.Scene = sceneEntity;
+                                    sceneDisplayBlockEntity.SceneId = sceneEntity.Id;
+                                }
                             }
                         },
                         (mScene, eScene) => mScene.Id == eScene.Id);
