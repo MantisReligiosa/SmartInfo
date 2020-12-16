@@ -20,7 +20,6 @@ namespace Setup
             IPackageFactory packageFactory = new PackageFactory(new List<IPackageBuilder>
             {
                 new DotNetPackageBuilder(),
-                new SqlExpressPackageBuilder(),
                 new ProgramPackageBuilder(),
             });
 
@@ -36,14 +35,6 @@ namespace Setup
             bootstrapper.Application.SuppressRepair = true;
             bootstrapper.Include(WixExtension.NetFx);
             bootstrapper.Include(WixExtension.Util);
-            bootstrapper.AddWixFragment("Wix/Bundle",
-               new UtilRegistrySearch()
-               {
-                   Root = RegistryHive.LocalMachine,
-                   Key = @"SYSTEM\CurrentControlSet\Services\MSSQL$SQLSRV_SMRT",
-                   Result = SearchResult.exists,
-                   Variable = "SQLSERVERINSTALLED",
-               });
             bootstrapper.Build("Installer.exe");
         }
     }

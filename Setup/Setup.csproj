@@ -66,29 +66,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\ConfigurationFilesContext.cs" />
     <Compile Include="Data\Constants.cs" />
-    <Compile Include="Data\LogEventArgs.cs" />
-    <Compile Include="Data\Parameters.cs" />
-    <Compile Include="Data\ProcessDataEventArgs.cs" />
-    <Compile Include="Exceptions\SqlException.cs" />
     <Compile Include="Interfaces\IPackageBuilder.cs" />
     <Compile Include="Interfaces\IPackageFactory.cs" />
-    <Compile Include="Interfaces\ISqlManager.cs" />
     <Compile Include="Managers\AssemblyManager.cs" />
-    <Compile Include="Managers\ConfigurationManager.cs" />
-    <Compile Include="Managers\Messages.cs" />
-    <Compile Include="Managers\MsSqlManager.cs" />
     <Compile Include="Managers\NotificationManager.cs" />
-    <Compile Include="Managers\ProcessManager.cs" />
     <Compile Include="PackageBuilders\DotNetPackageBuilder.cs" />
     <Compile Include="PackageBuilders\ProgramPackageBuilder.cs" />
     <Compile Include="PackageBuilders\PackageFactory.cs" />
-    <Compile Include="PackageBuilders\SqlExpressPackageBuilder.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="SqlExpress.ini" />
-    <EmbeddedResource Include="Setup.bat" />
     <None Include="wix\Setup.g.wxs" />
     <None Include="wix\$(ProjectName).g.wxs" />
   </ItemGroup>
