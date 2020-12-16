@@ -3,9 +3,14 @@
 
 <!-- ko foreach: scenes-->
 <!-- ko if: $data.checked-->
+<!-- ko if:$data.blocks().length>0-->
 <!-- ko foreach: $data.blocks-->
 @*<label data-bind="text: type"></label>*@
 @Html.Partial("Home/Blocks/_Block", new BlockRenderModel { AllowMetaBlock = false })
+<!-- /ko-->
+<!-- /ko-->
+<!-- ko if: $data.blocks().length==0-->
+<span class="block-icon block-scenario" data-bind="style:{'z-index': $parent.zIndex+1}"></span>
 <!-- /ko-->
 <!-- /ko-->
 <!-- /ko-->
