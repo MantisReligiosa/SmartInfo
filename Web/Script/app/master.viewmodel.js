@@ -1051,17 +1051,18 @@ function masterViewModel(app) {
                 block.top = y;
             }
             else {
-                // Проверка глюков
+                // Проверка выхода за рабочую область
+                debugger;
                 var needUpdate = false;
                 if (block.width != w) {
-                    //Растянули по влево
+                    //Растянули влево
                     if (x < self.minX()) {
                         needUpdate = true;
                         var delta = Math.round(x - self.minX());
                         if (self.gridEnabled()) {
                             delta = adjustToStep(delta);
                         }
-                        x = Math.round(x + delta);
+                        x = Math.round(x - delta);
                         w = Math.round(w + delta);
                     }
                     //Растянули по вправо
