@@ -281,16 +281,13 @@
     <Content Include="Images\access_reset.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\metablock.png">
+    <Content Include="Images\scene.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\metablock_frame.png">
+    <Content Include="Images\scene_checked.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\metablock_frame_checked.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\metablock_large.png">
+    <Content Include="Images\scene_large.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\sad_hudge.png">
@@ -302,6 +299,7 @@
     <Content Include="Images\font_underline.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\scenario.png" />
     <Content Include="Images\user_hudge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

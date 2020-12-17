@@ -1051,17 +1051,18 @@ function masterViewModel(app) {
                 block.top = y;
             }
             else {
-                // Проверка глюков
+                // Проверка выхода за рабочую область
+                debugger;
                 var needUpdate = false;
                 if (block.width != w) {
-                    //Растянули по влево
+                    //Растянули влево
                     if (x < self.minX()) {
                         needUpdate = true;
                         var delta = Math.round(x - self.minX());
                         if (self.gridEnabled()) {
                             delta = adjustToStep(delta);
                         }
-                        x = Math.round(x + delta);
+                        x = Math.round(x - delta);
                         w = Math.round(w + delta);
                     }
                     //Растянули по вправо
@@ -1300,7 +1301,7 @@ function masterViewModel(app) {
         metablock.scenes().forEach(function (frame) {
             frame.checked((frame.id != undefined) && (frame.id == frameId));
             var frameNode = $('#blocksTree').jstree(true).get_node(frame.id);
-            $('#blocksTree').jstree(true).set_icon(frameNode, frame.checked() ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png");
+            $('#blocksTree').jstree(true).set_icon(frameNode, frame.checked() ? "Images/scene_checked.png" : "Images/scene.png");
         });
     }
 
@@ -1322,7 +1323,7 @@ function masterViewModel(app) {
             node["icon"] = "Images/block_image.png";
         }
         else if (block.type == "meta") {
-            node["icon"] = "Images/metablock.png"
+            node["icon"] = "Images/scenario.png"
             node["children"] = getMetaFrames(block);
         }
         return node;
@@ -1336,7 +1337,7 @@ function masterViewModel(app) {
             node["text"] = frame.name;
             node["id"] = frame.id;
             node["parent"] = metaBlock.id;
-            node["icon"] = frame.checked() ? "Images/metablock_frame_checked.png" : "Images/metablock_frame.png";
+            node["icon"] = frame.checked() ? "Images/scene_checked.png" : "Images/scene.png";
             nodes.push(node);
             childs = [];
             frame.blocks().forEach(function (block) {
