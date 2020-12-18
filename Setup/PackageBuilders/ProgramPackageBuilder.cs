@@ -32,9 +32,13 @@ namespace Setup.Packages
             const string propertiesFolder = "Properties";
             const string sharedFolder = "Shared";
             const string anyFilesMask = "*.*";
+            const string x86SQLiteFolder = "x86";
+            const string x64SQLiteFolder = "x64";
             var project = new ManagedProject(Constants.CommonInstallationName,
                     new Dir(Constants.InstallationDirectory,
                         new DirFiles(Path.Combine(Constants.PublishFolder, anyFilesMask)),
+                        new Dir(x86SQLiteFolder, new DirFiles(Path.Combine(Constants.PublishFolder, x86SQLiteFolder, anyFilesMask))),
+                        new Dir(x64SQLiteFolder, new DirFiles(Path.Combine(Constants.PublishFolder, x64SQLiteFolder, anyFilesMask))),
                         new Dir(assetsFolder, new DirFiles(Path.Combine(Constants.PublishFolder, assetsFolder, anyFilesMask))),
                         new Dir(cssFolder, new DirFiles(Path.Combine(Constants.PublishFolder, cssFolder, anyFilesMask))),
                         new Dir(imagesFolder, new DirFiles(Path.Combine(Constants.PublishFolder, imagesFolder, anyFilesMask))),
