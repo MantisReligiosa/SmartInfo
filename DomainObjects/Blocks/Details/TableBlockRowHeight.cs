@@ -30,7 +30,6 @@ namespace DomainObjects.Blocks.Details
 
         public SizeUnits Units { get; set; }
 
-        public Guid TableBlockDetailsId { get; set; }
         public TableBlockDetails TableBlockDetails { get; set; }
     }
 }

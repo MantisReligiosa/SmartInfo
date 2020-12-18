@@ -18,8 +18,8 @@ namespace DomainObjects.Blocks
         public int Width { get; set; }
         public int ZIndex { get; set; }
         public string Caption { get; set; }
-        public Guid? MetablockFrameId { get; set; }
-        public MetablockFrame MetablockFrame { get; set; }
+        public int? SceneId { get; set; }
+        public Scene Scene { get; set; }
 
         public void CopyFrom(DisplayBlock source)
         {
@@ -29,7 +29,7 @@ namespace DomainObjects.Blocks
             Left = source.Left;
             Top = source.Top;
             Caption = source.Caption;
-            MetablockFrameId = source.MetablockFrameId;
+            SceneId = source.SceneId;
             CopyDetails(source);
         }
 

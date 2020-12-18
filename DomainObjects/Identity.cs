@@ -1,14 +1,12 @@
-﻿using System;
-
-namespace DomainObjects
+﻿namespace DomainObjects
 {
     public class Identity
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public Identity()
         {
-            Id = Guid.NewGuid();
+            Id = 0;
         }
     }
 }

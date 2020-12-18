@@ -7,9 +7,9 @@ namespace DomainObjects.Blocks.Details
         public string FontName { get; set; }
         public int FontSize { get; set; }
         public double FontIndex { get; set; }
-        public TableBlockRowDetails HeaderDetails { get; set; }
-        public TableBlockRowDetails EvenRowDetails { get; set; }
-        public TableBlockRowDetails OddRowDetails { get; set; }
+        public TableBlockHeaderDetails HeaderDetails { get; set; }
+        public TableBlockEvenRowDetails EvenRowDetails { get; set; }
+        public TableBlockOddRowDetails OddRowDetails { get; set; }
         public ICollection<TableBlockCellDetails> Cells { get; set; }
         public ICollection<TableBlockRowHeight> TableBlockRowHeights { get; set; }
         public ICollection<TableBlockColumnWidth> TableBlockColumnWidths { get; set; }
@@ -25,15 +25,15 @@ namespace DomainObjects.Blocks.Details
         {
             if (HeaderDetails == null)
             {
-                HeaderDetails = new TableBlockRowDetails();
+                HeaderDetails = new TableBlockHeaderDetails();
             }
             if (EvenRowDetails == null)
             {
-                EvenRowDetails = new TableBlockRowDetails();
+                EvenRowDetails = new TableBlockEvenRowDetails();
             }
             if (OddRowDetails == null)
             {
-                OddRowDetails = new TableBlockRowDetails();
+                OddRowDetails = new TableBlockOddRowDetails();
             }
             HeaderDetails.CopyFrom(source.HeaderDetails);
             EvenRowDetails.CopyFrom(source.EvenRowDetails);

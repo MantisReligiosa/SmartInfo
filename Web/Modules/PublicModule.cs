@@ -30,7 +30,7 @@ namespace Web.Modules
                     return View["Home/Login.cshtml", viewModel];
                 }
 
-                var result = this.LoginAndRedirect(user.Id, null, "/");
+                var result = this.LoginAndRedirect(user.GUID, null, "/");
                 return result;
             };
             Post["/version"] = parameters =>

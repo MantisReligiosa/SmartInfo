@@ -1,4 +1,5 @@
-﻿using DataExchange;
+﻿using Constants;
+using DataExchange;
 using DataExchange.DTO;
 using DataExchange.Requests;
 using DataExchange.Responces;
@@ -7,6 +8,8 @@ using Helpers;
 using Nancy.Hosting.Self;
 using SmartInfo.Blocks;
 using SmartInfo.Properties;
+using SmartTechnologiesM.Activation;
+using SmartTechnologiesM.Base.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +29,15 @@ namespace SmartInfo
     {
         private Window _window;
         private System.Windows.Forms.NotifyIcon _notifyIcon;
+        private IActivationManager _activationManager;
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            _activationManager = new ActivationManager(Activation.Key, Activation.IV, new Compressor(), new ActivationFile(), new HardwareInfoProvider());
+            CheckActivation();
+#if !DEBUG
             CreateNotifyIcon();
-
+#endif
             try
             {
                 RegisterHandlers();
@@ -47,11 +54,18 @@ namespace SmartInfo
                     Topmost = true
 #endif
                 };
+#if !DEBUG
                 _notifyIcon.ShowBalloonTip(1, "SmartInfo", "Сервер запущен и готов к работе", System.Windows.Forms.ToolTipIcon.Info);
+#endif
             }
             catch (Exception ex)
             {
+#if !DEBUG
                 _notifyIcon.ShowBalloonTip(1, "SmartInfo", ex.GetInnerException().Message, System.Windows.Forms.ToolTipIcon.Error);
+#endif
+#if DEBUG
+                throw ex;
+#endif
             }
         }
 
@@ -66,6 +80,53 @@ namespace SmartInfo
             var bootstrapper = new Bootstrapper();
             var nancyHost = new NancyHost(bootstrapper, hostConfiguration, uri);
             nancyHost.Start();
+        }
+
+        public void CheckActivation()
+        {
+            var expectedRequestCode = _activationManager.GetRequestCode();
+            if (string.IsNullOrEmpty(_activationManager.ActualLicenseInfo.RequestCode)
+                || _activationManager.ActualLicenseInfo.RequestCode != expectedRequestCode)
+            {
+                ActivationRequired();
+            }
+            else if (_activationManager.ActualLicenseInfo.ExpirationDate < DateTime.Now)
+            {
+                TrialExpired();
+            }
+        }
+
+        private void TrialExpired()
+        {
+            if (MessageBox.Show("Срок активации истек.\r\n" +
+                "Необходимо активировать приложение\r\n" +
+                "Перейти к активации?", "Требуется активация", MessageBoxButton.YesNo, MessageBoxImage.Warning)
+                == MessageBoxResult.No)
+            {
+                Environment.Exit(0);
+            }
+            ProceedActivation();
+        }
+
+        private void ActivationRequired()
+        {
+            if (MessageBox.Show("Приложение не активировано.\r\n" +
+                "Без активации работа приложения невозможна\r\n" +
+                "Перейти к активации?", "Требуется активация", MessageBoxButton.YesNo, MessageBoxImage.Warning)
+                == MessageBoxResult.No)
+            {
+                Environment.Exit(0);
+            }
+            ProceedActivation();
+        }
+
+        private void ProceedActivation()
+        {
+            var activationViewModel = new ActivationViewModel(_activationManager);
+            var activationWindow = new ActivationWindow(activationViewModel);
+            activationViewModel.GenerateRequestCode();
+            if (activationWindow.ShowDialog() == false)
+                Environment.Exit(0);
         }
 
         private void RegisterHandlers()
