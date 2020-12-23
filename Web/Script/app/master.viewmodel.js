@@ -906,7 +906,7 @@ function masterViewModel(app) {
 
                 // minimum size
                 restrictSize: {
-                    min: { width: 100, height: 50 },
+                    min: { width: 5, height: 5 },
                 },
 
                 inertia: true,
