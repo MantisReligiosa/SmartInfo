@@ -232,7 +232,7 @@ namespace Services
             {
                 _unitOfWork.DisplayBlocks.Update(scenario);
                 _unitOfWork.Complete();
-                return scenario;
+                return _unitOfWork.DisplayBlocks.GetById(scenario.Id) as Scenario;
 
             }
         }
