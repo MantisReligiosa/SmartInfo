@@ -1,1 +1,0 @@
-start "Migrate Display-Control" migrate.exe Repository.dll /startupConfigurationFile=\"Display-control.exe.config\" /verbose"
