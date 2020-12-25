@@ -117,6 +117,7 @@ namespace Web.Modules
                         break;
                     case TableBlockDto tableBlockDto:
                         var tableBlock = _mapper.Map<TableBlock>(tableBlockDto);
+#warning Не сохраняются RowHeights
                         _blockController.SaveTableBlock(tableBlock);
                         break;
                     case PictureBlockDto pictureBlockDto:
