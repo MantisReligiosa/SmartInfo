@@ -1,6 +1,5 @@
 ﻿using SmartInfo.Blocks.Builders;
 using DomainObjects.Blocks;
-using Helpers;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -27,7 +26,7 @@ namespace SmartInfo.Blocks
                     var element =  builder.BuildElement(displayBlock);
                     return element;
                 }
-                catch (Exception ex)
+                catch
                 {
                     return null;
                 }
