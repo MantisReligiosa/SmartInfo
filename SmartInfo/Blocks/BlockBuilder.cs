@@ -27,7 +27,7 @@ namespace SmartInfo.Blocks
                     var element =  builder.BuildElement(displayBlock);
                     return element;
                 }
-                catch
+                catch (Exception ex)
                 {
                     return null;
                 }
