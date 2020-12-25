@@ -909,7 +909,7 @@ function masterViewModel(app) {
                     min: { width: 5, height: 5 },
                 },
 
-                inertia: true,
+                inertia: false,
             })
             .on('resizemove', onResizeMove)
             .on('resizeend', applyResizeMove);
@@ -1052,7 +1052,6 @@ function masterViewModel(app) {
             }
             else {
                 // Проверка выхода за рабочую область
-                debugger;
                 var needUpdate = false;
                 if (block.width != w) {
                     //Растянули влево
@@ -1073,6 +1072,10 @@ function masterViewModel(app) {
                             delta = adjustToStep(delta);
                         }
                         w = Math.round(w - delta);
+                        //Поправка если длина экрана не кратна шагу
+                        if (x + w > self.maxX()) {
+                            w = self.maxX() - x;
+                        }
                     }
                 }
                 if (block.height != h) {
@@ -1094,6 +1097,10 @@ function masterViewModel(app) {
                             delta = adjustToStep(delta);
                         }
                         h = Math.round(h - delta);
+                        //Поправка если высота экрана не кратна шагу
+                        if (y + h > self.maxY()) {
+                            h = self.maxY() - y;
+                        }
                     }
                 }
                 if (block.left != x && block.width == w) {
