@@ -22,6 +22,7 @@ namespace SmartInfo.Blocks.Builders
             {
                 Height = datetimeBlock.Height,
                 Width = datetimeBlock.Width,
+                TextWrapping = TextWrapping.Wrap,
                 FontSize = datetimeBlock.Details.FontSize,
                 FontFamily = new Media.FontFamily(datetimeBlock.Details.FontName),
                 FontWeight = datetimeBlock.Details.Bold ? FontWeights.Bold : FontWeights.Normal,
