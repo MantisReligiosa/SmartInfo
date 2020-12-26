@@ -1,6 +1,5 @@
 ﻿using SmartInfo.Blocks.Builders;
 using DomainObjects.Blocks;
-using Helpers;
 using System;
 using System.Collections.Generic;
 using System.Windows;

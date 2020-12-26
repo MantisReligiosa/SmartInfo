@@ -67,6 +67,28 @@ namespace Repository.Repositories
 
                 entity.TableBlockDetails.CellDetailsEntities = new List<TableBlockCellDetailsEntity>();
 
+                if (tableBlock.Details.TableBlockRowHeights.Any())
+                {
+                    entity.TableBlockDetails.RowHeightsEntities = new List<TableBlockRowHeightEntity>();
+                    foreach(var rowHeight in tableBlock.Details.TableBlockRowHeights)
+                    {
+                        var rowHeightEntity = _mapper.Map<TableBlockRowHeightEntity>(rowHeight);
+                        rowHeightEntity.TableBlockDetailsEntity = entity.TableBlockDetails;
+                        entity.TableBlockDetails.RowHeightsEntities.Add(rowHeightEntity);
+                    }
+                }
+
+                if (tableBlock.Details.TableBlockColumnWidths.Any())
+                {
+                    entity.TableBlockDetails.ColumnWidthEntities = new List<TableBlockColumnWidthEntity>();
+                    foreach (var columnWidth in tableBlock.Details.TableBlockColumnWidths)
+                    {
+                        var columnWidthEntity = _mapper.Map<TableBlockColumnWidthEntity>(columnWidth);
+                        columnWidthEntity.TableBlockDetailsEntity = entity.TableBlockDetails;
+                        entity.TableBlockDetails.ColumnWidthEntities.Add(columnWidthEntity);
+                    }
+                }
+
                 foreach (var cell in tableBlock.Details.Cells)
                 {
                     var entityCell = _mapper.Map<TableBlockCellDetailsEntity>(cell);

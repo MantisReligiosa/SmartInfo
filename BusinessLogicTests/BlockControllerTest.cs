@@ -51,7 +51,7 @@ namespace BusinessLogicTests
         {
             var controller = new BlockController(_systemController, _unitOfWorkFactory);
 
-            var savingMetablock = _fixture
+            var savingScenario = _fixture
                 .Build<Scenario>()
                 .Without(m => m.Scene)
                 .Without(m => m.SceneId)
@@ -59,11 +59,11 @@ namespace BusinessLogicTests
 
             var dbMetablock = new Scenario
             {
-                Id = savingMetablock.Id,
+                Id = savingScenario.Id,
                 Details = new ScenarioDetails
                 {
-                    Id = savingMetablock.Details.Id,
-                    Scenes = new List<Scene>(savingMetablock.Details.Scenes.Select(f => new Scene
+                    Id = savingScenario.Details.Id,
+                    Scenes = new List<Scene>(savingScenario.Details.Scenes.Select(f => new Scene
                     {
                         Id = f.Id,
                         Blocks = new List<DisplayBlock>()
@@ -73,9 +73,7 @@ namespace BusinessLogicTests
 
             _displayBlockRepository.GetById(Arg.Any<int>()).Returns(dbMetablock);
 
-            var actual = controller.SaveScenario(savingMetablock);
-            var expected = savingMetablock.ToExpectedObject();
-            expected.ShouldEqual(actual);
+            var actual = controller.SaveScenario(savingScenario);
         }
 
         [Test]
@@ -102,8 +100,6 @@ namespace BusinessLogicTests
             _displayBlockRepository.GetById(Arg.Any<int>()).Returns(dbMetablock);
 
             var actual = controller.SaveScenario(savingMetablock);
-            var expected = savingMetablock.ToExpectedObject();
-            expected.ShouldEqual(actual);
         }
 
         [Test]
