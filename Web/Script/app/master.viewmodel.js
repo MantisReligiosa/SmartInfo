@@ -104,6 +104,7 @@ function masterViewModel(app) {
     self.datetimeBlockEditViewModel = ko.computed(function () { return new DatetimeBlockEditViewModel(self); });
     self.metaBlockEditViewModel = ko.computed(function () { return new MetaBlockEditViewModel(self); });
     self.positionViewModel = ko.computed(function () { return new PositionViewModel(self); });
+    self.changePasswordViewModel = ko.computed(function () { return new ChangePasswordViewModel(self); });
     self.backgroundPropertiesMode = ko.observable(true);
 
     self.background = ko.observable("#ffffff");
@@ -205,6 +206,23 @@ function masterViewModel(app) {
 
     self.expandPanel = function () {
         self.isPanelExpanded(true);
+    }
+
+    self.changePassword = function () {
+        $("#changePassword").modal({ backdrop: 'static', keyboard: false })
+            .modal("show");
+    }
+
+    self.applyNewPassword = function () {
+        $("#changePassword").modal("hide");
+        app.request(
+            "POST",
+            "/api/changePassword",
+            self.changePasswordViewModel,
+            function (data) {
+                self.logout();
+            }
+        );
     }
 
     self.showPosition = function () {

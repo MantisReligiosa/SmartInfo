@@ -39,6 +39,7 @@ namespace Web
                 cfg.AddContentGroup(new JsBundle("tableBlockEdit-js-key", "/tableBlockEdit", "~/script/app/tableBlockEdit.viewmodel.js"));
                 cfg.AddContentGroup(new JsBundle("textBlockEdit-js-key", "/textBlockEdit", "~/script/app/textBlockEdit.viewmodel.js"));
                 cfg.AddContentGroup(new JsBundle("metaBlockEdit-js-key", "/metaBlockEdit", "~/script/app/metaBlockEdit.viewmodel.js"));
+                cfg.AddContentGroup(new JsBundle("changePassword-js-key", "/changePassword", "~/script/app/changePassword.viewmodel.js"));
             });
 
             container.Register<IConfiguration, Configuration>();
