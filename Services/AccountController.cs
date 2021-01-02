@@ -16,6 +16,14 @@ namespace Services
             _unitOfWork = unitOfWorkFactory.Create();
         }
 
+        public void ChangePassword(Guid userId, string newPassword)
+        {
+            var user = _unitOfWork.Users.FindByGuid(userId);
+            user.PasswordHash = _cryptoProvider.Hash(newPassword);
+            _unitOfWork.Users.Update(user);
+            _unitOfWork.Complete();
+        }
+
         public User GetUserByIdentifier(Guid identifier)
         {
             var user = _unitOfWork.Users.FindByGuid(identifier);
