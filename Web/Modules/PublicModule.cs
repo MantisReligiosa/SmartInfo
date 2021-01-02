@@ -33,6 +33,11 @@ namespace Web.Modules
                 var result = this.LoginAndRedirect(user.GUID, null, "/");
                 return result;
             };
+            Get["/logout"] = parameters =>
+            {
+                var result = this.LogoutAndRedirect("/");
+                return result;
+            };
             Post["/version"] = parameters =>
             {
                 return systemController.GetVersion();

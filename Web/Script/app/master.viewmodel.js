@@ -4,14 +4,14 @@ function masterViewModel(app) {
 
     $(function () {
         var _redirectTimeout = 5 * 60 * 1000; //5 минут!
-        var _redirectUrl = 'login';
+        
 
         var _redirectHandle = null;
 
         function resetRedirect() {
             if (_redirectHandle) clearTimeout(_redirectHandle);
             _redirectHandle = setTimeout(function () {
-                window.location.href = _redirectUrl;
+                self.logout();
             }, _redirectTimeout);
         }
 
@@ -706,6 +706,10 @@ function masterViewModel(app) {
         );
 
     };
+
+    self.logout = function () {
+        window.location.href = "logout";
+    }
 
     self.cleanup = function () {
         app.request(
