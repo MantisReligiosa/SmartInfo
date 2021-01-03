@@ -322,6 +322,9 @@
     <Content Include="Script\app\app.viewmodel.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Script\app\changePassword.viewmodel.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Script\app\master.viewmodel.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -397,6 +400,7 @@
     <Compile Include="Models\Blocks\TableBlockRowHeightDto.cs" />
     <Compile Include="Models\Blocks\TableBlockColumnWidthDto.cs" />
     <Compile Include="Models\Blocks\TextBlockDto.cs" />
+    <Compile Include="Models\ChangeCreditsRequest.cs" />
     <Compile Include="Models\ConfigDataDto.cs" />
     <Compile Include="Models\ConfigDto.cs" />
     <Compile Include="Models\CreditsRequest.cs" />
@@ -410,6 +414,7 @@
     <Compile Include="Models\DatabaseUser.cs" />
     <Compile Include="Models\FontInfo.cs" />
     <Compile Include="Models\ScreenResolutionRequest.cs" />
+    <Compile Include="Modules\AccountModule.cs" />
     <Compile Include="Modules\OperationModule.cs" />
     <Compile Include="Modules\WrappedNancyModule.cs" />
     <Compile Include="Modules\PublicModule.cs" />

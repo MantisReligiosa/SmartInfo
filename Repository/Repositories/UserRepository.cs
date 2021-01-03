@@ -23,7 +23,7 @@ namespace Repository.Repositories
 
         public User FindByName(string login)
         {
-            var entity = Context.Single(UserSpecification.ByName(login));
+            var entity = Context.SingleOrDefault(UserSpecification.ByName(login));
             var result = _mapper.Map<User>(entity);
             return result;
         }

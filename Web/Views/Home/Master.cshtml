@@ -148,11 +148,39 @@
         </div>
     </div>
 </div>
+<div id="changePassword" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Смена пароля</h5>
+            </div>
+            <div class="modal-body" style="display:flex">
+                <div>
+                    <!-- ko with: changePasswordViewModel() -->
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Новый логин" data-bind="value: newLogin" data-toggle="tooltip" title="Оставьте пустым, если не требуется изменять логин">
+                    </div>
+                    <div class="input-group">
+                        <input type="password" class="form-control" placeholder="Старый пароль" data-bind="value: password">
+                    </div>
+                    <div class="input-group">
+                        <input type="password" class="form-control" placeholder="Новый пароль" data-bind="value: newPassword">
+                    </div>
+                    <!-- /ko -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bind="click: applyNewPassword">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!--/ko-->
-@Html.Raw(Bundles.GetJsKey("datetimeBlockEdit-js-key")) 
+@Html.Raw(Bundles.GetJsKey("datetimeBlockEdit-js-key"))
 @Html.Raw(Bundles.GetJsKey("pictureBlockEdit-js-key"))
 @Html.Raw(Bundles.GetJsKey("tableBlockEdit-js-key"))
 @Html.Raw(Bundles.GetJsKey("textBlockEdit-js-key"))
 @Html.Raw(Bundles.GetJsKey("metaBlockEdit-js-key"))
 @Html.Raw(Bundles.GetJsKey("position-js-key"))
+@Html.Raw(Bundles.GetJsKey("changePassword-js-key"))
 @Html.Raw(Bundles.GetJsKey("master-js-key"))
