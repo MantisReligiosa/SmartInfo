@@ -158,6 +158,9 @@
                 <div>
                     <!-- ko with: changePasswordViewModel() -->
                     <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Новый логин" data-bind="value: newLogin" data-toggle="tooltip" title="Оставьте пустым, если не требуется изменять логин">
+                    </div>
+                    <div class="input-group">
                         <input type="password" class="form-control" placeholder="Старый пароль" data-bind="value: password">
                     </div>
                     <div class="input-group">
