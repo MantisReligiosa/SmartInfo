@@ -1,7 +1,7 @@
 ﻿using DomainObjects;
 using ServiceInterfaces;
 using System;
-using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Services
 {
@@ -40,9 +40,15 @@ namespace Services
             return user;
         }
 
+        public bool IsNewLoginValid(string newLogin) => string.IsNullOrEmpty(newLogin) || IsValid(newLogin);
+
+        public bool IsNewPasswordValid(string newPassword) => !string.IsNullOrEmpty(newPassword) && IsValid(newPassword);
+
+        private bool IsValid(string newPassword) => Regex.Matches(newPassword, $@"^[a-zA-Z0-9\~\`\!\@\#\$\%\^\&\*\(\)_\-\+\=\<\,\>\.\?\/\:\;\""\'\|\\\[\]\{{\}}]{{5,}}$").Count == 1;
+
         public bool IsPasswordCorrect(User user, string password)
         {
-            return _cryptoProvider.Hash(password).Equals(user.PasswordHash);
+            return !string.IsNullOrEmpty(password) && _cryptoProvider.Hash(password).Equals(user.PasswordHash);
         }
 
     }

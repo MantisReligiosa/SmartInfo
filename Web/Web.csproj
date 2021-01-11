@@ -400,6 +400,7 @@
     <Compile Include="Models\Blocks\TableBlockRowHeightDto.cs" />
     <Compile Include="Models\Blocks\TableBlockColumnWidthDto.cs" />
     <Compile Include="Models\Blocks\TextBlockDto.cs" />
+    <Compile Include="Models\ChangeCreditsResponce.cs" />
     <Compile Include="Models\ChangeCreditsRequest.cs" />
     <Compile Include="Models\ConfigDataDto.cs" />
     <Compile Include="Models\ConfigDto.cs" />

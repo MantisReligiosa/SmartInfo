@@ -68,6 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountControllerTest.cs" />
     <Compile Include="BlockControllerTest.cs" />
     <Compile Include="HelpersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
