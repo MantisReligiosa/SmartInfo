@@ -9,5 +9,7 @@ namespace ServiceInterfaces
         User GetUserByName(string login);
         bool IsPasswordCorrect(User user, string password);
         void ChangePassword(Guid userId, string newLogin, string newPassword);
+        bool IsNewLoginValid(string newLogin);
+        bool IsNewPasswordValid(string newLogin);
     }
 }

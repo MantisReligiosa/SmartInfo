@@ -214,13 +214,20 @@ function masterViewModel(app) {
     }
 
     self.applyNewPassword = function () {
-        $("#changePassword").modal("hide");
         app.request(
             "POST",
             "/api/changePassword",
             self.changePasswordViewModel,
             function (data) {
-                self.logout();
+                if (data.ok) {
+                    $("#changePassword").modal("hide");
+                    self.logout();
+                }
+                else {
+                    self.changePasswordViewModel().passwordError(data.passwordError||'');
+                    self.changePasswordViewModel().newPasswordError(data.newPasswordError||'');
+                    self.changePasswordViewModel().newLoginError(data.newLoginError||'');
+                }
             }
         );
     }

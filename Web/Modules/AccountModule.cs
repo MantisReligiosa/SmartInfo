@@ -19,14 +19,31 @@ namespace Web.Modules
             {
                 var data = this.Bind<ChangeCreditsRequest>();
                 var user = _accountController.GetUserByName(Context.CurrentUser.UserName);
-                var accessGranted = user != null && _accountController.IsPasswordCorrect(user, data.Password);
-                if (!accessGranted)
+                var responce = new ChangeCreditsResponce { Ok = true };
+                
+                if (user == null || !_accountController.IsPasswordCorrect(user, data.Password))
                 {
-                    return Response.AsJson(new ErrorResponce { ErrorMessage = "В доступе отказано" });
+                    responce.Ok = false;
+                    responce.PasswordError = "Неверный пароль";
                 }
-                _accountController.ChangePassword(user.GUID, data.NewLogin, data.NewPassword);
-                var result = this.LogoutAndRedirect("/");
-                return result;
+
+                if (!_accountController.IsNewLoginValid(data.NewLogin))
+                {
+                    responce.Ok = false;
+                    responce.NewLoginError = "Недопустимый логин";
+                }
+
+                if (!_accountController.IsNewPasswordValid(data.NewPassword))
+                {
+                    responce.Ok = false;
+                    responce.NewPasswordError = "Недопустимый пароль";
+                }
+
+                if (responce.Ok)
+                {
+                    this.Logout("/");
+                }
+                return Response.AsJson(responce);
             };
         }
     }
