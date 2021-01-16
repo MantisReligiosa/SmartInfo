@@ -2,7 +2,6 @@
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 using DisplayBlock = DomainObjects.Blocks;
 using Media = System.Windows.Media;
 
@@ -10,15 +9,12 @@ namespace SmartInfo.Blocks.Builders
 {
     public class DateTimeBlockBuilder : AbstractBuilder
     {
-        private Timer _timer;
-        private DisplayBlock.DateTimeBlock datetimeBlock;
-        private TextBlock label;
-
         public override UIElement BuildElement(DisplayBlock.DisplayBlock displayBlock)
         {
-            datetimeBlock = displayBlock as DisplayBlock.DateTimeBlock;
+            DatetimeBlockTimer timer;
+            var datetimeBlock = displayBlock as DisplayBlock.DateTimeBlock;
             var bc = new Media.BrushConverter();
-            label = new TextBlock
+            var label = new TextBlock
             {
                 Height = datetimeBlock.Height,
                 Width = datetimeBlock.Width,
@@ -34,17 +30,14 @@ namespace SmartInfo.Blocks.Builders
             };
             if (datetimeBlock.Details.Format != null)
             {
-                if (_timer == null)
+                timer = new DatetimeBlockTimer(datetimeBlock, label)
                 {
-                    _timer = new Timer
-                    {
-                        AutoReset = true,
-                        Interval = 500,
-                        Enabled = true
-                    };
-                }
+                    AutoReset = true,
+                    Interval = 500,
+                    Enabled = true,
+                };
 
-                _timer.Elapsed += timer_Elapsed;
+                timer.Elapsed += Timer_Elapsed;
             }
             if (ColorConverter.TryToParseRGB(datetimeBlock.Details.BackColor, out string colorHex))
             {
@@ -60,19 +53,34 @@ namespace SmartInfo.Blocks.Builders
             return label;
         }
 
-        private void timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (datetimeBlock.Details == null)
+            var timer = sender as DatetimeBlockTimer;
+            if (timer.Datetimeblock.Details == null)
             {
-                _timer.Stop();
-                _timer.Elapsed -= timer_Elapsed;
-                _timer.Dispose();
-                _timer = null;
+                timer.Stop();
+                timer.Elapsed -= Timer_Elapsed;
+                timer.Dispose();
+                timer = null;
                 return;
             }
 
             _dispatcher.Invoke(() =>
-            label.Text = DateTime.Now.ToString(datetimeBlock.Details.Format.ShowtimeFormat));
+            timer.Label.Text = DateTime.Now.ToString(timer.Datetimeblock.Details.Format.ShowtimeFormat));
         }
+
+        private class DatetimeBlockTimer : Timer
+        {
+            public DatetimeBlockTimer(DisplayBlock.DateTimeBlock datetimeblock, TextBlock label)
+                : base()
+            {
+                Datetimeblock = datetimeblock;
+                Label = label;
+            }
+
+            public DisplayBlock.DateTimeBlock Datetimeblock { get; }
+            public TextBlock Label { get; }
+        }
+
     }
 }

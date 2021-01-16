@@ -154,20 +154,37 @@
             <div class="modal-header">
                 <h5 class="modal-title">Смена пароля</h5>
             </div>
-            <div class="modal-body" style="display:flex">
-                <div>
+            <div class="modal-body" style="display:block">
                     <!-- ko with: changePasswordViewModel() -->
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Новый логин" data-bind="value: newLogin" data-toggle="tooltip" title="Оставьте пустым, если не требуется изменять логин">
+                    <div class="form-row">
+                        <label for="newLogin">Новый логин</label>
+                        <input 
+                               type="text" 
+                               id="newLogin" 
+                               aria-describedby="newLoginFeedback" 
+                               placeholder="Оставьте пустым, если не требуется изменять логин" 
+                               data-bind="value: newLogin, class: newLoginError().length>0?'form-control is-invalid':'form-control'">
+                        <div id="newLoginFeedback" class="invalid-feedback" data-bind="visible: newLoginError().length>0, text: newLoginError"></div>
                     </div>
-                    <div class="input-group">
-                        <input type="password" class="form-control" placeholder="Старый пароль" data-bind="value: password">
+                    <div class="form-row">
+                        <label for="password">Старый пароль</label>
+                        <input 
+                               type="password" 
+                               id="password" 
+                               aria-describedby="passwordFeedback" 
+                               data-bind="value: password, class: passwordError().length>0?'form-control is-invalid':'form-control'">
+                        <div id="passwordFeedback" class="invalid-feedback" data-bind="visible: passwordError().length>0, text: passwordError"></div>
                     </div>
-                    <div class="input-group">
-                        <input type="password" class="form-control" placeholder="Новый пароль" data-bind="value: newPassword">
+                    <div class="form-row">
+                            <label for="newPassword">Новый пароль</label>
+                            <input 
+                                   type="password" 
+                                   id="newPassword" 
+                                   aria-describedby="newPasswordFeedback" 
+                                   data-bind="value: newPassword, class: newPasswordError().length>0?'form-control is-invalid':'form-control'">
+                            <div id="newPasswordFeedback" class="invalid-feedback" data-bind="visible: newPasswordError().length>0, text: newPasswordError"></div>
                     </div>
                     <!-- /ko -->
-                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" data-bind="click: applyNewPassword">OK</button>
