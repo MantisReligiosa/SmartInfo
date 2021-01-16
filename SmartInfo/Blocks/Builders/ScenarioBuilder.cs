@@ -15,17 +15,17 @@ namespace SmartInfo.Blocks.Builders
         {
             var blocks = new List<UIElement>();
             var currentFrameIndex = int.MinValue;
-            var metablockScheduler = new ScenarioScheduler();
-            var metablock = displayBlock as Scenario;
+            var scenarioScheduler = new ScenarioScheduler();
+            var scenario = displayBlock as Scenario;
             var canvas = new Canvas
             {
-                Height = metablock.Height,
-                Width = metablock.Width
+                Height = scenario.Height,
+                Width = scenario.Width
             };
 
             var blockBuilder = new BlockBuilder();
 
-            foreach (var block in metablock.Details.Scenes.SelectMany(f => f?.Blocks ?? new List<DisplayBlock>()))
+            foreach (var block in scenario.Details.Scenes.SelectMany(f => f?.Blocks ?? new List<DisplayBlock>()))
             {
                 var element = blockBuilder.BuildElement(block);
                 if (element != null)
@@ -36,7 +36,7 @@ namespace SmartInfo.Blocks.Builders
                 }
             }
 
-            metablockScheduler.Scenes = metablock.Details.Scenes.OrderByDescending(f => f.Index).Reverse().ToList();
+            scenarioScheduler.Scenes = scenario.Details.Scenes.OrderByDescending(f => f.Index).Reverse().ToList();
 
             var timer = new Timer
             {
@@ -48,8 +48,9 @@ namespace SmartInfo.Blocks.Builders
 
             timer.Elapsed += (o, args) =>
             {
+                timer.Stop();
                 var currentDateTime = DateTime.Now;
-                var frameToShow = metablockScheduler.GetNextScene(currentDateTime, currentFrameIndex);
+                var frameToShow = scenarioScheduler.GetNextScene(currentDateTime, currentFrameIndex);
                 if (frameToShow == null)
                 {
                     currentFrameIndex = int.MinValue;
@@ -63,11 +64,12 @@ namespace SmartInfo.Blocks.Builders
                     currentFrameIndex = frameToShow.Index;
                     timer.Interval = frameToShow.Duration * 1000;
                 }
+                timer.Start();
             };
 
-            Canvas.SetTop(canvas, metablock.Top);
-            Canvas.SetLeft(canvas, metablock.Left);
-            Panel.SetZIndex(canvas, metablock.ZIndex);
+            Canvas.SetTop(canvas, scenario.Top);
+            Canvas.SetLeft(canvas, scenario.Left);
+            Panel.SetZIndex(canvas, scenario.ZIndex);
             return canvas;
         }
 
