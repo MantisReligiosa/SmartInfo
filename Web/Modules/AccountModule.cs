@@ -20,7 +20,8 @@ namespace Web.Modules
                 var data = this.Bind<ChangeCreditsRequest>();
                 var user = _accountController.GetUserByName(Context.CurrentUser.UserName);
                 var responce = new ChangeCreditsResponce { Ok = true };
-                
+
+                //ToDo: перенести это в логику AccountController
                 if (user == null || !_accountController.IsPasswordCorrect(user, data.Password))
                 {
                     responce.Ok = false;
@@ -39,8 +40,25 @@ namespace Web.Modules
                     responce.NewPasswordError = "Недопустимый пароль";
                 }
 
+                if (data.NewPassword != data.NewPasswordConfirm)
+                {
+                    responce.Ok = false;
+                    responce.NewPasswordConfirmError = "Пароли не совпадают";
+                }
+
+                if (!_accountController.IsNewPasswordValid(data.NewPasswordConfirm))
+                {
+                    responce.Ok = false;
+                    if (!string.IsNullOrEmpty(responce.NewPasswordConfirmError))
+                    {
+                        responce.NewPasswordConfirmError += ' ';
+                    }
+                    responce.NewPasswordConfirmError += "Недопустимый пароль";
+                }
+
                 if (responce.Ok)
                 {
+                    _accountController.ChangePassword(user.GUID, data.NewLogin, data.NewPassword);
                     this.Logout("/");
                 }
                 return Response.AsJson(responce);

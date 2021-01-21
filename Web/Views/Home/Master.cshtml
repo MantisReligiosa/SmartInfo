@@ -155,39 +155,45 @@
                 <h5 class="modal-title">Смена пароля</h5>
             </div>
             <div class="modal-body" style="display:block">
-                    <!-- ko with: changePasswordViewModel() -->
-                    <div class="form-row">
-                        <label for="newLogin">Новый логин</label>
-                        <input 
-                               type="text" 
-                               id="newLogin" 
-                               aria-describedby="newLoginFeedback" 
-                               placeholder="Оставьте пустым, если не требуется изменять логин" 
-                               data-bind="value: newLogin, class: newLoginError().length>0?'form-control is-invalid':'form-control'">
-                        <div id="newLoginFeedback" class="invalid-feedback" data-bind="visible: newLoginError().length>0, text: newLoginError"></div>
-                    </div>
-                    <div class="form-row">
-                        <label for="password">Старый пароль</label>
-                        <input 
-                               type="password" 
-                               id="password" 
-                               aria-describedby="passwordFeedback" 
-                               data-bind="value: password, class: passwordError().length>0?'form-control is-invalid':'form-control'">
-                        <div id="passwordFeedback" class="invalid-feedback" data-bind="visible: passwordError().length>0, text: passwordError"></div>
-                    </div>
-                    <div class="form-row">
-                            <label for="newPassword">Новый пароль</label>
-                            <input 
-                                   type="password" 
-                                   id="newPassword" 
-                                   aria-describedby="newPasswordFeedback" 
-                                   data-bind="value: newPassword, class: newPasswordError().length>0?'form-control is-invalid':'form-control'">
-                            <div id="newPasswordFeedback" class="invalid-feedback" data-bind="visible: newPasswordError().length>0, text: newPasswordError"></div>
-                    </div>
-                    <!-- /ko -->
+                <!-- ko with: changePasswordViewModel() -->
+                <div class="form-row">
+                    <label for="newLogin">Новый логин</label>
+                    <input type="text"
+                           id="newLogin"
+                           aria-describedby="newLoginFeedback"
+                           placeholder="Оставьте пустым, если не требуется изменять логин"
+                           data-bind="value: newLogin, class: newLoginError().length>0?'form-control is-invalid':'form-control'">
+                    <div id="newLoginFeedback" class="invalid-feedback" data-bind="visible: newLoginError().length>0, text: newLoginError"></div>
+                </div>
+                <div class="form-row">
+                    <label for="password">Старый пароль</label>
+                    <input type="password"
+                           id="password"
+                           aria-describedby="passwordFeedback"
+                           data-bind="value: password, class: passwordError().length>0?'form-control is-invalid':'form-control'">
+                    <div id="passwordFeedback" class="invalid-feedback" data-bind="visible: passwordError().length>0, text: passwordError"></div>
+                </div>
+                <div class="form-row">
+                    <label for="newPassword">Новый пароль</label>
+                    <input type="password"
+                           id="newPassword"
+                           aria-describedby="newPasswordFeedback"
+                           data-bind="value: newPassword, class: newPasswordError().length>0?'form-control is-invalid':'form-control'">
+                    <div id="newPasswordFeedback" class="invalid-feedback" data-bind="visible: newPasswordError().length>0, text: newPasswordError"></div>
+                </div>
+                <div class="form-row">
+                    <label for="newPasswordConfirm">Новый пароль ещё раз</label>
+                    <input type="password"
+                           id="newPasswordConfirm"
+                           aria-describedby="newPasswordConfirmFeedback"
+                           data-bind="value: newPasswordConfirm, class: newPasswordConfirmError().length>0?'form-control is-invalid':'form-control'">
+                    <div id="newPasswordConfirmFeedback" class="invalid-feedback" data-bind="visible: newPasswordConfirmError().length>0, text: newPasswordConfirmError"></div>
+                </div>
+                <!-- /ko -->
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" data-bind="click: applyNewPassword">OK</button>
+                <button class="btn btn-danger" data-bind="click: cancelNewPassword">Отмена</button>
             </div>
         </div>
     </div>

@@ -226,10 +226,23 @@ function masterViewModel(app) {
                 else {
                     self.changePasswordViewModel().passwordError(data.passwordError||'');
                     self.changePasswordViewModel().newPasswordError(data.newPasswordError||'');
-                    self.changePasswordViewModel().newLoginError(data.newLoginError||'');
+                    self.changePasswordViewModel().newLoginError(data.newLoginError || '');
+                    self.changePasswordViewModel().newPasswordConfirmError(data.newPasswordConfirmError || '');
                 }
             }
         );
+    }
+
+    self.cancelNewPassword = function () {
+        $("#changePassword").modal("hide");
+        self.changePasswordViewModel().password('');
+        self.changePasswordViewModel().passwordError('');
+        self.changePasswordViewModel().newPassword('');
+        self.changePasswordViewModel().newPasswordError('');
+        self.changePasswordViewModel().newPasswordConfirm('');
+        self.changePasswordViewModel().newPasswordConfirmError('');
+        self.changePasswordViewModel().newLogin('');
+        self.changePasswordViewModel().newLoginError('');
     }
 
     self.showPosition = function () {
