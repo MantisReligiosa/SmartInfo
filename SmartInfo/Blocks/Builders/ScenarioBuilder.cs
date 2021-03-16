@@ -59,9 +59,12 @@ namespace SmartInfo.Blocks.Builders
                 }
                 else
                 {
-                    HideAllFrames(blocks);
-                    SetFrameVisibility(frameToShow.Id, blocks);
-                    currentFrameIndex = frameToShow.Index;
+                    if (currentFrameIndex != frameToShow.Index)
+                    {
+                        HideAllFrames(blocks);
+                        SetFrameVisibility(frameToShow.Id, blocks);
+                        currentFrameIndex = frameToShow.Index;
+                    }
                     timer.Interval = frameToShow.Duration * 1000;
                 }
                 timer.Start();
