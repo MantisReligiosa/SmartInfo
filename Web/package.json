@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "grunt": "1.0.4",
+    "micromatch": "3.1.10",
     "load-grunt-tasks": "4.0.0",
     "grunt-contrib-clean": "2.0.0",
     "grunt-contrib-copy": "1.0.0",
