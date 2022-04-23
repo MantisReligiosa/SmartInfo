@@ -1,0 +1,209 @@
+﻿@using Nancy.Bundle
+@using Web.Models
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+<!-- ko with: master-->
+<!-- ko if: loading()-->
+<div id="preloader">
+    <div id="loader"></div>
+</div>
+<!-- /ko -->
+
+@Html.Partial("Views/Home/_Menu.cshtml")
+<div style=" flex: 1 1 auto;
+	display: flex; margin-left:15px; margin-right:20px">
+    <div class="leftPanel resize-rightSide" style="width: 130px">
+        <div class="panel-content">
+            <div id="blocksTree" class="blocksTree"></div>
+        </div>
+    </div>
+    <div style="display: contents">
+        <div class="container-fluid workspace">
+
+            <div class="zoomPanel panel">
+                <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: zoomOut">
+                    <div class="ribbon-horizontal-button-content">
+                        <div class="zoom-out ribbon-small-icon"></div>
+                    </div>
+                </button>
+                <input type="range" style="vertical-align: middle" list="scales" data-bind="attr:{step:zoomStep, min:minScale, max:maxScale}, value:zoomValue">
+                <datalist id="scales">
+
+                    <!--ko foreach: scales -->
+                    <option data-bind="attr:{value:value,label:label}"></option>
+                    <!-- /ko -->
+                </datalist>
+
+
+                <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: zoomIn">
+                    <div class="ribbon-horizontal-button-content">
+                        <div class="zoom-in ribbon-small-icon"></div>
+                    </div>
+                </button>
+                <button class="btn btn-sm btn-light navbar-btn ribbon-element" data-bind="click: zoomFit">
+                    <div class="ribbon-horizontal-button-content">
+                        <div class="zoom-fit ribbon-small-icon"></div>
+                    </div>
+                </button>
+            </div>
+            <div data-bind="style:{'transform':'scale(' + scale() + ')', 'position':'absolute', 'top':screenOffsetTop, 'left':screenOffsetLeft}">
+                <!-- ko foreach: screens-->
+                <div class="display bordered" data-bind="click:unselectBlocks, style: {'width':width, 'height':height,'left':left, 'top':top, 'background': $parent.background}"></div>
+                <!-- /ko-->
+                <!-- ko foreach: blocks-->
+                @Html.Partial("Home/Blocks/_Block", new BlockRenderModel { AllowMetaBlock = true })
+                <!-- /ko-->
+            </div>
+        </div>
+    </div>
+</div>
+<div id="properties" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Свойства</h5>
+            </div>
+            <div class="modal-body" style="display:flex">
+                <div>
+                    <!-- ko if: backgroundPropertiesMode() -->
+                    @Html.Partial("Home/Properties/_ScreenProperties")
+                    <!-- /ko-->
+                    <!-- ko if: !backgroundPropertiesMode() && selectedBlock() != null && selectedBlock().type === 'text' -->
+                    <!-- ko with: textBlockEditViewModel()-->
+                    @Html.Partial("Home/Properties/_TextBlockProperties")
+                    <!-- /ko-->
+                    <!-- /ko-->
+                    <!-- ko if: !backgroundPropertiesMode() && selectedBlock() != null && selectedBlock().type === 'table' -->
+                    <!-- ko with: tableBlockEditViewModel()-->
+                    @Html.Partial("Home/Properties/_TableBlockProperties")
+                    <!-- /ko-->
+                    <!-- /ko-->
+                    <!-- ko if: !backgroundPropertiesMode() && selectedBlock() != null && selectedBlock().type == "picture"-->
+                    <!-- ko with: pictureBlockEditViewModel()-->
+                    @Html.Partial("Home/Properties/_PictureBlockProperties")
+                    <!-- /ko-->
+                    <!-- /ko-->
+                    <!-- ko if: !backgroundPropertiesMode() && selectedBlock() != null && selectedBlock().type == "datetime"-->
+                    <!-- ko with: datetimeBlockEditViewModel()-->
+                    @Html.Partial("Home/Properties/_DatetimeBlockProperties")
+                    <!-- /ko-->
+                    <!-- /ko-->
+                    <!-- ko if: !backgroundPropertiesMode() && selectedBlock() != null && selectedBlock().type == "meta"-->
+                    <!-- ko with: metaBlockEditViewModel()-->
+                    @Html.Partial("Home/Properties/_MetaBlockProperties")
+                    <!-- /ko-->
+                    <!-- /ko-->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bind="click:applyProperties">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="position" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Позиция</h5>
+            </div>
+            <div class="modal-body" style="display:flex">
+                <div>
+                    <!-- ko with: positionViewModel()-->
+                    <div class="input-group posModal mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="posTop">Отступ сверху</span>
+                        </div>
+                        <input type="number" class="form-control" id="posTopInput" min="0" data-bind="value: top" aria-describedby="posTop">
+                    </div>
+                    <div class="input-group posModal mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="posTop">Отступ слева</span>
+                        </div>
+                        <input type="number" class="form-control" id="posTopInput" min="0" data-bind="value: left" aria-describedby="posTop">
+                    </div>
+                    <div class="input-group posModal mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="posTop">Высота</span>
+                        </div>
+                        <input type="number" class="form-control" id="posTopInput" min="0" data-bind="value: height" aria-describedby="posTop">
+                    </div>
+                    <div class="input-group posModal mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="posTop">Ширина</span>
+                        </div>
+                        <input type="number" class="form-control" id="posTopInput" min="0" data-bind="value: width" aria-describedby="posTop">
+                    </div>
+                    <div class="input-group posModal mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="posTop">Слой</span>
+                        </div>
+                        <input type="number" class="form-control" id="posTopInput" min="0" data-bind="value: zIndex" aria-describedby="posTop">
+                    </div>
+                    <!-- /ko-->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bind="click:applyPosition">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="changePassword" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Смена пароля</h5>
+            </div>
+            <div class="modal-body" style="display:block">
+                <!-- ko with: changePasswordViewModel() -->
+                <div class="form-row">
+                    <label for="newLogin">Новый логин</label>
+                    <input type="text"
+                           id="newLogin"
+                           aria-describedby="newLoginFeedback"
+                           placeholder="Оставьте пустым, если не требуется изменять логин"
+                           data-bind="value: newLogin, class: newLoginError().length>0?'form-control is-invalid':'form-control'">
+                    <div id="newLoginFeedback" class="invalid-feedback" data-bind="visible: newLoginError().length>0, text: newLoginError"></div>
+                </div>
+                <div class="form-row">
+                    <label for="password">Старый пароль</label>
+                    <input type="password"
+                           id="password"
+                           aria-describedby="passwordFeedback"
+                           data-bind="value: password, class: passwordError().length>0?'form-control is-invalid':'form-control'">
+                    <div id="passwordFeedback" class="invalid-feedback" data-bind="visible: passwordError().length>0, text: passwordError"></div>
+                </div>
+                <div class="form-row">
+                    <label for="newPassword">Новый пароль</label>
+                    <input type="password"
+                           id="newPassword"
+                           aria-describedby="newPasswordFeedback"
+                           data-bind="value: newPassword, class: newPasswordError().length>0?'form-control is-invalid':'form-control'">
+                    <div id="newPasswordFeedback" class="invalid-feedback" data-bind="visible: newPasswordError().length>0, text: newPasswordError"></div>
+                </div>
+                <div class="form-row">
+                    <label for="newPasswordConfirm">Новый пароль ещё раз</label>
+                    <input type="password"
+                           id="newPasswordConfirm"
+                           aria-describedby="newPasswordConfirmFeedback"
+                           data-bind="value: newPasswordConfirm, class: newPasswordConfirmError().length>0?'form-control is-invalid':'form-control'">
+                    <div id="newPasswordConfirmFeedback" class="invalid-feedback" data-bind="visible: newPasswordConfirmError().length>0, text: newPasswordConfirmError"></div>
+                </div>
+                <!-- /ko -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bind="click: applyNewPassword">OK</button>
+                <button class="btn btn-danger" data-bind="click: cancelNewPassword">Отмена</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ko-->
+@Html.Raw(Bundles.GetJsKey("datetimeBlockEdit-js-key"))
+@Html.Raw(Bundles.GetJsKey("pictureBlockEdit-js-key"))
+@Html.Raw(Bundles.GetJsKey("tableBlockEdit-js-key"))
+@Html.Raw(Bundles.GetJsKey("textBlockEdit-js-key"))
+@Html.Raw(Bundles.GetJsKey("metaBlockEdit-js-key"))
+@Html.Raw(Bundles.GetJsKey("position-js-key"))
+@Html.Raw(Bundles.GetJsKey("changePassword-js-key"))
+@Html.Raw(Bundles.GetJsKey("master-js-key"))
