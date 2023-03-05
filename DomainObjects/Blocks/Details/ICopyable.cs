@@ -1,7 +1,6 @@
-﻿namespace DomainObjects.Blocks.Details
+﻿namespace DomainObjects.Blocks.Details;
+
+public interface ICopyable<in T>
 {
-    public interface ICopyable<T>
-    {
-        void CopyFrom(T source);
-    }
+    void CopyFrom(T source);
 }

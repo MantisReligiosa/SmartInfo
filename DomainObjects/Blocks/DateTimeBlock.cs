@@ -1,36 +1,24 @@
 ﻿using DomainObjects.Blocks.Details;
 
-namespace DomainObjects.Blocks
+namespace DomainObjects.Blocks;
+
+public class DateTimeBlock : DisplayBlock
 {
-    public class DateTimeBlock : DisplayBlock
+    public DateTimeBlock() { }
+
+    public DateTimeBlock(DisplayBlock source)
+        : base(source) { }
+
+    public DateTimeBlockDetails Details { get; set; }
+
+    internal override void CopyDetails(DisplayBlock source)
     {
-        public DateTimeBlock()
-            : base()
-        {
+        var sourceDetails = ((DateTimeBlock)source).Details;
+        Details.CopyFrom(sourceDetails);
+    }
 
-        }
-
-        public DateTimeBlock(DateTimeBlock source)
-            : base(source)
-        {
-
-        }
-
-        public DateTimeBlockDetails Details { get; set; }
-
-        internal override void CopyDetails(DisplayBlock source)
-        {
-            var sourceDetails = ((DateTimeBlock)source).Details;
-            if (Details == null)
-            {
-                Details = new DateTimeBlockDetails();
-            }
-            Details.CopyFrom(sourceDetails);
-        }
-
-        internal override DisplayBlock Clone()
-        {
-            return new DateTimeBlock(this);
-        }
+    internal override DisplayBlock Clone()
+    {
+        return new DateTimeBlock(this);
     }
 }

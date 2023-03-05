@@ -1,36 +1,24 @@
 ﻿using DomainObjects.Blocks.Details;
 
-namespace DomainObjects.Blocks
+namespace DomainObjects.Blocks;
+
+public class Scenario : DisplayBlock
 {
-    public class Scenario : DisplayBlock
+    public Scenario() { }
+
+    public Scenario(DisplayBlock source)
+        : base(source) { }
+
+    public ScenarioDetails Details { get; set; }
+
+    internal override void CopyDetails(DisplayBlock source)
     {
-        public Scenario()
-            : base()
-        {
+        var sourceDetails = ((Scenario)source).Details;
+        Details.CopyFrom(sourceDetails);
+    }
 
-        }
-
-        public Scenario(Scenario source)
-            : base(source)
-        {
-
-        }
-
-        public ScenarioDetails Details { get; set; }
-
-        internal override void CopyDetails(DisplayBlock source)
-        {
-            var sourceDetails = ((Scenario)source).Details;
-            if (Details == null)
-            {
-                Details = new ScenarioDetails();
-            }
-            Details.CopyFrom(sourceDetails);
-        }
-
-        internal override DisplayBlock Clone()
-        {
-            return new Scenario(this);
-        }
+    internal override DisplayBlock Clone()
+    {
+        return new Scenario(this);
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace DomainObjects
+﻿namespace DomainObjects;
+
+public class Parameter : Identity
 {
-    public class Parameter : Identity
-    {
-        public string Value { get; set; }
-    }
+    public string Value { get; set; }
 }

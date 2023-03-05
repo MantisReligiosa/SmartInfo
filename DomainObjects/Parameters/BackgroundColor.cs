@@ -1,6 +1,4 @@
-﻿namespace DomainObjects.Parameters
+﻿namespace DomainObjects.Parameters;
+public class BackgroundColor : Parameter
 {
-    public class BackgroundColor : Parameter
-    {
-    }
 }

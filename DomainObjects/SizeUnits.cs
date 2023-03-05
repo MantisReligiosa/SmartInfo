@@ -1,8 +1,7 @@
-﻿namespace DomainObjects
+﻿namespace DomainObjects;
+
+public enum SizeUnits
 {
-    public enum SizeUnits
-    {
-        Auto = 0,
-        Pecent = 1
-    }
+    Auto = 0,
+    Pecent = 1
 }

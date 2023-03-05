@@ -1,6 +1,5 @@
-﻿namespace DomainObjects.Parameters
+﻿namespace DomainObjects.Parameters;
+
+public class ScreenWidth : Parameter
 {
-    public class ScreenWidth : Parameter
-    {
-    }
 }

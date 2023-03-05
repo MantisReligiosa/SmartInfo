@@ -1,8 +1,7 @@
-﻿namespace DomainObjects
+﻿namespace DomainObjects;
+
+public class SizeUnit
 {
-    public class SizeUnit
-    {
-        public SizeUnits SizeUnits { get; set; }
-        public string Name { get; set; }
-    }
+    public SizeUnits SizeUnits { get; set; }
+    public string Name { get; set; }
 }

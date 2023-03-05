@@ -1,12 +1,11 @@
-﻿namespace DomainObjects
-{
-    public class Identity
-    {
-        public int Id { get; set; }
+﻿namespace DomainObjects;
 
-        public Identity()
-        {
-            Id = 0;
-        }
+public class Identity
+{
+    public Guid Id { get; set; }
+
+    public Identity()
+    {
+        Id = Guid.NewGuid();
     }
 }

@@ -1,36 +1,24 @@
 ﻿using DomainObjects.Blocks.Details;
 
-namespace DomainObjects.Blocks
+namespace DomainObjects.Blocks;
+
+public class TableBlock : DisplayBlock
 {
-    public class TableBlock : DisplayBlock
+    public TableBlock() { }
+
+    public TableBlock(TableBlock source)
+        :base(source) { }
+
+    public TableBlockDetails Details { get; set; }
+
+    internal override void CopyDetails(DisplayBlock source)
     {
-        public TableBlock()
-            : base()
-        {
+        var sourceDetails = ((TableBlock)source).Details;
+        Details.CopyFrom(sourceDetails);
+    }
 
-        }
-
-        public TableBlock(TableBlock source)
-            :base(source)
-        {
-
-        }
-
-        public TableBlockDetails Details { get; set; }
-
-        internal override void CopyDetails(DisplayBlock source)
-        {
-            var sourceDetails = ((TableBlock)source).Details;
-            if (Details == null)
-            {
-                Details = new TableBlockDetails();
-            }
-            Details.CopyFrom(sourceDetails);
-        }
-
-        internal override DisplayBlock Clone()
-        {
-            return new TableBlock(this);
-        }
+    internal override DisplayBlock Clone()
+    {
+        return new TableBlock(this);
     }
 }
