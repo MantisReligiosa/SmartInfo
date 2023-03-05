@@ -4,7 +4,7 @@ namespace SmartInfo.ServiceInterfaces.IRepositories;
 
 public interface IDisplayBlockRepository : IRepository<DisplayBlock>
 {
-    IEnumerable<DisplayBlock> GetBlocksInScene(int? sceneId);
+    IEnumerable<DisplayBlock> GetBlocksInScene(Guid sceneId);
     IEnumerable<DisplayBlock> GetAllNonScenaried();
     void DeleteAll();
 }

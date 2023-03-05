@@ -9,6 +9,10 @@ public class ScenarioDetails : Identity, ICopyable<ScenarioDetails>
         CopyFrom(source);
     }
 
+    public ScenarioDetails()
+    {
+    }
+
     public void CopyFrom(ScenarioDetails source) =>
         Scenes = source.Scenes.Select(_ => new Scene(_)).ToList();
 }

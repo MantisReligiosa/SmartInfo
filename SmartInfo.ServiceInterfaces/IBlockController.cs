@@ -6,10 +6,10 @@ public interface IBlockController
 {
     void SetBackground(string color);
     string GetBackground();
-    TextBlock AddTextBlock(int? sceneId);
-    TableBlock AddTableBlock(int? sceneId);
-    PictureBlock AddPictureBlock(int? sceneId);
-    DateTimeBlock AddDateTimeBlock(int? sceneId);
+    TextBlock AddTextBlock(Guid sceneId);
+    TableBlock AddTableBlock(Guid sceneId);
+    PictureBlock AddPictureBlock(Guid sceneId);
+    DateTimeBlock AddDateTimeBlock(Guid sceneId);
     Scenario AddScenario();
     TextBlock CopyTextBlock(TextBlock block);
     TableBlock CopyTableBlock(TableBlock block);
@@ -21,8 +21,8 @@ public interface IBlockController
     TableBlock SaveTableBlock(TableBlock block);
     PictureBlock SavePictureBlock(PictureBlock block);
     DateTimeBlock SaveDateTimeBlock(DateTimeBlock block);
-    Scenario SaveScenario(Scenario b);
-    void DeleteBlock(int id);
+    Scenario SaveScenario(Scenario scenario);
+    void DeleteBlock(Guid id);
     void Cleanup();
-    void MoveAndResizeBlock(int id, int height, int width, int left, int top);
+    void MoveAndResizeBlock(Guid id, int height, int width, int left, int top);
 }

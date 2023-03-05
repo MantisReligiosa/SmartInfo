@@ -58,6 +58,10 @@ public class Scene : Identity, ICopyable<Scene>
         CopyFrom(source);
     }
 
+    public Scene()
+    {
+    }
+
     public void CopyFrom(Scene source)
     {
         Index = source.Index;
