@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInfo.ServiceInterfaces
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInfo.Services", "SmartInfo.Services\SmartInfo.Services.csproj", "{DC69A2E5-FFBC-4992-B8A3-1EC0BC8D4271}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInfo.Web", "SmartInfo.Web\SmartInfo.Web.csproj", "{388D7256-6D67-45E7-BD55-E1CE6336F658}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{DC69A2E5-FFBC-4992-B8A3-1EC0BC8D4271}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC69A2E5-FFBC-4992-B8A3-1EC0BC8D4271}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC69A2E5-FFBC-4992-B8A3-1EC0BC8D4271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{388D7256-6D67-45E7-BD55-E1CE6336F658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{388D7256-6D67-45E7-BD55-E1CE6336F658}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{388D7256-6D67-45E7-BD55-E1CE6336F658}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{388D7256-6D67-45E7-BD55-E1CE6336F658}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
