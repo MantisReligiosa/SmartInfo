@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInfo.Services", "Smart
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInfo.Web", "SmartInfo.Web\SmartInfo.Web.csproj", "{388D7256-6D67-45E7-BD55-E1CE6336F658}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInfo.Resources", "SmartInfo.Resources\SmartInfo.Resources.csproj", "{91694C6C-DB7A-479E-9519-8B084FEC18E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{388D7256-6D67-45E7-BD55-E1CE6336F658}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{388D7256-6D67-45E7-BD55-E1CE6336F658}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{388D7256-6D67-45E7-BD55-E1CE6336F658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91694C6C-DB7A-479E-9519-8B084FEC18E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91694C6C-DB7A-479E-9519-8B084FEC18E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91694C6C-DB7A-479E-9519-8B084FEC18E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91694C6C-DB7A-479E-9519-8B084FEC18E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

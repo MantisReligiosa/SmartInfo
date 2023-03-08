@@ -42,6 +42,10 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SmartInfo.Resources\SmartInfo.Resources.csproj" />
+    </ItemGroup>
     
 
 </Project>
