@@ -1,3 +1,5 @@
+using SmartInfo.Web.Pipelines;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,9 +19,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
+app.UseHttpsRedirection()
+    .UseSmartInfoStaticFiles(builder.Environment.ContentRootPath)
+    .UseAuthorization();
 
 app.MapControllers();
 

@@ -1,5 +1,6 @@
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Serialization
+@using SmartInfo.Web.Extensions
 @model SmartInfo.Web.ViewModels.HomeModel
 
 @{
@@ -10,11 +11,19 @@
 
 <html>
 <head>
-    <title>title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="/dist/favicon.ico">
+    <title>vue-app</title>
+    @Url.ScriptVersioned("/dist/js/chunk-vendors.js", new {defer = "defer"})
+    @Url.ScriptVersioned("/dist/js/app.js", new {defer = "defer"})
+    <link href="/dist/css/app.css" rel="stylesheet">
+
 </head>
 <body>
-<div>
-      
+<div id="app">
+
 </div>
 
 
@@ -28,7 +37,6 @@
     if (Model is not null)
     {
         <script>
-            @*window.user = @Json.Serialize(Model.User, camelCase);*@
             window.user = {name: '@Model.User'};
 	    </script>
     }

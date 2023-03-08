@@ -8,7 +8,7 @@ namespace SmartInfo.Web.Controllers;
 public class Home : Controller
 {
     // GET
-    public async Task<IActionResult> Index(CancellationToken cancellationToken)
+    public IActionResult Index()
     {
         var model = new HomeModel{
             User="USR"
