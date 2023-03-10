@@ -1,15 +1,17 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <PreLoader />
+  <MainPanel />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MainPanel from './components/MainPanel.vue'
+import PreLoader from "@/components/PreLoader.vue";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MainPanel,
+    PreLoader
   }
 }
 </script>
