@@ -1,23 +1,20 @@
 <template>
-  <PreLoader />
-  <MainPanel />
+  <img alt="Vue logo" src="./assets/logo.png">
+  <HelloWorld msg="Welcome to Your Vue.js App"/>
 </template>
 
 <script>
-import MainPanel from './components/MainPanel.vue'
-import PreLoader from "@/components/PreLoader.vue";
+import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    MainPanel,
-    PreLoader
+    HelloWorld
   }
 }
 </script>
 
-<style lang="scss">
-@import "~@/assets/scss/vendors/bootstrap-vue/index";
+<style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
