@@ -6,6 +6,14 @@
 </template>
 
 <script>
+ import {VTabs, VTab} from 'vuetify/components/VTabs'
+
+ export default {
+   components: {
+     VTabs,
+     VTab
+   }
+ }
 </script>
 
 <style scoped>
