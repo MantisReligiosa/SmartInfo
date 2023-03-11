@@ -1,14 +1,11 @@
 <template>
-  <div class="mainPanel">
-     <ul>
-     </ul>
-  </div>
+  <v-tabs bg-color="primary">
+    <v-tab>One</v-tab>
+    <v-tab>Two</v-tab>
+  </v-tabs>
 </template>
 
 <script>
-export default {
-  name: "PreLoader"
-}
 </script>
 
 <style scoped>
