@@ -33,12 +33,7 @@
       <Content Include="vue-app\dist\favicon.ico">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <None Remove="Content\favicon-48x48.png" />
-      <Content Include="Content\favicon\favicon-48x48.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <None Remove="Content\favicon\favicon-96x96.png" />
-      <Content Include="Content\favicon\favicon-96x96.png">
+      <Content Include="Content\**\*">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
