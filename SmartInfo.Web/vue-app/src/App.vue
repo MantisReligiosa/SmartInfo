@@ -2,8 +2,6 @@
   <v-card>
     <v-layout>
       <MainPanel></MainPanel>
-      
-
       <v-navigation-drawer color="surface">
         <v-list>
           <v-list-item title="Drawer left"></v-list-item>
