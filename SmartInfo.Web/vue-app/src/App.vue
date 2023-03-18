@@ -32,6 +32,9 @@ export default {
   name: 'App',
   components: {
     MainPanel
+  },
+  created() {
+    this.$store.commit('increment')
   }
 }
 </script>
