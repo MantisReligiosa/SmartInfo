@@ -2,18 +2,24 @@
   <v-card>
     <v-layout>
       <MainPanel></MainPanel>
-      <v-navigation-drawer color="surface">
+      <v-navigation-drawer 
+          color="surface"
+      >
         <v-list>
-          <v-list-item title="Drawer left"></v-list-item>
+          <v-list-item 
+              title="Drawer left"
+          ></v-list-item>
         </v-list>
       </v-navigation-drawer>
-
-      <v-navigation-drawer color="surface" location="right">
+      <v-navigation-drawer 
+          color="surface" 
+          location="right">
         <v-list>
-          <v-list-item title="Drawer right"></v-list-item>
+          <v-list-item 
+              title="Drawer right"
+          ></v-list-item>
         </v-list>
       </v-navigation-drawer>
-
       <v-main></v-main>
     </v-layout>
   </v-card>
