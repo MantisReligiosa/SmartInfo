@@ -34,7 +34,7 @@ export default {
     MainPanel
   },
   created() {
-    this.$store.commit('increment')
+    this.$store.dispatch('load')
   }
 }
 </script>

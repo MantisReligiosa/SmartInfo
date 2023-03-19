@@ -162,17 +162,22 @@ export default {
         },
       },
     ],
-    devices: [
-      {
-        title: 'Устройство 1',
-        value: 1,
-      },
-      {
-        title: 'Устройство 2',
-        value: 3,
-      },
-    ]
+    // devices: [
+    //   {
+    //     title: 'Устройство 1',
+    //     value: 1,
+    //   },
+    //   {
+    //     title: 'Устройство 2',
+    //     value: 3,
+    //   },
+    // ]
   }),
+  computed:{
+    devices() {
+      return this.$store.getters.devicesList
+    }
+  }
 }
 </script>
 
