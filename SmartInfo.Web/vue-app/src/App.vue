@@ -28,13 +28,15 @@
 <script>
 
 import MainPanel from './components/MainPanel.vue'
+import { mainStore } from './store/main'
 export default {
   name: 'App',
   components: {
     MainPanel
   },
   created() {
-    this.$store.dispatch('load')
+    const store = mainStore()
+    store.load()
   }
 }
 </script>

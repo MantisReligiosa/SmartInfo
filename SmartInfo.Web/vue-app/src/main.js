@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import store from './store'
+import { createPinia } from 'pinia'
 
 // Vuetify
 import 'vuetify/styles'
@@ -13,6 +13,8 @@ import * as directives from 'vuetify/directives'
 //Axios
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+
+const pinia = createPinia()
 
 const vuetify = createVuetify({
     components,
@@ -30,6 +32,6 @@ const vuetify = createVuetify({
 
 createApp(App)
     .use(vuetify)
-    .use(store)
+    .use(pinia)
     .use(VueAxios, axios)
     .mount('#app')
