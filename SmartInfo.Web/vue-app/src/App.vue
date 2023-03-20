@@ -28,7 +28,7 @@
 <script>
 
 import MainPanel from './components/MainPanel.vue'
-import { mainStore } from './store/main'
+import { mainStore } from './store/mainStore'
 export default {
   name: 'App',
   components: {

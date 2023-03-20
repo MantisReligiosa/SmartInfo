@@ -60,14 +60,19 @@
             size="x-large"
             v-bind="props"
         >
-          Устройство1
+          {{ selectedDevice.name }}
           <v-icon
               icon="mdi-chevron-down"
           ></v-icon>
         </v-btn>
       </template>
       <v-list>
-        <v-list :items="devices"></v-list>
+        <v-list-item 
+            v-for="(device, index) in devices" 
+            @click="selectDeviceById(device.id)" 
+            :title="device.name" 
+            :key="index"
+        ></v-list-item>
       </v-list>
     </v-menu>
     <v-spacer></v-spacer>
@@ -111,7 +116,7 @@
 </template>
 
 <script>
-import { mainStore } from './../store/main'
+import { mainStore } from '@/store/mainStore'
 
 export default {
   data: () => ({
@@ -165,9 +170,17 @@ export default {
       },
     ],
   }),
-  computed:{
+  methods: {
+    selectDeviceById(deviceId) {
+      mainStore().selectDeviceById(deviceId)
+    }
+  },
+  computed: {
     devices() {
-      return mainStore().devicesList
+      return mainStore().devices
+    },
+    selectedDevice() {
+      return mainStore().device
     }
   }
 }
