@@ -28,7 +28,8 @@
       <v-tooltip
           activator="parent"
           location="bottom"
-      >{{ tooltipSelect }}</v-tooltip>
+      >{{ tooltipSelect }}
+      </v-tooltip>
     </v-btn>
     <v-menu>
       <template v-slot:activator="{ props }">
@@ -46,7 +47,8 @@
           <v-tooltip
               activator="parent"
               location="bottom"
-          >{{ tooltipBlocks }}</v-tooltip>
+          >{{ tooltipBlocks }}
+          </v-tooltip>
         </v-btn>
       </template>
       <v-list>
@@ -67,10 +69,10 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item 
-            v-for="(device, index) in devices" 
-            @click="selectDeviceById(device.id)" 
-            :title="device.name" 
+        <v-list-item
+            v-for="(device, index) in devices"
+            @click="selectDeviceById(device.id)"
+            :title="device.name"
             :key="index"
         ></v-list-item>
       </v-list>
@@ -86,7 +88,8 @@
       <v-tooltip
           activator="parent"
           location="bottom"
-      >{{ tooltipPlay }}</v-tooltip>
+      >{{ tooltipPlay }}
+      </v-tooltip>
     </v-btn>
     <v-btn
         variant="plain"
@@ -98,7 +101,8 @@
       <v-tooltip
           activator="parent"
           location="bottom"
-      >{{ tooltipStop }}</v-tooltip>
+      >{{ tooltipStop }}
+      </v-tooltip>
     </v-btn>
     <v-btn
         variant="plain"
@@ -110,13 +114,16 @@
       <v-tooltip
           activator="parent"
           location="bottom"
-      >{{ tooltipRefresh }}</v-tooltip>
+      >{{ tooltipRefresh }}
+      </v-tooltip>
     </v-btn>
   </v-app-bar>
 </template>
 
 <script>
-import { mainStore } from '@/store/mainStore'
+import {blockType, blockIcon} from '@/constants'
+import {mainStore} from '@/store/mainStore'
+import {deviceStore} from '@/store/deviceStore'
 
 export default {
   data: () => ({
@@ -142,37 +149,45 @@ export default {
     blocksMenu: [
       {
         title: 'Текст',
-        value: 1,
+        value: blockType.text,
         props: {
-          prependIcon: 'mdi-format-text',
+          prependIcon: blockIcon.text,
         },
       },
       {
         title: 'Таблица',
-        value: 2,
+        value: blockType.table,
         props: {
-          prependIcon: 'mdi-table',
+          prependIcon: blockIcon.table,
         },
       },
       {
         title: 'Изображение',
-        value: 3,
+        value: blockType.picture,
         props: {
-          prependIcon: 'mdi-image',
+          prependIcon: blockIcon.picture,
+        },
+      },
+      {
+        title: 'ДатаВремя',
+        value: blockType.dateTime,
+        props: {
+          prependIcon: blockIcon.dateTime,
         },
       },
       {
         title: 'Сценарий',
-        value: 4,
+        value: blockType.scenario,
         props: {
-          prependIcon: 'mdi-movie-open-outline',
+          prependIcon: blockIcon.scenario,
         },
       },
     ],
   }),
   methods: {
-    selectDeviceById(deviceId) {
+    async selectDeviceById(deviceId) {
       mainStore().selectDeviceById(deviceId)
+      await deviceStore().loadById(deviceId)
     }
   },
   computed: {

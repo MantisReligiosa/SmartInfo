@@ -5,11 +5,7 @@
       <v-navigation-drawer 
           color="surface"
       >
-        <v-list>
-          <v-list-item 
-              title="Здесь будет дерево блоков"
-          ></v-list-item>
-        </v-list>
+        <BlocksList></BlocksList>
       </v-navigation-drawer>
       <v-navigation-drawer 
           color="surface" 
@@ -30,16 +26,18 @@
 
 import MainPanel from './components/MainPanel.vue'
 import ZoomPanel from './components/ZoomPanel.vue'
+import BlocksList from './components/BlocksList.vue'
 import { mainStore } from './store/mainStore'
 export default {
   name: 'App',
   components: {
     MainPanel,
-    ZoomPanel
+    ZoomPanel,
+    BlocksList
   },
-  created() {
+  async created() {
     const store = mainStore()
-    store.load()
+    await store.load()
   }
 }
 </script>

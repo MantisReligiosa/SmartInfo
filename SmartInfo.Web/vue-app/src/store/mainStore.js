@@ -19,7 +19,7 @@ export const mainStore = defineStore('main  ', {
             this.devices = [
                 {
                     'name': 'Device 1',
-                    'id': 0
+                    'id': 0,
                 },
                 {
                     'name': 'Device 2',
