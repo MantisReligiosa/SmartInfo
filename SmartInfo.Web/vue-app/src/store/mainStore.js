@@ -1,15 +1,21 @@
 import {defineStore} from 'pinia'
+// import axios from "axios";
 
+const scales = [.01, .02, .03, .04, .05, .06, .07, .08, .09, .1, .15, .20, .33, .50, .75, 1, 1.25, 1.5, 2, 2.5, 3, 4]
 
+const currentScaleIndex = function (scale) {
+    return scales.indexOf(scale)
+}
 export const mainStore = defineStore('main  ', {
     state: () => {
         return {
             devices: [],
-            device: null
+            device: null,
+            scale: 1,
         }
     },
     actions: {
-        load() {
+        async load() {
             this.devices = [
                 {
                     'name': 'Device 1',
@@ -23,8 +29,24 @@ export const mainStore = defineStore('main  ', {
             this.device = this.devices[0]
         },
         selectDeviceById(deviceId) {
-            const device = this.devices.filter(d => d.id == deviceId)[0]
-            this.device = device
+            this.device = this.devices.filter(d => d.id === deviceId)[0]
+        },
+        zoomOut() {
+            const currentIndex = currentScaleIndex(this.scale)
+
+            if (currentIndex > 0) {
+                this.scale = scales[currentIndex - 1]
+            }
+        },
+        zoomIn() {
+            const currentIndex = currentScaleIndex(this.scale)
+
+            if (currentIndex < scales.length - 1) {
+                this.scale = scales[currentIndex + 1]
+            }
+        },
+        zoomDefault() {
+            this.scale = 1
         }
     },
 })

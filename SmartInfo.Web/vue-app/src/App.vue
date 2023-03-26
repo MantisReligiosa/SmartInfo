@@ -7,18 +7,19 @@
       >
         <v-list>
           <v-list-item 
-              title="Drawer left"
+              title="Здесь будет дерево блоков"
           ></v-list-item>
         </v-list>
       </v-navigation-drawer>
       <v-navigation-drawer 
           color="surface" 
           location="right">
-        <v-list>
-          <v-list-item 
-              title="Drawer right"
-          ></v-list-item>
-        </v-list>
+        <ZoomPanel></ZoomPanel>
+        <v-card class="h-auto">Свойста блока
+          <v-footer>
+          
+          </v-footer>
+        </v-card>
       </v-navigation-drawer>
       <v-main></v-main>
     </v-layout>
@@ -28,11 +29,13 @@
 <script>
 
 import MainPanel from './components/MainPanel.vue'
+import ZoomPanel from './components/ZoomPanel.vue'
 import { mainStore } from './store/mainStore'
 export default {
   name: 'App',
   components: {
-    MainPanel
+    MainPanel,
+    ZoomPanel
   },
   created() {
     const store = mainStore()
