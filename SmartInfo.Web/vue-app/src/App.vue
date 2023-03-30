@@ -28,6 +28,7 @@ import MainPanel from './components/MainPanel.vue'
 import ZoomPanel from './components/ZoomPanel.vue'
 import BlocksList from './components/BlocksList.vue'
 import { mainStore } from './store/mainStore'
+import { deviceStore } from './store/deviceStore'
 export default {
   name: 'App',
   components: {
@@ -36,8 +37,10 @@ export default {
     BlocksList
   },
   async created() {
-    const store = mainStore()
-    await store.load()
+    const mStore = mainStore()
+    await mStore.load()
+    await deviceStore().loadById(mStore.device.id)
+
   }
 }
 </script>

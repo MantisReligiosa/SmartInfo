@@ -1,25 +1,29 @@
 <template>
-  <v-item-group selected-class="bg-primary">
+  <v-item-group
+      selected-class="bg-grey-lighten-2"
+      mandatory>
     <v-container>
       <v-row
           v-for="b in blocks"
           :key="b"
       >
-        <v-item v-slot="{ selectedClass, toggle }">
-          <v-card
-              :class="['d-flex align-center mb-1 w-100', selectedClass]"
-              dark
-              @click="toggle"
+        <v-item
+            v-slot="{ selectedClass, toggle }"
+        >
+          <v-container
+              :class="['d-flex w-100 pt-1 pb-2', selectedClass]"
+              @click="selectBlock(b, toggle)"
           >
             <v-icon
+                class="mr-2"
                 :icon="b.icon"
             ></v-icon>
-            <div
-                class="text-body-1 flex-grow-1 text-left"
+            <v-label
+                class="text-body-2 flex-grow-1 text-left"
             >
               {{ b.caption }}
-            </div>
-          </v-card>
+            </v-label>
+          </v-container>
         </v-item>
       </v-row>
     </v-container>
@@ -51,9 +55,14 @@ export default {
             b.icon = blockIcon.table
             break
         }
-        console.log(b)
         return b
       })
+    }
+  },
+  methods: {
+    selectBlock(o, callback) {
+      deviceStore().selectBlockById(o.id)
+      callback()
     }
   }
 }
