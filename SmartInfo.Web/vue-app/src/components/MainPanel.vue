@@ -17,44 +17,70 @@
         <v-list :items="mainMenu"></v-list>
       </v-list>
     </v-menu>
-    <v-btn
-        size="x-large"
-    >
-      <v-icon
-          icon="mdi-navigation-variant-outline"
-          class="mdi-flip-h"
-          size="x-large"
-      ></v-icon>
-      <v-tooltip
-          activator="parent"
-          location="bottom"
-      >{{ tooltipSelect }}
-      </v-tooltip>
-    </v-btn>
-    <v-menu>
-      <template v-slot:activator="{ props }">
+    <v-item-group
+        selected-class="bg-blue"
+        mandatory>
+      <v-item
+          v-slot="{ selectedClass, toggle }">
         <v-btn
             size="x-large"
-            v-bind="props"
+            :class="[selectedClass, asDefault?'bg-blue':'']"
+            @click="switchToSelectionMode(toggle)"
         >
           <v-icon
-              icon="mdi-format-text"
+              icon="mdi-navigation-variant-outline"
+              class="mdi-flip-h"
               size="x-large"
-          ></v-icon>
-          <v-icon
-              icon="mdi-chevron-down"
           ></v-icon>
           <v-tooltip
               activator="parent"
               location="bottom"
-          >{{ tooltipBlocks }}
+          >{{ tooltipSelect }}
           </v-tooltip>
         </v-btn>
-      </template>
-      <v-list>
-        <v-list :items="blocksMenu"></v-list>
-      </v-list>
-    </v-menu>
+      </v-item>
+      <v-item
+          v-slot="{ selectedClass, toggle }">
+        <v-menu>
+          <template
+              v-slot:activator="{ props }">
+            <v-btn
+                size="x-large"
+                v-bind="props"
+                :class="selectedClass"
+            >
+              <v-icon
+                  :icon="blockMenuIcon"
+                  size="x-large"
+              ></v-icon>
+              <v-icon
+                  icon="mdi-chevron-down"
+              ></v-icon>
+              <v-tooltip
+                  activator="parent"
+                  location="bottom"
+              >{{ tooltipBlocks }}
+              </v-tooltip>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+                v-for="b in blocksMenu"
+                :key="b"
+                @click="switchToAddMode(b, toggle)"
+            >
+              <v-icon
+                  class="mr-2"
+                  :icon="b.props.prependIcon"
+              ></v-icon>
+              <v-label>
+                {{ b.title }}
+              </v-label>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-item>
+    </v-item-group>
     <v-spacer></v-spacer>
     <v-menu>
       <template v-slot:activator="{ props }">
@@ -146,6 +172,7 @@ export default {
         value: 3,
       },
     ],
+    blockMenuIcon: blockIcon.text,
     blocksMenu: [
       {
         title: 'Текст',
@@ -153,6 +180,7 @@ export default {
         props: {
           prependIcon: blockIcon.text,
         },
+
       },
       {
         title: 'Таблица',
@@ -183,11 +211,22 @@ export default {
         },
       },
     ],
+    asDefault: true
   }),
   methods: {
     async selectDeviceById(deviceId) {
       mainStore().selectDeviceById(deviceId)
       await deviceStore().loadById(deviceId)
+    },
+    switchToSelectionMode(toggle) {
+      this.asDefault=false
+      toggle()
+    },
+    switchToAddMode(item, toggle) {
+      this.blockMenuIcon = item.props.prependIcon
+      this.asDefault=false
+      console.log(item)
+      toggle()
     }
   },
   computed: {
