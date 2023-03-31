@@ -67,7 +67,7 @@
             <v-list-item
                 v-for="b in blocksMenu"
                 :key="b"
-                @click="switchToAddMode(b, toggle)"
+                @click="switchToDrawMode(b, toggle)"
             >
               <v-icon
                   class="mr-2"
@@ -219,13 +219,14 @@ export default {
       await deviceStore().loadById(deviceId)
     },
     switchToSelectionMode(toggle) {
-      this.asDefault=false
+      this.asDefault = false
+      mainStore().switchToSelectionMode()
       toggle()
     },
-    switchToAddMode(item, toggle) {
+    switchToDrawMode(item, toggle) {
       this.blockMenuIcon = item.props.prependIcon
-      this.asDefault=false
-      console.log(item)
+      this.asDefault = false
+      mainStore().switchToDrawMode(item.value)
       toggle()
     }
   },

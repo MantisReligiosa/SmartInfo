@@ -1,4 +1,5 @@
 import {defineStore} from 'pinia'
+import {blockType, mode} from '@/constants'
 // import axios from "axios";
 
 const scales = [.01, .02, .03, .04, .05, .06, .07, .08, .09, .1, .15, .20, .33, .50, .75, 1, 1.25, 1.5, 2, 2.5, 3, 4]
@@ -12,6 +13,7 @@ export const mainStore = defineStore('main  ', {
             devices: [],
             device: null,
             scale: 1,
+            editorState: {mode: mode.selection, blocktype: 0}
         }
     },
     actions: {
@@ -47,6 +49,16 @@ export const mainStore = defineStore('main  ', {
         },
         zoomDefault() {
             this.scale = 1
+        },
+        switchToSelectionMode() {
+            this.editorState.mode = mode.selection
+            this.editorState.blocktype = 0
+        },
+        switchToDrawMode(value) {
+            this.editorState.mode = mode.drawing
+            if (Object.values(blockType).includes(value)) {
+                this.editorState.blocktype = value
+            }
         }
     },
 })

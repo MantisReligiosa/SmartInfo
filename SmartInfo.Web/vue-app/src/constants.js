@@ -13,3 +13,8 @@ export const blockIcon = Object.freeze({
     table: 'mdi-table',
     scenario: 'mdi-movie-open-outline'
 })
+
+export const mode = Object.freeze({
+    selection: 1,
+    drawing: 2
+})
