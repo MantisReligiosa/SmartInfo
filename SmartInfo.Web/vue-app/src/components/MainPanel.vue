@@ -14,14 +14,18 @@
         ></v-app-bar-nav-icon>
       </template>
       <v-list>
-        <v-list :items="mainMenu"></v-list>
+        <v-list
+            :items="mainMenu"
+        ></v-list>
       </v-list>
     </v-menu>
     <v-item-group
         selected-class="bg-blue"
-        mandatory>
+        mandatory
+    >
       <v-item
-          v-slot="{ selectedClass, toggle }">
+          v-slot="{ selectedClass, toggle }"
+      >
         <v-btn
             size="x-large"
             :class="[selectedClass, asDefault?'bg-blue':'']"
@@ -40,10 +44,14 @@
         </v-btn>
       </v-item>
       <v-item
-          v-slot="{ selectedClass, toggle }">
-        <v-menu>
+          v-slot="{ selectedClass, toggle }"
+      >
+        <v-menu
+            open-on-hover
+        >
           <template
-              v-slot:activator="{ props }">
+              v-slot:activator="{ props }"
+          >
             <v-btn
                 size="x-large"
                 v-bind="props"
@@ -82,8 +90,12 @@
       </v-item>
     </v-item-group>
     <v-spacer></v-spacer>
-    <v-menu>
-      <template v-slot:activator="{ props }">
+    <v-menu
+        open-on-hover
+    >
+      <template
+          v-slot:activator="{ props }"
+      >
         <v-btn
             size="x-large"
             v-bind="props"

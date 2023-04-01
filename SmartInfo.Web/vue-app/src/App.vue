@@ -2,18 +2,19 @@
   <v-card>
     <v-layout>
       <MainPanel></MainPanel>
-      <v-navigation-drawer 
+      <v-navigation-drawer
           color="surface"
       >
         <BlocksList></BlocksList>
       </v-navigation-drawer>
-      <v-navigation-drawer 
-          color="surface" 
+      <v-navigation-drawer
+          color="surface"
           location="right">
         <ZoomPanel></ZoomPanel>
-        <v-card class="h-auto">Свойста блока
+        <v-card
+            class="h-auto"
+        >Свойста блока
           <v-footer>
-          
           </v-footer>
         </v-card>
       </v-navigation-drawer>
@@ -27,8 +28,9 @@
 import MainPanel from './components/MainPanel.vue'
 import ZoomPanel from './components/ZoomPanel.vue'
 import BlocksList from './components/BlocksList.vue'
-import { mainStore } from './store/mainStore'
-import { deviceStore } from './store/deviceStore'
+import {mainStore} from './store/mainStore'
+import {deviceStore} from './store/deviceStore'
+
 export default {
   name: 'App',
   components: {
