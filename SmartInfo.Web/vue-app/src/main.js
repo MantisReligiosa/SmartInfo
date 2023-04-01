@@ -28,8 +28,20 @@ const vuetify = createVuetify({
     },
 })
 
+//Disable ripple animation
+let overrideRipple = {
+    directives:{
+        ripple:{
+            inserted: ()=> {
+                console.log("Ripple overrided")
+            }
+        }
+    }
+}
+
 createApp(App)
     .use(vuetify)
+    .mixin(overrideRipple)  
     .use(pinia)
     .use(VueAxios, axios)
     .mount('#app')
