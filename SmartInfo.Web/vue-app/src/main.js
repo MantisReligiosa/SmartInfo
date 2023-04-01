@@ -1,20 +1,22 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
-import { createPinia } from 'pinia'
+import {createPinia} from 'pinia'
 
 // Vuetify
 import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
+import {createVuetify} from 'vuetify'
 import '@mdi/font/css/materialdesignicons.css'
-import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import {aliases, mdi} from 'vuetify/iconsets/mdi'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
 //Axios
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import {deviceStore} from "@/store/deviceStore";
 
 const pinia = createPinia()
+
 
 const vuetify = createVuetify({
     components,
@@ -26,22 +28,24 @@ const vuetify = createVuetify({
             mdi,
         }
     },
-})
-
-//Disable ripple animation
-let overrideRipple = {
-    directives:{
-        ripple:{
-            inserted: ()=> {
-                console.log("Ripple overrided")
-            }
-        }
+    defaults: {
+        global: {
+            ripple: false
+        },
     }
-}
+})
 
 createApp(App)
     .use(vuetify)
-    .mixin(overrideRipple)  
     .use(pinia)
     .use(VueAxios, axios)
     .mount('#app')
+
+let currentBlockId = null
+deviceStore().$subscribe((mutation, state) => {
+    if (state.block.id && state.block.id == currentBlockId) {
+        state.edited = true
+    } else if (state.block.id) {
+        currentBlockId = state.block.id
+    }
+})

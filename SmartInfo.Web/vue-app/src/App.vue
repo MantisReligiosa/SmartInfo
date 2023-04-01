@@ -11,12 +11,7 @@
           color="surface"
           location="right">
         <ZoomPanel></ZoomPanel>
-        <v-card
-            class="h-auto"
-        >Свойста блока
-          <v-footer>
-          </v-footer>
-        </v-card>
+        <BlockProperties></BlockProperties>
       </v-navigation-drawer>
       <v-main></v-main>
     </v-layout>
@@ -28,6 +23,7 @@
 import MainPanel from './components/MainPanel.vue'
 import ZoomPanel from './components/ZoomPanel.vue'
 import BlocksList from './components/BlocksList.vue'
+import BlockProperties from './components/BlockProperties.vue'
 import {mainStore} from './store/mainStore'
 import {deviceStore} from './store/deviceStore'
 
@@ -36,13 +32,13 @@ export default {
   components: {
     MainPanel,
     ZoomPanel,
-    BlocksList
+    BlocksList,
+    BlockProperties
   },
   async created() {
     const mStore = mainStore()
     await mStore.load()
     await deviceStore().loadById(mStore.device.id)
-
   }
 }
 </script>
