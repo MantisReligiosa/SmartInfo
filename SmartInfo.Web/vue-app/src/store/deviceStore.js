@@ -6,7 +6,8 @@ export const deviceStore = defineStore('device  ', {
     state: () => {
         return {
             device: {blocks: []},
-            block: {}
+            block: {},
+            resolution: {height: 2160, width: 3840}
         }
     },
     actions: {
