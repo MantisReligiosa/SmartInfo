@@ -33,7 +33,7 @@ export default {
     MainPanel,
     ZoomPanel,
     BlocksList,
-    BlockProperties
+    BlockProperties,
   },
   async created() {
     const mStore = mainStore()

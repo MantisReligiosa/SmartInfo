@@ -1,6 +1,9 @@
 import {createApp} from 'vue'
 import App from './App.vue'
+
+//Store
 import {createPinia} from 'pinia'
+import {watch} from './store/storeWatcher'
 
 // Vuetify
 import 'vuetify/styles'
@@ -13,7 +16,7 @@ import * as directives from 'vuetify/directives'
 //Axios
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import {deviceStore} from "@/store/deviceStore";
+
 
 const pinia = createPinia()
 
@@ -41,11 +44,4 @@ createApp(App)
     .use(VueAxios, axios)
     .mount('#app')
 
-let currentBlockId = null
-deviceStore().$subscribe((mutation, state) => {
-    if (state.block.id && state.block.id === currentBlockId) {
-        state.edited = true
-    } else if (state.block.id) {
-        currentBlockId = state.block.id
-    }
-})
+watch()

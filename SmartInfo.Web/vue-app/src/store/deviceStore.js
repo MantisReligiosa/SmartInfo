@@ -2,11 +2,12 @@ import {defineStore} from 'pinia'
 import {blockType} from '@/constants'
 // import axios from "axios";
 
+const defaultBlock = {type: 0}
 export const deviceStore = defineStore('device  ', {
     state: () => {
         return {
             device: {blocks: []},
-            block: {type: 0},
+            block: {defaultBlock},
             edited: false,
             resolution: {height: 2160, width: 3840}
         }
@@ -14,6 +15,7 @@ export const deviceStore = defineStore('device  ', {
     actions: {
         async loadById(deviceId) {
             this.edited=false
+            this.block=defaultBlock
             this.device = {
                 id: deviceId,
                 blocks: [

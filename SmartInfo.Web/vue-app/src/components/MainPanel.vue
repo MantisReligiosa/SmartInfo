@@ -116,9 +116,9 @@
       </v-list>
     </v-menu>
     <v-btn
-      icon="mdi-upload"
-      :disabled="!edit.hasChanges"
-      :variant="edit.variant"
+        icon="mdi-upload"
+        :disabled="!edit.hasChanges"
+        :variant="edit.variant"
     ></v-btn>
     <v-spacer></v-spacer>
     <v-btn
@@ -232,8 +232,8 @@ export default {
   }),
   methods: {
     async selectDeviceById(deviceId) {
-      mainStore().selectDeviceById(deviceId)
-      await deviceStore().loadById(deviceId)
+          mainStore().selectDeviceById(deviceId)
+          await deviceStore().loadById(deviceId)
     },
     switchToSelectionMode(toggle) {
       this.asDefault = false
@@ -255,7 +255,7 @@ export default {
       return mainStore().device
     },
     edit() {
-      return {hasChanges:deviceStore().edited, variant:deviceStore().edited?'tonal':'plain'}
+      return {hasChanges: deviceStore().edited, variant: deviceStore().edited ? 'tonal' : 'plain'}
     }
   }
 }
