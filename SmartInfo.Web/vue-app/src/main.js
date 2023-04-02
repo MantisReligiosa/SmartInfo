@@ -43,7 +43,7 @@ createApp(App)
 
 let currentBlockId = null
 deviceStore().$subscribe((mutation, state) => {
-    if (state.block.id && state.block.id == currentBlockId) {
+    if (state.block.id && state.block.id === currentBlockId) {
         state.edited = true
     } else if (state.block.id) {
         currentBlockId = state.block.id

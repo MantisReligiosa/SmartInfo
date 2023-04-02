@@ -115,6 +115,11 @@
         ></v-list-item>
       </v-list>
     </v-menu>
+    <v-btn
+      icon="mdi-upload"
+      :disabled="!edit.hasChanges"
+      :variant="edit.variant"
+    ></v-btn>
     <v-spacer></v-spacer>
     <v-btn
         variant="plain"
@@ -248,6 +253,9 @@ export default {
     },
     selectedDevice() {
       return mainStore().device
+    },
+    edit() {
+      return {hasChanges:deviceStore().edited, variant:deviceStore().edited?'tonal':'plain'}
     }
   }
 }
