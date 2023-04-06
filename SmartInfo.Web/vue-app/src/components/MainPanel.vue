@@ -232,6 +232,12 @@ export default {
   }),
   methods: {
     async selectDeviceById(deviceId) {
+      if (this.edit){
+        let ok = await confirm('Изменения не сохранены. Продолжить?');
+        if (!ok){
+          return;
+        }
+      }
           mainStore().selectDeviceById(deviceId)
           await deviceStore().loadById(deviceId)
     },
