@@ -13,11 +13,27 @@ export const mainStore = defineStore('main  ', {
             devices: [],
             device: null,
             scale: 1,
-            editorState: {mode: mode.selection, blocktype: 0}
+            editorState: {mode: mode.selection, blocktype: 0},
+            fontSizes: [],
+            fontNames: []
         }
     },
     actions: {
         async load() {
+            this.fontSizes = [10, 12, 14, 16, 20, 24, 34, 48, 60, 96]
+            this.fontNames = [
+                {id: 1, name: 'Roboto'}, 
+                {id: 2, name: 'Open Sans'}, 
+                {id: 3, name: 'Noto Sans JP'},
+                {id: 4, name: 'Monsterrat'}, 
+                {id: 5, name: 'Lato'}, 
+                {id: 6, name: 'Poppins'},
+                {id: 7, name: 'Roboto Condensed'}, 
+                {id: 8, name: 'Source Sans Pro'},
+                {id: 9, name: 'Inter'}, 
+                {id: 10, name: 'Roboto Mono'}, 
+                {id: 11, name: 'Oswald'}, 
+                {id: 12,name: 'Noto Sans'}]
             this.devices = [
                 {
                     'name': 'Device 1',

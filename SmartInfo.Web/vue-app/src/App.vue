@@ -9,7 +9,8 @@
       </v-navigation-drawer>
       <v-navigation-drawer
           color="surface"
-          location="right">
+          location="right"
+          class="flex-wrap-reverse">
         <ZoomPanel></ZoomPanel>
         <BlockProperties></BlockProperties>
       </v-navigation-drawer>
