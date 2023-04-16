@@ -55,17 +55,13 @@
     </v-container>
 </template>
 
-<script>
+<script setup>
 import {deviceStore} from "@/store/deviceStore";
+import {computed} from "vue";
 
-export default {
-    name: "CoordinatesProperties",
-    computed: {
-        block() {
-            return deviceStore().block
-        },
-    }
-}
+const store = deviceStore()
+const block = computed(() => store.block)
+
 </script>
 
 <style scoped>

@@ -19,14 +19,20 @@
         >
             <FontProperties></FontProperties>
         </v-card>
+        <v-card
+                v-if="isTextBlock"
+        >
+            <TextBlockProperties></TextBlockProperties>
+        </v-card>
     </v-container>
 </template>
 
 <script>
 import {deviceStore} from '@/store/deviceStore'
-import {blockType} from "@/constants";
-import GeometryProperties from "@/components/Properties/Common/GeometryProperties.vue";
-import FontProperties from "@/components/Properties/Common/FontProperties.vue";
+import {blockType} from "@/constants"
+import GeometryProperties from "@/components/Properties/Common/GeometryProperties.vue"
+import FontProperties from "@/components/Properties/Common/FontProperties.vue"
+import TextBlockProperties from "@/components/Properties/TextBlockProperties.vue"
 
 export default {
     name: "BlockProperties",
@@ -42,12 +48,17 @@ export default {
         },
         blockHaveText() {
             return deviceStore().block
-                && [blockType.text, blockType.table, blockType.dateTime].includes(deviceStore().block.type);
+                && [blockType.text, blockType.table, blockType.dateTime].includes(deviceStore().block.type)
+        },
+        isTextBlock() {
+            return deviceStore().block
+                && deviceStore().block.type === blockType.text
         }
     },
     components: {
         GeometryProperties,
-        FontProperties
+        FontProperties,
+        TextBlockProperties
     }
 }
 </script>

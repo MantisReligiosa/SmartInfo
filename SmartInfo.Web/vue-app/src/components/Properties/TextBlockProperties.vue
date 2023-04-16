@@ -1,10 +1,22 @@
 <template>
-  <v-container>TEXT</v-container>
+  <v-container>
+      <v-text-field
+              variant="underlined"
+              :model-value="block.text"
+              @update:model-value="setText"
+      ></v-text-field>
+  </v-container>
 </template>
 
-<script>
-export default {
-  name: "TextBlockProperties"
+<script setup>
+import {deviceStore} from "@/store/deviceStore";
+import {computed} from "vue";
+
+const store = deviceStore()
+const block = computed(() => store.block)
+
+function setText(value) {
+    block.value.text = value
 }
 </script>
 
