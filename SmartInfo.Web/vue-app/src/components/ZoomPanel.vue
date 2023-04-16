@@ -26,30 +26,17 @@
     </v-toolbar>
 </template>
 
-<script>
+<script setup>
 import {mainStore} from '@/store/mainStore'
+import {computed} from "vue";
 
-export default {
+const store = mainStore()
 
-    methods: {
-        zoomOut() {
-            mainStore().zoomOut()
-        },
-        zoomIn() {
-            mainStore().zoomIn()
-        },
-        zoomDefault() {
-            mainStore().zoomDefault()
-        }
-    },
-    computed: {
-        scale() {
-            return ((mainStore().scale * 100) | 0) + '%'
-        },
+const zoomOut = () => store.zoomOut()
+const zoomIn = () => store.zoomIn()
+const zoomDefault = () => store.zoomDefault()
 
-    }
-}
-
+const scale = computed(() => ((store.scale * 100) | 0) + '%')
 </script>
 
 <style scoped>

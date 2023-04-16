@@ -30,41 +30,37 @@
     </v-item-group>
 </template>
 
-<script>
-import {blockType, blockIcon} from '@/constants'
+<script setup>
+import * as Constants from '@/constants'
 import {deviceStore} from '@/store/deviceStore'
+import {computed} from "vue";
 
-export default {
-    computed: {
-        blocks() {
-            return deviceStore().device.blocks.map(b => {
-                switch (b.type) {
-                    case blockType.text:
-                        b.icon = blockIcon.text
-                        break
-                    case blockType.scenario:
-                        b.icon = blockIcon.scenario
-                        break
-                    case blockType.dateTime:
-                        b.icon = blockIcon.dateTime
-                        break
-                    case blockType.picture:
-                        b.icon = blockIcon.picture
-                        break
-                    case blockType.table:
-                        b.icon = blockIcon.table
-                        break
-                }
-                return b
-            })
-        }
-    },
-    methods: {
-        selectBlock(o, callback) {
-            deviceStore().selectBlockById(o.id)
-            callback()
-        }
+const store = deviceStore()
+
+const blocks = computed(() => store.device.blocks.map(b => {
+    switch (b.type) {
+        case Constants.blockType.text:
+            b.icon = Constants.blockIcon.text
+            break
+        case Constants.blockType.scenario:
+            b.icon = Constants.blockIcon.scenario
+            break
+        case Constants.blockType.dateTime:
+            b.icon = Constants.blockIcon.dateTime
+            break
+        case Constants.blockType.picture:
+            b.icon = Constants.blockIcon.picture
+            break
+        case Constants.blockType.table:
+            b.icon = Constants.blockIcon.table
+            break
     }
+    return b
+}))
+
+const selectBlock = (o, callback) => {
+    store.selectBlockById(o.id)
+    callback()
 }
 </script>
 

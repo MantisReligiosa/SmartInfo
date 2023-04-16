@@ -54,7 +54,7 @@
                         :model-value="fontColor"
                         @update:model-value="setFontColor"
                 ></ColorPicker>
-            
+
                 <ColorPicker
                         :model-value="backColor"
                         icon="mdi-format-color-highlight"
@@ -94,20 +94,20 @@
                         variant="outlined"
                         mandatory
                 >
-                    <v-btn 
-                        icon="mdi-format-vertical-align-top" 
-                        :value="vAlign.top"
-                        size="small"
+                    <v-btn
+                            icon="mdi-format-vertical-align-top"
+                            :value="vAlign.top"
+                            size="small"
                     ></v-btn>
-                    <v-btn 
-                        icon="mdi-format-vertical-align-center" 
-                        :value="vAlign.center"
-                        size="small"
+                    <v-btn
+                            icon="mdi-format-vertical-align-center"
+                            :value="vAlign.center"
+                            size="small"
                     ></v-btn>
-                    <v-btn 
-                        icon="mdi-format-vertical-align-bottom" 
-                        :value="vAlign.bottom"
-                        size="small"
+                    <v-btn
+                            icon="mdi-format-vertical-align-bottom"
+                            :value="vAlign.bottom"
+                            size="small"
                     ></v-btn>
                 </v-btn-toggle>
             </v-col>
@@ -115,66 +115,34 @@
     </v-container>
 </template>
 
-<script>
+<script setup>
 import {mainStore} from '@/store/mainStore'
 import {deviceStore} from '@/store/deviceStore'
 import ColorPicker from "@/components/Properties/Common/ColorPicker.vue";
-import {hAlign} from "@/constants";
-import {vAlign} from "@/constants";
-import {formatting} from "@/constants";
+import * as Constants from "@/constants";
+import {computed} from "vue";
 
-export default {
+const store = deviceStore()
+const mStore = mainStore()
 
-    methods: {
-        setFont(id) {
-            deviceStore().block.fontId = id
-        },
-        setFontSize(size) {
-            deviceStore().block.fontSize = size
-        },
-        setFontColor(value) {
-            deviceStore().block.fontColor = value
-        },
-        setBackColor(value) {
-            deviceStore().block.backColor = value
-        }
-    },
-    components: {
-        ColorPicker,
-    },
-    computed: {
-        vAlign() {
-            return vAlign
-        },
-        hAlign() {
-            return hAlign
-        },
-        formatting() {
-            return formatting
-        },
-        block() {
-            return deviceStore().block
-        },
-        fontId() {
-            return deviceStore().block.fontId
-        },
-        fontSize() {
-            return deviceStore().block.fontSize
-        },
-        fontNames() {
-            return mainStore().fontNames
-        },
-        fontSizes() {
-            return mainStore().fontSizes
-        },
-        fontColor() {
-            return deviceStore().block.fontColor
-        },
-        backColor() {
-            return deviceStore().block.backColor
-        }
-    }
-}
+const vAlign = computed(() => Constants.vAlign)
+const hAlign = computed(() => Constants.hAlign)
+const formatting = computed(() => Constants.formatting)
+
+const block = computed(() => store.block)
+
+const fontNames = computed(() => mStore.fontNames)
+const fontSizes = computed(() => mStore.fontSizes)
+
+const fontId = computed(() => block.value.fontId)
+const fontSize = computed(() => block.value.fontSize)
+const fontColor = computed(() => block.value.fontColor)
+const backColor = computed(() => block.value.backColor)
+
+const setFont = (id) => block.value.fontId = id
+const setFontSize = (size) => block.value.fontSize = size
+const setFontColor = (value) => block.value.fontColor = value
+const setBackColor = (value) => block.value.backColor = value
 </script>
 
 <style scoped>
