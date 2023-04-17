@@ -30,13 +30,13 @@
 import {mainStore} from '@/store/mainStore'
 import {computed} from "vue";
 
-const store = mainStore()
+const mStore = mainStore()
 
-const zoomOut = () => store.zoomOut()
-const zoomIn = () => store.zoomIn()
-const zoomDefault = () => store.zoomDefault()
+const zoomOut = () => mStore.zoomOut()
+const zoomIn = () => mStore.zoomIn()
+const zoomDefault = () => mStore.zoomDefault()
 
-const scale = computed(() => ((store.scale * 100) | 0) + '%')
+const scale = computed(() => ((mStore.scale * 100) | 0) + '%')
 </script>
 
 <style scoped>

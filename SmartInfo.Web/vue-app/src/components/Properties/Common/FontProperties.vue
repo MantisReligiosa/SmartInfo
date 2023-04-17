@@ -122,14 +122,14 @@ import ColorPicker from "@/components/Properties/Common/ColorPicker.vue";
 import * as Constants from "@/constants";
 import {computed} from "vue";
 
-const store = deviceStore()
+const dStore = deviceStore()
 const mStore = mainStore()
 
 const vAlign = computed(() => Constants.vAlign)
 const hAlign = computed(() => Constants.hAlign)
 const formatting = computed(() => Constants.formatting)
 
-const block = computed(() => store.block)
+const block = computed(() => dStore.block)
 
 const fontNames = computed(() => mStore.fontNames)
 const fontSizes = computed(() => mStore.fontSizes)

@@ -35,9 +35,9 @@ import * as Constants from '@/constants'
 import {deviceStore} from '@/store/deviceStore'
 import {computed} from "vue";
 
-const store = deviceStore()
+const dStore = deviceStore()
 
-const blocks = computed(() => store.device.blocks.map(b => {
+const blocks = computed(() => dStore.device.blocks.map(b => {
     switch (b.type) {
         case Constants.blockType.text:
             b.icon = Constants.blockIcon.text
@@ -59,7 +59,7 @@ const blocks = computed(() => store.device.blocks.map(b => {
 }))
 
 const selectBlock = (o, callback) => {
-    store.selectBlockById(o.id)
+    dStore.selectBlockById(o.id)
     callback()
 }
 </script>

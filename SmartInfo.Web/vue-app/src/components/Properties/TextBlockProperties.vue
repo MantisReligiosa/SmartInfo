@@ -12,8 +12,8 @@
 import {deviceStore} from "@/store/deviceStore";
 import {computed} from "vue";
 
-const store = deviceStore()
-const block = computed(() => store.block)
+const dStore = deviceStore()
+const block = computed(() => dStore.block)
 
 function setText(value) {
     block.value.text = value
