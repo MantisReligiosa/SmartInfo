@@ -27,19 +27,20 @@
     </v-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {deviceStore} from '@/store/deviceStore'
 import * as Constants from "@/constants"
+import {IBlock} from "@/interfaces/Blocks"
 import GeometryProperties from "@/components/Properties/Common/GeometryProperties.vue"
 import FontProperties from "@/components/Properties/Common/FontProperties.vue"
 import TextBlockProperties from "@/components/Properties/TextBlockProperties.vue"
 import {computed} from "vue";
 
-const store = deviceStore()
+const dStore = deviceStore()
 
-const block = computed(() => store.block)
+const block = computed(() => dStore.block as IBlock)
 const isBlockSelected = computed(() => block.value && block.value.type)
-const blockHaveText = computed(() => block.value 
+const blockHaveText = computed(() => block.value
     && [Constants.blockType.text, Constants.blockType.table, Constants.blockType.dateTime].includes(block.value.type))
 const isTextBlock = computed(() => block.value && block.value.type === Constants.blockType.text)
 </script>

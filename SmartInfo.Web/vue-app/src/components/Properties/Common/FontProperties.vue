@@ -27,23 +27,24 @@
         <v-row>
             <v-col>
                 <v-btn-toggle
-                        v-model="block.formatting"
+                        :model-value="formatting"
+                        @update:model-value="setFormatting"
                         multiple
                         variant="outlined"
                         divided
                 >
                     <v-btn
-                            :value="formatting.italic"
+                            :value="formattings.italic"
                             size="small"
                             icon="mdi-format-italic"
                     ></v-btn>
                     <v-btn
-                            :value="formatting.bold"
+                            :value="formattings.bold"
                             size="small"
                             icon="mdi-format-bold"
                     ></v-btn>
                     <v-btn
-                            :value="formatting.underlined"
+                            :value="formattings.underlined"
                             size="small"
                             icon="mdi-format-underline"
                     ></v-btn>
@@ -65,48 +66,50 @@
         <v-row>
             <v-col>
                 <v-btn-toggle
-                        v-model="block.hAlign"
+                        :model-value="hAlign"
+                        @update:model-value="setHAlign"
                         divided
                         variant="outlined"
                         mandatory
                 >
                     <v-btn
                             icon="mdi-format-align-left"
-                            :value="hAlign.left"
+                            :value="hAligns.left"
                             size="small"
                     ></v-btn>
                     <v-btn
                             icon="mdi-format-align-center"
-                            :value="hAlign.center"
+                            :value="hAligns.center"
                             size="small"
                     ></v-btn>
                     <v-btn
                             icon="mdi-format-align-right"
-                            :value="hAlign.right"
+                            :value="hAligns.right"
                             size="small"
                     ></v-btn>
                 </v-btn-toggle>
             </v-col>
             <v-col>
                 <v-btn-toggle
-                        v-model="block.vAlign"
+                        :model-value="vAlign"
+                        @update:model-value="setVAlign"
                         divided
                         variant="outlined"
                         mandatory
                 >
                     <v-btn
                             icon="mdi-format-vertical-align-top"
-                            :value="vAlign.top"
+                            :value="vAligns.top"
                             size="small"
                     ></v-btn>
                     <v-btn
                             icon="mdi-format-vertical-align-center"
-                            :value="vAlign.center"
+                            :value="vAligns.center"
                             size="small"
                     ></v-btn>
                     <v-btn
                             icon="mdi-format-vertical-align-bottom"
-                            :value="vAlign.bottom"
+                            :value="vAligns.bottom"
                             size="small"
                     ></v-btn>
                 </v-btn-toggle>
@@ -115,34 +118,69 @@
     </v-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {mainStore} from '@/store/mainStore'
 import {deviceStore} from '@/store/deviceStore'
 import ColorPicker from "@/components/Properties/Common/ColorPicker.vue";
 import * as Constants from "@/constants";
 import {computed} from "vue";
+import {IBlockFont} from "@/interfaces/Blocks";
 
-const store = deviceStore()
+const dStore = deviceStore()
 const mStore = mainStore()
 
-const vAlign = computed(() => Constants.vAlign)
-const hAlign = computed(() => Constants.hAlign)
-const formatting = computed(() => Constants.formatting)
-
-const block = computed(() => store.block)
+const vAligns = computed(() => Constants.vAlign)
+const hAligns = computed(() => Constants.hAlign)
+const formattings = computed(() => Constants.formatting)
 
 const fontNames = computed(() => mStore.fontNames)
 const fontSizes = computed(() => mStore.fontSizes)
 
-const fontId = computed(() => block.value.fontId)
-const fontSize = computed(() => block.value.fontSize)
-const fontColor = computed(() => block.value.fontColor)
-const backColor = computed(() => block.value.backColor)
+const block = computed(() => dStore.block as IBlockFont | null)
 
-const setFont = (id) => block.value.fontId = id
-const setFontSize = (size) => block.value.fontSize = size
-const setFontColor = (value) => block.value.fontColor = value
-const setBackColor = (value) => block.value.backColor = value
+const fontId = computed(() => block.value?.fontId)
+const fontSize = computed(() => block.value?.fontSize)
+const fontColor = computed(() => block.value?.fontColor ?? '#000000')
+const backColor = computed(() => block.value?.backColor ?? '#ffffff')
+const formatting = computed(() => block.value?.formatting ?? [])
+const hAlign = computed(() => block.value?.hAlign ?? Constants.hAlign.left)
+const vAlign = computed(() => block.value?.vAlign ?? Constants.vAlign.center)
+
+const setFont = (id: number) => {
+    if (!block.value)
+        return
+    block.value.fontId = id
+}
+const setFontSize = (size: number) => {
+    if (!block.value)
+        return
+    block.value.fontSize = size
+}
+const setFontColor = (value: string) => {
+    if (!block.value)
+        return
+    block.value.fontColor = value
+}
+const setBackColor = (value: string) => {
+    if (!block.value)
+        return
+    block.value.backColor = value
+}
+const setFormatting = (values: Constants.formatting[]) => {
+    if (!block.value)
+        return
+    block.value.formatting = values
+}
+const setHAlign = (value: Constants.hAlign) => {
+    if (!block.value)
+        return
+    block.value.hAlign = value
+}
+const setVAlign = (value: Constants.vAlign) => {
+    if (!block.value)
+        return
+    block.value.vAlign = value
+}
 </script>
 
 <style scoped>

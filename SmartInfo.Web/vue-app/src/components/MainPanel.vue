@@ -100,7 +100,7 @@
                         size="x-large"
                         v-bind="props"
                 >
-                    {{ selectedDevice.name }}
+                    {{ selectedDevice?.name || '<...>' }}
                     <v-icon
                             icon="mdi-chevron-down"
                     ></v-icon>
@@ -163,108 +163,108 @@
     </v-app-bar>
 </template>
 
-<script>
-import {blockType, blockIcon} from '@/constants'
+<script setup lang="ts">
+import * as Constants from '@/constants'
 import {mainStore} from '@/store/mainStore'
 import {deviceStore} from '@/store/deviceStore'
+import {computed, ref} from "vue";
 
-export default {
-    data: () => ({
-        tooltipSelect: 'Выбор',
-        tooltipBlocks: 'Блоки',
-        tooltipPlay: 'Пуск',
-        tooltipStop: 'Стоп',
-        tooltipRefresh: 'Перезагрузить',
-        mainMenu: [
-            {
-                title: 'Item #1',
-                value: 1,
-            },
-            {
-                title: 'Item #2',
-                value: 2,
-            },
-            {
-                title: 'Item #3',
-                value: 3,
-            },
-        ],
-        blockMenuIcon: blockIcon.text,
-        blocksMenu: [
-            {
-                title: 'Текст',
-                value: blockType.text,
-                props: {
-                    prependIcon: blockIcon.text,
-                },
+interface blocksMenuItem {
+    title: string,
+    value: Constants.blockType,
+    props: { prependIcon: string }
+}
 
-            },
-            {
-                title: 'Таблица',
-                value: blockType.table,
-                props: {
-                    prependIcon: blockIcon.table,
-                },
-            },
-            {
-                title: 'Изображение',
-                value: blockType.picture,
-                props: {
-                    prependIcon: blockIcon.picture,
-                },
-            },
-            {
-                title: 'ДатаВремя',
-                value: blockType.dateTime,
-                props: {
-                    prependIcon: blockIcon.dateTime,
-                },
-            },
-            {
-                title: 'Сценарий',
-                value: blockType.scenario,
-                props: {
-                    prependIcon: blockIcon.scenario,
-                },
-            },
-        ],
-        asDefault: true
-    }),
-    methods: {
-        async selectDeviceById(deviceId) {
-            if (this.edit) {
-                let ok = await confirm('Изменения не сохранены. Продолжить?');
-                if (!ok) {
-                    return;
-                }
-            }
-            mainStore().selectDeviceById(deviceId)
-            await deviceStore().loadById(deviceId)
-        },
-        switchToSelectionMode(toggle) {
-            this.asDefault = false
-            mainStore().switchToSelectionMode()
-            toggle()
-        },
-        switchToDrawMode(item, toggle) {
-            this.blockMenuIcon = item.props.prependIcon
-            this.asDefault = false
-            mainStore().switchToDrawMode(item.value)
-            toggle()
-        }
+const mStore = mainStore()
+const dStore = deviceStore()
+const tooltipSelect = ref('Выбор')
+const tooltipBlocks = ref('Блоки')
+const tooltipPlay = ref('Пуск')
+const tooltipStop = ref('Стоп')
+const tooltipRefresh = ref('Перезагрузить')
+const mainMenu = ref([
+    {
+        title: 'Item #1',
+        value: 1,
     },
-    computed: {
-        devices() {
-            return mainStore().devices
+    {
+        title: 'Item #2',
+        value: 2,
+    },
+    {
+        title: 'Item #3',
+        value: 3,
+    },
+])
+const blockMenuIcon = ref<string>(Constants.blockIcon.text)
+
+const textItem:blocksMenuItem={
+    title: 'Текст',
+    value: Constants.blockType.text,
+    props: {
+        prependIcon: Constants.blockIcon.text,
+    },
+}
+
+const blocksMenu = ref([
+    textItem,
+    {
+        title: 'Таблица',
+        value: Constants.blockType.table,
+        props: {
+            prependIcon: Constants.blockIcon.table,
         },
-        selectedDevice() {
-            return mainStore().device
+    },
+    {
+        title: 'Изображение',
+        value: Constants.blockType.picture,
+        props: {
+            prependIcon: Constants.blockIcon.picture,
         },
-        edit() {
-            return {hasChanges: deviceStore().edited, variant: deviceStore().edited ? 'tonal' : 'plain'}
+    },
+    {
+        title: 'ДатаВремя',
+        value: Constants.blockType.dateTime,
+        props: {
+            prependIcon: Constants.blockIcon.dateTime,
+        },
+    },
+    {
+        title: 'Сценарий',
+        value: Constants.blockType.scenario,
+        props: {
+            prependIcon: Constants.blockIcon.scenario,
+        },
+    },
+])
+const asDefault = ref(true)
+const selectDeviceById = async (deviceId: number) => {
+    if (edit.value.hasChanges) {
+        let ok = await confirm('Изменения не сохранены. Продолжить?');
+        if (!ok) {
+            return;
         }
     }
+    mainStore().selectDeviceById(deviceId)
+    await deviceStore().loadById(deviceId)
 }
+
+const switchToSelectionMode = (toggle: any) => {
+    asDefault.value = false
+    mStore.switchToSelectionMode()
+    toggle()
+}
+const switchToDrawMode = (item:blocksMenuItem, toggle: any) => {
+    blockMenuIcon.value = item.props.prependIcon
+    asDefault.value = false
+    mStore.switchToDrawMode(item.value)
+    toggle()
+}
+const devices = computed(() => mStore.devices)
+const selectedDevice = computed(() => mStore.device)
+const edit = computed(() => {
+    return {hasChanges: dStore.edited, variant: dStore.edited ? 'tonal' : 'plain'}
+})
 </script>
 
 <style scoped>

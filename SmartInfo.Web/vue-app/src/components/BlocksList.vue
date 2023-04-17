@@ -30,36 +30,49 @@
     </v-item-group>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import * as Constants from '@/constants'
 import {deviceStore} from '@/store/deviceStore'
 import {computed} from "vue";
 
-const store = deviceStore()
+class Item {
+    id: number;
+    caption: string;
+    icon: string;
 
-const blocks = computed(() => store.device.blocks.map(b => {
-    switch (b.type) {
-        case Constants.blockType.text:
-            b.icon = Constants.blockIcon.text
-            break
-        case Constants.blockType.scenario:
-            b.icon = Constants.blockIcon.scenario
-            break
-        case Constants.blockType.dateTime:
-            b.icon = Constants.blockIcon.dateTime
-            break
-        case Constants.blockType.picture:
-            b.icon = Constants.blockIcon.picture
-            break
-        case Constants.blockType.table:
-            b.icon = Constants.blockIcon.table
-            break
+    constructor(id: number, caption: string, icon: string) {
+        this.id = id
+        this.caption = caption
+        this.icon = icon
     }
-    return b
-}))
+}
 
-const selectBlock = (o, callback) => {
-    store.selectBlockById(o.id)
+const dStore = deviceStore()
+
+
+const blocks = computed<Item[]>(() => {
+    if (!dStore.device?.blocks)
+        return []
+
+    return dStore.device.blocks.map(b => {
+        switch (b.type) {
+            case Constants.blockType.text:
+                return new Item(b.id, b.caption, Constants.blockIcon.text)
+
+             case Constants.blockType.scenario:
+                 return new Item(b.id, b.caption, Constants.blockIcon.scenario)
+            case Constants.blockType.dateTime:
+                return new Item(b.id, b.caption, Constants.blockIcon.dateTime)
+            case Constants.blockType.picture:
+                return new Item(b.id, b.caption, Constants.blockIcon.picture)
+            case Constants.blockType.table:
+                return new Item(b.id, b.caption, Constants.blockIcon.table)
+        }
+    })
+})
+
+const selectBlock = (o: Item, callback: any) => {
+    dStore.selectBlockById(o.id)
     callback()
 }
 </script>

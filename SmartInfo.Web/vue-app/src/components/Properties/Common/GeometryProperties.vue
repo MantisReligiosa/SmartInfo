@@ -55,12 +55,13 @@
     </v-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {deviceStore} from "@/store/deviceStore";
 import {computed} from "vue";
+import {IBlock} from "@/interfaces/Blocks";
 
-const store = deviceStore()
-const block = computed(() => store.block)
+const dStore = deviceStore()
+const block = computed(() => dStore.block as IBlock)
 
 </script>
 

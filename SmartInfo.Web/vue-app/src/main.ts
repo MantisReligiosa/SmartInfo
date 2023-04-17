@@ -17,9 +17,7 @@ import * as directives from 'vuetify/directives'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
-
 const pinia = createPinia()
-
 
 const vuetify = createVuetify({
     components,

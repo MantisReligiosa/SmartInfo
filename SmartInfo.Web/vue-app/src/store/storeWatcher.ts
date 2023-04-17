@@ -1,8 +1,8 @@
 import {deviceStore} from "@/store/deviceStore";
 
-export function watch(){
+export function watch() {
     console.log('Watcher started')
-    let currentBlockId = null
+    let currentBlockId = 0
     deviceStore().$subscribe((mutation, state) => {
         if (!state.block) {
             return
