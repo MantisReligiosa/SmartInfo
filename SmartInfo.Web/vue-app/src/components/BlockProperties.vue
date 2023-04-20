@@ -7,6 +7,7 @@
                 variant="underlined"
                 v-model="block.caption"
                 spellcheck="false"
+                prepend-icon="mdi-rename-outline"
         ></v-text-field>
         <v-card
                 v-if="isBlockSelected"

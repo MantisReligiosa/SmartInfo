@@ -4,17 +4,17 @@ export interface IBlock {
     id: number
     type: Constants.blockType
     caption: string
-    x: number,
-    y: number,
-    h: number,
-    w: number,
+    x: number
+    y: number
+    h: number
+    w: number
 }
 
 export interface IBlockFont {
-    fontId: number,
-    fontSize: number,
-    fontColor: string,
-    backColor: string,
+    fontId: number
+    fontSize: number
+    fontColor: string
+    backColor: string
     formatting: Constants.formatting[]
     vAlign: Constants.vAlign
     hAlign: Constants.hAlign
@@ -22,6 +22,11 @@ export interface IBlockFont {
 
 export interface ITextBlock extends IBlock, IBlockFont {
     text: string
+    isAnimationEnabled: boolean
+    animationStyle: number
+    holdBeforeAnimation: number
+    holdAfterAnimation: number
+    animationSpeed: number
 }
 
 export interface IDatetimeBlock extends IBlock, IBlockFont {

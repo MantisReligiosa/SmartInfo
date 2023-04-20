@@ -36,3 +36,9 @@ export enum formatting {
     bold = 1,
     underlined = 2
 }
+
+export enum textAnimation {
+    Style1,
+    Style2,
+    Style3
+}

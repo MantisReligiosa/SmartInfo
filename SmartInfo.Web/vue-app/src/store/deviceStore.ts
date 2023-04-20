@@ -42,6 +42,11 @@ export const deviceStore = defineStore('device  ', {
                 formatting: [],
                 vAlign: Constants.vAlign.center,
                 hAlign: Constants.hAlign.left,
+                isAnimationEnabled: true,
+                animationStyle: 0,
+                holdBeforeAnimation: 1,
+                holdAfterAnimation: 2,
+                animationSpeed: 5
             }
             const datetimeBlock: Blocks.IDatetimeBlock = {
                 type: Constants.blockType.dateTime,
