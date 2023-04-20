@@ -15,11 +15,6 @@ import {ITextBlock} from "@/interfaces/Blocks";
 const dStore = deviceStore()
 const block = computed(() => dStore.block as ITextBlock)
 
-function setText(value:string) {
-    if (!block.value)
-        return
-    block.value.text = value
-}
 </script>
 
 <style scoped>

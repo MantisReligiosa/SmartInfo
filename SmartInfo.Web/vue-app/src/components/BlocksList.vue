@@ -35,6 +35,8 @@ import * as Constants from '@/constants'
 import {deviceStore} from '@/store/deviceStore'
 import {computed} from "vue";
 
+type callbackDelegate = () => void;
+
 class Item {
     id: number;
     caption: string;
@@ -70,8 +72,7 @@ const blocks = computed<Item[]>(() => {
         }
     })
 })
-
-const selectBlock = (o: Item, callback: any) => {
+const selectBlock = (o: Item, callback: callbackDelegate) => {
     dStore.selectBlockById(o.id)
     callback()
 }

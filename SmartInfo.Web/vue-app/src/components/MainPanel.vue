@@ -168,6 +168,7 @@ import * as Constants from '@/constants'
 import {mainStore} from '@/store/mainStore'
 import {deviceStore} from '@/store/deviceStore'
 import {computed, ref} from "vue";
+type callbackDelegate = () => void;
 
 interface blocksMenuItem {
     title: string,
@@ -249,12 +250,12 @@ const selectDeviceById = async (deviceId: number) => {
     await deviceStore().loadById(deviceId)
 }
 
-const switchToSelectionMode = (toggle: any) => {
+const switchToSelectionMode = (toggle: callbackDelegate) => {
     asDefault.value = false
     mStore.switchToSelectionMode()
     toggle()
 }
-const switchToDrawMode = (item:blocksMenuItem, toggle: any) => {
+const switchToDrawMode = (item:blocksMenuItem, toggle: callbackDelegate) => {
     blockMenuIcon.value = item.props.prependIcon
     asDefault.value = false
     mStore.switchToDrawMode(item.value)
