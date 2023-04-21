@@ -55,7 +55,7 @@ const isTextBlock = computed(() => block.value && block.value.type === Constants
     padding: 0 !important;
 }
 
-.centered-input >>> input {
+.centered-input :deep(input) {
     text-align: center
 }
 </style>

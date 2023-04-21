@@ -23,7 +23,7 @@ export const deviceStore = defineStore('device  ', {
     actions: {
         async loadById(deviceId: number | undefined) {
             if (deviceId == undefined) {
-                console.log('Failed to load device')
+                console.warn('Failed to load device')
                 return
             }
             const textBlock: Blocks.ITextBlock = {

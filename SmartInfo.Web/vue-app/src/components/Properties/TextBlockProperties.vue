@@ -89,7 +89,7 @@ const animationStyles = ref([
 </script>
 
 <style scoped>
-.text-right >>> input {
+.text-right :deep(input) {
     text-align: right;
 }
 </style>
