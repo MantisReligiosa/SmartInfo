@@ -20,15 +20,8 @@
         >
             <FontProperties></FontProperties>
         </v-card>
-        <v-card
-                v-if="isTextBlock"
-        >
-            <TextBlockProperties></TextBlockProperties>
-        </v-card>
-        <v-card
-                v-if="isDataBlock"
-                >
-            <DataBlockProperties></DataBlockProperties>
+        <v-card>
+            <component :is="getProperties"></component>
         </v-card>
     </v-container>
 </template>
@@ -41,16 +34,39 @@ import GeometryProperties from "@/components/Properties/Common/GeometryPropertie
 import FontProperties from "@/components/Properties/Common/FontProperties.vue"
 import TextBlockProperties from "@/components/Properties/TextBlockProperties.vue"
 import DataBlockProperties from "@/components/Properties/DataBlockProperties.vue";
+import PictureBlockProperties from "@/components/Properties/PictureBlockProperties.vue";
+import BlankProperties from "@/components/Properties/BlankProperties.vue";
 import {computed} from "vue";
 
 const dStore = deviceStore()
+
+const components = {
+    TextBlockProperties,
+    DataBlockProperties,
+    PictureBlockProperties,
+    BlankProperties
+}
 
 const block = computed(() => dStore.block as IBlock)
 const isBlockSelected = computed(() => block.value && block.value.type)
 const blockHaveText = computed(() => block.value
     && [Constants.blockType.text, Constants.blockType.table, Constants.blockType.dateTime].includes(block.value.type))
-const isTextBlock = computed(() => block.value && block.value.type === Constants.blockType.text)
-const isDataBlock = computed(() => block.value && block.value.type === Constants.blockType.dateTime)
+
+const getProperties = computed(() =>{
+    if (!block.value)
+        return components['BlankProperties']
+    
+    if (block.value.type === Constants.blockType.text)
+        return components['TextBlockProperties']
+    
+    if (block.value.type === Constants.blockType.dateTime)
+        return components['DataBlockProperties']
+    
+    if (block.value.type === Constants.blockType.picture)
+        return components['PictureBlockProperties']
+    
+    return components['BlankProperties']
+})
 </script>
 
 <style scoped>
