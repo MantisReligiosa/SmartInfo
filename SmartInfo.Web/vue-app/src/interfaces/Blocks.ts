@@ -30,6 +30,7 @@ export interface ITextBlock extends IBlock, IBlockFont {
 }
 
 export interface IDatetimeBlock extends IBlock, IBlockFont {
+    formatId: number
 }
 
 export interface ITableBlock extends IBlock, IBlockFont {

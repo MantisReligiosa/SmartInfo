@@ -38,7 +38,20 @@ export enum formatting {
 }
 
 export enum textAnimation {
-    Style1,
-    Style2,
-    Style3
+    Style1 = 0,
+    Style2 = 1,
+    Style3 = 2
+}
+
+export enum datetimeFormats {
+    ddmmyyyy = 0,
+    dayOfWeek_ddmmyyyy = 1,
+    dayOfWeek_ddmmyyyy_hhmm = 2,
+    dayOfWeek_ddmmyyyy_hhmmss = 3,
+    ddmmyyyy_hhmm = 4,
+    ddmmyyyy_hhmmss = 5,
+    dd_month = 6,
+    month_yyyy = 7,
+    hhmm = 8,
+    hhmmss = 9
 }

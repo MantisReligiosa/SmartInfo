@@ -57,6 +57,7 @@ export const deviceStore = defineStore('device  ', {
                 h: 31,
                 w: 41,
                 fontId: 1,
+                formatId: 2,
                 fontSize: 10,
                 fontColor: "#fc6b03",
                 backColor: "#ffffff",

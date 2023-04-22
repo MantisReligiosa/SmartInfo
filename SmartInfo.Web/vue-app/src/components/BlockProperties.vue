@@ -25,6 +25,11 @@
         >
             <TextBlockProperties></TextBlockProperties>
         </v-card>
+        <v-card
+                v-if="isDataBlock"
+                >
+            <DataBlockProperties></DataBlockProperties>
+        </v-card>
     </v-container>
 </template>
 
@@ -35,6 +40,7 @@ import {IBlock} from "@/interfaces/Blocks"
 import GeometryProperties from "@/components/Properties/Common/GeometryProperties.vue"
 import FontProperties from "@/components/Properties/Common/FontProperties.vue"
 import TextBlockProperties from "@/components/Properties/TextBlockProperties.vue"
+import DataBlockProperties from "@/components/Properties/DataBlockProperties.vue";
 import {computed} from "vue";
 
 const dStore = deviceStore()
@@ -44,6 +50,7 @@ const isBlockSelected = computed(() => block.value && block.value.type)
 const blockHaveText = computed(() => block.value
     && [Constants.blockType.text, Constants.blockType.table, Constants.blockType.dateTime].includes(block.value.type))
 const isTextBlock = computed(() => block.value && block.value.type === Constants.blockType.text)
+const isDataBlock = computed(() => block.value && block.value.type === Constants.blockType.dateTime)
 </script>
 
 <style scoped>
