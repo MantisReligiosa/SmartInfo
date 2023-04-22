@@ -34,6 +34,7 @@ export const deviceStore = defineStore('device  ', {
                 y: 20,
                 h: 30,
                 w: 40,
+                z: 50,
                 text: 'ABCDEF',
                 fontId: 1,
                 fontSize: 10,
@@ -56,6 +57,7 @@ export const deviceStore = defineStore('device  ', {
                 y: 21,
                 h: 31,
                 w: 41,
+                z: 51,
                 fontId: 1,
                 formatId: 2,
                 fontSize: 10,
@@ -73,6 +75,7 @@ export const deviceStore = defineStore('device  ', {
                 y: 23,
                 h: 33,
                 w: 43,
+                z: 53,
                 fontId: 1,
                 fontSize: 10,
                 fontColor: "#fc6b03",
@@ -88,7 +91,8 @@ export const deviceStore = defineStore('device  ', {
                 x: 12,
                 y: 22,
                 h: 32,
-                w: 42
+                w: 42,
+                z: 52
             }
             const scenario: Blocks.IScenario = {
                 type: Constants.blockType.scenario,
@@ -97,7 +101,8 @@ export const deviceStore = defineStore('device  ', {
                 x: 14,
                 y: 24,
                 h: 34,
-                w: 44
+                w: 44,
+                z: 54
             }
             this.edited = false
             this.block = null

@@ -52,6 +52,21 @@
                 ></v-text-field>
             </v-col>
         </v-row>
+        <v-row>
+            <v-col>
+                <v-text-field
+                    hide-details
+                    single-line
+                    type="number"
+                    v-model="block.z"
+                    min="0"
+                    density="compact"
+                    variant="underlined"
+                    prepend-icon="mdi-layers-outline"
+                ></v-text-field>
+            </v-col>
+            <v-col></v-col>
+        </v-row>
     </v-container>
 </template>
 

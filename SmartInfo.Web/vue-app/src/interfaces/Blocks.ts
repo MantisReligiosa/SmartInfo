@@ -8,6 +8,7 @@ export interface IBlock {
     y: number
     h: number
     w: number
+    z: number
 }
 
 export interface IBlockFont {

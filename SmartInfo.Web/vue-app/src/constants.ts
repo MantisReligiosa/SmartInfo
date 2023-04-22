@@ -3,7 +3,7 @@ export enum blockType {
     dateTime = 20,
     picture = 30,
     table = 40,
-    scenario = 50
+    scenario = 50,
 }
 
 export enum blockIcon {
@@ -11,36 +11,36 @@ export enum blockIcon {
     dateTime = 'mdi-calendar-clock-outline',
     picture = 'mdi-image',
     table = 'mdi-table',
-    scenario = 'mdi-movie-open-outline'
+    scenario = 'mdi-movie-open-outline',
 }
 
 export enum editorMode {
     selection = 1,
-    drawing = 2
+    drawing = 2,
 }
 
 export enum hAlign {
     left = 0,
     center = 1,
-    right = 2
+    right = 2,
 }
 
 export enum vAlign {
     top = 0,
     center = 1,
-    bottom = 2
+    bottom = 2,
 }
 
 export enum formatting {
     italic = 0,
     bold = 1,
-    underlined = 2
+    underlined = 2,
 }
 
 export enum textAnimation {
     Style1 = 0,
     Style2 = 1,
-    Style3 = 2
+    Style3 = 2,
 }
 
 export enum datetimeFormats {
@@ -53,5 +53,5 @@ export enum datetimeFormats {
     dd_month = 6,
     month_yyyy = 7,
     hhmm = 8,
-    hhmmss = 9
+    hhmmss = 9,
 }
