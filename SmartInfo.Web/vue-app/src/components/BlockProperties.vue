@@ -56,16 +56,16 @@ const getProperties = computed(() =>{
     if (!block.value)
         return components['BlankProperties']
     
-    if (block.value.type === Constants.blockType.text)
-        return components['TextBlockProperties']
-    
-    if (block.value.type === Constants.blockType.dateTime)
-        return components['DataBlockProperties']
-    
-    if (block.value.type === Constants.blockType.picture)
-        return components['PictureBlockProperties']
-    
-    return components['BlankProperties']
+    switch (block.value.type){
+        case Constants.blockType.text:
+            return components['TextBlockProperties']
+        case Constants.blockType.dateTime:
+            return components['DataBlockProperties']
+        case Constants.blockType.picture:
+            return components['PictureBlockProperties']
+        default:
+            return components['BlankProperties']
+    }
 })
 </script>
 
