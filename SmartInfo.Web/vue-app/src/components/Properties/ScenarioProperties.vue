@@ -1,10 +1,10 @@
 <template>
-    <v-container class="px-0">
+    <v-container class="px-1">
         <v-list>
             <v-list-item
                     v-for="(item, index) in scenes"
                     :key="item"
-                    class="pa-0"
+                    class="pa-1"
             >
                 <v-row
                         no-gutters
@@ -71,7 +71,8 @@
                                     @click="move(item, -1)"
                             >
                                 <v-icon
-                                        icon="mdi-chevron-up-circle-outline"
+                                    size="x-large"
+                                        icon="mdi-chevron-up-box-outline"
                                 ></v-icon>
                             </v-btn>
 
@@ -86,7 +87,8 @@
                                     @click=move(item,1)
                             >
                                 <v-icon
-                                        icon="mdi-chevron-down-circle-outline"
+                                    size="x-large"
+                                        icon="mdi-chevron-down-box-outline"
                                 ></v-icon>
                             </v-btn>
 
