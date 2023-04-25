@@ -45,5 +45,13 @@ export interface IPictureBlock extends IBlock {
 }
 
 export interface IScenario extends IBlock {
+    scenes: IScene[]
+}
 
+export interface IScene {
+    id: number,
+    caption: string,
+    isEnabled: boolean,
+    demonstrationPeriod: number,
+    order: number
 }

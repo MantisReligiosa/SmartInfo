@@ -107,7 +107,37 @@ export const deviceStore = defineStore('device  ', {
                 y: 24,
                 h: 34,
                 w: 44,
-                z: 54
+                z: 54,
+                scenes: [
+                    {
+                        id: 22,
+                        caption: 'Scene 2',
+                        isEnabled: true,
+                        demonstrationPeriod: 20,
+                        order: 2
+                    },
+                    {
+                        id: 11,
+                        caption: 'Scene 1',
+                        isEnabled: true,
+                        demonstrationPeriod: 10,
+                        order: 1
+                    },
+                    {
+                        id: 33,
+                        caption: 'Scene 3',
+                        isEnabled: true,
+                        demonstrationPeriod: 30,
+                        order: 3
+                    },
+                    {
+                        id: 44,
+                        caption: 'Disabled',
+                        isEnabled: false,
+                        demonstrationPeriod: 40,
+                        order: 4
+                    },
+                ]
             }
             this.edited = false
             this.block = null

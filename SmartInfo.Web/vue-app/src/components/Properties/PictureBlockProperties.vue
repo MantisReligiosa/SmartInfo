@@ -28,11 +28,13 @@
                         :value="Constants.imageMode.zoom"
                 ></v-radio>
             </v-radio-group>
-            <v-checkbox
+        </v-row>
+        <v-row>
+            <v-switch
                     label="Сохраняя пропорции"
                     :disabled="block.imageMode==Constants.imageMode.crop"
                     v-model="block.saveProportions"
-            ></v-checkbox>
+            ></v-switch>
         </v-row>
     </v-container>
 </template>
@@ -69,7 +71,3 @@ const fileLoaded = (e: ProgressEvent<FileReader>) => {
 }
 
 </script>
-
-<style scoped>
-
-</style>

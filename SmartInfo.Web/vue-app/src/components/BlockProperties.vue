@@ -36,6 +36,8 @@ import TextBlockProperties from "@/components/Properties/TextBlockProperties.vue
 import DataBlockProperties from "@/components/Properties/DataBlockProperties.vue";
 import PictureBlockProperties from "@/components/Properties/PictureBlockProperties.vue";
 import BlankProperties from "@/components/Properties/BlankProperties.vue";
+import TableBlockProperties from "@/components/Properties/TableBlockProperties.vue";
+import ScenarioProperties from "@/components/Properties/ScenarioProperties.vue";
 import {computed} from "vue";
 
 const dStore = deviceStore()
@@ -44,6 +46,8 @@ const components = {
     TextBlockProperties,
     DataBlockProperties,
     PictureBlockProperties,
+    TableBlockProperties,
+    ScenarioProperties,
     BlankProperties
 }
 
@@ -63,6 +67,10 @@ const getProperties = computed(() =>{
             return components['DataBlockProperties']
         case Constants.blockType.picture:
             return components['PictureBlockProperties']
+        case Constants.blockType.table:
+            return components['TableBlockProperties']
+        case Constants.blockType.scenario:
+            return components['ScenarioProperties']
         default:
             return components['BlankProperties']
     }
