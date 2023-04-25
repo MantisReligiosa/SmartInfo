@@ -30,9 +30,6 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
       <None Remove="vue-app\dist\favicon.ico" />
-      <Content Include="vue-app\dist\favicon.ico">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
       <Content Include="Content\**\*">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>

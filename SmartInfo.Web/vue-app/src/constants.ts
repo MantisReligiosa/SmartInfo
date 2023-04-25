@@ -55,3 +55,8 @@ export enum datetimeFormats {
     hhmm = 8,
     hhmmss = 9,
 }
+
+export enum imageMode {
+    zoom = 1,
+    crop = 2,
+}

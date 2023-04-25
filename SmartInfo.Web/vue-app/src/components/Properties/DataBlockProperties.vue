@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import {deviceStore} from "@/store/deviceStore";
-import {computed, ref} from "vue";
+import {computed} from "vue";
 import * as Constants from "@/constants"
 import {IDatetimeBlock} from "@/interfaces/Blocks";
 

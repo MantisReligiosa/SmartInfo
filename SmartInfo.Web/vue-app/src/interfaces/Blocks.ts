@@ -39,7 +39,9 @@ export interface ITableBlock extends IBlock, IBlockFont {
 }
 
 export interface IPictureBlock extends IBlock {
-
+    base64: string
+    imageMode: Constants.imageMode
+    saveProportions: boolean
 }
 
 export interface IScenario extends IBlock {

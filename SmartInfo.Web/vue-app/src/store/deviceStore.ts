@@ -1,7 +1,9 @@
 import {defineStore} from 'pinia'
 import * as Constants from '@/constants'
+import {imageMode} from '@/constants'
 import * as Blocks from "@/interfaces/Blocks";
 import {IDevice} from "@/interfaces/IDevice";
+
 // import axios from "axios";
 
 interface IState {
@@ -92,7 +94,10 @@ export const deviceStore = defineStore('device  ', {
                 y: 22,
                 h: 32,
                 w: 42,
-                z: 52
+                z: 52,
+                base64: '',
+                imageMode: imageMode.zoom,
+                saveProportions: false,
             }
             const scenario: Blocks.IScenario = {
                 type: Constants.blockType.scenario,
