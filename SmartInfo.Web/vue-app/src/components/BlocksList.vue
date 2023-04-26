@@ -1,7 +1,7 @@
 <template>
     <v-item-group
             selected-class="bg-grey-lighten-2"
-            mandatory>
+            >
         <v-container>
             <v-row
                     v-for="b in blocks"
@@ -73,7 +73,12 @@ const blocks = computed<Item[]>(() => {
     })
 })
 const selectBlock = (o: Item, callback: callbackDelegate) => {
-    dStore.selectBlockById(o.id)
+    if (dStore.block && dStore.block.id == o.id){
+        dStore.deselectBlock()
+    }
+    else {
+        dStore.selectBlockById(o.id)
+    }
     callback()
 }
 </script>

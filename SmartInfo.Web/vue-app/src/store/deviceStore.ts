@@ -156,6 +156,9 @@ export const deviceStore = defineStore('device  ', {
             if (this.device && this.device.blocks) {
                 this.block = this.device.blocks.filter(d => d.id === id)[0]
             }
+        },
+        deselectBlock() {
+            this.block = null
         }
     },
 })

@@ -5,6 +5,7 @@ export function watch() {
     let currentBlockId = 0
     deviceStore().$subscribe((mutation, state) => {
         if (!state.block) {
+            currentBlockId = 0
             return
         }
         if (state.block.id && state.block.id === currentBlockId) {
