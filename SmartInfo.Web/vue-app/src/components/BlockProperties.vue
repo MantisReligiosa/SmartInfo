@@ -1,5 +1,7 @@
 <template>
-    <v-container class="px-0">
+    <v-container
+            class="px-0"
+    >
         <v-text-field
                 v-if="isBlockSelected"
                 class="centered-input"
@@ -21,7 +23,9 @@
             <FontProperties></FontProperties>
         </v-card>
         <v-card>
-            <component :is="getProperties"></component>
+            <component
+                    :is="getProperties"
+            ></component>
         </v-card>
     </v-container>
 </template>
@@ -38,6 +42,7 @@ import PictureBlockProperties from "@/components/Properties/PictureBlockProperti
 import BlankProperties from "@/components/Properties/BlankProperties.vue";
 import TableBlockProperties from "@/components/Properties/TableBlockProperties.vue";
 import ScenarioProperties from "@/components/Properties/ScenarioProperties.vue";
+import CommonDeviceProperties from "@/components/Properties/CommonDeviceProperties.vue";
 import {computed} from "vue";
 
 const dStore = deviceStore()
@@ -48,6 +53,7 @@ const components = {
     PictureBlockProperties,
     TableBlockProperties,
     ScenarioProperties,
+    CommonDeviceProperties,
     BlankProperties
 }
 
@@ -56,11 +62,11 @@ const isBlockSelected = computed(() => block.value && block.value.type)
 const blockHaveText = computed(() => block.value
     && [Constants.blockType.text, Constants.blockType.table, Constants.blockType.dateTime].includes(block.value.type))
 
-const getProperties = computed(() =>{
+const getProperties = computed(() => {
     if (!block.value)
-        return components['BlankProperties']
-    
-    switch (block.value.type){
+        return components['CommonDeviceProperties']
+
+    switch (block.value.type) {
         case Constants.blockType.text:
             return components['TextBlockProperties']
         case Constants.blockType.dateTime:

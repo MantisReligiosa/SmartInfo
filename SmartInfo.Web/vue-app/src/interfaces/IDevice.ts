@@ -2,5 +2,7 @@ import {IBlock} from "@/interfaces/Blocks";
 
 export interface IDevice {
     id: number
-    blocks: IBlock[]
+    name: string
+    blocks: IBlock[],
+    backColor: string
 }

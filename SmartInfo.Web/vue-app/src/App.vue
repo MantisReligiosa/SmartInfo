@@ -15,7 +15,8 @@
                 <ZoomPanel></ZoomPanel>
                 <BlockProperties></BlockProperties>
             </v-navigation-drawer>
-            <v-main class="vMain">
+            <v-main 
+                class="vMain">
                 <WorkSpace></WorkSpace>
             </v-main>
         </v-layout>

@@ -16,7 +16,12 @@ interface IState {
 export const deviceStore = defineStore('device  ', {
     state: (): IState => {
         return {
-            device: {id: 0, blocks: []},
+            device: {
+                id: 0, 
+                blocks: [], 
+                name: '',
+                backColor: "#ffffff",
+            },
             block: null,
             edited: false,
             resolution: {height: 2160, width: 3840}
@@ -143,6 +148,8 @@ export const deviceStore = defineStore('device  ', {
             this.block = null
             this.device = {
                 id: deviceId,
+                name: 'Девайс',
+                backColor: "#987654",
                 blocks: [
                     textBlock,
                     datetimeBlock,

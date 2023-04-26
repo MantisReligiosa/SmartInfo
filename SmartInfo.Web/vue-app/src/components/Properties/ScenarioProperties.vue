@@ -71,7 +71,7 @@
                                     @click="move(item, -1)"
                             >
                                 <v-icon
-                                    size="x-large"
+                                        size="x-large"
                                         icon="mdi-chevron-up-box-outline"
                                 ></v-icon>
                             </v-btn>
@@ -87,7 +87,7 @@
                                     @click=move(item,1)
                             >
                                 <v-icon
-                                    size="x-large"
+                                        size="x-large"
                                         icon="mdi-chevron-down-box-outline"
                                 ></v-icon>
                             </v-btn>
@@ -98,13 +98,13 @@
                 <v-divider></v-divider>
             </v-list-item>
         </v-list>
-        <v-btn 
-            block
+        <v-btn
+                block
         >
             <v-icon
-                icon="mdi-plus"
-                color="green"
-                @click="add"
+                    icon="mdi-plus"
+                    color="green"
+                    @click="add"
             ></v-icon>
         </v-btn>
     </v-container>
@@ -150,11 +150,11 @@ const remove = (scene: IScene) => {
 
 const add = () => {
     block.value.scenes.push({
-        id:(block.value.scenes.length+1)*11,
-        caption:'Новая сцена',
-        isEnabled:true,
-        demonstrationPeriod:10,
-        order:block.value.scenes.length+1
+        id: (block.value.scenes.length + 1) * 11,
+        caption: 'Новая сцена',
+        isEnabled: true,
+        demonstrationPeriod: 10,
+        order: block.value.scenes.length + 1
     })
 }
 

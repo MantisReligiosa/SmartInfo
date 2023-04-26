@@ -8,10 +8,10 @@
             ></v-text-field>
         </v-row>
         <v-row>
-            <v-checkbox
+            <v-switch
                     label="Анимация"
                     v-model="block.isAnimationEnabled"
-            ></v-checkbox>
+            ></v-switch>
         </v-row>
         <v-row>
             <v-select
