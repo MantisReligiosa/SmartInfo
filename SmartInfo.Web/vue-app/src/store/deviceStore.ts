@@ -119,28 +119,32 @@ export const deviceStore = defineStore('device  ', {
                         caption: 'Scene 2',
                         isEnabled: true,
                         demonstrationPeriod: 20,
-                        order: 2
+                        order: 2,
+                        selected: false,
                     },
                     {
                         id: 11,
                         caption: 'Scene 1',
                         isEnabled: true,
                         demonstrationPeriod: 10,
-                        order: 1
+                        order: 1,
+                        selected: true,
                     },
                     {
                         id: 33,
                         caption: 'Scene 3',
                         isEnabled: true,
                         demonstrationPeriod: 30,
-                        order: 3
+                        order: 3,
+                        selected: false,
                     },
                     {
                         id: 44,
                         caption: 'Disabled',
                         isEnabled: false,
                         demonstrationPeriod: 40,
-                        order: 4
+                        order: 4,
+                        selected: false,
                     },
                 ]
             }

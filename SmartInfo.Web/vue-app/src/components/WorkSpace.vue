@@ -13,7 +13,7 @@
                     :height="h"
                     :width="w"
                     :color="device.backColor"
-                    class="screenCard"
+                    rounded="0"
             ></v-card>
         </v-card>
     </v-container>
@@ -42,10 +42,6 @@ const device = computed(() => dStore.device as IDevice)
     max-width: 100% !important;
     overflow-x: scroll;
     overflow-y: scroll;
-}
-
-.screenCard {
-    border-radius: 0;
 }
 
 </style>

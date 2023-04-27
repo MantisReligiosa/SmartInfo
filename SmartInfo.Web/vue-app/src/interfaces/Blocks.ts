@@ -53,5 +53,6 @@ export interface IScene {
     caption: string,
     isEnabled: boolean,
     demonstrationPeriod: number,
-    order: number
+    order: number,
+    selected: boolean
 }

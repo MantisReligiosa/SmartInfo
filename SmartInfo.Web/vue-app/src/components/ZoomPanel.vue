@@ -6,7 +6,7 @@
         <v-btn
                 icon @click="zoomOut"
                 size="x-small"
-                elevation="1"
+                variant="plain"
         >
             <v-icon>mdi-minus</v-icon>
         </v-btn>
@@ -18,7 +18,7 @@
         <v-btn
                 icon @click="zoomIn"
                 size="x-small"
-                elevation="1"
+                variant="plain"
         >
             <v-icon>mdi-plus</v-icon>
         </v-btn>
