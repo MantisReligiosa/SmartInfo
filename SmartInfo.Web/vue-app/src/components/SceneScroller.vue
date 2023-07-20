@@ -87,7 +87,7 @@ const prev = () => {
     emitByIndex(index.value)
 }
 
-const selectByOrder = (i: number, t: any) => {
+const selectByOrder = (i: number, t: () => void) => {
     emitByIndex(i)
     t()
 }

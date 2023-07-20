@@ -154,7 +154,8 @@ const add = () => {
         caption: 'Новая сцена',
         isEnabled: true,
         demonstrationPeriod: 10,
-        order: block.value.scenes.length + 1
+        order: block.value.scenes.length + 1,
+        selected: false
     })
 }
 
