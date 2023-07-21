@@ -56,6 +56,29 @@ export const deviceStore = defineStore('device  ', {
                 holdAfterAnimation: 2,
                 animationSpeed: 5
             }
+            const textBlock1: Blocks.ITextBlock = {
+                type: Constants.blockType.text,
+                caption: 'Текст2' + deviceId,
+                id: 110,
+                x: 110,
+                y: 120,
+                h: 130,
+                w: 140,
+                z: 150,
+                text: 'AAAAAAAAA',
+                fontId: 1,
+                fontSize: 10,
+                fontColor: "#fc6b03",
+                backColor: "#ffffff",
+                formatting: [],
+                vAlign: Constants.vAlign.center,
+                hAlign: Constants.hAlign.left,
+                isAnimationEnabled: true,
+                animationStyle: 0,
+                holdBeforeAnimation: 1,
+                holdAfterAnimation: 2,
+                animationSpeed: 5
+            }
             const datetimeBlock: Blocks.IDatetimeBlock = {
                 type: Constants.blockType.dateTime,
                 caption: 'Дата1' + deviceId,
@@ -156,6 +179,7 @@ export const deviceStore = defineStore('device  ', {
                 backColor: "#987654",
                 blocks: [
                     textBlock,
+                    textBlock1,
                     datetimeBlock,
                     pictureBlock,
                     tableBlock,

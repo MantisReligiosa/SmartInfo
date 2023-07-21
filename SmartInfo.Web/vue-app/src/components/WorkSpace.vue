@@ -26,8 +26,7 @@
               'top': block.y * scale + 'px',
               'height': block.h * scale + 'px',
               'width': block.w * scale + 'px',
-              'position': 'absolute',
-              'border': '1px black solid'
+              'position': 'absolute'
             }"
         ></component>
       </v-card>
@@ -67,6 +66,9 @@ const blocks = computed(() => {
   max-width: 100% !important;
   overflow-x: scroll;
   overflow-y: scroll;
+}
+.selected {
+  border: 1px black dashed;
 }
 
 </style>
