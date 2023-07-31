@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import {defineProps} from "vue";
+import PresentationBlock from "@/components/Presentation/PresentationBlock.vue";
 
+const props = defineProps(['block', 'scale'])
 </script>
 
 <template>
-<div>Image</div>
+  <presentation-block
+      v-bind:block="props.block"
+      v-bind:scale="props.scale"
+  >PPPPPPPPP</presentation-block>
 </template>
 
 <style scoped>
-
 </style>

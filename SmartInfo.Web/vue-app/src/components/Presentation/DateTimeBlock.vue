@@ -1,22 +1,16 @@
 <script setup lang="ts">
-import {computed, defineProps} from "vue";
-import {ITextBlock} from "@/interfaces/Blocks";
+import {defineProps} from "vue";
 import PresentationBlock from "@/components/Presentation/PresentationBlock.vue";
 
 const props = defineProps(['block', 'scale'])
-const block = computed(() => props.block as ITextBlock)
-
 </script>
 
 <template>
   <presentation-block
       v-bind:block="props.block"
       v-bind:scale="props.scale"
-  >
-    <div class="vAlignStyle">{{block?.text}}</div>
-  </presentation-block>
+  >DDDDDDDD</presentation-block>
 </template>
 
 <style scoped>
-
 </style>
