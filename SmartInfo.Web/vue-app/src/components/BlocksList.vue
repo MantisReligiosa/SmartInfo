@@ -8,10 +8,11 @@
                     :key="b"
             >
                 <v-item
-                        v-slot="{ selectedClass, toggle }"
+                        v-slot="{ toggle }"
                 >
                     <v-card
-                            :class="['d-flex w-100 pt-1 pb-2 flex-column', selectedClass]"
+                            class="d-flex w-100 pt-1 pb-2 flex-column"
+                            :class="{'bg-grey-lighten-2':isSelected(b)}"
                             @click="selectBlock(b, toggle)"
                     >
                         <div>
@@ -81,6 +82,10 @@ const blocks = computed<Item[]>(() => {
         }
     })
 })
+
+const isSelected = (o: Item) => {
+  return dStore.block && dStore.block.id == o.id;
+}
 const selectBlock = (o: Item, callback: callbackDelegate) => {
     if (dStore.block && dStore.block.id == o.id) {
         dStore.deselectBlock()

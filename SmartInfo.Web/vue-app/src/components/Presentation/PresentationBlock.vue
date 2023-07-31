@@ -3,9 +3,11 @@ import {computed, defineProps} from "vue";
 import {IBlockFont} from "@/interfaces/Blocks";
 import * as constants from "@/constants";
 import {mainStore} from "@/store/mainStore";
+import {deviceStore} from "@/store/deviceStore";
 
 const props = defineProps(['block', 'scale', 'selected'])
 const mStore = mainStore()
+const dStore = deviceStore()
 
 const left = computed(() => props.block.x * props.scale + 'px')
 const top = computed(() => props.block.y * props.scale + 'px')
@@ -24,12 +26,16 @@ const isUnderline = computed(() => blockFont.value?.formatting?.includes(constan
 const hAlign = computed(() => blockFont.value?.hAlign === constants.hAlign.left ? 'start' :
     blockFont.value?.hAlign === constants.hAlign.center ? 'center' : 'right')
 
+const selectBlock = () => {
+  dStore.selectBlockById(props.block.id)
+}
 </script>
 
 <template>
   <div
       class="coordinatesStyle pointer"
       :class="{fontStyle:blockFont, italicStyle:isItalic, boldStyle:isBold, underlineStyle:isUnderline, selectedStyle:props.selected}"
+      @click="selectBlock"
   >
     <slot></slot>
   </div>
