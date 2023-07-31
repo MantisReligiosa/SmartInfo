@@ -40,7 +40,14 @@ const hAlign = computed(() => blockFont.value?.hAlign === constants.hAlign.left 
 font-family: "Roboto";
 src:url("~@/content/Roboto.ttf");
 }
-
+@font-face {
+  font-family: "Montserrat";
+  src:url("~@/content/Montserrat.ttf");
+}
+@font-face {
+  font-family: "OpenSans";
+  src:url("~@/content/OpenSans.ttf");
+}
 .pointer {
   cursor: default;
 }
