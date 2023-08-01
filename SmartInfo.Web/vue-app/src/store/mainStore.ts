@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia'
 import {blockType, editorMode} from '@/constants'
+import {IDateTimeFormat} from "@/interfaces/IDateTimeFormat";
 // import axios from "axios";
 
 const scales = [.01, .02, .03, .04, .05, .06, .07, .08, .09, .1, .15, .20, .33, .50, .75, 1, 1.25, 1.5, 2, 2.5, 3, 4]
@@ -30,6 +31,7 @@ interface IState {
     editorState: IEditorState,
     fontSizes: number[]
     fontNames: IFontItem[]
+    dateTimeFormats: IDateTimeFormat[]
 }
 
 export const mainStore = defineStore('main  ', {
@@ -40,7 +42,8 @@ export const mainStore = defineStore('main  ', {
             scale: 1,
             editorState: {mode: editorMode.selection, blockType: blockType.text},
             fontSizes: [],
-            fontNames: []
+            fontNames: [],
+            dateTimeFormats: []
         }
     },
     actions: {
@@ -51,6 +54,18 @@ export const mainStore = defineStore('main  ', {
                 {id: 2, name: 'OpenSans'},
                 {id: 4, name: 'Montserrat'},
 
+            ]
+            this.dateTimeFormats = [
+                {Value: 0, Title: 'ДД.ММ.ГГГГ', MomentFormat: 'DD.MM.YYYY'},
+                {Value: 1, Title: 'деньНедели, ДД.ММ.ГГГГ', MomentFormat: 'dddd, DD.MM.YYYY'},
+                {Value: 2, Title: 'деньНедели, ДД.ММ.ГГГГ ЧЧ:ММ', MomentFormat: 'dddd, DD.MM.YYYY HH:mm'},
+                {Value: 3, Title: 'деньНедели, ДД.ММ.ГГГГ ЧЧ:ММ:СС', MomentFormat: 'dddd, DD.MM.YYYY HH:mm:ss'},
+                {Value: 4, Title: 'ДД.ММ.ГГГГ ЧЧ:ММ', MomentFormat: 'DD.MM.YYYY HH:mm'},
+                {Value: 5, Title: 'ДД.ММ.ГГГГ ЧЧ:ММ:СС', MomentFormat: 'DD.MM.YYYY HH:mm:ss'},
+                {Value: 6, Title: 'ДД месяц', MomentFormat: 'DD MMMM'},
+                {Value: 7, Title: 'месяц ГГГГ', MomentFormat: 'MMMM YYYY'},
+                {Value: 8, Title: 'ЧЧ:ММ', MomentFormat: 'HH:mm'},
+                {Value: 9, Title: 'ЧЧ:ММ:СС', MomentFormat: 'HH:mm:ss'},
             ]
             this.devices = [
                 {

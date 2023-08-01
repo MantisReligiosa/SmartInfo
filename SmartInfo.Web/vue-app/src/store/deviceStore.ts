@@ -17,8 +17,8 @@ export const deviceStore = defineStore('device  ', {
     state: (): IState => {
         return {
             device: {
-                id: 0, 
-                blocks: [], 
+                id: 0,
+                blocks: [],
                 name: '',
                 backColor: "#ffffff",
             },
@@ -83,14 +83,14 @@ export const deviceStore = defineStore('device  ', {
                 type: Constants.blockType.dateTime,
                 caption: 'Дата1' + deviceId,
                 id: 101,
-                x: 90,
+                x: 20,
                 y: 21,
                 h: 31,
-                w: 75,
+                w: 175,
                 z: 51,
                 fontId: 1,
                 formatId: 2,
-                fontSize: 10,
+                fontSize: 14,
                 fontColor: "#fc6b03",
                 backColor: "#ffffff",
                 formatting: [],

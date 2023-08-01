@@ -43,19 +43,6 @@ export enum textAnimation {
     Style3 = 2,
 }
 
-export enum datetimeFormats {
-    ddmmyyyy = 0,
-    dayOfWeek_ddmmyyyy = 1,
-    dayOfWeek_ddmmyyyy_hhmm = 2,
-    dayOfWeek_ddmmyyyy_hhmmss = 3,
-    ddmmyyyy_hhmm = 4,
-    ddmmyyyy_hhmmss = 5,
-    dd_month = 6,
-    month_yyyy = 7,
-    hhmm = 8,
-    hhmmss = 9,
-}
-
 export enum imageMode {
     zoom = 1,
     crop = 2,
