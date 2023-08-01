@@ -17,7 +17,7 @@ const animationName = computed(() => {
 
   }
 })
-const animationDuration = computed(() => (11-block.value.animationSpeed)+'s')
+const animationDuration = computed(() => (11 - block.value.animationSpeed) + 's')
 </script>
 
 <template>
@@ -53,7 +53,7 @@ const animationDuration = computed(() => (11-block.value.animationSpeed)+'s')
 <style>
 @keyframes ltrAnimation {
   0% {
-    transform: translateX(0);
+    transform: translateX(-100%);
   }
   100% {
     transform: translateX(100%);
