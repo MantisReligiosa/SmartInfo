@@ -41,12 +41,10 @@ const animationDuration = computed(() => (11-block.value.animationSpeed)+'s')
 
 .marquee {
   animation-name: v-bind(animationName);
-  //animation-duration: 5s;
   animation-iteration-count: infinite;
   animation-timing-function: ease;
   animation-play-state: running;
   animation-duration: v-bind(animationDuration);
-  //animation: 5s ease infinite;
 }
 
 
