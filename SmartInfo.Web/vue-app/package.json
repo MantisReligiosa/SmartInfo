@@ -8,22 +8,22 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "axios": "^1.4.0",
-    "core-js": "^3.31.1",
+    "axios": "^1.6.2",
+    "core-js": "^3.33.3",
     "moment": "^2.29.4",
-    "pinia": "^2.1.4",
-    "vue": "^3.3.4",
+    "pinia": "^2.1.7",
+    "vue": "^3.3.8",
     "vue-axios": "^3.5.2",
     "vue3-promise-dialog": "^0.3.4",
-    "vuetify": "^3.3.9"
+    "vuetify": "^3.4.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.9",
-    "@babel/eslint-parser": "^7.22.9",
-    "@mdi/font": "^7.2.96",
-    "@types/lodash": "^4.14.195",
-    "@typescript-eslint/eslint-plugin": "^6.1.0",
-    "@typescript-eslint/parser": "^6.1.0",
+    "@babel/core": "^7.23.3",
+    "@babel/eslint-parser": "^7.23.3",
+    "@mdi/font": "^7.3.67",
+    "@types/lodash": "^4.14.202",
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-typescript": "~5.0.0",
