@@ -34,8 +34,24 @@ export interface IDatetimeBlock extends IBlock, IBlockFont {
     formatId: number
 }
 
-export interface ITableBlock extends IBlock, IBlockFont {
+export interface ITableBlock extends IBlock {
+    headerDetails: IBlockFont
+    evenRowsDetails: IBlockFont
+    oddRowsDetails: IBlockFont
+    rowHeights: ITableSizeUnit[]
+    columnWidths: ITableSizeUnit[]
+    cells: ITableCell[]
+}
 
+export interface ITableSizeUnit {
+    value: number
+    index: number
+}
+
+export interface ITableCell {
+    row: number
+    column: number
+    value: string
 }
 
 export interface IPictureBlock extends IBlock {

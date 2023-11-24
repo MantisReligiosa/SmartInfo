@@ -104,15 +104,112 @@ export const deviceStore = defineStore('device  ', {
                 x: 300,
                 y: 120,
                 h: 150,
-                w: 150,
+                w: 250,
                 z: 53,
-                fontId: 1,
-                fontSize: 10,
-                fontColor: "#fc6b03",
-                backColor: "#ffffff",
-                formatting: [],
-                vAlign: Constants.vAlign.center,
-                hAlign: Constants.hAlign.left,
+                headerDetails: {
+                    fontId: 1,
+                    fontSize: 14,
+                    fontColor: "#0000ff",
+                    backColor: "#ff0000",
+                    formatting: [],
+                    vAlign: Constants.vAlign.center,
+                    hAlign: Constants.hAlign.center,
+                },
+                evenRowsDetails: {
+                    fontId: 2,
+                    fontSize: 10,
+                    fontColor: "#ff0000",
+                    backColor: "#00ff00",
+                    formatting: [],
+                    vAlign: Constants.vAlign.center,
+                    hAlign: Constants.hAlign.left,
+                },
+                oddRowsDetails: {
+                    fontId: 2,
+                    fontSize: 10,
+                    fontColor: "#ffffff",
+                    backColor: "#00ecff",
+                    formatting: [],
+                    vAlign: Constants.vAlign.center,
+                    hAlign: Constants.hAlign.right,
+                },
+                cells:[
+                    {
+                        row: 0,
+                        column: 0,
+                        value: "Header1"
+                    },
+                    {
+                        row: 0,
+                        column: 1,
+                        value: "Header2"
+                    },
+                    {
+                        row: 0,
+                        column: 2,
+                        value: "Header3"
+                    },
+                    {
+                        row: 1,
+                        column: 0,
+                        value: "Cell_10"
+                    },
+                    {
+                        row: 1,
+                        column: 1,
+                        value: "Cell_11"
+                    },
+                    {
+                        row: 1,
+                        column: 2,
+                        value: "cell_12"
+                    },
+                    {
+                        row: 2,
+                        column: 0,
+                        value: "Cell_20"
+                    },
+                    {
+                        row: 2,
+                        column: 1,
+                        value: "Cell_21"
+                    },
+                    {
+                        row: 2,
+                        column: 2,
+                        value: "cell_22"
+                    }
+                ],
+                rowHeights: [
+                    {
+                        index: 0,
+                        value: 20
+                    },
+                    {
+                        index: 1,
+                        value: 20
+                    },
+                    {
+                        index: 2,
+                        value: 20
+                    }
+
+                ],
+                columnWidths: [
+                    {
+                        index: 0,
+                        value: 50
+                    },
+                    {
+                        index: 1,
+                        value: 50
+                    },
+                    {
+                        index: 2,
+                        value: 200
+                    }
+
+                ]
             }
             const pictureBlock: Blocks.IPictureBlock = {
                 type: Constants.blockType.picture,

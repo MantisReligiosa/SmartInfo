@@ -60,7 +60,7 @@ const components = {
 const block = computed(() => dStore.block as IBlock)
 const isBlockSelected = computed(() => block.value && block.value.type)
 const blockHaveText = computed(() => block.value
-    && [Constants.blockType.text, Constants.blockType.table, Constants.blockType.dateTime].includes(block.value.type))
+    && [Constants.blockType.text, Constants.blockType.dateTime].includes(block.value.type))
 
 const getProperties = computed(() => {
     if (!block.value)
