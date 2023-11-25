@@ -33,7 +33,7 @@ const selectBlock = () => {
 
 <template>
   <div
-      class="coordinatesStyle pointer"
+      class="coordinatesStyle pointer noTransition"
       :class="{fontStyle:blockFont, italicStyle:isItalic, boldStyle:isBold, underlineStyle:isUnderline, selectedStyle:props.selected}"
       @click="selectBlock"
   >
@@ -42,6 +42,9 @@ const selectBlock = () => {
 </template>
 
 <style scoped>
+.noTransition{
+transition: none;
+}
 @font-face {
 font-family: "Roboto";
 src:url("~@/content/Roboto.ttf");
