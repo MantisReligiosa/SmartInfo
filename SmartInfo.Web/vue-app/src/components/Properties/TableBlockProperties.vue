@@ -1,11 +1,25 @@
 <template>
-    <v-card
-    title="Заголовок">
-        <FontProperties
-            :font="headerFont"
-            @change="onHeaderChange"
-        ></FontProperties>
+  <v-container class="pa-1">
+    <v-card>
+      <label>Заголовок</label>
+      <FontProperties
+          :font="headerFont"
+          @change="onHeaderChange"
+      ></FontProperties>
     </v-card>
+    <v-card>
+      <label>Нечетные строки</label>
+      <FontProperties
+          :font="oddFont"
+      ></FontProperties>
+    </v-card>
+    <v-card>
+      <label>Четные строки</label>
+      <FontProperties
+          :font="evenFont"
+      ></FontProperties>
+    </v-card>
+  </v-container>
 </template>
 
 <script setup lang="ts">
@@ -17,6 +31,8 @@ import FontProperties from "@/components/Properties/Common/FontProperties.vue";
 const dStore = deviceStore()
 const block = computed(() => dStore.block as ITableBlock)
 const headerFont = computed(() => block.value.headerDetails)
+const oddFont = computed(() => block.value.oddRowsDetails)
+const evenFont = computed(() => block.value.evenRowsDetails)
 
 const onHeaderChange = function (font: IBlockFont) {
   console.log(font)

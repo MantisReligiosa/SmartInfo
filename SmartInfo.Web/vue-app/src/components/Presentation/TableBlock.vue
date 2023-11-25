@@ -28,13 +28,18 @@ const evenTextColor = computed(() => block.value?.evenRowsDetails.fontColor)
 const evenHAlign = computed(() => block.value?.evenRowsDetails.hAlign === constants.hAlign.left ? "left"
     : block.value?.evenRowsDetails.hAlign === constants.hAlign.right ? "right" : "center")
 const evenFontSize = computed(() => block.value?.evenRowsDetails.fontSize * props.scale + 'px')
-
+const evenIsItalic = computed(() => block.value?.evenRowsDetails.formatting?.includes(constants.formatting.italic))
+const evenIsBold = computed(() => block.value?.evenRowsDetails.formatting?.includes(constants.formatting.bold))
+const evenIsUnderline = computed(() => block.value?.evenRowsDetails.formatting?.includes(constants.formatting.underlined))
 
 const oddBgColor = computed(() => block.value?.oddRowsDetails.backColor)
 const oddTextColor = computed(() => block.value?.oddRowsDetails.fontColor)
 const oddHAlign = computed(() => block.value?.oddRowsDetails.hAlign === constants.hAlign.left ? "left"
     : block.value?.oddRowsDetails.hAlign === constants.hAlign.right ? "right" : "center")
 const oddFontSize = computed(() => block.value?.oddRowsDetails.fontSize * props.scale + 'px')
+const oddIsItalic = computed(() => block.value?.oddRowsDetails.formatting?.includes(constants.formatting.italic))
+const oddIsBold = computed(() => block.value?.oddRowsDetails.formatting?.includes(constants.formatting.bold))
+const oddIsUnderline = computed(() => block.value?.oddRowsDetails.formatting?.includes(constants.formatting.underlined))
 
 const getColumnWidth = function (index: number) {
   return (block.value?.columnWidths.find(w => w.index === index)?.value ?? 0) * props.scale + 'px'
@@ -67,7 +72,12 @@ const getColumnWidth = function (index: number) {
       <tbody
           v-for="(row, index) in rows"
           v-bind:key="index"
-          :class="(index%2==0) ? 'evenRowStyle':'oddRowStyle'"
+          :class="{
+            evenRowStyle:(index%2==0),
+            oddRowStyle:(index%2!=0),
+            italicStyle:(index%2==0)?evenIsItalic:oddIsItalic,
+            boldStyle:(index%2==0)?evenIsBold:oddIsBold,
+            underlineStyle:(index%2==0)?evenIsUnderline:oddIsUnderline}"
       >
       <tr>
         <td
