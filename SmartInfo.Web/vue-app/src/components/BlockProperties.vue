@@ -20,7 +20,9 @@
                 class="mt-1"
                 v-if="blockHaveText"
         >
-            <FontProperties></FontProperties>
+            <FontProperties
+                :font="block as IBlockFont"
+            ></FontProperties>
         </v-card>
         <v-card>
             <component
@@ -33,7 +35,7 @@
 <script setup lang="ts">
 import {deviceStore} from '@/store/deviceStore'
 import * as Constants from "@/constants"
-import {IBlock} from "@/interfaces/Blocks"
+import {IBlock, IBlockFont} from "@/interfaces/Blocks"
 import GeometryProperties from "@/components/Properties/Common/GeometryProperties.vue"
 import FontProperties from "@/components/Properties/Common/FontProperties.vue"
 import TextBlockProperties from "@/components/Properties/TextBlockProperties.vue"

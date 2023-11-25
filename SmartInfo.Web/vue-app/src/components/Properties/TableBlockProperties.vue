@@ -1,10 +1,10 @@
 <template>
     <v-card
     title="Заголовок">
-        <font-properties-new
+        <FontProperties
             :font="headerFont"
             @change="onHeaderChange"
-        ></font-properties-new>
+        ></FontProperties>
     </v-card>
 </template>
 
@@ -12,7 +12,7 @@
 import {deviceStore} from "@/store/deviceStore";
 import {computed} from "vue";
 import {IBlockFont, ITableBlock} from "@/interfaces/Blocks";
-import FontPropertiesNew from "@/components/Properties/Common/FontPropertiesNew.vue";
+import FontProperties from "@/components/Properties/Common/FontProperties.vue";
 
 const dStore = deviceStore()
 const block = computed(() => dStore.block as ITableBlock)
