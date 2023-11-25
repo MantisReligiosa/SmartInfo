@@ -3,7 +3,7 @@ import {computed, defineProps} from "vue";
 import PresentationBlock from "@/components/Presentation/PresentationBlock.vue";
 import {ITableBlock} from "@/interfaces/Blocks";
 import _ from "lodash"
-import {hAlign} from "@/constants";
+import * as constants from "@/constants";
 
 const props = defineProps(['block', 'scale'])
 const block = computed(() => props.block as ITableBlock)
@@ -16,21 +16,24 @@ const rows = computed(() =>
 
 const headerBgColor = computed(() => block.value?.headerDetails.backColor)
 const headerTextColor = computed(() => block.value?.headerDetails.fontColor)
-const headerHAlign = computed(() => block.value?.headerDetails.hAlign === hAlign.left ? "left"
-    : block.value?.headerDetails.hAlign === hAlign.right ? "right" : "justify")
+const headerHAlign = computed(() => block.value?.headerDetails.hAlign === constants.hAlign.left ? "left"
+    : block.value?.headerDetails.hAlign === constants.hAlign.right ? "right" : "center")
 const headerFontSize = computed(() => block.value?.headerDetails.fontSize * props.scale + 'px')
+const headerIsItalic = computed(() => block.value?.headerDetails.formatting?.includes(constants.formatting.italic))
+const headerIsBold = computed(() => block.value?.headerDetails.formatting?.includes(constants.formatting.bold))
+const headerIsUnderline = computed(() => block.value?.headerDetails.formatting?.includes(constants.formatting.underlined))
 
 const evenBgColor = computed(() => block.value?.evenRowsDetails.backColor)
 const evenTextColor = computed(() => block.value?.evenRowsDetails.fontColor)
-const evenHAlign = computed(() => block.value?.evenRowsDetails.hAlign === hAlign.left ? "left"
-    : block.value?.evenRowsDetails.hAlign === hAlign.right ? "right" : "justify")
+const evenHAlign = computed(() => block.value?.evenRowsDetails.hAlign === constants.hAlign.left ? "left"
+    : block.value?.evenRowsDetails.hAlign === constants.hAlign.right ? "right" : "center")
 const evenFontSize = computed(() => block.value?.evenRowsDetails.fontSize * props.scale + 'px')
 
 
 const oddBgColor = computed(() => block.value?.oddRowsDetails.backColor)
 const oddTextColor = computed(() => block.value?.oddRowsDetails.fontColor)
-const oddHAlign = computed(() => block.value?.oddRowsDetails.hAlign === hAlign.left ? "left"
-    : block.value?.oddRowsDetails.hAlign === hAlign.right ? "right" : "justify")
+const oddHAlign = computed(() => block.value?.oddRowsDetails.hAlign === constants.hAlign.left ? "left"
+    : block.value?.oddRowsDetails.hAlign === constants.hAlign.right ? "right" : "center")
 const oddFontSize = computed(() => block.value?.oddRowsDetails.fontSize * props.scale + 'px')
 
 const getColumnWidth = function (index: number) {
@@ -55,6 +58,7 @@ const getColumnWidth = function (index: number) {
             v-for="(h, index) in headerCells"
             v-bind:key="index"
             :style="{width:getColumnWidth(index)}"
+            :class="{italicStyle:headerIsItalic, boldStyle:headerIsBold, underlineStyle:headerIsUnderline}"
         >
           {{ h.value }}
         </td>
@@ -103,5 +107,17 @@ const getColumnWidth = function (index: number) {
   font-size: v-bind(oddFontSize);
   text-align: v-bind(oddHAlign);
   background-color: v-bind(oddBgColor)
+}
+
+.italicStyle {
+  font-style: italic;
+}
+
+.boldStyle {
+  font-weight: bold;
+}
+
+.underlineStyle {
+  text-decoration: underline;
 }
 </style>
