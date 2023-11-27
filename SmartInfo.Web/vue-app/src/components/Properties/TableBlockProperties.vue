@@ -1,24 +1,41 @@
 <template>
   <v-container class="pa-1">
-    <v-card>
-      <label>Заголовок</label>
-      <FontProperties
-          :font="headerFont"
-          @change="onHeaderChange"
-      ></FontProperties>
-    </v-card>
-    <v-card>
-      <label>Нечетные строки</label>
-      <FontProperties
-          :font="oddFont"
-      ></FontProperties>
-    </v-card>
-    <v-card>
-      <label>Четные строки</label>
-      <FontProperties
-          :font="evenFont"
-      ></FontProperties>
-    </v-card>
+    <v-expansion-panels>
+      <v-expansion-panel
+          title="Заголовок"
+      >
+        <v-expansion-panel-text >
+          <FontProperties
+              class="pa-0"
+              :font="headerFont"
+              @change="onHeaderChange"
+          ></FontProperties>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+
+      <v-expansion-panel
+          title="Нечетные строки"
+      >
+        <v-expansion-panel-text >
+          <FontProperties
+              class="pa-0"
+              :font="oddFont"
+          ></FontProperties>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+
+      <v-expansion-panel
+          title="Четные строки"
+      >
+        <v-expansion-panel-text >
+          <FontProperties
+              class="pa-0"
+              :font="evenFont"
+          ></FontProperties>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+
+    </v-expansion-panels>
   </v-container>
 </template>
 
