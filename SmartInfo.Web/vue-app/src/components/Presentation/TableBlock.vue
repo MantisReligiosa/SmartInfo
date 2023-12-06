@@ -45,6 +45,10 @@ const getColumnWidth = function (index: number) {
   return (block.value?.columnWidths.find(w => w.index === index)?.value ?? 0) * props.scale + 'px'
 }
 
+const getRowHeight = function (index: number) {
+  return (block.value?.rowHeights.find(w => w.index === index)?.value ?? 0) * props.scale + 'px'
+}
+
 </script>
 
 <template>
@@ -58,11 +62,13 @@ const getColumnWidth = function (index: number) {
       <thead
           class="headerStyle"
       >
-      <tr>
+      <tr
+          :style="{height:getRowHeight(0)}"
+      >
         <td
-            v-for="(h, index) in headerCells"
-            v-bind:key="index"
-            :style="{width:getColumnWidth(index)}"
+            v-for="(h, headerIndex) in headerCells"
+            v-bind:key="headerIndex"
+            :style="{width:getColumnWidth(headerIndex)}"
             :class="{italicStyle:headerIsItalic, boldStyle:headerIsBold, underlineStyle:headerIsUnderline}"
         >
           {{ h.value }}
@@ -70,16 +76,19 @@ const getColumnWidth = function (index: number) {
       </tr>
       </thead>
       <tbody
-          v-for="(row, index) in rows"
-          v-bind:key="index"
-          :class="{
-            evenRowStyle:(index%2==0),
-            oddRowStyle:(index%2!=0),
-            italicStyle:(index%2==0)?evenIsItalic:oddIsItalic,
-            boldStyle:(index%2==0)?evenIsBold:oddIsBold,
-            underlineStyle:(index%2==0)?evenIsUnderline:oddIsUnderline}"
+
       >
-      <tr>
+      <tr
+          v-for="(row, rowIndex) in rows"
+          v-bind:key="rowIndex"
+          :class="{
+            evenRowStyle:(rowIndex%2==0),
+            oddRowStyle:(rowIndex%2!=0),
+            italicStyle:(rowIndex%2==0)?evenIsItalic:oddIsItalic,
+            boldStyle:(rowIndex%2==0)?evenIsBold:oddIsBold,
+            underlineStyle:(rowIndex%2==0)?evenIsUnderline:oddIsUnderline}"
+          :style="{height:getRowHeight(parseInt(rowIndex))}"
+      >
         <td
             v-for="(c, index) in row"
             v-bind:key="index"

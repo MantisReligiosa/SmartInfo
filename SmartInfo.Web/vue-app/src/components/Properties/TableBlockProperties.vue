@@ -38,13 +38,23 @@
           title="Ширина столбцов"
       >
         <v-expansion-panel-text>
-          <TableColHeightsScroller
+          <TableColWidthScroller
               :columnWidths="block.columnWidths"
               @valueChanged="onColumnWidthChanged"
-          ></TableColHeightsScroller>
+          ></TableColWidthScroller>
         </v-expansion-panel-text>
       </v-expansion-panel>
 
+      <v-expansion-panel
+          title="Высота строк"
+      >
+        <v-expansion-panel-text>
+          <TableRowHeightsScroller
+              :row-heights="block.rowHeights"
+              @valueChanged="onRowHeightsChanged"
+          ></TableRowHeightsScroller>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
     </v-expansion-panels>
   </v-container>
 </template>
@@ -54,7 +64,8 @@ import {deviceStore} from "@/store/deviceStore";
 import {computed} from "vue";
 import {ITableBlock} from "@/interfaces/Blocks";
 import FontProperties from "@/components/Properties/Common/FontProperties.vue";
-import TableColHeightsScroller, {IColumnWidthChangedPayload} from "@/components/Properties/TableColHeightsScroller.vue";
+import TableColWidthScroller, {IColumnWidthChangedPayload} from "@/components/Properties/TableColWidthScroller.vue";
+import TableRowHeightsScroller, {IRowHeightChangedPayload} from "@/components/Properties/TableRowHeightsScroller.vue";
 
 const dStore = deviceStore()
 const block = computed(() => dStore.block as ITableBlock)
@@ -67,6 +78,13 @@ const onColumnWidthChanged = (payload: IColumnWidthChangedPayload) => {
   if (!column)
     return
   column.value = payload.value
+}
+
+const onRowHeightsChanged = (payload: IRowHeightChangedPayload) => {
+  const row = block.value.rowHeights.find(c => c.index === payload.index)
+  if (!row)
+    return
+  row.value = payload.value
 }
 
 </script>
